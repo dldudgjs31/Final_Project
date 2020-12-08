@@ -164,7 +164,7 @@ function userIdCheck() {
 	    }
 	});
 	
-}
+} 
 
 </script>
 <div class="body-container" style="width: 700px;">
