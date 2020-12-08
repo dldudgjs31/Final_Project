@@ -12,8 +12,22 @@ public class Member {
 	private String birth;
 	private String zip;
 	private String addr1, addr2;
-	private int enabled;
+	private String introduce;
+	private String profile_imageFilename; 
 	
+	public String getIntroduce() {
+		return introduce;
+	}
+	public void setIntroduce(String introduce) {
+		this.introduce = introduce;
+	}
+
+	public String getProfile_imageFilename() {
+		return profile_imageFilename;
+	}
+	public void setProfile_imageFilename(String profile_imageFilename) {
+		this.profile_imageFilename = profile_imageFilename;
+	}
 	public long getMemberIdx() {
 		return memberIdx;
 	}
@@ -127,11 +141,5 @@ public class Member {
 	}
 	public void setAddr2(String addr2) {
 		this.addr2 = addr2;
-	}
-	public int getEnabled() {
-		return enabled;
-	}
-	public void setEnabled(int enabled) {
-		this.enabled = enabled;
 	}
 }
