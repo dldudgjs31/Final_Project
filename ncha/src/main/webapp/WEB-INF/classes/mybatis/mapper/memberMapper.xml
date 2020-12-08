@@ -9,10 +9,6 @@
       WHERE userId = #{userId}
    </select>
    
-	<update id="updateLastLogin" parameterType="String">
-		UPDATE  member1 SET last_login = SYSDATE
-		WHERE userId=#{userId}
-	</update>
 	
     <select id="memberSeq" resultType="Long">
        SELECT member_seq.NEXTVAL FROM dual 
@@ -22,18 +18,6 @@
        INSERT INTO member(memberIdx, membership) VALUES (#{memberIdx}, 1) 
     </insert>
 
-    <insert id="insertMember1" parameterType="com.sp.app.member.Member">
-       INSERT INTO member1(memberIdx, userId, userName, userPwd, enabled, created_date, modify_date) VALUES
-                 (#{memberIdx}, #{userId}, #{userName}, #{userPwd}, 1, SYSDATE, SYSDATE) 
-    </insert>
-
-    <insert id="insertMember2" parameterType="com.sp.app.member.Member">
-       INSERT INTO member2
-            (userId, birth, email, tel, zip, addr1, addr2)  VALUES 
-            (#{userId}, #{birth}, #{email}, #{tel}, 
-                    #{zip, jdbcType=VARCHAR}, #{addr1, jdbcType=VARCHAR}, 
-                    #{addr2, jdbcType=VARCHAR})
-    </insert>
 	<!-- 두개 이상의 테이블을 합치는 경우 update를 사용해야함 -->
 	<!--  mybatis는 기본적으로 null을 허용하지 않기때문에 jdbcType을 붙여줘야 null을 받을 수 있음 -->
     <update id="insertMember12" parameterType="com.sp.app.member.Member">           
@@ -86,12 +70,10 @@
     </update>
 
     <!-- member 테이블 정보 삭제  -->    
-    <delete id="deleteMember1" parameterType="String">
-    	DELETE FROM member1 WHERE userId=#{userId}
+    <delete id="deleteMember" parameterType="String">
+    	DELETE FROM member WHERE userId=#{userId}
     </delete>
     
-    <delete id="deleteMember2" parameterType="String">
-    	DELETE FROM member2 WHERE userId=#{userId}
-    </delete>
+    
 	
 </mapper>
