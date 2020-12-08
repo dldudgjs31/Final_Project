@@ -42,7 +42,7 @@
  			into member (memberidx,userId,userName,userPwd,tel,zip,addr1,addr2,birth,email,introduce,profile_imageFilename)
  			values (member_seq.NEXTVAL,#{userId}, #{userName}, #{userPwd}, #{tel}, #{zip}, #{addr1}, #{addr2, jdbcType=VARCHAR}, #{birth}, 
              	#{email, jdbcType=VARCHAR}, #{introduce, jdbcType=VARCHAR}, #{profile_imageFilename, jdbcType=VARCHAR}) 
- 			select * from dual; 
+ 			select * from dual
     </update>
 	    
 	<select id="readMember" parameterType="String" resultType="com.sp.app.member.Member">

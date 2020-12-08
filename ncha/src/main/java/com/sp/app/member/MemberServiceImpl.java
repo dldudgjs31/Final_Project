@@ -41,7 +41,7 @@ public class MemberServiceImpl implements MemberService {
 			dto.setMemberIdx(memberSeq);
 			
 			// 회원정보 저장
-			dao.insertData("member.insertMember", memberSeq);
+			//dao.insertData("member.insertMember", memberSeq);
 			
 			// dao.insertData("member.insertMember1", dto);
 			// dao.insertData("member.insertMember2", dto);
