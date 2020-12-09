@@ -102,7 +102,6 @@ public class SellerController {
 			HttpSession session,
 			Model model
 			) {
-		System.out.println(sellerId+":"+pwd+"--------------------------------------");
 		Seller dto=service.loginSeller(sellerId);
 		if(dto==null ||  !  pwd.equals(dto.getPwd())) {
 			model.addAttribute("message", "아이디 또는 패스워드가 일치하지 않습니다.");
@@ -116,7 +115,7 @@ public class SellerController {
 		
 		session.setMaxInactiveInterval(30*60); // 세션유지시간 30분, 기본:30분
 		
-		session.setAttribute("member", info);
+		session.setAttribute("seller", info);
 		
 		// 로그인 이전 URI로 이동
 		String uri=(String)session.getAttribute("preLoginURI");
@@ -132,7 +131,7 @@ public class SellerController {
 	@RequestMapping(value="logout")
 	public String logout(HttpSession session) {
 		// 세션에 저장된 정보 지우기
-		session.removeAttribute("member");
+		session.removeAttribute("seller");
 		
 		// 세션에 저장된 모든 정보 지우고, 세션초기화
 		session.invalidate();
@@ -161,7 +160,7 @@ public class SellerController {
 			HttpSession session
 	     ) {
 		
-		SessionInfo info=(SessionInfo)session.getAttribute("member");
+		SessionInfo info=(SessionInfo)session.getAttribute("seller");
 		
 		Seller dto=service.readSeller(info.getSellerId());
 		if(dto==null) {
@@ -190,7 +189,7 @@ public class SellerController {
 			*/
 
 			// 세션 정보 삭제
-			session.removeAttribute("member");
+			session.removeAttribute("seller");
 			session.invalidate();
 
 			StringBuilder sb=new StringBuilder();

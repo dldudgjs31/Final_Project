@@ -116,13 +116,26 @@
 	
 	<!-- 로그인/로그아웃 버튼 -->
 	<ul class="navbar_icons">
-	         <c:if test="${empty sessionScope.member}">
+	         
+	         <c:if test="${empty sessionScope.member && empty sessionScope.seller}">
                <li><a href="${pageContext.request.contextPath}/member/login">로그인</a>	</li>
                     &nbsp;|&nbsp;
                <li> <a href="${pageContext.request.contextPath}/member/member">회원가입</a></li>
             </c:if>
             <c:if test="${not empty sessionScope.member}">
-                <li><span style="color:blue;">${sessionScope.member.sellerName}</span>님</li>
+                <li><span style="color:blue;">${sessionScope.member.userName}</span>님</li>
+                &nbsp;|&nbsp;
+               <li> <a href="${pageContext.request.contextPath}/member/logout">로그아웃</a></li>
+                &nbsp;|&nbsp;
+               <li> <a href="${pageContext.request.contextPath}/member/pwd">정보수정</a></li>
+                <c:if test="${sessionScope.member.userId=='admin'}">
+                    &nbsp;|&nbsp;
+                    <li><a href="${pageContext.request.contextPath}/admin">관리자</a></li>
+                </c:if>
+            </c:if>
+            
+            <c:if test="${not empty sessionScope.seller}">
+                <li><span style="color:blue;">${sessionScope.seller.sellerName}</span>님</li>
                 &nbsp;|&nbsp;
                <li> <a href="${pageContext.request.contextPath}/member/logout">로그아웃</a></li>
                 &nbsp;|&nbsp;
