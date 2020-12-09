@@ -1,5 +1,6 @@
 package com.sp.app.member;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -37,10 +38,14 @@ public class MemberController {
 	@RequestMapping(value="member", method=RequestMethod.POST)
 	public String memberSubmit(Member dto,
 			final RedirectAttributes reAttr,
-			Model model) {
+			Model model,
+			HttpSession session) throws Exception {
 
 		try {
-			service.insertMember(dto);
+			String root = session.getServletContext().getRealPath("/");
+			String pathname = root+"uploads"+File.separator+"member";
+			
+			service.insertMember(dto, pathname);
 		} catch (DuplicateKeyException e) {
 			// 기본키 중복에 의한 제약 조건 위반
 			model.addAttribute("mode", "member");
@@ -209,10 +214,13 @@ public class MemberController {
 	public String updateSubmit(
 			Member dto,
 			final RedirectAttributes reAttr,
-			Model model) {
+			Model model,
+			HttpSession session) {
 		
 		try {
-			service.updateMember(dto);
+			String root = session.getServletContext().getRealPath("/");
+			String pathname = root+File.separator+"uploads"+File.separator+"member";
+			service.updateMember(dto, pathname);
 		} catch (Exception e) {
 		}
 		

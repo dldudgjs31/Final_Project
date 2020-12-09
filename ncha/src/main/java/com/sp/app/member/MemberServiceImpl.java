@@ -6,6 +6,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.sp.app.common.FileManager;
 import com.sp.app.common.dao.CommonDAO;
 
 @Service("member.memberService")
@@ -13,6 +14,9 @@ public class MemberServiceImpl implements MemberService {
 	@Autowired
 	private CommonDAO  dao;
 
+	@Autowired
+	private FileManager fileManager;
+	
 	@Override
 	public Member loginMember(String userId) {
 		Member dto=null;
@@ -27,8 +31,14 @@ public class MemberServiceImpl implements MemberService {
 	}
 	
 	@Override
-	public void insertMember(Member dto) throws Exception {
+	public void insertMember(Member dto, String pathname) throws Exception {
 		try {
+
+			String serverFilename = fileManager.doFileUpload(dto.getUploadphoto(), pathname);
+			if(serverFilename != null) {
+				dto.setProfile_imageFilename(serverFilename);
+			}
+
 			if(dto.getEmail1().length()!=0 && dto.getEmail2().length()!=0) {
 				dto.setEmail(dto.getEmail1() + "@" + dto.getEmail2());
 			}
@@ -130,8 +140,19 @@ public class MemberServiceImpl implements MemberService {
 	}
 	
 	@Override
-	public void updateMember(Member dto) throws Exception {
+	public void updateMember(Member dto, String pathname) throws Exception {
 		try {
+			
+			String serverFilename = fileManager.doFileUpload(dto.getUploadphoto(), pathname);
+			if(serverFilename != null) {
+				if(dto.getProfile_imageFilename().length()!=0) {
+					fileManager.doFileDelete(dto.getProfile_imageFilename(), pathname);
+				}
+			}
+			
+			dto.setProfile_imageFilename(serverFilename);
+			
+			
 			if(dto.getEmail1().length()!=0 && dto.getEmail2().length()!=0) {
 				dto.setEmail(dto.getEmail1() + "@" + dto.getEmail2());
 			}

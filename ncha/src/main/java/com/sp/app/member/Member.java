@@ -1,5 +1,7 @@
 package com.sp.app.member;
 
+import org.springframework.web.multipart.MultipartFile;
+
 public class Member {
 	private long memberIdx;
 	private int membership;
@@ -13,21 +15,11 @@ public class Member {
 	private String zip;
 	private String addr1, addr2;
 	private String introduce;
+	
+	private MultipartFile uploadphoto;
 	private String profile_imageFilename; 
 	
-	public String getIntroduce() {
-		return introduce;
-	}
-	public void setIntroduce(String introduce) {
-		this.introduce = introduce;
-	}
-
-	public String getProfile_imageFilename() {
-		return profile_imageFilename;
-	}
-	public void setProfile_imageFilename(String profile_imageFilename) {
-		this.profile_imageFilename = profile_imageFilename;
-	}
+	
 	public long getMemberIdx() {
 		return memberIdx;
 	}
@@ -141,5 +133,25 @@ public class Member {
 	}
 	public void setAddr2(String addr2) {
 		this.addr2 = addr2;
+	}
+	public String getIntroduce() {
+		return introduce;
+	}
+	public void setIntroduce(String introduce) {
+		this.introduce = introduce;
+	}
+	
+	//파일처리
+	public MultipartFile getUploadphoto() {
+		return uploadphoto;
+	}
+	public void setUploadphoto(MultipartFile uploadphoto) {
+		this.uploadphoto = uploadphoto;
+	}
+	public String getProfile_imageFilename() {
+		return profile_imageFilename;
+	}
+	public void setProfile_imageFilename(String profile_imageFilename) {
+		this.profile_imageFilename = profile_imageFilename;
 	}
 }
