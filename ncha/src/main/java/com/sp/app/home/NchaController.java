@@ -35,4 +35,21 @@ public class NchaController {
 		return ".store.main.main";
 	}
 	
+	@RequestMapping("/ncha/member")
+	public String member() {
+		return ".member.new_member";
+	}
+	@RequestMapping("/ncha/login")
+	public String login() {
+		return ".member.login_select";
+	}
+	@RequestMapping("/ncha/login_1")
+	public String login1() {
+		return "member/login";
+	}
+	@RequestMapping("/ncha/login_2")
+	public String login2() {
+		return "member/login_store";
+	}
+	
 }
