@@ -118,9 +118,9 @@
 	<ul class="navbar_icons">
 	         
 	         <c:if test="${empty sessionScope.member && empty sessionScope.seller}">
-               <li><a href="${pageContext.request.contextPath}/member/login">로그인</a>	</li>
+               <li><a href="${pageContext.request.contextPath}/ncha/login">로그인</a>	</li>
                     &nbsp;|&nbsp;
-               <li> <a href="${pageContext.request.contextPath}/member/member">회원가입</a></li>
+               <li> <a href="${pageContext.request.contextPath}/ncha/member">회원가입</a></li>
             </c:if>
             <c:if test="${not empty sessionScope.member}">
                 <li><span style="color:blue;">${sessionScope.member.userName}</span>님</li>
