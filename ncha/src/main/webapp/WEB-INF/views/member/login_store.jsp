@@ -33,19 +33,19 @@ function bgLabel(ob, id) {
 function sendLogin() {
     var f = document.loginForm;
 
-    if(! f.userId.value) {
+    if(! f.sellerId.value) {
         alert("아이디를 입력하세요. ");
-        f.userId.focus();
+        f.sellerId.focus();
         return;
     }
 
-    if(! f.userPwd.value) {
+    if(! f.pwd.value) {
         alert("패스워드를 입력하세요. ");
-        f.userPwd.focus();
+        f.pwd.focus();
         return;
     }
 
-    f.action = "${pageContext.request.contextPath}/member/login";
+    f.action = "${pageContext.request.contextPath}/seller/login";
     f.submit();
 }
 </script>
@@ -53,7 +53,7 @@ function sendLogin() {
 <div class="body-container">
     <div style="width:360px; margin: 0px auto; padding-top:90px;">
     	<div style="text-align: center;">
-        	<span style="font-weight: bold; font-size:27px; color: #424951;">회원 로그인</span>
+        	<span style="font-weight: bold; font-size:27px; color: #424951;">판매회원 로그인</span>
         </div>
         
 		<form name="loginForm" method="post" action="">
@@ -61,7 +61,7 @@ function sendLogin() {
 		  <tr align="center" height="60"> 
 		      <td> 
                 <label for="userId" id="lblUserId" class="lbl" >아이디</label>
-		        <input type="text" name="userId" id="userId" class="loginTF" maxlength="15"
+		        <input type="text" name="sellerId" id="userId" class="loginTF" maxlength="15"
 		                   tabindex="1"
                            onfocus="document.getElementById('lblUserId').style.display='none';"
                            onblur="bgLabel(this, 'lblUserId');">
@@ -70,7 +70,7 @@ function sendLogin() {
 		  <tr align="center" height="60"> 
 		      <td>
 		        <label for="userPwd" id="lblUserPwd" class="lbl" >패스워드</label>
-		        <input type="password" name="userPwd" id="userPwd" class="loginTF" maxlength="20" 
+		        <input type="password" name="pwd" id="userPwd" class="loginTF" maxlength="20" 
 		                   tabindex="2"
                            onfocus="document.getElementById('lblUserPwd').style.display='none';"
                            onblur="bgLabel(this, 'lblUserPwd');">
@@ -87,7 +87,7 @@ function sendLogin() {
 		       		<a href="${pageContext.request.contextPath}/">아이디찾기</a>&nbsp;&nbsp;&nbsp;
 		       		<a href="${pageContext.request.contextPath}/">패스워드찾기</a>&nbsp;&nbsp;&nbsp;
 		       		<a href="${pageContext.request.contextPath}/member/member">회원가입</a>
-		       		<a href="${pageContext.request.contextPath}/seller/login">판매회원 로그인</a>
+		       		<a href="${pageContext.request.contextPath}/member/login">일반회원 로그인</a>
 		      </td>
 		  </tr>
 		  

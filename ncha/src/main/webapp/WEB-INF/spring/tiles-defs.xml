@@ -32,7 +32,7 @@
    <!-- 3단 스토어 -->
 	<definition name=".storeLayout" template="/WEB-INF/views/layout/layout3.jsp">
 	    <put-attribute name="title" value="spring" />
-	  	<put-attribute name="header" value="/WEB-INF/views/layout/header2.jsp" />
+	  	<put-attribute name="header" value="/WEB-INF/views/layout/header_store.jsp" />
 		<put-attribute name="body" value="/WEB-INF/views/store/main/main.jsp" />
 		<put-attribute name="footer" value="/WEB-INF/views/layout/footer.jsp" />
 	</definition>

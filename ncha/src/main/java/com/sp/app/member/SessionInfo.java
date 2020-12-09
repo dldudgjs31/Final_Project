@@ -6,7 +6,21 @@ public class SessionInfo {
 	private String userId;
 	private String userName;
 	private int memberLevel;
+	private String sellerId;
+	private String sellerName;
 	
+	public String getSellerName() {
+		return sellerName;
+	}
+	public void setSellerName(String sellerName) {
+		this.sellerName = sellerName;
+	}
+	public String getSellerId() {
+		return sellerId;
+	}
+	public void setSellerId(String sellerId) {
+		this.sellerId = sellerId;
+	}
 	public long getMemberIdx() {
 		return memberIdx;
 	}
