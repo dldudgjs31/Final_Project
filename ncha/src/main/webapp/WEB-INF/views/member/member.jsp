@@ -4,11 +4,27 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
 <script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/dateUtil.js"></script>
+
+<style type="text/css">
+#img{
+		height:100px;
+		width:100px;
+}
+</style>
+
+
 <script type="text/javascript">
 function memberOk() {
 	var f = document.memberForm;
 	var str;
-
+	
+	var mode = "${mode}";
+	if(mode=="update"&& !f.selectFile.value){
+		alert("이미지 파일을 선택하세요.");
+		f.selectFile.focus();
+		return;
+	}
+	
 	str = f.userId.value;
 	str = str.trim();
 	if(!str) {
@@ -163,8 +179,18 @@ function userIdCheck() {
 	    	console.log(e.responseText);
 	    }
 	});
-	
 } 
+
+// 프로필 사진 업로드 및 미리 보여주기 
+function preWatchphoto(input){
+	if(input.files && input.files[0]){
+		var reader = new FileReader();
+		reader.onload = function(e){
+			$('#img').attr('src',e.target.result);
+		}
+		reader.readAsDataURL(input.files[0]);
+	}
+}
 
 </script>
 <div class="body-container" style="width: 700px;">
@@ -173,8 +199,22 @@ function userIdCheck() {
     </div>
     
         <div>
-			<form name="memberForm" method="post">
+			<form name="memberForm" method="post" enctype="multipart/form-data">
+			 
+			
+			 <!-- 프로필 사진 업로드 및 미리 보여주기 -->
+			 <div>
+			       <label style="font-weight: 900;">프로필 사진</label>
+			       <input type="file" name="uploadphoto" accept="image/*" onchange="preWatchphoto(this)">
+			  </div>
+			  	  <img id ="img" src="#" alt="upload image"/>
+		
+				 
+				
+			  
+			  
 			  <table style="width: 100%; margin: 20px auto 0px; border-spacing: 0px;">
+			  
 			  <tr>
 			      <td width="100" valign="top" style="text-align: right; padding-top: 5px;">
 			            <label style="font-weight: 900;">아이디</label>
