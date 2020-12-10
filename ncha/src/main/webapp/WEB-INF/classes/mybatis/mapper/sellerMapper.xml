@@ -15,8 +15,7 @@
     </insert>
     
 	<select id="readSeller" parameterType="String" resultType="com.sp.app.seller.Seller">
-		SELECT sellerId, sellerName, sellerPwd, 
-		TO_CHAR(birth, 'YYYY-MM-DD') birth, email, tel
+		SELECT sellerId, sellerName, pwd, tel, email, created_date, modify_date, allow, profile_imageFilename, enabled
 		FROM seller
 		WHERE sellerId = #{sellerId}
 	</select>
