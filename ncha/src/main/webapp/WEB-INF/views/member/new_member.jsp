@@ -70,7 +70,7 @@ function send(){
 	
 	<div class="member-select">
 		<div class="member-box" style="cursor: pointer;" onclick="location.href='${pageContext.request.contextPath}/member/member';">일반회원</div>
-		<div class="member-box" style="cursor: pointer;" onclick="location.href='${pageContext.request.contextPath}/seller/seller';">판매회원</div>
+		<div class="member-box" style="cursor: pointer;" onclick="location.href='${pageContext.request.contextPath}/seller/member';">판매회원</div>
 	</div>
 	
 	<div class="member-detail"></div>

@@ -9,56 +9,48 @@ function memberOk() {
 	var f = document.memberForm;
 	var str;
 
-	str = f.userId.value;
+	str = f.sellerId.value;
 	str = str.trim();
 	if(!str) {
 		alert("아이디를 입력하세요. ");
-		f.userId.focus();
+		f.sellerId.focus();
 		return;
 	}
 	if(!/^[a-z][a-z0-9_]{4,9}$/i.test(str)) { 
 		alert("아이디는 5~10자이며 첫글자는 영문자이어야 합니다.");
-		f.userId.focus();
+		f.sellerId.focus();
 		return;
 	}
-	f.userId.value = str;
+	f.sellerId.value = str;
 
-	str = f.userPwd.value;
+	str = f.pwd.value;
 	str = str.trim();
 	if(!str) {
 		alert("패스워드를 입력하세요. ");
-		f.userPwd.focus();
+		f.pwd.focus();
 		return;
 	}
 	if(!/^(?=.*[a-z])(?=.*[!@#$%^*+=-]|.*[0-9]).{5,10}$/i.test(str)) { 
 		alert("패스워드는 5~10자이며 하나 이상의 숫자나 특수문자가 포함되어야 합니다.");
-		f.userPwd.focus();
+		f.pwd.focus();
 		return;
 	}
-	f.userPwd.value = str;
+	f.pwd.value = str;
 
-	if(str!= f.userPwdCheck.value) {
+	if(str!= f.pwdCheck.value) {
         alert("패스워드가 일치하지 않습니다. ");
-        f.userPwdCheck.focus();
+        f.pwdCheck.focus();
         return;
 	}
 	
-    str = f.userName.value;
+    str = f.sellerName.value;
 	str = str.trim();
     if(!str) {
         alert("이름을 입력하세요. ");
-        f.userName.focus();
+        f.sellerName.focus();
         return;
     }
-    f.userName.value = str;
-
-    str = f.birth.value;
-	str = str.trim();
-    if(!str || !isValidDateFormat(str)) {
-        alert("생년월일를 입력하세요[YYYY-MM-DD]. ");
-        f.birth.focus();
-        return;
-    }
+    f.sellerName.value = str;
     
     str = f.tel1.value;
 	str = str.trim();
@@ -110,7 +102,7 @@ function memberOk() {
         return;
     }
 
- 	f.action = "${pageContext.request.contextPath}/member/${mode}";
+ 	f.action = "${pageContext.request.contextPath}/seller/${mode}";
 
     f.submit();
 }
@@ -169,7 +161,7 @@ function sellerIdCheck() {
 </script>
 <div class="body-container" style="width: 700px;">
     <div class="body-title">
-        <h3><i class="fas fa-user"></i> ${mode=="member"?"회원 가입":"회원 정보 수정"} </h3>
+        <h3><i class="fas fa-user"></i> ${mode=="seller"?"판매회원 가입":"회원 정보 수정"} </h3>
     </div>
     
         <div>
@@ -222,24 +214,11 @@ function sellerIdCheck() {
 			      </td>
 			      <td style="padding: 0 0 15px 15px;">
 			        <p style="margin-top: 1px; margin-bottom: 5px;">
-			            <input type="text" name="userName" value="${dto.sellerName}" maxlength="30" class="boxTF"
+			            <input type="text" name="sellerName" value="${dto.sellerName}" maxlength="30" class="boxTF"
 		                      style="width: 95%;"
 		                      ${mode=="update" ? "readonly='readonly' ":""}
 		                      placeholder="이름">
 			        </p>
-			      </td>
-			  </tr>
-			
-			  <tr>
-			      <td width="100" valign="top" style="text-align: right; padding-top: 5px;">
-			            <label style="font-weight: 900;">생년월일</label>
-			      </td>
-			      <td style="padding: 0 0 15px 15px;">
-			        <p style="margin-top: 1px; margin-bottom: 5px;">
-			            <input type="text" name="birth" value="${dto.birth}" maxlength="10" 
-			                       class="boxTF" style="width: 95%;" placeholder="생년월일">
-			        </p>
-			        <p class="help-block">생년월일은 2000-01-01 형식으로 입력 합니다.</p>
 			      </td>
 			  </tr>
 			  
@@ -287,7 +266,7 @@ function sellerIdCheck() {
 			      </td>
 			  </tr>
 			  
-			  <c:if test="${mode=='member'}">
+			  <c:if test="${mode=='seller'}">
 				  <tr>
 				      <td width="100" valign="top" style="text-align: right; padding-top: 5px;">
 				            <label style="font-weight: 900;">약관동의</label>
@@ -307,9 +286,9 @@ function sellerIdCheck() {
 			  <table style="width: 100%; margin: 0px auto; border-spacing: 0px;">
 			     <tr height="45"> 
 			      <td align="center" >
-			        <button type="button" name="sendButton" class="btn" onclick="memberOk();">${mode=="member"?"회원가입":"정보수정"}</button>
+			        <button type="button" name="sendButton" class="btn" onclick="memberOk();">${mode=="seller"?"회원가입":"정보수정"}</button>
 			        <button type="reset" class="btn">다시입력</button>
-			        <button type="button" class="btn" onclick="javascript:location.href='${pageContext.request.contextPath}/';">${mode=="member"?"가입취소":"수정취소"}</button>
+			        <button type="button" class="btn" onclick="javascript:location.href='${pageContext.request.contextPath}/';">${mode=="seller"?"가입취소":"수정취소"}</button>
 			      </td>
 			    </tr>
 			    <tr height="30">

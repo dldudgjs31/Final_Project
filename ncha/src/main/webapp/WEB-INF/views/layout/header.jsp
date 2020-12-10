@@ -8,7 +8,7 @@
 	text-decoration: none;
 	color: white;
 }
-.navbar{
+.navbar1{
 	display: flex;
 	justify-content: space-between; /* 가로정렬 */
 	align-items: center;/* 세로정렬 */
@@ -66,7 +66,7 @@
 	color: #d49466;
 }
 @media screen and (max-width:768px){
-	.navbar {
+	.navbar1 {
 		flex-direction: column; /* 아래 밑으로 정렬  */
 		align-items: flex-start;/*  */
 		padding: 8px 24px;
@@ -98,7 +98,7 @@
 	}
 }
 </style>
-<nav class="navbar">
+<nav class="navbar1">
 	<div class="navbar_logo" style="width: 100px;">
 		<a href="${pageContext.request.contextPath}/" >
 		<img alt="로고" src="${pageContext.request.contextPath}/resources/img/logo.png" style="width:150px;">
@@ -118,7 +118,7 @@
 	<ul class="navbar_icons">
 	
 	         <c:if test="${empty sessionScope.member && empty sessionScope.seller}">
-               <li><a href="${pageContext.request.contextPath}/ncha/login">로그인</a>	</li>
+               <li><a href="${pageContext.request.contextPath}/member/login">로그인</a>	</li>
                     &nbsp;|&nbsp;
                <li> <a href="${pageContext.request.contextPath}/ncha/member">회원가입</a></li>
             </c:if>
