@@ -131,16 +131,16 @@ function changeEmail() {
     }
 }
 
-function userIdCheck() {
-	var str = $("#userId").val();
+function sellerIdCheck() {
+	var str = $("#sellerId").val();
 	str = str.trim();
 	if(!/^[a-z][a-z0-9_]{4,9}$/i.test(str)) { 
-		$("#userId").focus();
+		$("#sellerId").focus();
 		return;
 	}
 	
-	var url="${pageContext.request.contextPath}/member/userIdCheck";
-	var q="userId="+str;
+	var url="${pageContext.request.contextPath}/seller/sellerIdCheck";
+	var q="sellerId="+str;
 	
 	$.ajax({
 		type:"post"
@@ -151,12 +151,12 @@ function userIdCheck() {
 			var p=data.passed;
 			if(p=="true") {
 				var s="<span style='color:blue;font-weight:bold;'>"+str+"</span> 아이디는 사용 가능합니다.";
-				$("#userId").parent().next(".help-block").html(s);
+				$("#sellerId").parent().next(".help-block").html(s);
 			} else {
 				var s="<span style='color:red;font-weight:bold;'>"+str+"</span> 아이디는 사용할 수 없습니다.";
-				$("#userId").parent().next(".help-block").html(s);
-				$("#userId").val("");
-				$("#userId").focus();
+				$("#sellerId").parent().next(".help-block").html(s);
+				$("#sellerId").val("");
+				$("#sellerId").focus();
 			}
 		}
 	    ,error:function(e) {
@@ -181,8 +181,8 @@ function userIdCheck() {
 			      </td>
 			      <td style="padding: 0 0 15px 15px;">
 			        <p style="margin-top: 1px; margin-bottom: 5px;">
-			            <input type="text" name="userId" id="userId" value="${dto.userId}"
-                         onchange="userIdCheck();" style="width: 95%;"
+			            <input type="text" name="sellerId" id="sellerId" value="${dto.sellerId}"
+                         onchange="sellerIdCheck();" style="width: 95%;"
                          ${mode=="update" ? "readonly='readonly' ":""}
                          maxlength="15" class="boxTF" placeholder="아이디">
 			        </p>
@@ -196,7 +196,7 @@ function userIdCheck() {
 			      </td>
 			      <td style="padding: 0 0 15px 15px;">
 			        <p style="margin-top: 1px; margin-bottom: 5px;">
-			            <input type="password" name="userPwd" maxlength="15" class="boxTF"
+			            <input type="password" name="pwd" maxlength="15" class="boxTF"
 			                       style="width:95%;" placeholder="패스워드">
 			        </p>
 			        <p class="help-block">패스워드는 5~10자 이내이며, 하나 이상의 숫자나 특수문자가 포함되어야 합니다.</p>
@@ -209,7 +209,7 @@ function userIdCheck() {
 			      </td>
 			      <td style="padding: 0 0 15px 15px;">
 			        <p style="margin-top: 1px; margin-bottom: 5px;">
-			            <input type="password" name="userPwdCheck" maxlength="15" class="boxTF"
+			            <input type="password" name="pwdCheck" maxlength="15" class="boxTF"
 			                       style="width: 95%;" placeholder="패스워드 확인">
 			        </p>
 			        <p class="help-block">패스워드를 한번 더 입력해주세요.</p>
@@ -222,7 +222,7 @@ function userIdCheck() {
 			      </td>
 			      <td style="padding: 0 0 15px 15px;">
 			        <p style="margin-top: 1px; margin-bottom: 5px;">
-			            <input type="text" name="userName" value="${dto.userName}" maxlength="30" class="boxTF"
+			            <input type="text" name="userName" value="${dto.sellerName}" maxlength="30" class="boxTF"
 		                      style="width: 95%;"
 		                      ${mode=="update" ? "readonly='readonly' ":""}
 		                      placeholder="이름">
@@ -287,34 +287,6 @@ function userIdCheck() {
 			      </td>
 			  </tr>
 			  
-			  <tr>
-			      <td width="100" valign="top" style="text-align: right; padding-top: 5px;">
-			            <label style="font-weight: 900;">우편번호</label>
-			      </td>
-			      <td style="padding: 0 0 15px 15px;">
-			        <p style="margin-top: 1px; margin-bottom: 5px;">
-			            <input type="text" name="zip" id="zip" value="${dto.zip}"
-			                       class="boxTF" readonly="readonly">
-			            <button type="button" class="btn" onclick="daumPostcode();">우편번호</button>          
-			        </p>
-			      </td>
-			  </tr>
-			  
-			  <tr>
-			      <td width="100" valign="top" style="text-align: right; padding-top: 5px;">
-			            <label style="font-weight: 900;">주소</label>
-			      </td>
-			      <td style="padding: 0 0 15px 15px;">
-			        <p style="margin-top: 1px; margin-bottom: 5px;">
-			            <input type="text" name="addr1" id="addr1"  value="${dto.addr1}" maxlength="50" 
-			                       class="boxTF" style="width: 95%;" placeholder="기본 주소" readonly="readonly">
-			        </p>
-			        <p style="margin-bottom: 5px;">
-			            <input type="text" name="addr2" id="addr2" value="${dto.addr2}" maxlength="50" 
-			                       class="boxTF" style="width: 95%;" placeholder="나머지 주소">
-			        </p>
-			      </td>
-			  </tr>
 			  <c:if test="${mode=='member'}">
 				  <tr>
 				      <td width="100" valign="top" style="text-align: right; padding-top: 5px;">
@@ -346,49 +318,4 @@ function userIdCheck() {
 			  </table>
 			</form>
         </div>
-
-<script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
-<script>
-    function daumPostcode() {
-        new daum.Postcode({
-            oncomplete: function(data) {
-                // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
-
-                // 각 주소의 노출 규칙에 따라 주소를 조합한다.
-                // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
-                var fullAddr = ''; // 최종 주소 변수
-                var extraAddr = ''; // 조합형 주소 변수
-
-                // 사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
-                if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
-                    fullAddr = data.roadAddress;
-
-                } else { // 사용자가 지번 주소를 선택했을 경우(J)
-                    fullAddr = data.jibunAddress;
-                }
-
-                // 사용자가 선택한 주소가 도로명 타입일때 조합한다.
-                if(data.userSelectedType === 'R'){
-                    //법정동명이 있을 경우 추가한다.
-                    if(data.bname !== ''){
-                        extraAddr += data.bname;
-                    }
-                    // 건물명이 있을 경우 추가한다.
-                    if(data.buildingName !== ''){
-                        extraAddr += (extraAddr !== '' ? ', ' + data.buildingName : data.buildingName);
-                    }
-                    // 조합형주소의 유무에 따라 양쪽에 괄호를 추가하여 최종 주소를 만든다.
-                    fullAddr += (extraAddr !== '' ? ' ('+ extraAddr +')' : '');
-                }
-
-                // 우편번호와 주소 정보를 해당 필드에 넣는다.
-                document.getElementById('zip').value = data.zonecode; //5자리 새우편번호 사용
-                document.getElementById('addr1').value = fullAddr;
-
-                // 커서를 상세주소 필드로 이동한다.
-                document.getElementById('addr2').focus();
-            }
-        }).open();
-    }
-</script>
 </div>
