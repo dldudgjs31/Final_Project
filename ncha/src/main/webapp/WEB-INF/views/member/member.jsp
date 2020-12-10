@@ -6,9 +6,8 @@
 <script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/dateUtil.js"></script>
 
 <style type="text/css">
-#img{
-		height:100px;
-		width:100px;
+.profile_photo{
+	width: 100%; margin: 20px auto 0px; border-spacing: 0px;
 }
 </style>
 
@@ -186,7 +185,7 @@ function preWatchphoto(input){
 	if(input.files && input.files[0]){
 		var reader = new FileReader();
 		reader.onload = function(e){
-			$('#img').attr('src',e.target.result);
+			$('#img').attr('src',e.target.result).width(150).height(200);
 		}
 		reader.readAsDataURL(input.files[0]);
 	}
@@ -203,12 +202,14 @@ function preWatchphoto(input){
 			 
 			
 			 <!-- 프로필 사진 업로드 및 미리 보여주기 -->
-			 <div>
+			 <div class="profile_photo">
+			  <div>
 			       <label style="font-weight: 900;">프로필 사진</label>
 			       <input type="file" name="uploadphoto" accept="image/*" onchange="preWatchphoto(this)">
 			  </div>
-			  	  <img id ="img" src="#" alt="upload image"/>
-		
+			  <img id ="img" src="" style="margin:20px 0;"/>
+			  </div>	 
+			 
 				 
 				
 			  
