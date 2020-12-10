@@ -169,7 +169,7 @@ function sellerIdCheck() {
 </script>
 <div class="body-container" style="width: 700px;">
     <div class="body-title">
-        <h3><i class="fas fa-user"></i> ${mode=="member"?"회원 가입":"회원 정보 수정"} </h3>
+        <h3><i class="fas fa-user"></i> ${mode=="seller"?"판매회원 가입":"회원 정보 수정"} </h3>
     </div>
     
         <div>
