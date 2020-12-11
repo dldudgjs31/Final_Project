@@ -26,7 +26,7 @@
     </update>
     
     <update id="updateSeller" parameterType="com.sp.app.seller.Seller">
-        UPDATE seller SET pwd=#{pwd}, email=#{email, jdbcType=VARCHAR}, modify_date=#{modify_date},
+        UPDATE seller SET pwd=#{pwd}, email=#{email, jdbcType=VARCHAR}, modify_date=SYSDATE,
                      tel=#{tel, jdbcType=VARCHAR}, birth=#{birth, jdbcType=VARCHAR},
                WHERE sellerId=#{sellerId}
     </update>

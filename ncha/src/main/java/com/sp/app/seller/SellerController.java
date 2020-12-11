@@ -1,5 +1,6 @@
 package com.sp.app.seller;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -33,18 +34,17 @@ public class SellerController {
       return ".member.member_store";
    }
 
-/*
-    * RedirectAttributes 
-      RedirectAttributes에 데이터등을 저장하면 Redirect 된 후 즉시 사라지게 되고
-       사용자가 F5등을 눌러 리로드 하더라도 서버로 다시 submit 되어 저장되지 않게할 수 있다.
-*/
    @RequestMapping(value="seller", method=RequestMethod.POST)
    public String memberSubmit(Seller dto,
          final RedirectAttributes reAttr,
-         Model model) {
+         Model model,
+         HttpSession session ) throws Exception {
 
       try {
-         service.insertSeller(dto);
+    	  String root = session.getServletContext().getRealPath("/");
+			String pathname = root+"uploads"+File.separator+"member";
+			
+         service.insertSeller(dto, pathname);
       } catch (DuplicateKeyException e) {
          // 기본키 중복에 의한 제약 조건 위반
          model.addAttribute("mode", "seller");
@@ -148,7 +148,7 @@ public class SellerController {
          model.addAttribute("mode", "dropout");
       }
       
-      return ".member.pwd";
+      return ".member.pwd_store";
    }
    
    @RequestMapping(value="pwd", method=RequestMethod.POST)
@@ -175,7 +175,7 @@ public class SellerController {
             model.addAttribute("mode", "dropout");
          }
          model.addAttribute("message", "패스워드가 일치하지 않습니다.");
-         return ".member.pwd";
+         return ".member.pwd_store";
       }
       
       if(mode.equals("dropout")){
@@ -205,17 +205,20 @@ public class SellerController {
       // 회원정보수정폼
       model.addAttribute("dto", dto);
       model.addAttribute("mode", "update");
-      return ".member.member";
+      return ".member.member_store";
    }
 
    @RequestMapping(value="update", method=RequestMethod.POST)
    public String updateSubmit(
          Seller dto,
          final RedirectAttributes reAttr,
-         Model model) {
+         Model model,
+         HttpSession session) {
       
       try {
-         service.updateSeller(dto);
+    	  String root = session.getServletContext().getRealPath("/");
+		String pathname = root+File.separator+"uploads"+File.separator+"member";
+         service.updateSeller(dto, pathname);
       } catch (Exception e) {
       }
       

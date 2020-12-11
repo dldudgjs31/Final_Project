@@ -6,12 +6,16 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.sp.app.common.FileManager;
 import com.sp.app.common.dao.CommonDAO;
 
 @Service("seller.sellerService")
 public class SellerServiceImpl implements SellerService {
 	@Autowired
 	private CommonDAO dao;
+	
+	@Autowired
+	private FileManager fileManager;
 	
 	@Override
 	public Seller loginSeller(String sellerId) {
@@ -28,8 +32,13 @@ public class SellerServiceImpl implements SellerService {
 	}
 
 	@Override
-	public void insertSeller(Seller dto) throws Exception {
+	public void insertSeller(Seller dto,String pathname) throws Exception {
 		try {
+			String serverFilename = fileManager.doFileUpload(dto.getUploadphoto(), pathname);
+			if(serverFilename != null) {
+				dto.setProfile_imageFilename(serverFilename);
+			}
+			
 			if(dto.getEmail1().length()!=0 && dto.getEmail2().length()!=0) {
 				dto.setEmail(dto.getEmail1() + "@" + dto.getEmail2());
 			}
@@ -57,8 +66,18 @@ public class SellerServiceImpl implements SellerService {
 	}
 
 	@Override
-	public void updateSeller(Seller dto) throws Exception {
+	public void updateSeller(Seller dto, String pathname) throws Exception {
 		try {
+			
+			String serverFilename = fileManager.doFileUpload(dto.getUploadphoto(), pathname);
+			if(serverFilename != null) {
+				if(dto.getProfile_imageFilename().length()!=0) {
+					fileManager.doFileDelete(dto.getProfile_imageFilename(), pathname);
+				}
+			}
+			
+			dto.setProfile_imageFilename(serverFilename);
+			 
 			if(dto.getEmail1().length()!=0 && dto.getEmail2().length()!=0) {
 				dto.setEmail(dto.getEmail1() + "@" + dto.getEmail2());
 			}

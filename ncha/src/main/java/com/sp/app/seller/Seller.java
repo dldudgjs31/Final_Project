@@ -1,5 +1,7 @@
 package com.sp.app.seller;
 
+import org.springframework.web.multipart.MultipartFile;
+
 public class Seller {
 	private String sellerId;
 	private String sellerName;
@@ -10,6 +12,8 @@ public class Seller {
 	private String created_date;
 	private String modify_date;
 	private int allow;
+	
+	private MultipartFile uploadphoto;
 	private String profile_imageFilename;
 	
 	public String getSellerId() {
@@ -101,6 +105,12 @@ public class Seller {
 	}
 	public void setProfile_imageFilename(String profile_imageFilename) {
 		this.profile_imageFilename = profile_imageFilename;
+	}
+	public MultipartFile getUploadphoto() {
+		return uploadphoto;
+	}
+	public void setUploadphoto(MultipartFile uploadphoto) {
+		this.uploadphoto = uploadphoto;
 	}
 	
 	

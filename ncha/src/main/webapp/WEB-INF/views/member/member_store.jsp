@@ -8,7 +8,14 @@
 function memberOk() {
 	var f = document.memberForm;
 	var str;
-
+	
+	var mode = "${mode}";
+	if(mode=="update"&& !f.uploadphoto.value){
+		alert("이미지 파일을 선택하세요.");
+		f.uploadphoto.focus();
+		return;
+	}
+	
 	str = f.sellerId.value;
 	str = str.trim();
 	if(!str) {
@@ -158,6 +165,16 @@ function sellerIdCheck() {
 	
 } 
 
+function preWatchphoto(input){
+	if(input.files && input.files[0]){
+		var reader = new FileReader();
+		reader.onload = function(e){
+			$('#img').attr('src',e.target.result).width(150).height(200);
+		}
+		reader.readAsDataURL(input.files[0]);
+	}
+}
+
 </script>
 <div class="body-container" style="width: 700px;">
     <div class="body-title">
@@ -166,6 +183,16 @@ function sellerIdCheck() {
     
         <div>
 			<form name="memberForm" method="post">
+			  	
+			 <!-- 프로필 사진 업로드 및 미리 보여주기 -->
+			 <div class="profile_photo">
+			  <div>
+			       <label style="font-weight: 900;">프로필 사진</label>
+			       <input type="file" name="uploadphoto" accept="image/*" onchange="preWatchphoto(this)">
+			  </div>
+			  <img id ="img" src="" style="margin:20px 0;"/>
+			  </div>
+			  
 			  <table style="width: 100%; margin: 20px auto 0px; border-spacing: 0px;">
 			  <tr>
 			      <td width="100" valign="top" style="text-align: right; padding-top: 5px;">
@@ -286,6 +313,9 @@ function sellerIdCheck() {
 			  <table style="width: 100%; margin: 0px auto; border-spacing: 0px;">
 			     <tr height="45"> 
 			      <td align="center" >
+			      <c:if test="${mode=='update'}">
+			       	<input type="hidden" name="profile_imageFilename" value="${dto.profile_imageFilename}">
+					</c:if>
 			        <button type="button" name="sendButton" class="btn" onclick="memberOk();">${mode=="seller"?"회원가입":"정보수정"}</button>
 			        <button type="reset" class="btn">다시입력</button>
 			        <button type="button" class="btn" onclick="javascript:location.href='${pageContext.request.contextPath}/';">${mode=="seller"?"가입취소":"수정취소"}</button>

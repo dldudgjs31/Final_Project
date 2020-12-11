@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller("member.memberController")
-@RequestMapping(value="/member/*")
+@RequestMapping("/member/*")
 public class MemberController {
 	@Autowired
 	private MemberService service;
@@ -30,11 +30,6 @@ public class MemberController {
 		return ".member.member";
 	}
 
-/*
-    * RedirectAttributes 
-      RedirectAttributes에 데이터등을 저장하면 Redirect 된 후 즉시 사라지게 되고
-	    사용자가 F5등을 눌러 리로드 하더라도 서버로 다시 submit 되어 저장되지 않게할 수 있다.
-*/
 	@RequestMapping(value="member", method=RequestMethod.POST)
 	public String memberSubmit(Member dto,
 			final RedirectAttributes reAttr,

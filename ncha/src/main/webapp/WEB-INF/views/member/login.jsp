@@ -86,7 +86,7 @@ function sendLogin() {
 		      <td>
 		       		<a href="${pageContext.request.contextPath}/">아이디찾기</a>&nbsp;&nbsp;&nbsp;
 		       		<a href="${pageContext.request.contextPath}/">패스워드찾기</a>&nbsp;&nbsp;&nbsp;
-		       		<a href="${pageContext.request.contextPath}/member/member">회원가입</a>
+		       		<a href="${pageContext.request.contextPath}/ncha/member">회원가입</a>
 		       		<a href="${pageContext.request.contextPath}/seller/login">판매회원 로그인</a>
 		      </td>
 		  </tr>
