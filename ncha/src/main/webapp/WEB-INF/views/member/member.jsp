@@ -13,7 +13,7 @@
 
 
 <script type="text/javascript">
-function memberOk() {
+function memberOk(userId) {
 	var f = document.memberForm;
 	var str;
 	
