@@ -122,7 +122,7 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public void updateMembership(Map<String, Object> map) throws Exception {
 		try {
-			dao.updateData("member.updateMembershep", map);
+			dao.updateData("member.updateMembership", map);
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw e;
@@ -161,8 +161,7 @@ public class MemberServiceImpl implements MemberService {
 				dto.setTel(dto.getTel1() + "-" + dto.getTel2() + "-" + dto.getTel3());
 			}
 			
-			dao.updateData("member.updateMember1", dto);
-			dao.updateData("member.updateMember2", dto);
+			dao.updateData("member.updateMember", dto);
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw e;
@@ -172,11 +171,10 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public void deleteMember(Map<String, Object> map) throws Exception {
 		try {
-			map.put("membershep", 0);
+			map.put("membership", 0);
 			updateMembership(map);
 			
-			dao.deleteData("member.deleteMember2", map);
-			dao.deleteData("member.deleteMember1", map);
+			dao.deleteData("member.deleteMember", map);
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw e;
