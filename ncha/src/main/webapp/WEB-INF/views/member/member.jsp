@@ -18,9 +18,9 @@ function memberOk() {
 	var str;
 	
 	var mode = "${mode}";
-	if(mode=="update"&& !f.selectFile.value){
+	if(mode=="update"&& !f.uploadphoto.value){
 		alert("이미지 파일을 선택하세요.");
-		f.selectFile.focus();
+		f.uploadphoto.focus();
 		return;
 	}
 	
