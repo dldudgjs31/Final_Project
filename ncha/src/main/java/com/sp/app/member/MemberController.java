@@ -112,6 +112,7 @@ public class MemberController {
 		
 		// 세션에 로그인 정보 저장
 		SessionInfo info=new SessionInfo();
+		info.setMemberIdx(dto.getMemberIdx());
 		info.setUserId(dto.getUserId());
 		info.setUserName(dto.getUserName());
 		
@@ -164,7 +165,7 @@ public class MemberController {
 		
 		SessionInfo info=(SessionInfo)session.getAttribute("member");
 		
-		Member dto=service.readMember(info.getUserId());
+		Member dto=service.readMember(String.valueOf(info.getMemberIdx()));
 		if(dto==null) {
 			session.invalidate();
 			return "redirect:/";

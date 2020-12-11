@@ -50,12 +50,7 @@ public class MemberServiceImpl implements MemberService {
 			long memberSeq = dao.selectOne("member.memberSeq");
 			dto.setMemberIdx(memberSeq);
 			
-			// 회원정보 저장
-			//dao.insertData("member.insertMember", memberSeq);
-			
-			// dao.insertData("member.insertMember1", dto);
-			// dao.insertData("member.insertMember2", dto);
-			dao.updateData("member.insertMember12", dto); // member1, member2 테이블 동시에 
+			dao.updateData("member.insertMember12", dto); 
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw e;
@@ -96,7 +91,7 @@ public class MemberServiceImpl implements MemberService {
 		Member dto=null;
 		
 		try {
-			dto=dao.selectOne("member.readMember2", memberIdx);
+			dto=dao.selectOne("member.readMember", memberIdx);
 			
 			if(dto!=null) {
 				if(dto.getEmail()!=null) {

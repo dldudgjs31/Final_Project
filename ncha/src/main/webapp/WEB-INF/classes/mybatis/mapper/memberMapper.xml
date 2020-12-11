@@ -28,8 +28,8 @@
     </update>
 	    
 	<select id="readMember" parameterType="String" resultType="com.sp.app.member.Member">
-		SELECT m.memberIdx, membership, NVL(m1.userId, 'guest') userId, NVL(userName, '손님') userName, userPwd, enabled, created_date, modify_date, last_login
-		            ,TO_CHAR(birth, 'YYYY-MM-DD') birth, email, tel, zip, addr1, addr2
+		SELECT m.memberIdx, membership, userId, userName, userPwd, introduce, profile_imageFilename,
+		TO_CHAR(birth, 'YYYY-MM-DD') birth, email, tel, zip, addr1, addr2
 		FROM memberId m
 		LEFT OUTER JOIN member m1 ON m.memberIdx = m1.memberIdx
 		WHERE m.memberIdx = #{memberIdx}
@@ -46,9 +46,10 @@
     </update>
     
     <update id="updateMember" parameterType="com.sp.app.member.Member">
-        UPDATE member SET userPwd=#{userPwd}, modify_date=SYSDATE,  email=#{email, jdbcType=VARCHAR}, 
+        UPDATE member SET userPwd=#{userPwd},  email=#{email, jdbcType=VARCHAR}, 
         			tel=#{tel, jdbcType=VARCHAR}, birth=#{birth, jdbcType=VARCHAR}, zip=#{zip, jdbcType=VARCHAR},
-                     addr1=#{addr1, jdbcType=VARCHAR}, addr2=#{addr2, jdbcType=VARCHAR}
+                     addr1=#{addr1, jdbcType=VARCHAR}, addr2=#{addr2, jdbcType=VARCHAR},
+                     introduce=#{introduce , jdbcType=VARCHAR}, profile_imageFilename=#{profile_imageFilename, jdbcType=VARCHAR} 
                WHERE userId=#{userId} 
     </update>
 
