@@ -5,10 +5,10 @@
 <style type="text/css">
 .body-container{
 	display: flex;
-	flex-direction: rows;
-	flex-wrap:wrap;
+	flex-direction: column;
 	align-items: center;
 	justify-content: center;
+	width: 70%;
 }
 .post-list {
   display: grid;
@@ -134,16 +134,24 @@
 	text-align: center;
 }
 @media screen and (max-width: 768px) {
+	.body-container{
+		width:100%;
+	}
 	  .post-list {
 	    gap: 3px;
+	    grid-template-columns: repeat(3, 180px);
 	  }
 	  .post-image img {
-	  height: 100px;
+	  height: 180px;
+	  }
+	  .imgs{
+	  width: 150px;
+	  height: 150px;
 	  }
 }
 
 </style>
-<div class="body-container" style="width: 1080px;">
+<div class="body-container" >
     <div class="profile-title">
     	<div class="profile-img">
     		<div class="imgs" style="background-image:url('${pageContext.request.contextPath}/resources/img/logo.png');">
