@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="daily">
+	<select id="seq" resultType="Integer">
+		SELECT daily_seq.NEXTVAL FROM dual
+	</select>
+	<select id="image_seq" resultType="Integer">
+		SELECT dailyFile_seq.NEXTVAL FROM dual
+	</select>
+	
+	<insert id="insertDaily" parameterType="com.sp.app.daily.Daily">
+		INSERT INTO daily_bbs(dailyNum, userId, content, subject, storeURL, usedURL, created_date) 
+			VALUES (#{dailyNum}, #{userId}, #{content}, #{subject}, #{storeURL,jdbcType=VARCHAR}, #{usedURL,jdbcType=VARCHAR}, SYSDATE)
+	</insert>
+	
+	<select id="dailyCount" parameterType="map" resultType="Integer">
+		SELECT NVL(COUNT(*), 0)
+		FROM daily_bbs d
+		JOIN member m ON d.userId = m.userId
+	</select>
+	
+	<select id="listDaily" parameterType="map" resultType="com.sp.app.daily.Daily">
+		SELECT d.dailyNum, d.userId, userName, subject, 
+			       created_date, NVL(fileCount, 0) fileCount
+			FROM daily_bbs d
+			JOIN member m ON d.userId=m.userId
+			LEFT OUTER JOIN (
+				SELECT dailyNum, COUNT(*) fileCount FROM daily_image
+				GROUP BY dailyNum
+			) f ON d.dailyNum=f.dailyNum
+	</select>
+	
+	 <select id="readDaily" parameterType="Integer" resultType="com.sp.app.daily.Daily">
+		SELECT dailyNum, userId, userName, subject, content, created_date, daily_imageFilenum
+		FROM daily_bbs d
+		JOIN daily_image i ON d.dailyNum = i.dailyNum
+		WHERE d.dailyNum = #{dailyNum}
+	</select>
+	
+	<insert id="insertFile" parameterType="com.sp.app.daily.Daily">
+		INSERT INTO daily_image(daily_imageFilenum, imageFilename, dailyNum)
+			VALUES (#{daily_imageFilenum}, #{imageFilename}, #{dailyNum})
+	</insert>
+	
+	<select id="listFile" parameterType="Integer" resultType="com.sp.app.daily.Daily">
+		SELECT daily_imageFilenum, dailyNum, imageFilename
+		FROM daily_image
+		WHERE dailyNum=#{dailyNum}    
+	</select>
+</mapper>

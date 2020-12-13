@@ -7,7 +7,7 @@
     <div>
        글올리기 선택 페이지입니다.
        <br><br><br>
-      <p><a href="${pageContext.request.contextPath}/daily/write">일상글</a>  </p>
+      <p><a href="${pageContext.request.contextPath}/daily/created">일상글</a>  </p>
       <br>
       <p><a href="${pageContext.request.contextPath}/used/write">중고글</a>  </p>
     </div>
