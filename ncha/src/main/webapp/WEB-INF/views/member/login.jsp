@@ -53,6 +53,7 @@ function sendLogin() {
 <div class="body-container">
     <div style="width:360px; margin: 0px auto; padding-top:90px;">
     	<div style="text-align: center;">
+    		<P><img alt="로고" src="${pageContext.request.contextPath}/resources/img/Nlogo.png" width="250px"></P>
         	<span style="font-weight: bold; font-size:27px; color: #424951;">회원 로그인</span>
         </div>
         
@@ -86,7 +87,7 @@ function sendLogin() {
 		      <td>
 		       		<a href="${pageContext.request.contextPath}/">아이디찾기</a>&nbsp;&nbsp;&nbsp;
 		       		<a href="${pageContext.request.contextPath}/">패스워드찾기</a>&nbsp;&nbsp;&nbsp;
-		       		<a href="${pageContext.request.contextPath}/ncha/member">회원가입</a>
+		       		<a href="${pageContext.request.contextPath}/ncha/member">회원가입</a>&nbsp;&nbsp;&nbsp;
 		       		<a href="${pageContext.request.contextPath}/seller/login">판매회원 로그인</a>
 		      </td>
 		  </tr>

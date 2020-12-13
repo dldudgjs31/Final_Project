@@ -14,7 +14,7 @@
 	align-items: center;/* 세로정렬 */
 	background-color: #263343;
 	padding: 8px 12px;
-	font-family: 'Spoqa Han Sans', 'Spoqa Han Sans JP', 'Sans-serif';
+	font-family: 'Noto Serif KR', serif;
 	
 }
 
@@ -119,29 +119,29 @@
 	         
 	         <c:if test="${empty sessionScope.member && empty sessionScope.seller}">
                <li><a href="${pageContext.request.contextPath}/seller/login">로그인</a>	</li>
-                    &nbsp;|&nbsp;
+                    &nbsp;&nbsp;
                <li> <a href="${pageContext.request.contextPath}/ncha/member">회원가입</a></li>
             </c:if>
             <c:if test="${not empty sessionScope.member}">
                 <li><span style="color:blue;">${sessionScope.member.userName}</span>님</li>
-                &nbsp;|&nbsp;
+                &nbsp;&nbsp;
                <li> <a href="${pageContext.request.contextPath}/member/logout">로그아웃</a></li>
-                &nbsp;|&nbsp;
+                &nbsp;&nbsp;
                <li> <a href="${pageContext.request.contextPath}/member/pwd">정보수정</a></li>
                 <c:if test="${sessionScope.member.userId=='admin'}">
-                    &nbsp;|&nbsp;
+                    &nbsp;&nbsp;
                     <li><a href="${pageContext.request.contextPath}/admin">관리자</a></li>
                 </c:if>
             </c:if>
             
             <c:if test="${not empty sessionScope.seller}">
                 <li><span style="color:blue;">${sessionScope.seller.sellerName}</span>님</li>
-                &nbsp;|&nbsp;
+                &nbsp;&nbsp;
                <li> <a href="${pageContext.request.contextPath}/member/logout">로그아웃</a></li>
-                &nbsp;|&nbsp;
+                &nbsp;&nbsp;
                <li> <a href="${pageContext.request.contextPath}/member/pwd">정보수정</a></li>
                 <c:if test="${sessionScope.member.userId=='admin'}">
-                    &nbsp;|&nbsp;
+                    &nbsp;&nbsp;
                     <li><a href="${pageContext.request.contextPath}/admin">관리자</a></li>
                 </c:if>
             </c:if>
