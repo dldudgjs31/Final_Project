@@ -14,7 +14,7 @@
 	align-items: center;/* 세로정렬 */
 	background-color: #263343;
 	padding: 8px 12px;
-	font-family: 'Noto Serif KR', serif;;
+	font-family: 'Noto Serif KR', serif;
 }
 
 .navbar_logo{
