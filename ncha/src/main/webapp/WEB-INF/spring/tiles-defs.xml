@@ -6,7 +6,7 @@
 
 <tiles-definitions>
 	<definition name=".mainLayout" template="/WEB-INF/views/layout/layout3.jsp">
-	    <put-attribute name="title" value="spring" />
+	    <put-attribute name="title" value="N차신상" />
 	  	<put-attribute name="header" value="/WEB-INF/views/layout/header.jsp" />
 		<put-attribute name="body" value="/WEB-INF/views/main/main.jsp" />
 		<put-attribute name="footer" value="/WEB-INF/views/layout/footer.jsp" />
@@ -14,7 +14,7 @@
 	
    <!-- 3단 관리자 -->
 	<definition name=".adminLayout" template="/WEB-INF/views/admin/layout/layout3.jsp">
-	    <put-attribute name="title" value="spring" />
+	    <put-attribute name="title" value="N차신상_관리자모드" />
 	  	<put-attribute name="header" value="/WEB-INF/views/admin/layout/header.jsp" />
 		<put-attribute name="body" value="/WEB-INF/views/admin/main/main.jsp" />
 		<put-attribute name="footer" value="/WEB-INF/views/layout/footer.jsp" />
@@ -31,7 +31,7 @@
 	
    <!-- 3단 스토어 -->
 	<definition name=".storeLayout" template="/WEB-INF/views/layout/layout3.jsp">
-	    <put-attribute name="title" value="spring" />
+	    <put-attribute name="title" value="N차신상스토어" />
 	  	<put-attribute name="header" value="/WEB-INF/views/layout/header_store.jsp" />
 		<put-attribute name="body" value="/WEB-INF/views/store/main/main.jsp" />
 		<put-attribute name="footer" value="/WEB-INF/views/layout/footer.jsp" />

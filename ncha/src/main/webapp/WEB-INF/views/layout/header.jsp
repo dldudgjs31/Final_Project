@@ -15,7 +15,6 @@
 	background-color: #263343;
 	padding: 8px 12px;
 	font-family: 'Spoqa Han Sans', 'Spoqa Han Sans JP', 'Sans-serif';
-	
 }
 
 .navbar_logo{
