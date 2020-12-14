@@ -116,26 +116,3 @@ public class Seller {
 	
 	
 }
-/*
- * CREATE TABLE seller(
-   sellerId                  VARCHAR2(50)   NOT NULL, -- 판매자아이디
-   sellerName            VARCHAR2(50)   NOT NULL, -- 판매자이름
-   pwd                   VARCHAR2(100)  NOT NULL, -- 판매자비밀번호
-   tel                   VARCHAR2(20)   NOT NULL, -- 판매자전화번호
-   email                 VARCHAR2(100)  NOT NULL, -- 판매자이메일
-   enabled               NUMBER       NOT NULL, -- enabled
-   created_date          DATE           NOT NULL, -- 가입일자
-   modify_date           DATE           NULL,     -- 수정일자
-   allow                 NUMBER         NOT NULL, -- allow(admin이 허용하면 1 아니면0
-   profile_imageFilename VARCHAR2(1000) NULL ,      -- 판매자프로필사진
-   CONSTRAINT pk_seller PRIMARY KEY(sellerId)
-);
-
--- 판매자 시퀀스 ok
-CREATE SEQUENCE profileFile_seq
-    INCREMENT BY 1
-    START WITH 1
-    NOMAXVALUE
-    NOCYCLE
-    NOCACHE;
- * */

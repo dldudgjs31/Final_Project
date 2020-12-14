@@ -47,7 +47,7 @@ public class SellerServiceImpl implements SellerService {
 				dto.setTel(dto.getTel1() + "-" + dto.getTel2() + "-" + dto.getTel3());
 			}
 			
-			dao.updateData("seller.insertSeller", dto);  
+			dao.insertData("seller.insertSeller", dto);  
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw e;

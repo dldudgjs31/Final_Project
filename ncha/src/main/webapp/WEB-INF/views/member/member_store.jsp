@@ -182,17 +182,16 @@ function preWatchphoto(input){
     </div>
     
         <div>
-			<form name="memberForm" method="post">
+			<form name="memberForm" method="post" enctype="multipart/form-data">
 			  	
 			 <!-- 프로필 사진 업로드 및 미리 보여주기 -->
-			 <div class="profile_photo">
-			  <div>
-			       <label style="font-weight: 900;">프로필 사진</label>
-			       <input type="file" name="uploadphoto" accept="image/*" onchange="preWatchphoto(this)">
-			  </div>
-			  <img id ="img" src="" style="margin:20px 0;"/>
-			  </div>
-			  
+			 <div style="margin-bottom: 20px; margin-top: 30px; margin-left: 300px;">
+				 <label style="font-weight: 900; font-size: 50;">프로필 사진</label>
+				 <div class="profile_photo" >
+				  	<img id ="img" src="${pageContext.request.contextPath}/resources/img/noprofile.jpg" style="margin:10px 0;width: 150px; height: 200px; border: 3px solid black;"/>
+				 </div>
+				 <input type="file" name="uploadphoto" accept="image/*" onchange="preWatchphoto(this)">	 
+			 </div>
 			  <table style="width: 100%; margin: 20px auto 0px; border-spacing: 0px;">
 			  <tr>
 			      <td width="100" valign="top" style="text-align: right; padding-top: 5px;">

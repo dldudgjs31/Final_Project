@@ -23,7 +23,6 @@ import com.sp.app.member.SessionInfo;
 @Controller("seller.sellerController")
 @RequestMapping("/seller/*")
 public class SellerController {
-
    @Autowired
    private SellerService service;
    
@@ -38,7 +37,7 @@ public class SellerController {
    public String memberSubmit(Seller dto,
          final RedirectAttributes reAttr,
          Model model,
-         HttpSession session ) throws Exception {
+         HttpSession session) throws Exception {
 
       try {
     	  String root = session.getServletContext().getRealPath("/");
@@ -71,13 +70,7 @@ public class SellerController {
       
       return "redirect:/member/complete";
    }
-   
-/*
-    * @ModelAttribute
-      - 스프링에서 JSP파일에 반환되는 Model 객체에 속성값을 주입하거나 바인딩할 때 사용되는 어노테이션
-      - RedirectAttributes 에 저장된 데이터를 자바 메소드(리다이렉트로 매핑된 메소드)
-               에서 넘겨 받기 위해서는 메소드 인자에 @ModelAttribute("속성명")을 사용해야 한다.
-*/
+
    @RequestMapping(value="complete")
    public String complete(@ModelAttribute("message") String message) throws Exception{
       
@@ -108,7 +101,6 @@ public class SellerController {
          return ".member.login_store";
       }
       
-      // 세션에 로그인 정보 저장
       SessionInfo info=new SessionInfo();
       info.setSellerId(dto.getSellerId());
       info.setSellerName(dto.getSellerName());

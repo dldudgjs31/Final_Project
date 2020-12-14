@@ -4,18 +4,18 @@
 <mapper namespace="seller">
 
 	<select id="loginSeller" parameterType="String" resultType="com.sp.app.seller.Seller">
-      SELECT sellerId, sellerName, pwd, tel, email, created_date, modify_date, allow, profile_imageFilename, enabled
+      SELECT sellerId, sellerName, pwd, tel, email, enabled ,created_date, modify_date, allow, profile_imageFilename
       FROM seller
       WHERE sellerId = #{sellerId}
    </select>
 
     <insert id="insertSeller" parameterType="com.sp.app.seller.Seller">
-       INSERT INTO seller(sellerId, sellerName,pwd,tel,email,enabled, created_date, modify_date, allow ) 
-       VALUES (#{sellerId},#{sellerName},#{pwd},#{tel},#{email}, 1 ,SYSDATE, SYSDATE, 0) 
+       INSERT INTO seller(sellerId, sellerName,pwd,tel,email,enabled, created_date, modify_date, allow ,profile_imageFilename) 
+       VALUES (#{sellerId},#{sellerName},#{pwd},#{tel},#{email}, 1 ,SYSDATE, SYSDATE, 0 , #{profile_imageFilename, jdbcType=VARCHAR}) 
     </insert>
     
 	<select id="readSeller" parameterType="String" resultType="com.sp.app.seller.Seller">
-		SELECT sellerId, sellerName, pwd, tel, email, created_date, modify_date, allow, profile_imageFilename, enabled
+		SELECT sellerId, sellerName, pwd, tel, email, enabled, created_date, modify_date, allow, profile_imageFilename
 		FROM seller
 		WHERE sellerId = #{sellerId}
 	</select>
@@ -27,7 +27,7 @@
     
     <update id="updateSeller" parameterType="com.sp.app.seller.Seller">
         UPDATE seller SET pwd=#{pwd}, email=#{email, jdbcType=VARCHAR}, modify_date=SYSDATE,
-                     tel=#{tel, jdbcType=VARCHAR}, birth=#{birth, jdbcType=VARCHAR},
+                     tel=#{tel, jdbcType=VARCHAR}, birth=#{birth, jdbcType=VARCHAR}, profile_imageFilename=#{profile_imageFilename, jdbcType=VARCHAR} 
                WHERE sellerId=#{sellerId}
     </update>
 
