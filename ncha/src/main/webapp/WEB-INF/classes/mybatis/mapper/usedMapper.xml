@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="used">
-	<select id="seq" resultType="Integer">
+	<select id="used_seq" resultType="Integer">
 		SELECT used_seq.NEXTVAL FROM dual
 	</select>
-	<select id="seq" resultType="Integer">
+	<select id="usedFile_seq" resultType="Integer">
 		SELECT usedFile_seq.NEXTVAL FROM dual
 	</select>
 	
@@ -16,27 +15,7 @@
 				#{price}, #{productCondition}, #{dealingMode}, #{location}, #{sold_check}, #{categoryNum})
 	</insert>
 	
-	<sql id="where-list">
-		<if test="condition=='all' ">
-			( INSTR(subject, #{keyword}) &gt; 0
-				OR DBMS_LOB.INSTR(content, #{keyword}) &gt; 0 )
-		</if>
-		<if test="condition=='subject' ">
-			INSTR(subject, #{keyword}) &gt; 0
-		</if>
-		<if test="condition=='content' ">
-			DBMS_LOB.INSTR( content, #{keyword}) &gt; 0 
-		</if>
-		<if test="condition=='userName' ">
-			userName=#{keyword}
-		</if>
-		<if test="condition=='created' ">
-			( TO_CHAR(created, 'YYYY-MM-DD') = #{keyword}
-				OR TO_CHAR(created, 'YYYYMMDD') = #{keyword} )
-		</if>
-	</sql>
 	
-
 	<!-- 파일 -->
 	<insert id="insertFile" parameterType="com.sp.app.used.Used">
 		INSERT INTO used_image(used_imageFileNum, imageFilename, usedNum) VALUES
