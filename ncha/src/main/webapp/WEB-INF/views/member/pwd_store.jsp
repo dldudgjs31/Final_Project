@@ -38,7 +38,7 @@
             return;
         }
 
-        f.action = "${pageContext.request.contextPath}/seller/pwd";
+        f.action = "${pageContext.request.contextPath}/member/pwd_store";
         f.submit();
 	}
 </script>
@@ -61,7 +61,7 @@
 		  <tr style="height:60px;" align="center"> 
 		      <td> 
 		        &nbsp;
-		        <input type="text" name="userId" class="loginTF" maxlength="15"
+		        <input type="text" name="sellerId" class="loginTF" maxlength="15"
 		                   tabindex="1"
 		                   value="${sessionScope.seller.sellerId}"
                            readonly="readonly">
@@ -71,7 +71,7 @@
 		  <tr align="center" height="60"> 
 		      <td>
 		        &nbsp;
-		        <label for="userPwd" id="lblUserPwd" class="lbl" >패스워드</label>
+		        <label for="pwd" id="lblUserPwd" class="lbl" >패스워드</label>
 		        <input type="password" name="pwd" id="pwd" class="loginTF" maxlength="20" 
 		                   tabindex="2"
                            onfocus="document.getElementById('lblUserPwd').style.display='none';"

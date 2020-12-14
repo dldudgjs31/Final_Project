@@ -137,9 +137,9 @@
             <c:if test="${not empty sessionScope.seller}">
                 <li><span style="color:blue;">${sessionScope.seller.sellerName}</span>님</li>
                 &nbsp;&nbsp;
-               <li> <a href="${pageContext.request.contextPath}/member/logout">로그아웃</a></li>
+               <li> <a href="${pageContext.request.contextPath}/seller/logout">로그아웃</a></li>
                 &nbsp;&nbsp;
-               <li> <a href="${pageContext.request.contextPath}/member/pwd">정보수정</a></li>
+               <li> <a href="${pageContext.request.contextPath}/seller/pwd">정보수정</a></li>
                 <c:if test="${sessionScope.member.userId=='admin'}">
                     &nbsp;&nbsp;
                     <li><a href="${pageContext.request.contextPath}/admin">관리자</a></li>

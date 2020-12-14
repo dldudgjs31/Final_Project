@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.sp.app.member.SessionInfo;
+
 
 @Controller("seller.sellerController")
 @RequestMapping("/seller/*")
