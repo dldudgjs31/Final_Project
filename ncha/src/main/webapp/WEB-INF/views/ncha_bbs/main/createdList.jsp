@@ -9,6 +9,6 @@
        <br><br><br>
       <p><a href="${pageContext.request.contextPath}/daily/created">일상글</a>  </p>
       <br>
-      <p><a href="${pageContext.request.contextPath}/used/write">중고글</a>  </p>
+      <p><a href="${pageContext.request.contextPath}/used/created">중고글</a>  </p>
     </div>
 </div>

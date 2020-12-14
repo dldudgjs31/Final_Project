@@ -10,6 +10,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.sp.app.common.FileManager;
 import com.sp.app.common.dao.CommonDAO;
 
+
 @Service("used.usedService")
 public class UsedServiceImpl implements UsedService {
 	@Autowired
@@ -21,7 +22,8 @@ public class UsedServiceImpl implements UsedService {
 	@Override
 	public void insertUsed(Used dto, String pathname) throws Exception {
 		try {
-			int seq = dao.selectOne("used.seq");
+			
+			int seq = dao.selectOne("used.used_seq");	
 			dto.setUsedNum(seq);
 			
 			dao.insertData("used.insertUsed",dto);
@@ -32,27 +34,36 @@ public class UsedServiceImpl implements UsedService {
 					if(saveFilename == null)continue;
 					
 					dto.setImageFilename(saveFilename);
-					
 					insertFile(dto);
 				}
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-			throw e;
 		}
 		
 	}
 
 	@Override
 	public int dataCount(Map<String, Object> map) {
-		// TODO Auto-generated method stub
-		return 0;
+		int result = 0 ;
+		
+		try {
+			result = dao.selectOne("used.usedCount",map);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return result;
 	}
 
 	@Override
 	public List<Used> listUsed(Map<String, Object> map) {
-		// TODO Auto-generated method stub
-		return null;
+		List<Used> list = null;
+		try {
+			list = dao.selectList("used.listused",map);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return list;
 	}
 
 	@Override

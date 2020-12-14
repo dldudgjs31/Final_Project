@@ -1,7 +1,13 @@
 package com.sp.app.used;
 
 import java.io.File;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +15,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.sp.app.common.FileManager;
 import com.sp.app.common.MyUtil;
@@ -32,14 +39,75 @@ public class UsedController {
 	private FileManager fileManager;
 	
 	@RequestMapping("list")
-	public String list() throws Exception{
+	public String list(
+			@RequestParam(value="page", defaultValue = "1") int current_page,
+			@RequestParam(defaultValue = "all") String condition,
+			@RequestParam(defaultValue = "") String keyword,
+			HttpServletRequest req,
+			Model model) throws Exception{
+		
+		int rows = 10;
+		int total_page=0;
+		int dataCount=0;
+		
+		if(req.getMethod().equalsIgnoreCase("GET")) {
+			keyword=URLDecoder.decode(keyword,"utf-8");
+		}
+		Map<String, Object> map = new HashMap<>();
+		map.put("condition", condition);
+		map.put("keyword", keyword);
+		
+		dataCount = service.dataCount(map);
+		if(dataCount!=0) {
+			total_page=myUtil.pageCount(rows, dataCount);
+		}
+		if(total_page<current_page) {
+			current_page=total_page;
+		}
+		int offset=(current_page-1)*rows;
+		if(offset<0) offset=0;
+		map.put("offset", offset);
+		map.put("rows", rows);
+		
+		List<Used> list =service.listUsed(map);
+		
+		int listNum, n=0;
+		for(Used dto:list) {
+			listNum=dataCount-(offset+n);
+			dto.setListNum(listNum);
+			n++;
+		}
+		
+		String cp =req.getContextPath();
+		String query = "";
+		String listUrl= cp+"/used/list";
+		String articleUrl=cp+"/used/article?page="+current_page;
+		if(keyword.length()!=0) {
+			query="condition="+condition+"&keyword"+URLEncoder.encode(keyword, "utf-8");
+		}
+		
+		if(query.length()!=0) {
+			listUrl+="?"+query;
+			articleUrl+="&"+query;
+		}
+		String paging=myUtil.paging(current_page, total_page, listUrl);
+		
+		model.addAttribute("list", list);
+		model.addAttribute("articleUrl", articleUrl);
+		model.addAttribute("page", current_page);
+		model.addAttribute("dataCount", total_page);
+		model.addAttribute("paging", paging);
+		model.addAttribute("condition", condition);
+		model.addAttribute("keyword", keyword);
+		
+		
 		return ".ncha_bbs.used.list";
 	}
 	
 	
 	
 	
-	@RequestMapping(value="write", method = RequestMethod.GET)
+	@RequestMapping(value="created", method = RequestMethod.GET)
 	public String writeForm(
 			Model model ) throws Exception{
 		
@@ -47,7 +115,7 @@ public class UsedController {
 		return ".ncha_bbs.used.created";
 	}
 	
-	@RequestMapping(value="/used/write", method = RequestMethod.POST)
+	@RequestMapping(value="created", method = RequestMethod.POST)
 	public String writeSubmit(
 			Used dto,
 			HttpSession session) throws Exception{

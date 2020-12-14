@@ -2,17 +2,16 @@
 
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="used">
+	
 	<select id="used_seq" resultType="Integer">
 		SELECT used_seq.NEXTVAL FROM dual
 	</select>
-	<select id="usedFile_seq" resultType="Integer">
-		SELECT usedFile_seq.NEXTVAL FROM dual
-	</select>
+	
 	
 	<insert id="insertUsed" parameterType="com.sp.app.used.Used">
 		INSERT INTO used_bbs(usedNum, userId, subject, content, hitCount, created_date, price, productCondition, dealingMode, location, sold_check, categoryNum)
-				VALUES(#{usedNum}, #{userId}, #{subject}, #{content}, 0, SYSDATE
-				#{price}, #{productCondition}, #{dealingMode}, #{location}, #{sold_check}, #{categoryNum})
+				VALUES(#{usedNum}, #{userId}, #{subject}, #{content}, 0, SYSDATE,
+				#{price}, #{productCondition}, #{dealingMode}, #{location}, 0, #{categoryNum})
 	</insert>
 	
 	
