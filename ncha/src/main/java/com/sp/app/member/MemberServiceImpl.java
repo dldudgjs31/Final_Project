@@ -62,7 +62,7 @@ public class MemberServiceImpl implements MemberService {
 		Member dto=null;
 		
 		try {
-			dto=dao.selectOne("member.readMember", userId);
+			dto=dao.selectOne("member.readMember1", userId);
 			
 			if(dto!=null) {
 				if(dto.getEmail()!=null) {

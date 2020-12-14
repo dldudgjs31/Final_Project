@@ -160,7 +160,7 @@ public class MemberController {
 		
 		SessionInfo info=(SessionInfo)session.getAttribute("member");
 		
-		Member dto=service.readMember(String.valueOf(info.getMemberIdx()));
+		Member dto=service.readMember(info.getUserId());
 		if(dto==null) {
 			session.invalidate();
 			return "redirect:/";

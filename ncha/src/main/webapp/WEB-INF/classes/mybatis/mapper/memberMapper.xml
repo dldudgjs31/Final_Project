@@ -35,6 +35,15 @@
 		WHERE m.memberIdx = #{memberIdx}
 	</select>
 	
+	<!-- 아이디 유효성 검사 정보 불러오기 -->
+	<select id="readMember1" parameterType="String" resultType="com.sp.app.member.Member">
+		SELECT m.memberIdx, membership, userId, userName, userPwd, introduce, profile_imageFilename,
+		TO_CHAR(birth, 'YYYY-MM-DD') birth, email, tel, zip, addr1, addr2
+		FROM memberId m
+		LEFT OUTER JOIN member m1 ON m.memberIdx = m1.memberIdx
+		WHERE m1.userId = #{userId}
+	</select>
+	
     <!-- 회원정보 수정  --> 
     <update id="updateMembership" parameterType="map">
         UPDATE member SET membership = #{membership}
