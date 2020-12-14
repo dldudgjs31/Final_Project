@@ -10,8 +10,8 @@
 	</select>
 	
 	<insert id="insertDaily" parameterType="com.sp.app.daily.Daily">
-		INSERT INTO daily_bbs(dailyNum, userId, content, subject, storeURL, usedURL, created_date) 
-			VALUES (#{dailyNum}, #{userId}, #{content}, #{subject}, #{storeURL,jdbcType=VARCHAR}, #{usedURL,jdbcType=VARCHAR}, SYSDATE)
+		INSERT INTO daily_bbs(dailyNum, userId, content, subject, storeURL, usedURL, created_date, hitCount) 
+			VALUES (#{dailyNum}, #{userId}, #{content}, #{subject}, #{storeURL,jdbcType=VARCHAR}, #{usedURL,jdbcType=VARCHAR}, SYSDATE, 0)
 	</insert>
 	
 	<select id="dailyCount" parameterType="map" resultType="Integer">
@@ -21,7 +21,7 @@
 	</select>
 	
 	<select id="listDaily" parameterType="map" resultType="com.sp.app.daily.Daily">
-		SELECT d.dailyNum, d.userId, userName, subject, 
+		SELECT d.dailyNum, d.userId, userName, subject, hitCount,
 			       created_date, NVL(fileCount, 0) fileCount
 			FROM daily_bbs d
 			JOIN member m ON d.userId=m.userId
@@ -37,6 +37,10 @@
 		JOIN daily_image i ON d.dailyNum = i.dailyNum
 		WHERE d.dailyNum = #{dailyNum}
 	</select>
+	
+	<update id="updateHitCount" parameterType="Integer">
+		UPDATE notice SET hitCount=hitCount+1 WHERE dailyNum = #{dailyNum}
+	</update>
 	
 	<insert id="insertFile" parameterType="com.sp.app.daily.Daily">
 		INSERT INTO daily_image(daily_imageFilenum, imageFilename, dailyNum)

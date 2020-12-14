@@ -99,7 +99,8 @@ public class DailyController {
 	@RequestMapping(value="created", method=RequestMethod.POST)
 	public String createdSubmit(
 			Daily dto,
-			HttpSession session
+			HttpSession session,
+			Model model
 			) throws Exception {
 		SessionInfo info = (SessionInfo)session.getAttribute("member");
 		String root = session.getServletContext().getRealPath("/");
@@ -111,6 +112,7 @@ public class DailyController {
 			service.insertDaily(dto, pathname);
 		} catch (Exception e) {
 		}
+		model.addAttribute("pathname","pathname");
 		return "redirect:/daily/list";
 	}
 	

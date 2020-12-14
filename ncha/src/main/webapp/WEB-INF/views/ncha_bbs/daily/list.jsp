@@ -17,8 +17,8 @@
 						<form name="searchForm" action="${pageContext.request.contextPath}/daily/list" method="post">
 							<select name="condition" class="selectField">
 								<option value="all">모두</option>
-								<option value="food" >음식</option>
-								<option value="furn" >가구</option>
+								<option value="food">음식</option>
+								<option value="furn">가구</option>
 								<option value="elec">전자제품</option>
 								<option value="book">도서</option>
 							</select>
@@ -38,6 +38,33 @@
        
        <div>
        		<div>
+       		<table style="width: 630px; margin: 20px auto 0px; border-spacing: 0px;">
+				<c:forEach var="dto" items="${list}" varStatus="status">
+					<c:if test="${status.index==0}">
+						<tr>
+					</c:if>
+					<c:if test="${status.index!=0 && status.index%3==0}">
+						<c:out value="</tr><tr>" escapeXml="false"/>
+					</c:if>
+					<td width="210" align="center">
+						<div class="imgLayout" onclick="article('${dto.dailyNum}');">
+							<img  src="${pageContext.request.contextPath}/uploads/daily/${dto.imageFilename}" width="180" height="180" border="0">
+							<span class="subject">${dto.subject}</span>
+						</div>
+					</td>
+				</c:forEach> 
+				<c:set var="n" value="${list.size()}"/>
+				<c:if test="${n>0 && n%3!=0}">
+					<c:forEach var="i" begin="${n%3+1}" end="3">
+							<td width="210">
+								<div class="imgLayout">&nbsp;</div>
+							</td>
+					</c:forEach>
+				</c:if>   
+		<c:if test="${n!=0}">
+			<c:out value="</tr" escapeXml="false"/>
+		</c:if>
+	</table>
 		       	<table style="width: 100%; margin: 20px auto 0px; border-spacing: 0px;">
 					<tr height="35">
 						<td align="left" width="50%">

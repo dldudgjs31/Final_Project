@@ -13,6 +13,7 @@ public class Daily {
 	private String storeURL;
 	private String usedURL;
 	private String created_date;
+	private int hitCount;
 	
 	
 	private int answer;
@@ -127,6 +128,12 @@ public class Daily {
 	}
 	public void setDaily_imageFilenum(int daily_imageFilenum) {
 		this.daily_imageFilenum = daily_imageFilenum;
+	}
+	public int getHitCount() {
+		return hitCount;
+	}
+	public void setHitCount(int hitCount) {
+		this.hitCount = hitCount;
 	}
 
 

@@ -23,9 +23,47 @@ $(function(){
 		var $tr = $(this).closest("tr").clone(true); // 이벤트도 복제
 		$tr.find("input").val("");
 		$("#tb").append($tr);
+		
+		
 	});
 });
 
+function preWatchphoto(event){
+	for (var image of event.target.files) {
+		
+			var reader = new FileReader();
+			reader.onload = function(event){
+				var img =document.createElement("img");
+				img.setAttribute("src",event.target.result);
+				document.querySelector("div#main_img").appendChild(img).width(150).height(200);
+			}
+			reader.readAsDataURL(image);
+		}
+}
+
+/*
+$(function(){
+	
+	$("form img[name=imagemain]").change(function(){
+		if(! $(this).val()) return;
+		
+		var b=false;
+		$("form img[name=imagemain]").each(function(){
+			if(! $(this).val()) {
+				b=true;
+				return;
+			}
+		});
+		if(b) {
+			return false;
+		}
+	
+		var $tr = $(this).closest("div").clone(true); // 이벤트도 복제
+		$tr.find("img").val("");
+		$("#main_img").append($tr);
+	});
+});
+*/
   <c:if test="${mode=='update'}">
   function deleteFile(fileNum) {
 		var url="${pageContext.request.contextPath}/daily/deleteFile";
@@ -34,31 +72,36 @@ $(function(){
 		}, "json");
   }
 </c:if>
+
+
+
 </script>
 
 <script type="text/javascript">
-    function sendOk() {
-        var f = document.dailyForm;
-		
-    	var str = f.subject.value;
-        if(!str) {
-            alert("제목을 입력하세요. ");
-            f.subject.focus();
-            
-            return;
-        }
 
-    	str = f.content.value;
-        if(!str) {
-            alert("내용을 입력하세요. ");
-            f.content.focus();
-            return;
-        }
 
-    	f.action="${pageContext.request.contextPath}/daily/${mode}";
+function sendOk() {
+    var f = document.dailyForm;
 
-        f.submit();
+	var str = f.subject.value;
+    if(!str) {
+        alert("제목을 입력하세요. ");
+        f.subject.focus();
+        
+        return;
     }
+
+	str = f.content.value;
+    if(!str) {
+        alert("내용을 입력하세요. ");
+        f.content.focus();
+        return;
+    }
+
+	f.action="${pageContext.request.contextPath}/daily/${mode}";
+
+    f.submit();
+}
 </script>
 
 <div class="body-container" style="width: 700px;">
@@ -68,7 +111,12 @@ $(function(){
     
     <div>
 		<form name="dailyForm" method="post" enctype="multipart/form-data">
-			<table style="width: 100%; margin: 20px auto 0px; border-spacing: 0px; border-collapse: collapse;">
+			<div style="margin-bottom: 20px; margin-top: 30px; margin-left: 300px;">
+				 <label style="font-weight: 900; font-size: 50;">메인 사진</label>
+				 <div class="profile_photo" id="main_img">
+				 </div>	 
+			 </div>
+			<table style="width: 100%; margin: 20px auto 0px; border-spacing: 0px; border-collapse: collapse;"> 
 			  <tbody id="tb">
 			  <tr align="left" height="40" style="border-top: 1px solid #cccccc; border-bottom: 1px solid #cccccc;"> 
 			      <td width="100" bgcolor="#eeeeee" style="text-align: center;">제&nbsp;&nbsp;&nbsp;&nbsp;목</td>
@@ -108,7 +156,7 @@ $(function(){
 			  <tr align="left" height="40" style="border-bottom: 1px solid #cccccc;">
 			      <td width="100" bgcolor="#eeeeee" style="text-align: center;">메&nbsp;&nbsp;&nbsp;&nbsp;인</td>
 			      <td style="padding-left:10px;"> 
-			          <input type="file" name="upload" class="boxTF" size="53" style="width: 95%; height: 25px;">
+			          <input type="file" id="image" name="upload" class="boxTF" onchange="preWatchphoto(event);" multiple size="53" style="width: 95%; height: 25px; multiple">
 			      </td>
 			  	</tr>
 			  	

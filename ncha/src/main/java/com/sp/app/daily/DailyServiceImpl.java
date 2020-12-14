@@ -20,8 +20,7 @@ public class DailyServiceImpl implements DailyService{
 	@Override
 	public void insertDaily(Daily dto, String pathname) throws Exception {
 		try {
-			int seq = dao.selectOne("daily.seq");
-			int image_seq = dao.selectOne("daily.image_seq");
+			int seq = dao.selectOne("daily.seq");			
 			
 			dto.setDailyNum(seq);
 			dao.insertData("daily.insertDaily",dto);
@@ -32,7 +31,7 @@ public class DailyServiceImpl implements DailyService{
 					String imageFilename=fileManager.doFileUpload(mf, pathname);
 					if(imageFilename==null) continue;	
 					dto.setImageFilename(imageFilename);
-					image_seq = dao.selectOne("daily.image_seq");
+					int image_seq = dao.selectOne("daily.image_seq");
 					dto.setDaily_imageFilenum(image_seq);		
 					insertFile(dto);
 				}
@@ -107,8 +106,13 @@ public class DailyServiceImpl implements DailyService{
 
 	@Override
 	public List<Daily> listFile(int dailyNum) {
-		// TODO Auto-generated method stub
-		return null;
+		List<Daily> listFile = null;
+		try {
+			listFile = dao.selectList("daily.listFile",dailyNum);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return listFile;
 	}
 
 	@Override
@@ -120,6 +124,17 @@ public class DailyServiceImpl implements DailyService{
 	@Override
 	public void deleteFile(Map<String, Object> map) throws Exception {
 		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void updateHitCount(int num) throws Exception {
+		try {
+			dao.updateData("daily.updateHitCount", num);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
 		
 	}
 
