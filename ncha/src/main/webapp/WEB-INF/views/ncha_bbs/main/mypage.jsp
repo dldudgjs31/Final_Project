@@ -12,11 +12,13 @@
 }
 .post-list {
   display: grid;
+  width:99%;
   grid-template-columns: repeat(3, minmax(100px, 293px));
   grid-template-rowls: repeat(auto, minmax(100px, 293px));
   justify-content: center;
   gap: 28px;
 }
+
 .post {
   cursor: pointer;
   position: relative;
@@ -25,6 +27,7 @@
   background-position: center;
   background-size: cover;
 }
+
 .post-image {
   margin: 0;
   display: flex;
@@ -123,15 +126,23 @@
 	align-items: center;
 	justify-content:center;
 	border-top: 1px solid #ccc;
-	font-size : 20px;
+	font-size : 15px;
+	color:silver;
+}
+.tabs{
+	display: flex;
+	justify-content: center;
 }
 #profile-tabbox{
 	width: 10%;
 	height: 90px; 
 	padding-top: 10px; 
 	margin:10px; 
-	border-top: 2px solid black;
 	text-align: center;
+}
+#profile-tabbox:hover{
+	border-top: 2px solid black;
+	color:black;
 }
 @media screen and (max-width: 768px) {
 	.body-container{
@@ -151,6 +162,7 @@
 }
 
 </style>
+
 <div class="body-container" >
     <div class="profile-title">
     	<div class="profile-img">
@@ -160,101 +172,113 @@
     	</div>
     	<div class="profile-introduce">안녕하세요. n차신상 개발자 이영헌입니다.</div>
     	<div class="profile-name">
-    		<span><h1>USERID </h1></span>
+    		<span><h1>USERID</h1></span>
     	</div>
     	<div class="profile-setting">
-    		<span><a href=""><i class="fas fa-user-cog"></i>회원정보수정 </a></span>
+    		<span><a href=""><i class="fas fa-user-cog"></i>&nbsp;&nbsp;프로필 수정 </a></span>
     	</div>
     	<div class="profile-follower"><strong>팔로워 </strong>&nbsp;&nbsp;&nbsp;1000</div>
     	<div class="profile-following"><strong>팔로잉 </strong>&nbsp;&nbsp;&nbsp;1000</div>
     	<div class="profile-tab">
-    		<div id="profile-tabbox" style="width: 10%; height: 90px; padding-top: 10px;">일상글</div>
-    		<div id="profile-tabbox" style="width: 10%; height: 90px; padding-top: 10px;">중고글</div>
-    		
+    		<div id="profile-tabbox" style="width: 10%; height: 90px; padding-top: 10px; " onclick="openTab('daily')">일상글</div>
+    		<div id="profile-tabbox" style="width: 10%; height: 90px; padding-top: 10px;" onclick="openTab('used')">중고글</div>
     	</div>
     </div>
-    
-    
-    
-    
-  <div class="post-list">
-    <a href="" class="post" style="background-image: url('${pageContext.request.contextPath}/resources/img/logo.png');">
-      <span class="post-overlay">
-        <p>
-          <span class="post-likes">150</span>
-          <span class="post-comments">10</span>
-        </p>
-      </span>
-    </a>
-    <a href="" class="post" style="background-image: url('${pageContext.request.contextPath}/resources/img/logo.png');">
-      <span class="post-overlay">
-        <p>
-          <span class="post-likes">150</span>
-          <span class="post-comments">10</span>
-        </p>
-      </span>
-    </a>
-
-    <a href="" class="post">
-      <div class="post-image">
-      	<img alt="" src="${pageContext.request.contextPath}/resources/img/23627.jpg">
-      </div>
-      <span class="post-overlay">
-        <p>
-          <span class="post-likes">150</span>
-          <span class="post-comments">10</span>
-        </p>
-      </span>
-    </a>    <a href="" class="post">
-      <div class="post-image">
-        <img src="${pageContext.request.contextPath}/resources/img/logo.png" alt="">
-      </div>
-      <span class="post-overlay">
-        <p>
-          <span class="post-likes">150</span>
-          <span class="post-comments">10</span>
-        </p>
-      </span>
-    </a>    <a href="" class="post">
-      <div class="post-image">
-        <img src="${pageContext.request.contextPath}/resources/img/logo.png" alt="">
-      </div>
-      <span class="post-overlay">
-        <p>
-          <span class="post-likes">150</span>
-          <span class="post-comments">10</span>
-        </p>
-      </span>
-    </a>    <a href="" class="post">
-      <div class="post-image">
-        <img src="${pageContext.request.contextPath}/resources/img/logo.png" alt="">
-      </div>
-      <span class="post-overlay">
-        <p>
-          <span class="post-likes">150</span>
-          <span class="post-comments">10</span>
-        </p>
-      </span>
-    </a>    <a href="" class="post">
-      <div class="post-image">
-        <img src="https://image.freepik.com/foto-gratis/mujeres-sosteniendo-tazas-cafe-mesa-madera_23-2147935600.jpg" alt="">
-      </div>
-      <span class="post-overlay">
-        <p>
-          <span class="post-likes">150</span>
-          <span class="post-comments">10</span>
-        </p>
-      </span>
-    </a>    <a href="" class="post">
-      <div class="post-image">
-        <img src="https://image.freepik.com/foto-gratis/mujeres-sosteniendo-tazas-cafe-mesa-madera_23-2147935600.jpg" alt="">
-      </div>
-      <span class="post-overlay">
-        <p>
-          <span class="post-likes">150</span>
-          <span class="post-comments">10</span>
-        </p>
-      </span>
-    </a>   
-  </div>
+   
+<div id="daily" class="tabs">
+	<div class="post-list">
+	
+	    <a href="" class="post">
+	      <div class="post-image">
+	      	<img alt="" src="${pageContext.request.contextPath}/resources/img/23627.jpg">
+	      </div>
+	      <span class="post-overlay">
+	        <p>
+	          <span class="post-likes">150</span>
+	          <span class="post-comments">10</span>
+	        </p>
+	      </span>
+	    </a>  
+	    <a href="" class="post">
+	      <div class="post-image">
+	      	<img alt="" src="${pageContext.request.contextPath}/resources/img/23627.jpg">
+	      </div>
+	      <span class="post-overlay">
+	        <p>
+	          <span class="post-likes">150</span>
+	          <span class="post-comments">10</span>
+	        </p>
+	      </span>
+	    </a>  
+	    <a href="" class="post">
+	      <div class="post-image">
+	      	<img alt="" src="${pageContext.request.contextPath}/resources/img/23627.jpg">
+	      </div>
+	      <span class="post-overlay">
+	        <p>
+	          <span class="post-likes">150</span>
+	          <span class="post-comments">10</span>
+	        </p>
+	      </span>
+	    </a>  
+	</div>
 </div>
+
+
+
+<div id="used" class="tabs" style="display:none;">
+<div class="post-list">
+	
+	    <a href="" class="post">
+	      <div class="post-image">
+	      	<img alt="" src="${pageContext.request.contextPath}/resources/img/logo.png">
+	      </div>
+	      <span class="post-overlay">
+	        <p>
+	          <span class="post-likes">150</span>
+	          <span class="post-comments">10</span>
+	        </p>
+	      </span>
+	    </a>  
+	    
+	    <a href="" class="post">
+	      <div class="post-image">
+	      	<img alt="" src="${pageContext.request.contextPath}/resources/img/logo.png">
+	      </div>
+	      <span class="post-overlay">
+	        <p>
+	          <span class="post-likes">150</span>
+	          <span class="post-comments">10</span>
+	        </p>
+	      </span>
+	    </a>  
+	    
+	    <a href="" class="post">
+	      <div class="post-image">
+	      	<img alt="" src="${pageContext.request.contextPath}/resources/img/logo.png">
+	      </div>
+	      <span class="post-overlay">
+	        <p>
+	          <span class="post-likes">150</span>
+	          <span class="post-comments">10</span>
+	        </p>
+	      </span>
+	    </a>  
+	</div>
+</div>
+
+
+
+    
+</div>
+<script type="text/javascript">
+function openTab(bbsName) {
+	  var i;
+	  var x = document.getElementsByClassName("tabs");
+	  for (i = 0; i < x.length; i++) {
+	    x[i].style.display = "none";
+	  }
+	  document.getElementById(bbsName).style.display = "block";
+	  
+	}
+</script>    

@@ -9,6 +9,9 @@
 .profile_photo{
 	width: 100%; margin: 0px auto 0px; border-spacing: 0px;
 }
+#img{
+	border-radius: 100%;
+}
 </style>
 
 
@@ -185,7 +188,7 @@ function preWatchphoto(input){
 	if(input.files && input.files[0]){
 		var reader = new FileReader();
 		reader.onload = function(e){
-			$('#img').attr('src',e.target.result).width(150).height(200);
+			$('#img').attr('src',e.target.result).width(200).height(200);
 		}
 		reader.readAsDataURL(input.files[0]);
 	}
@@ -205,7 +208,7 @@ function preWatchphoto(input){
 			 <div style="margin-bottom: 20px; margin-top: 30px; margin-left: 300px;">
 				 <label style="font-weight: 900; font-size: 50;">프로필 사진</label>
 				 <div class="profile_photo" >
-				  	<img id ="img" src="${pageContext.request.contextPath}/resources/img/noprofile.jpg" style="margin:10px 0;width: 150px; height: 200px; border: 3px solid black;"/>
+				  	<img id ="img" src="${pageContext.request.contextPath}/resources/img/noprofile.jpg" style="margin:10px 0;width: 200px; height: 200px; border: 2px solid silver;"/>
 				 </div>
 				 <input type="file" name="uploadphoto" accept="image/*" onchange="preWatchphoto(this)">	 
 			 </div>
