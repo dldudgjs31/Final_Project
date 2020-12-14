@@ -38,7 +38,7 @@
             return;
         }
 
-        f.action = "${pageContext.request.contextPath}/member/pwd_store";
+        f.action = "${pageContext.request.contextPath}/seller/pwd";
         f.submit();
 	}
 </script>
