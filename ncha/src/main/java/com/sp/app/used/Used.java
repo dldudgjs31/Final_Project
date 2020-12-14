@@ -1,5 +1,7 @@
 package com.sp.app.used;
 
+import java.util.List;
+
 import org.springframework.web.multipart.MultipartFile;
 
 public class Used {
@@ -21,7 +23,7 @@ public class Used {
 	
 	private int used_imageFileNum; // 중고글에 게시할 이미지 번호
 	private String imageFilename; // 이미지 파일 이름
-	private MultipartFile upload; // 파일처리
+	private List<MultipartFile> upload; // 파일처리
 	
 	private int replyCount;    // 중고글 댓글 좋아요
 	private int usedLikeCount; // 중고글 좋아요
@@ -115,18 +117,6 @@ public class Used {
 	public void setUsed_imageFileNum(int used_imageFileNum) {
 		this.used_imageFileNum = used_imageFileNum;
 	}
-	public String getImageFilename() {
-		return imageFilename;
-	}
-	public void setImageFilename(String imageFilename) {
-		this.imageFilename = imageFilename;
-	}
-	public MultipartFile getUpload() {
-		return upload;
-	}
-	public void setUpload(MultipartFile upload) {
-		this.upload = upload;
-	}
 	public int getReplyCount() {
 		return replyCount;
 	}
@@ -139,4 +129,18 @@ public class Used {
 	public void setUsedLikeCount(int usedLikeCount) {
 		this.usedLikeCount = usedLikeCount;
 	}
+	
+	public String getImageFilename() {
+		return imageFilename;
+	}
+	public void setImageFilename(String imageFilename) {
+		this.imageFilename = imageFilename;
+	}
+	public List<MultipartFile> getUpload() {
+		return upload;
+	}
+	public void setUpload(List<MultipartFile> upload) {
+		this.upload = upload;
+	}
+	
 }
