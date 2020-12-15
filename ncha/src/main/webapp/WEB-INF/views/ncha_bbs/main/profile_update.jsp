@@ -160,7 +160,7 @@ function preWatchphoto(input){
 			 <div style="margin-bottom: 20px; margin-top: 30px; margin-left: 300px;">
 				 <label style="font-weight: 900; font-size: 50;">프로필 사진</label>
 				 <div class="profile_photo" >
-				  	<img id ="img" src="${pageContext.request.contextPath}/uploads/photo/${dto.imageFilename}" style="margin:10px 0;width: 200px; height: 200px; border: 2px solid silver;"/>
+				  	<img id ="img" src="${pageContext.request.contextPath}/uploads/member/${dto.profile_imageFilename}" style="margin:10px 0;width: 200px; height: 200px; border: 2px solid silver;"/>
 				 </div>
 				 <input type="file" name="uploadphoto" accept="image/*" onchange="preWatchphoto(this)">	 
 			 </div>
@@ -169,7 +169,12 @@ function preWatchphoto(input){
 			  
 			  
 			  <table style="width: 100%; margin: 20px auto 0px; border-spacing: 0px;">
-
+			  <tr align="left" style="border-bottom: 1px solid #cccccc;"> 
+			      <td width="100" bgcolor="#eeeeee" style="text-align: center; padding-top:5px;" valign="top">설&nbsp;&nbsp;&nbsp;&nbsp;명</td>
+			      <td valign="top" style="padding:5px 0px 5px 10px;"> 
+			        <textarea name="introduce" rows="12" class="boxTA" style="width: 95%;">${dto.introduce}</textarea>
+			      </td>
+			  </tr>
 
 
 

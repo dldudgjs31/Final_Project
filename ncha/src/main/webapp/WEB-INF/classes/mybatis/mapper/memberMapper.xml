@@ -44,6 +44,13 @@
 		WHERE m1.userId = #{userId}
 	</select>
 	
+	<select id="readProfile" parameterType="String" resultType="com.sp.app.member.Member">
+		SELECT userId, introduce, profile_imagefilename
+		FROM member
+		WHERE userId = #{userId}  
+	</select>
+	
+	
     <!-- 회원정보 수정  --> 
     <update id="updateMembership" parameterType="map">
         UPDATE member SET membership = #{membership}

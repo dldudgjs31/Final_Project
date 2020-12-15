@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.sp.app.common.FileManager;
 import com.sp.app.common.dao.CommonDAO;
+import com.sp.app.daily.Daily;
 
 @Service("member.memberService")
 public class MemberServiceImpl implements MemberService {
@@ -188,6 +189,18 @@ public class MemberServiceImpl implements MemberService {
 		List<Member> list=null;
 
 		return list;
+	}
+
+	@Override
+	public Member readProfile(String userId) throws Exception {
+		Member dto= null;
+		try {
+			dto=dao.selectOne("member.readProfile", userId);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
+		return dto;
 	}
 
 }

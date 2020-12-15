@@ -144,6 +144,27 @@
 	border-top: 2px solid black;
 	color:black;
 }
+
+.button {
+  padding: 15px 25px;
+  font-size: 10px;
+  text-align: center;
+  cursor: pointer;
+  outline: none;
+  color: #fff;
+  background-color: #2196F3;
+  border: none;
+  border-radius: 15px;
+  box-shadow: 0 9px #999;
+}
+
+.button:hover {background-color: #0b7dda;}
+
+.button:active {
+  background-color: #0b7dda;
+  box-shadow: 0 5px #666;
+  transform: translateY(4px);
+}
 @media screen and (max-width: 768px) {
 	.body-container{
 		width:100%;
@@ -166,16 +187,21 @@
 <div class="body-container" >
     <div class="profile-title">
     	<div class="profile-img">
-    		<div class="imgs" style="background-image:url('${pageContext.request.contextPath}/resources/img/logo.png');">
+    		<div class="imgs" style="background-image:url('${pageContext.request.contextPath}/uploads/member/${dto.profile_imageFilename}');">
     		
     		</div>
     	</div>
-    	<div class="profile-introduce">안녕하세요. n차신상 개발자 이영헌입니다.</div>
+    	<div class="profile-introduce">안녕하세요. n차신상 개발자 이영헌입니다.${dto.introduce}</div>
     	<div class="profile-name">
-    		<span><h1>USERID</h1></span>
+    		<h1>${sessionScope.member.userId}</h1>&nbsp;&nbsp;
+    		<c:if test="${sessionScope.member.userId!= dto.userId}">
+    			<span><button class="button">팔로우하기</button></span>
+    		</c:if>
     	</div>
     	<div class="profile-setting">
-    		<span><a href=""><i class="fas fa-user-cog"></i>&nbsp;&nbsp;프로필 수정 </a></span>
+    	<c:if test="${not empty sessionScope.member}">
+    		<span><a href="${pageContext.request.contextPath}/mypage/profileUpdate"><i class="fas fa-user-cog"></i>&nbsp;&nbsp;프로필 수정 </a></span>
+    	</c:if>
     	</div>
     	<div class="profile-follower"><strong>팔로워 </strong>&nbsp;&nbsp;&nbsp;1000</div>
     	<div class="profile-following"><strong>팔로잉 </strong>&nbsp;&nbsp;&nbsp;1000</div>
