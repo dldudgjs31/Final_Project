@@ -107,7 +107,6 @@ public class DailyController {
 		String pathname=root+"uploads"+File.separator+"daily";
 		
 		try {
-			System.out.println("ㅇㅇ");
 			dto.setUserId(info.getUserId());
 			service.insertDaily(dto, pathname);
 		} catch (Exception e) {
@@ -117,7 +116,40 @@ public class DailyController {
 	}
 	
 	@RequestMapping("article")
-	public String article() throws Exception{
+	public String article(
+			@RequestParam int dailyNum,
+			@RequestParam String page,
+			Model model
+			) throws Exception{
+	
+		
+		String query="page="+page;
+		
+		service.updateHitCount(dailyNum);
+
+		Daily dto = service.readDaily(dailyNum);
+		if(dto==null) {
+			return "redirect:/daily/list?"+query;
+		}
+		
+        dto.setContent(dto.getContent().replaceAll("\n", "<br>"));
+         
+		// 이전 글, 다음 글
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("dailyNum", dailyNum);
+
+		Daily preReadDto = service.preReadDaily(map);
+		Daily nextReadDto = service.nextReadDaily(map);
+        
+		// 파일
+		List<Daily> listFile=service.listFile(dailyNum);
+				
+		model.addAttribute("dto", dto);
+		model.addAttribute("preReadDto", preReadDto);
+		model.addAttribute("nextReadDto", nextReadDto);
+		model.addAttribute("listFile", listFile);
+		model.addAttribute("page", page);
+		model.addAttribute("query", query);
 		
 		return ".ncha_bbs.daily.article";
 	}

@@ -36,6 +36,7 @@ public class DailyServiceImpl implements DailyService{
 					insertFile(dto);
 				}
 						}
+			System.out.println(pathname);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -138,4 +139,31 @@ public class DailyServiceImpl implements DailyService{
 		
 	}
 
+	@Override
+	public Daily preReadDaily(Map<String, Object> map) {
+		Daily dto=null;
+
+		try {
+			dto=dao.selectOne("daily.preReadDaily", map);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return dto;
+		
+	}
+
+	@Override
+	public Daily nextReadDaily(Map<String, Object> map) {
+		Daily dto=null;
+
+		try {
+			dto=dao.selectOne("daily.nextReadDaily", map);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return dto;
+		
+	}
 }

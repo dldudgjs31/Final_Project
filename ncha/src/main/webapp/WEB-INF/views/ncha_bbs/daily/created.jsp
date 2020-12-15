@@ -35,7 +35,7 @@ function preWatchphoto(event){
 			reader.onload = function(event){
 				var img =document.createElement("img");
 				img.setAttribute("src",event.target.result);
-				document.querySelector("div#main_img").appendChild(img).width(150).height(200);
+				document.querySelector("div#main_img").appendChild(img);
 			}
 			reader.readAsDataURL(image);
 		}
@@ -113,7 +113,7 @@ function sendOk() {
 		<form name="dailyForm" method="post" enctype="multipart/form-data">
 			<div style="margin-bottom: 20px; margin-top: 30px; margin-left: 300px;">
 				 <label style="font-weight: 900; font-size: 50;">메인 사진</label>
-				 <div class="profile_photo" id="main_img">
+				 <div class="profile_photo" id="main_img" style="width: 150px; height: 200px;">
 				 </div>	 
 			 </div>
 			<table style="width: 100%; margin: 20px auto 0px; border-spacing: 0px; border-collapse: collapse;"> 
