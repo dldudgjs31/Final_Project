@@ -1,7 +1,7 @@
-﻿<%@ page contentType="text/html; charset=UTF-8" %>
+﻿<%@ page contentType="text/html; charset=UTF-8"%>
 <%@ page trimDirectiveWhitespaces="true" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <script type="text/javascript">
 //엔터 처리
@@ -18,33 +18,150 @@ $(function(){
 	     });
 });
 </script>
-<div class="header-top">
-    <div class="header-left">
-        <p style="margin: 2px;">
-            <a href="${pageContext.request.contextPath}/" style="text-decoration: none;">
-                <span style="width: 200px; height: 70; position: relative; left: 0; top:20px; color: #2984ff; filter: mask(color=red) shadow(direction=135) chroma(color=red);font-style: italic; font-family: arial black; font-size: 30px; font-weight: bold;">SPRING</span>
-            </a>
-        </p>
-    </div>
-    <div class="header-right">
-        <div style="padding-top: 20px;  float: right;">
-               <span style="color:blue;">${sessionScope.member.userName}</span>님
-                &nbsp;|&nbsp;
-               <a href="${pageContext.request.contextPath}/">로그아웃</a>
-                &nbsp;|&nbsp;
-               <a href="${pageContext.request.contextPath}/">정보수정</a>
-        </div>
-    </div>
-</div>
 
-<div class="menu">
-    <ul class="nav">
-        <li><a href="${pageContext.request.contextPath}/admin">Home</a></li>
-        <li><a href="#">회원관리</a></li>
-        <li><a href="#">커뮤니티관리</a></li>
-        <li><a href="#">스터디관리</a></li>
-        <li><a href="#">고객센터관리</a></li>
+<style>
+.navbar_menu a{
+	text-decoration: none;
+	color: white;
+}
+.navbar1{
+	display: flex;
+	justify-content: space-between; /* 가로정렬 */
+	align-items: center;/* 세로정렬 */
+	background-color: #263343;
+	padding: 8px 12px;
+	font-family: 'Noto Serif KR', serif;
+}
+
+.navbar_logo{
+	font-size: 24px;
+	color: white;
+
+}
+.navbar_logo i{
+	color: #d49466;
+}
+
+.navbar_menu{
+	display: flex;
+	list-style: none;
+	padding-left: 0;
+	
+}
+.navbar_menu li {
+	padding: 8px 12px;
+	font-size: 12px;
+}
+.navbar_menu li:hover {
+	background-color: #d49466;
+	border-radius: 4px;
+}
+.navbar_icons{
+	list-style: none;
+	color: white;
+	display: flex;
+		padding-left: 0;
+}
+
+.navbar_icons li {
+	padding: 8px 12px;
+}
+.navbar_icons li a{
+	color: white;
+}
+.navbar_icons li:hover {
+	background-color: #d49466;
+	border-radius: 4px;
+}
+.navbar_toggleBtn {
+	display:none;
+	position: absolute;
+	right: 32px;
+	font-size: 24px;
+	color: #d49466;
+}
+@media screen and (max-width:768px){
+	.navbar1 {
+		flex-direction: column; /* 아래 밑으로 정렬  */
+		align-items: flex-start;/*  */
+		padding: 8px 24px;
+	}
+	
+	.navbar_menu{
+		display: none;
+		flex-direction: column; /* 아래 밑으로 정렬  */
+		align-items: center;/* 세로 가운데 정렬 */
+		width: 100%;		
+	}
+	.navbar_menu li{
+		width: 100%;
+		text-align: center;
+	}
+	.navbar_icons{
+		display: none;
+		justify-content: center;
+		width: 100%;
+		padding-left: 0;
+	}
+	.navbar_toggleBtn {
+		display: block;
+	}
+	
+	.navbar_menu.active,
+	.navbar_icons.active{
+		display: flex;
+	}
+}
+</style>
+<nav class="navbar1">
+	<div class="navbar_logo" style="width: 100px;">
+		<a href="${pageContext.request.contextPath}/" >
+		<img alt="로고" src="${pageContext.request.contextPath}/resources/img/logo.png" style="width:150px;">
+		</a>
+	</div>
+	<!-- 메인 메뉴바 -->
+	<ul class="navbar_menu">
+	<li><a href="${pageContext.request.contextPath}/admin">HOME</a></li>
+		<li>
+			<a href="#">회원관리</a>
+			<ul>
+        		<li><a href="#">일반회원</a></li>
+        		<li><a href="#">판매회원</a></li>
+			</ul>
+		</li>
+		<li><a href="#">전체 게시글관리</a></li>
+		<li><a href="#">이벤트게시판관리</a></li>
+		<li><a href="#">공지사항관리</a></li>
+	
+	</ul>
+	
+	<!-- 로그인/로그아웃 버튼 -->
+	<ul class="navbar_icons">
+	
+	     
+            <c:if test="${not empty sessionScope.member}">
+                <li><span style="color:blue;">${sessionScope.member.userName}</span>님</li>
+                &nbsp;&nbsp;
+               <li> <a href="${pageContext.request.contextPath}/member/logout">로그아웃</a></li>
+                &nbsp;&nbsp;
+               <li><a href="${pageContext.request.contextPath}/">메인화면</a></li>
+            </c:if>
+	</ul> 
+	
+	<a href="#" class="navbar_toggleBtn">
+	<i class="fas fa-bars"></i>
+	</a>
+</nav>
+<script>
+$(function(){
+	var toggleBtn = document.querySelector(".navbar_toggleBtn");
+	var menu = document.querySelector(".navbar_menu");
+	var icons = document.querySelector(".navbar_icons");
+		$("body").on("click",".navbar_toggleBtn",function(){
+		menu.classList.toggle("active");
+		icons.classList.toggle("active");
+		
+		});
 			
-        <li style="float: right;"><a href="#"><span style="font-size: 17px; font-weight: 700;">▦</span></a></li>
-    </ul>      
-</div>
+	});
+</script>
