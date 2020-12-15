@@ -29,9 +29,10 @@
 	</select>
 	
 	 <select id="readDaily" parameterType="Integer" resultType="com.sp.app.daily.Daily">
-		SELECT dailyNum, userId, userName, subject, content, created_date, daily_imageFilenum
+		SELECT d.dailyNum, d.userId, userName, subject, content, created_date, imageFilename
 		FROM daily_bbs d
 		JOIN daily_image i ON d.dailyNum = i.dailyNum
+		JOIN member m ON d.userId = m.userId 
 		WHERE d.dailyNum = #{dailyNum}
 	</select>
 	

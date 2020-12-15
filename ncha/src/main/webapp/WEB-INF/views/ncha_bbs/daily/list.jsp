@@ -5,9 +5,7 @@
 
 
 <script type="text/javascript">
-function article(dailyNum){
-	var url="${articleUrl}&dailyNum="+dailyNum;
-	location.href=url;
+
 
 </script>
 <style type="text/css">
@@ -89,9 +87,9 @@ function article(dailyNum){
 								<c:out value="</tr><tr>" escapeXml="false"/>
 							</c:if>
 							<td width="210" align="center">
-								<div class="imgLayout" onclick="article('${dto.dailyNum}');">
+								<div class="imgLayout">
 									<img  src="${pageContext.request.contextPath}/uploads/daily/${dto.imageFilename}" width="180" height="180" border="0">
-									<span class="subject">${dto.subject}</span>
+									<a href="${articleUrl}&dailyNum=${dto.dailyNum}" class="subject">${dto.subject}</a>
 								</div>
 							</td>
 							</c:forEach> 

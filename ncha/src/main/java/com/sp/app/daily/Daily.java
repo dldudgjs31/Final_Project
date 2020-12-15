@@ -7,6 +7,7 @@ import org.springframework.web.multipart.MultipartFile;
 public class Daily {
 	private int dailyNum;
 	private int listNum;
+	private String userName;
 	private String userId;
 	private String content;
 	private String subject;
@@ -134,6 +135,12 @@ public class Daily {
 	}
 	public void setHitCount(int hitCount) {
 		this.hitCount = hitCount;
+	}
+	public String getUserName() {
+		return userName;
+	}
+	public void setUserName(String userName) {
+		this.userName = userName;
 	}
 
 
