@@ -32,7 +32,7 @@
 }
 </style>
 
-<div class="body-container" style="width: 700px;">
+<div class="body-container" style="width: 900px;">
     <div>
         일상글 리스트입니다.
         
@@ -80,10 +80,11 @@
        		<div>
 	       		<table style="width: 630px; margin: 20px auto 0px; border-spacing: 0px;">
 						<c:forEach var="dto" items="${list}" varStatus="status">
+						
 							<c:if test="${status.index==0}">
 								<tr>
 							</c:if>
-							<c:if test="${status.index!=0 && status.index%3==0}">
+							<c:if test="${status.index!=0 && status.index%4==0}">
 								<c:out value="</tr><tr>" escapeXml="false"/>
 							</c:if>
 							<td width="210" align="center">
@@ -92,10 +93,11 @@
 									<a href="${articleUrl}&dailyNum=${dto.dailyNum}" class="subject">${dto.subject}</a>
 								</div>
 							</td>
-							</c:forEach> 
+						</c:forEach>
+						
 							<c:set var="n" value="${list.size()}"/>
-							<c:if test="${n>0 && n%3!=0}">
-								<c:forEach var="i" begin="${n%3+1}" end="3">
+							<c:if test="${n>0 && n%4!=0}">
+								<c:forEach var="i" begin="${n%4+1}" end="4">
 										<td width="210">
 											<div class="imgLayout">&nbsp;</div>
 										</td>

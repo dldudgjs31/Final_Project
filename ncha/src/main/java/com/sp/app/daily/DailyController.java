@@ -40,7 +40,7 @@ public class DailyController {
 			HttpServletRequest req,
 			Model model
 			) throws Exception{
-		int rows = 10; 
+		int rows = 7; 
 		int total_page = 0;
 		int dataCount = 0;
 		
@@ -73,7 +73,7 @@ public class DailyController {
 	        
 	        String paging = myUtil.paging(current_page, total_page, listUrl);
 			
-	        
+	      
 			model.addAttribute("list", list);
 			model.addAttribute("page", current_page);
 			model.addAttribute("dataCount", dataCount);
@@ -131,6 +131,7 @@ public class DailyController {
 		if(dto==null) {
 			return "redirect:/daily/list?"+query;
 		}
+		List<Daily> list1 = service.readDailyFile(dailyNum);
 		
         dto.setContent(dto.getContent().replaceAll("\n", "<br>"));
          
@@ -143,7 +144,7 @@ public class DailyController {
         
 		// 파일
 		List<Daily> listFile=service.listFile(dailyNum);
-				
+		model.addAttribute("list1", list1);
 		model.addAttribute("dto", dto);
 		model.addAttribute("preReadDto", preReadDto);
 		model.addAttribute("nextReadDto", nextReadDto);

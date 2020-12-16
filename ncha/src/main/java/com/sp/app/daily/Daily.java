@@ -22,10 +22,10 @@ public class Daily {
 	private int likeCount;
 	
 	private List<MultipartFile> upload;
-	private int fileNum;
+	
 	private String imageFilename;
 	private int daily_imageFilenum;
-	private int fileCount;
+	
 	
 	
 	public List<MultipartFile> getUpload() {
@@ -34,18 +34,7 @@ public class Daily {
 	public void setUpload(List<MultipartFile> upload) {
 		this.upload = upload;
 	}
-	public int getFileNum() {
-		return fileNum;
-	}
-	public void setFileNum(int fileNum) {
-		this.fileNum = fileNum;
-	}
-	public int getFileCount() {
-		return fileCount;
-	}
-	public void setFileCount(int fileCount) {
-		this.fileCount = fileCount;
-	}
+	
 	public String getImageFilename() {
 		return imageFilename;
 	}

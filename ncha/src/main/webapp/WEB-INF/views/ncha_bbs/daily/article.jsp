@@ -3,11 +3,32 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
+<style type="text/css">
+.slick-items{
+	width: 50%;
+}
+
+.slider-image{
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: cover;
+	height: 450px;
+}
+
+</style>
+
 <div class="body-container" style="width: 700px;">
     <div>
         일상글 글보기입니다.
     </div>
-    <div> 사진 가져와서 슬라이드로 나타냄</div>
+
+<c:forEach var="vo" items="${list1}">
+<c:if test="${vo.dailyNum == dto.dailyNum}">
+    <div class="slick-items" style="height: 450px;">
+        <div  class="slider-image" style="background-image: url('${pageContext.request.contextPath}/uploads/daily/${vo.imageFilename}');"></div>
+   슬라이드 처리할 예정 </div>
+</c:if>  
+</c:forEach>
      <div>
 			<table style="width: 100%; margin: 20px auto 0px; border-spacing: 0px; border-collapse: collapse;">
 			<tr height="35" style="border-top: 1px solid #cccccc; border-bottom: 1px solid #cccccc;">
@@ -68,3 +89,28 @@
 			</table>
     </div>
 </div>
+<script type="text/javascript">
+
+
+
+$(document).ready(function () {
+
+	//alert('123');
+
+	$('.slick-items').slick({
+		autoplay : true,
+		dots: true,
+		speed : 300 /* 이미지가 슬라이딩시 걸리는 시간 */,
+		infinite: true,
+		autoplaySpeed: 3000 /* 이미지가 다른 이미지로 넘어 갈때의 텀 */,
+		arrows: true,
+		slidesToShow: 1,
+		slidesToScroll: 1,
+		fade: false
+	});
+
+});
+
+
+
+</script>

@@ -83,6 +83,18 @@ public class DailyServiceImpl implements DailyService{
 	}
 
 	@Override
+	public List<Daily> readDailyFile(int dailyNum) throws Exception {
+		List<Daily> list1 = null;
+		try {
+			list1 = dao.selectList("daily.listArticleFile",dailyNum);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return list1;
+		
+	}
+	
+	@Override
 	public void updateDaily(Daily dto, String pathname) throws Exception {
 		// TODO Auto-generated method stub
 		
@@ -115,6 +127,7 @@ public class DailyServiceImpl implements DailyService{
 		}
 		return listFile;
 	}
+	
 
 	@Override
 	public Daily readFile(int fileNum) {
@@ -166,4 +179,12 @@ public class DailyServiceImpl implements DailyService{
 		return dto;
 		
 	}
+
+
+
+	
+
+
+
+	
 }

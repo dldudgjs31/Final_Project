@@ -3,6 +3,10 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
+<style type="text/css">
+
+
+</style>
 <script type="text/javascript">
 $(function(){
 	
@@ -35,7 +39,7 @@ function preWatchphoto(event){
 			reader.onload = function(event){
 				var img =document.createElement("img");
 				img.setAttribute("src",event.target.result);
-				document.querySelector("div#main_img").appendChild(img);
+				document.querySelector("div#main_img").appendChild(img).css("height","100").css("width","100");
 			}
 			reader.readAsDataURL(image);
 		}
@@ -111,9 +115,9 @@ function sendOk() {
     
     <div>
 		<form name="dailyForm" method="post" enctype="multipart/form-data">
-			<div style="margin-bottom: 20px; margin-top: 30px; margin-left: 300px;">
+			<div style="margin-bottom: 20px; margin-top: 30px; margin-left: 30px;">
 				 <label style="font-weight: 900; font-size: 50;">메인 사진</label>
-				 <div class="profile_photo" id="main_img" style="width: 150px; height: 200px;">
+				 <div class="profile_photo" id="main_img">
 				 </div>	 
 			 </div>
 			<table style="width: 100%; margin: 20px auto 0px; border-spacing: 0px; border-collapse: collapse;"> 

@@ -12,9 +12,11 @@ public interface DailyService {
 	public List<Daily> listDaily(Map<String, Object> map);
 	public List<Daily> listDailyTop(); // 얘는 상단에 보여질 게시물 (광고글 같은거 넣어도 괜찮을듯)
 	
+	
 	//글읽기
 	public void updateHitCount(int dailyNum) throws Exception;
 	public Daily readDaily(int dailyNum) throws Exception;
+	public List<Daily> readDailyFile(int dailyNum) throws Exception;
 	public Daily preReadDaily(Map<String, Object> map);
 	public Daily nextReadDaily(Map<String, Object> map);
 	
