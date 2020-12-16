@@ -70,7 +70,7 @@ public class UsedServiceImpl implements UsedService {
 	@Override
 	public void updateHitCount(int num) throws Exception {
 		try {
-			dao.updateData("notice.updateHitCount",num);
+			dao.updateData("used.updateHitCount",num);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -88,16 +88,27 @@ public class UsedServiceImpl implements UsedService {
 	}
 
 	@Override
-	public Used preReadUsed(Map<String, Object> map) {
-		Used dto = null;
-		
+	public Used preReadDto(Map<String, Object> map) {
+		Used dto=null;
+
+		try {
+			dto=dao.selectOne("used.preReadDto", map);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		
 		return dto;
 	}
 
 	@Override
-	public Used nextReadUsed(Map<String, Object> map) {
-		Used dto = null;
+	public Used nextReadDto(Map<String, Object> map) {
+		Used dto=null;
+
+		try {
+			dto=dao.selectOne("used.nextReadDto", map);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		
 		return dto;
 	}
@@ -138,25 +149,10 @@ public class UsedServiceImpl implements UsedService {
 
 	@Override
 	public Used readFile(int fileNum) {
-		Used dto = null;
-		
-		try {
-			//dto = dao.selectOne("used.readFile",fileNum);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return dto;
+		return null;
 	}
 
 	@Override
 	public void deleteFile(Map<String, Object> map) throws Exception {
-		try {
-			//dao.deleteData("used.deleteFile",map);
-		} catch (Exception e) {
-			e.printStackTrace();
-			throw e;
-		}
-	}
-
-	
+	}	
 }

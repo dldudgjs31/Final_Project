@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -143,47 +144,37 @@ public class UsedController {
 	}
 	
 	
-	@RequestMapping("article")
+	@RequestMapping(value = "article", method = RequestMethod.GET)
 	public String article(
-			@RequestParam int num,
+			@RequestParam int usedNum,
 			@RequestParam String page,
-			@RequestParam(defaultValue="all") String condition,
-			@RequestParam(defaultValue="") String keyword,
-			Model model) throws Exception{
+			Model model,
+			HttpServletResponse resp) throws Exception{
 		
-		keyword = URLDecoder.decode(keyword,"utf-8");
-		
-		String query = "page="+page;
-		if(keyword.length()!=0) {
-			query +="&condition="+condition+"&keyword="+URLEncoder.encode(keyword,"UTF-8");
-		}
-		
-		service.updateHitCount(num);
-		
-		Used dto = service.readUsed(num);
+		service.updateHitCount(usedNum);
+	
+		Used dto = service.readUsed(usedNum);
 		if(dto==null) {
-			return "redirect:/used/list?"+query;
+			return "redirect:/used/list";
 		}
 		dto.setContent(dto.getContent().replaceAll("/n", "<br>"));
 		
+		String query="page="+page;
 		
 		Map<String,Object>map = new HashMap<String, Object>();
-		map.put("condition",condition);
-		map.put("keyword",keyword);
-		map.put("usedNum",num);
+		map.put("usedNum",usedNum);
 		
-		//Used preReadDto = service.preReadUsed(map);
-		//Used nextReadDto = service.nextReadUsed(map);
+		Used preReadDto = service.preReadDto(map);
+		Used nextReadDto = service.nextReadDto(map);
 		
-		List<Used> listFile = service.listFile(num);
+		List<Used> listFile = service.listFile(usedNum);
 		
 		model.addAttribute("dto",dto);
-		//model.addAttribute("preReadDto",preReadDto);
-		//model.addAttribute("nextReadDto",nextReadDto);
+		model.addAttribute("preReadDto",preReadDto);
+		model.addAttribute("nextReadDto",nextReadDto);
 		model.addAttribute("listFile",listFile);
 		model.addAttribute("page",page);
 		model.addAttribute("query",query);
-		
 		return ".ncha_bbs.used.article";
 	}
 	

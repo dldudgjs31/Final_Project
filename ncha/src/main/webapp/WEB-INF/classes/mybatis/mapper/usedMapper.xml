@@ -38,19 +38,36 @@
 		UPDATE used_bbs SET hitCount=hitCount+1 WHERE usedNum = #{usedNum}
 	</update>
 	
-	
+	<!-- 이전글 -->
+	<select id="preReadDto" parameterType="map" resultType="com.sp.app.used.Used">
+		SELECT usedNum, subject
+		FROM used_bbs 
+		WHERE usedNum &gt; #{usedNum}
+		ORDER BY usedNum ASC
+		FETCH FIRST 1 ROWS ONLY
+    </select>
+
+    <!-- 다음글 -->
+    <select id="nextReadDto" parameterType="map" resultType="com.sp.app.used.Used">
+		SELECT usedNum, subject
+		FROM used_bbs 
+		WHERE usedNum &lt; #{usedNum}
+		ORDER BY usedNum DESC
+		FETCH FIRST 1 ROWS ONLY
+    </select>
 	
 	<select id="readUsed" parameterType="Integer" resultType="com.sp.app.used.Used">
 		SELECT u.usedNum, u.userId, userName, price, productCondition, dealingMode, location,
-			subject,content,TO_CHAR(created_date,'YYYY-MM-DD') created_date,sold_check,categoryNum, hitCount, NVL(fileCount,0)fileCount
+			subject,content,TO_CHAR(created_date,'YYYY-MM-DD') created_date, sold_check, categoryName, hitCount, NVL(fileCount,0)fileCount
 		FROM used_bbs u
+		JOIN member m ON u.userId = m.userId
 		JOIN used_image i ON u.usedNum = i.usedNum
 		JOIN used_category c ON c.categoryNum = u.categoryNum
 		LEFT OUTER JOIN(
 			SELECT usedNum, COUNT(*) fileCount FROM used_image 
 			GROUP BY usedNum
 		) f ON u.usedNum = f.usedNum
-		WHERE d.dailyNum = #{dailyNum}
+		WHERE u.usedNum = #{usedNum}
 	</select>
 	
 	<!-- 파일 -->

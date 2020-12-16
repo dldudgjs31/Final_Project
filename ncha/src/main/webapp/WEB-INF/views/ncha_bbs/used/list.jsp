@@ -49,7 +49,7 @@ function searchList() {
 					<td>판매완료</td>
 				</c:if>
 				<td align="left" style="padding-left: 10px;">
-					<a href="${articleUrl}&num=${dto.usedNum}">${dto.subject}</a>
+					<a href="${articleUrl}&usedNum=${dto.usedNum}">${dto.subject}</a>
 				</td>
 				<td>${dto.userName}</td>
 				<td>${dto.created_date}</td>

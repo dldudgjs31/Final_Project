@@ -12,8 +12,8 @@ public interface UsedService {
 	
 	public void updateHitCount(int num) throws Exception; //조회수 증가
 	public Used readUsed(int num); //중고글보기
-	public Used preReadUsed(Map<String, Object> map);  //이전글
-	public Used nextReadUsed(Map<String, Object> map); //다음글
+	public Used preReadDto(Map<String, Object> map);  //이전글
+	public Used nextReadDto(Map<String, Object> map); //다음글
 	
 	public void updateUsed(Used dto, String pathname) throws Exception; // 글 수정
 	public void deleteUsed(int num, String pathname) throws Exception;  // 글 삭제

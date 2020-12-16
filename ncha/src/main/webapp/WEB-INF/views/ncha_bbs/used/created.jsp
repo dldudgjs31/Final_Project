@@ -4,36 +4,6 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <script type="text/javascript">
-$(function(){
-	  $("body").on("change", "input[name=upload]", function(){
-		  if(! $(this).val()) {
-			  return;	
-		  }
-		
-		  var b=false;
-		  $("input[name=upload]").each(function(){
-			  if(! $(this).val()) {
-				  b=true;
-			  	  return false;
-			  }
-		  });
-		
-		  if(b) return;
-
-		  var $tr, $td, $input;
-		
-	      $tr=$("<tr align='left' height='40' style='border-bottom: 1px solid #cccccc;'>");
-	      $td=$("<td>", {width:"100", bgcolor:"#eeeeee", style:"text-align: center;", html:"첨&nbsp;&nbsp;&nbsp;&nbsp;부"});
-	      $tr.append($td);
-	      $td=$("<td style='padding-left:10px;'>");
-	      $input=$("<input>", {type:"file", name:"upload", class:"boxTF", style:"width: 95%; height: 25px;"});
-	      $td.append($input);
-	      $tr.append($td);
-	    
-	      $("#tb").append($tr);
-	  });
-});
-
 <c:if test="${mode=='update'}">
 function deleteFile(fileNum) {
 		var url="${pageContext.request.contextPath}/used/deleteFile";
