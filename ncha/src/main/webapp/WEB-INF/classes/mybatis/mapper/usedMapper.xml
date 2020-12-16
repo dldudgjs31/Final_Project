@@ -18,7 +18,7 @@
 	<select id="dataCount" parameterType="map" resultType="Integer">
 		SELECT NVL(COUNT(*), 0)
 		FROM used_bbs u
-		JOIN member1 m ON u.userId=m.userId
+		JOIN member m ON u.userId=m.userId
 	</select>
 	
 	<!-- 리스트 -->
