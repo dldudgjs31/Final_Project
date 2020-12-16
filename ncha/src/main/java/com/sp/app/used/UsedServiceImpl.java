@@ -23,7 +23,7 @@ public class UsedServiceImpl implements UsedService {
 	public void insertUsed(Used dto, String pathname) throws Exception {
 		try {
 			
-			int seq = dao.selectOne("used.used_seq");	
+			int seq = dao.selectOne("used.used_seq");// 중고글 시퀀스
 			dto.setUsedNum(seq);
 			
 			dao.insertData("used.insertUsed",dto);
@@ -39,6 +39,7 @@ public class UsedServiceImpl implements UsedService {
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
+			throw e;
 		}
 		
 	}
@@ -48,7 +49,7 @@ public class UsedServiceImpl implements UsedService {
 		int result = 0 ;
 		
 		try {
-			result = dao.selectOne("used.usedCount",map);
+			result = dao.selectOne("used.dataCount",map);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -59,7 +60,7 @@ public class UsedServiceImpl implements UsedService {
 	public List<Used> listUsed(Map<String, Object> map) {
 		List<Used> list = null;
 		try {
-			list = dao.selectList("used.listused",map);
+			list = dao.selectList("used.listUsed",map);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -68,37 +69,47 @@ public class UsedServiceImpl implements UsedService {
 
 	@Override
 	public void updateHitCount(int num) throws Exception {
-		// TODO Auto-generated method stub
-		
+		try {
+			dao.updateData("notice.updateHitCount",num);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override
 	public Used readUsed(int num) {
-		// TODO Auto-generated method stub
-		return null;
+		Used dto = null;
+		try {
+			dto= dao.selectOne("used.readUsed",num);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return dto;
 	}
 
 	@Override
 	public Used preReadUsed(Map<String, Object> map) {
-		// TODO Auto-generated method stub
-		return null;
+		Used dto = null;
+		
+		
+		return dto;
 	}
 
 	@Override
 	public Used nextReadUsed(Map<String, Object> map) {
-		// TODO Auto-generated method stub
-		return null;
+		Used dto = null;
+		
+		return dto;
 	}
 
 	@Override
 	public void updateUsed(Used dto, String pathname) throws Exception {
-		// TODO Auto-generated method stub
 		
 	}
 
+
 	@Override
 	public void deleteUsed(int num, String pathname) throws Exception {
-		// TODO Auto-generated method stub
 		
 	}
 
@@ -127,14 +138,25 @@ public class UsedServiceImpl implements UsedService {
 
 	@Override
 	public Used readFile(int fileNum) {
-		// TODO Auto-generated method stub
-		return null;
+		Used dto = null;
+		
+		try {
+			//dto = dao.selectOne("used.readFile",fileNum);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return dto;
 	}
 
 	@Override
 	public void deleteFile(Map<String, Object> map) throws Exception {
-		// TODO Auto-generated method stub
-		
+		try {
+			//dao.deleteData("used.deleteFile",map);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
 	}
 
+	
 }

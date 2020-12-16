@@ -18,7 +18,9 @@ public class Used {
 	private String content; // 내용
 	private String created_date; //글 작성날짜
 	private int sold_check; // 판매완료 체크
-	private int categoryNum; // 카테고리 번호 
+	private int categoryNum; // 카테고리 번호
+	private String categoryName;
+	
 	private int hitCount; // 조회수
 	
 	private int used_imageFileNum; // 중고글에 게시할 이미지 번호
@@ -130,6 +132,15 @@ public class Used {
 		this.usedLikeCount = usedLikeCount;
 	}
 	
+	
+	
+	
+	public String getCategoryName() {
+		return categoryName;
+	}
+	public void setCategoryName(String categoryName) {
+		this.categoryName = categoryName;
+	}
 	public String getImageFilename() {
 		return imageFilename;
 	}

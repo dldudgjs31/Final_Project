@@ -30,26 +30,31 @@ function searchList() {
 		<table style="width: 100%; border-spacing: 0px; border-collapse: collapse;">
 			<tr align="center" bgcolor="#eeeeee" height="35" style="border-top: 1px solid #cccccc; border-bottom: 1px solid #cccccc;"> 
 				<th width="60" style="color: #787878;">번호</th>
+				<th width="60" style="color: #787878;">카테고리</th>
+				<th width="100" style="color: #787878;">판매상태</th>
 				<th style="color: #787878;">제목</th>
 				<th width="100" style="color: #787878;">작성자</th>
-				<th width="80" style="color: #787878;">작성일</th>
+				<th width="100" style="color: #787878;">작성일</th>
 				<th width="60" style="color: #787878;">조회수</th>
-				<th width="50" style="color: #787878;">파일</th>
+				
 			</tr>
 		 <c:forEach var="dto" items="${list}">
 			<tr align="center" bgcolor="#ffffff" height="35" style="border-bottom: 1px solid #cccccc;"> 
 				<td>${dto.listNum}</td>
+				<td>${dto.categoryName}</td>
+				<c:if test="${dto.sold_check == 0}">
+					<td>구매가능</td>
+				</c:if>
+				<c:if test="${dto.sold_check == 1}">
+					<td>판매완료</td>
+				</c:if>
 				<td align="left" style="padding-left: 10px;">
 					<a href="${articleUrl}&num=${dto.usedNum}">${dto.subject}</a>
 				</td>
 				<td>${dto.userName}</td>
-				<td>${dto.created}</td>
+				<td>${dto.created_date}</td>
 				<td>${dto.hitCount}</td>
 				<td>
-					<c:if test="${not empty dto.saveFilename}">
-						<a href="${pageContext.request.contextPath}/used/download?num=${dto.usedNum}"><i class="far fa-file"></i> </a>
-					</c:if>
-				</td>
 			</tr>
 		 </c:forEach>
 
@@ -67,19 +72,6 @@ function searchList() {
 			<tr height="40">
 				<td align="left" width="100">
 					<button type="button" class="btn" onclick="javascript:location.href='${pageContext.request.contextPath}/used/list';">새로고침</button>
-				</td>
-				<td align="center">
-					<form name="searchForm" action="${pageContext.request.contextPath}/used/list" method="post">
-						<select name="condition" class="selectField">
-							<option value="all" ${condition=="all"?"selected='selected'":""}>모두</option>
-							<option value="subject" ${condition=="subject"?"selected='selected'":""}>제목</option>
-							<option value="content" ${condition=="content"?"selected='selected'":""}>내용</option>
-							<option value="userName" ${condition=="userName"?"selected='selected'":""}>작성자</option>
-							<option value="created" ${condition=="created"?"selected='selected'":""}>등록일</option>
-						</select>
-						<input type="text" name="keyword" value="${keyword}" class="boxTF">
-						<button type="button" class="btn" onclick="searchList()">검색</button>
-					</form>
 				</td>
 				<td align="right" width="100">
 					<button type="button" class="btn" onclick="javascript:location.href='${pageContext.request.contextPath}/used/created';">글올리기</button>

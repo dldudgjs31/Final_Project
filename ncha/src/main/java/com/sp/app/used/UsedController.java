@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.sp.app.common.FileManager;
 import com.sp.app.common.MyUtil;
 import com.sp.app.member.SessionInfo;
 /**
@@ -35,8 +34,8 @@ public class UsedController {
 	@Autowired 
 	private MyUtil myUtil;
 	
-	@Autowired
-	private FileManager fileManager;
+	//@Autowired
+	//private FileManager fileManager;
 	
 	@RequestMapping("list")
 	public String list(
@@ -53,7 +52,7 @@ public class UsedController {
 		if(req.getMethod().equalsIgnoreCase("GET")) {
 			keyword=URLDecoder.decode(keyword,"utf-8");
 		}
-		Map<String, Object> map = new HashMap<>();
+		Map<String, Object> map = new HashMap<String,Object>();
 		map.put("condition", condition);
 		map.put("keyword", keyword);
 		
@@ -92,11 +91,15 @@ public class UsedController {
 		}
 		String paging=myUtil.paging(current_page, total_page, listUrl);
 		
+		
 		model.addAttribute("list", list);
-		model.addAttribute("articleUrl", articleUrl);
 		model.addAttribute("page", current_page);
-		model.addAttribute("dataCount", total_page);
+		model.addAttribute("dataCount", dataCount);
+		model.addAttribute("articleUrl", articleUrl);
+		model.addAttribute("total_page", total_page);
 		model.addAttribute("paging", paging);
+		
+		
 		model.addAttribute("condition", condition);
 		model.addAttribute("keyword", keyword);
 		
@@ -109,19 +112,24 @@ public class UsedController {
 	
 	@RequestMapping(value="created", method = RequestMethod.GET)
 	public String writeForm(
+			HttpSession session,
 			Model model ) throws Exception{
+		
+		
 		
 		model.addAttribute("mode","created");
 		return ".ncha_bbs.used.created";
 	}
 	
+	
+	
 	@RequestMapping(value="created", method = RequestMethod.POST)
 	public String writeSubmit(
 			Used dto,
-			HttpSession session) throws Exception{
+			HttpSession session,
+			Model model) throws Exception{
 		
 		SessionInfo info = (SessionInfo)session.getAttribute("member");
-		
 		String root = session.getServletContext().getRealPath("/");
 		String pathname = root+"uploads"+File.separator+"used";
 		
@@ -130,17 +138,55 @@ public class UsedController {
 			service.insertUsed(dto, pathname);
 		} catch (Exception e) {
 		}
-		
+		model.addAttribute("pathname",pathname);
 		return "redirect:/used/list";
 	}
 	
 	
-	
-	
-	
 	@RequestMapping("article")
-	public String article() throws Exception{
+	public String article(
+			@RequestParam int num,
+			@RequestParam String page,
+			@RequestParam(defaultValue="all") String condition,
+			@RequestParam(defaultValue="") String keyword,
+			Model model) throws Exception{
+		
+		keyword = URLDecoder.decode(keyword,"utf-8");
+		
+		String query = "page="+page;
+		if(keyword.length()!=0) {
+			query +="&condition="+condition+"&keyword="+URLEncoder.encode(keyword,"UTF-8");
+		}
+		
+		service.updateHitCount(num);
+		
+		Used dto = service.readUsed(num);
+		if(dto==null) {
+			return "redirect:/used/list?"+query;
+		}
+		dto.setContent(dto.getContent().replaceAll("/n", "<br>"));
+		
+		
+		Map<String,Object>map = new HashMap<String, Object>();
+		map.put("condition",condition);
+		map.put("keyword",keyword);
+		map.put("usedNum",num);
+		
+		//Used preReadDto = service.preReadUsed(map);
+		//Used nextReadDto = service.nextReadUsed(map);
+		
+		List<Used> listFile = service.listFile(num);
+		
+		model.addAttribute("dto",dto);
+		//model.addAttribute("preReadDto",preReadDto);
+		//model.addAttribute("nextReadDto",nextReadDto);
+		model.addAttribute("listFile",listFile);
+		model.addAttribute("page",page);
+		model.addAttribute("query",query);
 		
 		return ".ncha_bbs.used.article";
 	}
+	
+	
+	
 }

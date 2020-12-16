@@ -14,6 +14,44 @@
 				#{price}, #{productCondition}, #{dealingMode}, #{location}, 0, #{categoryNum})
 	</insert>
 	
+	<!-- 데이터개수  -->
+	<select id="dataCount" parameterType="map" resultType="Integer">
+		SELECT NVL(COUNT(*), 0)
+		FROM used_bbs u
+		JOIN member1 m ON u.userId=m.userId
+	</select>
+	
+	<!-- 리스트 -->
+	<select id="listUsed" parameterType="map" resultType="com.sp.app.used.Used">
+		SELECT u.usedNum, u.userId, userName,c.categoryName, subject, sold_check, hitCount, TO_CHAR(created_date,'YYYY-MM-DD') created_date, NVL(fileCount,0)fileCount, categoryName
+		FROM used_bbs u
+		JOIN member m ON u.userId = m.userId
+		LEFT OUTER JOIN(
+			SELECT usedNum, COUNT(*) fileCount FROM used_image 
+			GROUP BY usedNum
+		) f ON u.usedNum = f.usedNum
+		JOIN used_category c ON c.categoryNum = u.categoryNum
+	</select>
+	
+	<!-- 조회수 증가 -->
+	<update id="updateHitCount" parameterType="Integer">
+		UPDATE used_bbs SET hitCount=hitCount+1 WHERE usedNum = #{usedNum}
+	</update>
+	
+	
+	
+	<select id="readUsed" parameterType="Integer" resultType="com.sp.app.used.Used">
+		SELECT u.usedNum, u.userId, userName, price, productCondition, dealingMode, location,
+			subject,content,TO_CHAR(created_date,'YYYY-MM-DD') created_date,sold_check,categoryNum, hitCount, NVL(fileCount,0)fileCount
+		FROM used_bbs u
+		JOIN used_image i ON u.usedNum = i.usedNum
+		JOIN used_category c ON c.categoryNum = u.categoryNum
+		LEFT OUTER JOIN(
+			SELECT usedNum, COUNT(*) fileCount FROM used_image 
+			GROUP BY usedNum
+		) f ON u.usedNum = f.usedNum
+		WHERE d.dailyNum = #{dailyNum}
+	</select>
 	
 	<!-- 파일 -->
 	<insert id="insertFile" parameterType="com.sp.app.used.Used">
