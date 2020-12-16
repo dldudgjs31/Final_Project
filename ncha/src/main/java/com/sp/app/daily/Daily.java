@@ -25,6 +25,7 @@ public class Daily {
 	
 	private String imageFilename;
 	private int daily_imageFilenum;
+	private String profile_imageFilename;
 	
 	
 	
@@ -40,6 +41,12 @@ public class Daily {
 	}
 	public void setImageFilename(String imageFilename) {
 		this.imageFilename = imageFilename;
+	}
+	public void setProfile_imageFilename(String profile_imageFilename) {
+		this.profile_imageFilename = profile_imageFilename;
+	}
+	public String getProfile_imageFilename() {
+		return profile_imageFilename;
 	}
 	
 	
@@ -131,7 +138,6 @@ public class Daily {
 	public void setUserName(String userName) {
 		this.userName = userName;
 	}
-
 
 
 	

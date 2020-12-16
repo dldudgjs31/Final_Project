@@ -2,10 +2,12 @@
 <%@ page trimDirectiveWhitespaces="true" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-
+<link rel="stylesheet" type="text/css" href="http://kenwheeler.github.io/slick/slick/slick.css" />
+<link rel="stylesheet" type="text/css" href="http://kenwheeler.github.io/slick/slick/slick-theme.css" />
+<script type="text/javascript" src="http://kenwheeler.github.io/slick/slick/slick.min.js"></script>
 <style type="text/css">
 .slick-items{
-	width: 50%;
+	width: 99%;
 }
 
 .slider-image{
@@ -15,42 +17,61 @@
 	height: 450px;
 }
 
+.profile-img{
+	grid-area:img;
+	display: flex;
+	justify-content: center;
+	align-items: left;
+}
+.imgs{
+	width: 100px; 
+	height: 100px; 
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: cover;
+	border-radius: 50%;
+	border: 1px solid silver;
+}
+.userId{
+	font-weight: bold;
+	font-size: 18px;
+}
+
 </style>
 
 <div class="body-container" style="width: 700px;">
-    <div>
-        일상글 글보기입니다.
-    </div>
+	<div class="profile-img">
+   		<div class="imgs" style="background-image:url('${pageContext.request.contextPath}/uploads/member/${dto.profile_imageFilename}'); border-bottom: 1px solid #cccccc;">
+   		</div><span class="userId">&nbsp; ${dto.userId}</span>
+   	</div>
+   	
 
+    <div class="slick-items" style="height: 450px;">
 <c:forEach var="vo" items="${list1}">
 <c:if test="${vo.dailyNum == dto.dailyNum}">
-    <div class="slick-items" style="height: 450px;">
         <div  class="slider-image" style="background-image: url('${pageContext.request.contextPath}/uploads/daily/${vo.imageFilename}');"></div>
-   슬라이드 처리할 예정 </div>
 </c:if>  
 </c:forEach>
+    </div>
      <div>
 			<table style="width: 100%; margin: 20px auto 0px; border-spacing: 0px; border-collapse: collapse;">
-			<tr height="35" style="border-top: 1px solid #cccccc; border-bottom: 1px solid #cccccc;">
+			<tr height="35" style=" border-bottom: 1px solid #cccccc;">
 			    <td colspan="2" align="center">
 				   ${dto.subject}
 			    </td>
 			</tr>
-			
-			<tr height="35" style="border-bottom: 1px solid #cccccc;">
-			    <td width="50%" align="left" style="padding-left: 5px;">
-			       이름 : ${dto.userName}
-			    </td>
-			    <td width="50%" align="right" style="padding-right: 5px;">
-			        ${dto.created_date} | 조회 ${dto.hitCount}
-			    </td>
-			</tr>
-			
+		
 			<tr style="border-bottom: 1px solid #cccccc;">
 			  <td colspan="2" align="left" style="padding: 10px 5px;" valign="top" height="200">
 			      ${dto.content}
 			   </td>
 			</tr>
+			<tr>
+			    <td width="50%" align="right" style="padding-right: 5px;">
+			        ${dto.created_date} | 조회 ${dto.hitCount}
+			    </td>
+			</tr>
+			
 			
 			<tr height="35" style="border-bottom: 1px solid #cccccc;">
 			    <td colspan="2" align="left" style="padding-left: 5px;">
@@ -90,8 +111,6 @@
     </div>
 </div>
 <script type="text/javascript">
-
-
 
 $(document).ready(function () {
 

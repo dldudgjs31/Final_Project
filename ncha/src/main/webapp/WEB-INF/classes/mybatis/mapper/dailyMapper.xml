@@ -41,7 +41,7 @@
 	</select>
 	
 	 <select id="readDaily" parameterType="Integer" resultType="com.sp.app.daily.Daily">
-		SELECT d.dailyNum, d.userId, userName, subject, content, created_date, hitCount
+		SELECT d.dailyNum, d.userId, userName, subject, content, created_date, hitCount,profile_imageFilename
 		FROM daily_bbs d
 		JOIN member m ON d.userId = m.userId 
 		WHERE d.dailyNum = #{dailyNum}
@@ -73,8 +73,6 @@
 		INSERT INTO daily_image(daily_imageFilenum, imageFilename, dailyNum)
 			VALUES (#{daily_imageFilenum}, #{imageFilename}, #{dailyNum})
 	</insert>
-	
-
 	
 	<select id="listFile" parameterType="Integer" resultType="com.sp.app.daily.Daily">
 		SELECT daily_imageFilenum, dailyNum, imageFilename

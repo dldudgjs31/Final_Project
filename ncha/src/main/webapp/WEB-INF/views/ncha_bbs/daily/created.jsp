@@ -1,10 +1,16 @@
-<%@ page contentType="text/html; charset=UTF-8" %>
+ <%@ page contentType="text/html; charset=UTF-8" %>
 <%@ page trimDirectiveWhitespaces="true" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<link rel="stylesheet" type="text/css" href="http://kenwheeler.github.io/slick/slick/slick.css" />
+<link rel="stylesheet" type="text/css" href="http://kenwheeler.github.io/slick/slick/slick-theme.css" />
+<script type="text/javascript" src="http://kenwheeler.github.io/slick/slick/slick.min.js"></script>
 
 <style type="text/css">
-
+img{
+	height: 200px;
+	width: 200px;
+}
 
 </style>
 <script type="text/javascript">
@@ -34,12 +40,11 @@ $(function(){
 
 function preWatchphoto(event){
 	for (var image of event.target.files) {
-		
 			var reader = new FileReader();
 			reader.onload = function(event){
 				var img =document.createElement("img");
 				img.setAttribute("src",event.target.result);
-				document.querySelector("div#main_img").appendChild(img).css("height","100").css("width","100");
+				document.querySelector("div#main_img").appendChild(img);
 			}
 			reader.readAsDataURL(image);
 		}
@@ -115,10 +120,13 @@ function sendOk() {
     
     <div>
 		<form name="dailyForm" method="post" enctype="multipart/form-data">
+			<div class="slick-items" style="height: 450px;">
 			<div style="margin-bottom: 20px; margin-top: 30px; margin-left: 30px;">
 				 <label style="font-weight: 900; font-size: 50;">메인 사진</label>
 				 <div class="profile_photo" id="main_img">
+
 				 </div>	 
+			 </div>
 			 </div>
 			<table style="width: 100%; margin: 20px auto 0px; border-spacing: 0px; border-collapse: collapse;"> 
 			  <tbody id="tb">
