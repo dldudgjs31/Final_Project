@@ -34,7 +34,7 @@
 	</select>
 	
 	<select id="listArticleFile" parameterType="map" resultType="com.sp.app.daily.Daily">
-		SELECT imageFilename
+		SELECT d.dailyNum, imageFilename
 			FROM daily_bbs d
 			JOIN daily_image i ON d.dailyNum = i.dailyNum
 			
