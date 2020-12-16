@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="store">
+
+<insert id="insertProduct" parameterType="com.sp.app.store.Store">
+	INSERT INTO product_bbs(productNum, productName, created_date,hitCount,price, detail,  stock, discount_rate,sellerId,categoryNum)
+	VALUES(product_seq.NEXTVAL, #{productName}, SYSDATE,0,#{price},#{detail}, #{stock},#{discount_rate}, #{sellerId},#{categoryNum})
+</insert>
+
+	 <select id="dataCount" parameterType="map" resultType="Integer">
+	 	SELECT NVL(COUNT(*),0) 
+	 	FROM product_bbs b
+	 	JOIN seller m ON b.sellerId = m.sellerId
+	 
+	 </select>
+	 
+	 
+	 <select id="listProduct" parameterType="map" resultType="com.sp.app.store.Store">
+		SELECT productNum,productName,b.created_date,hitCount,price, detail, stock, discount_rate,b.sellerId,categoryNum
+		FROM product_bbs b
+		JOIN seller m ON b.sellerId=m.sellerId
+		ORDER BY productNum DESC
+		OFFSET #{offset} ROWS FETCH FIRST #{rows} ROWS ONLY
+	 </select>
+</mapper>
