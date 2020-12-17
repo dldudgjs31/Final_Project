@@ -37,6 +37,7 @@ public class DailyController {
 	@RequestMapping("list")
 	public String list(
 			@RequestParam(value="page", defaultValue="1") int current_page,
+			@RequestParam(defaultValue="") String categoryNum,
 			HttpServletRequest req,
 			Model model
 			) throws Exception{
@@ -44,8 +45,12 @@ public class DailyController {
 		int total_page = 0;
 		int dataCount = 0;
 		
-		 Map<String, Object> map = new HashMap<String, Object>();
+		 Map<String, Object>map = new HashMap<>();
+		 
+		 map.put("categoryNum", categoryNum);
 		 dataCount = service.dataCount(map);
+		 
+		 
 	        if(dataCount != 0)
 	            total_page = myUtil.pageCount(rows,  dataCount) ;
 	        
@@ -69,11 +74,21 @@ public class DailyController {
 	        String cp=req.getContextPath();
 
 	        String listUrl = cp+"/daily/list";
+	        String query = "";
 	        String articleUrl = cp+"/daily/article?page=" + current_page;
 	        
+	        if(categoryNum.length()!=0) {
+				query = "categoryNum="+categoryNum;
+			}
+	        
+	        if(query.length()!=0) {
+				listUrl+="?"+query;
+				articleUrl+="&"+query;
+			}
 	        String paging = myUtil.paging(current_page, total_page, listUrl);
 			
 	      
+	        model.addAttribute("categoryNum", categoryNum);
 			model.addAttribute("list", list);
 			model.addAttribute("page", current_page);
 			model.addAttribute("dataCount", dataCount);
@@ -119,11 +134,16 @@ public class DailyController {
 	public String article(
 			@RequestParam int dailyNum,
 			@RequestParam String page,
+			@RequestParam(defaultValue="") String categoryNum,
 			Model model
 			) throws Exception{
 	
 		
 		String query="page="+page;
+		if(categoryNum.length()!=0) {
+			query+="&categoryNum="+categoryNum;
+		}
+		
 		
 		service.updateHitCount(dailyNum);
 
@@ -138,6 +158,7 @@ public class DailyController {
 		// 이전 글, 다음 글
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("dailyNum", dailyNum);
+		map.put("categoryNum", categoryNum);
 
 		Daily preReadDto = service.preReadDaily(map);
 		Daily nextReadDto = service.nextReadDaily(map);

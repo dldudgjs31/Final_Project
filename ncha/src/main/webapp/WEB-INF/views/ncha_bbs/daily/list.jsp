@@ -5,7 +5,10 @@
 
 
 <script type="text/javascript">
-
+function searchList() {
+	var f=document.searchForm;
+	f.submit();
+}
 
 </script>
 <style type="text/css">
@@ -45,21 +48,20 @@
 					</td>
 					<td align="center">
 						<form name="searchForm" action="${pageContext.request.contextPath}/daily/list" method="post">
-							<select name="condition" class="selectField">
-								<option value="all">모두</option>
-								<option value="food">음식</option>
-								<option value="furn">가구</option>
-								<option value="elec">전자제품</option>
-								<option value="book">도서</option>
-							</select>
-							<input type="text" name="keyword" value="${keyword}" class="boxTF">
-							<button type="button" class="btn" onclick="searchList()">검색</button>
+							<select class="selectField" id="categoryNum" name="categoryNum" onchange="searchList();">
+							<option value="">::카테고리 선택::</option>
+							<option value="1" ${dto.categoryNum=="1"?"selected='selected'":""}>의류</option>
+							<option value="2" ${dto.categoryNum=="2"?"selected='selected'":""}>가구</option>
+							<option value="3" ${dto.categoryNum=="3"?"selected='selected'":""}>전자제품</option>
+							<option value="4" ${dto.categoryNum=="4"?"selected='selected'":""}>도서</option>
+							<option value="5" ${dto.categoryNum=="5"?"selected='selected'":""}>기타</option>
+						</select>
 						</form>
 					</td>
 					<td align="left" width="100">
 						<button type="button" class="btn" onclick="javascript:location.href='${pageContext.request.contextPath}/daily/list';">새로고침</button>
 					</td>
-					<td>
+					<td  align="left" width="150">
 						<button type="button" class="btn" onclick="">관심 일상 보기</button>
 					</td>
 				</tr>

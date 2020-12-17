@@ -15,7 +15,8 @@ public class Daily {
 	private String usedURL;
 	private String created_date;
 	private int hitCount;
-	
+	private int categoryNum; // 카테고리 번호
+	private String categoryName;
 	
 	private int answer;
 	private int answerCount;
@@ -28,7 +29,7 @@ public class Daily {
 	private String profile_imageFilename;
 	
 	
-	
+
 	public List<MultipartFile> getUpload() {
 		return upload;
 	}
@@ -138,7 +139,18 @@ public class Daily {
 	public void setUserName(String userName) {
 		this.userName = userName;
 	}
-
+	public int getCategoryNum() {
+		return categoryNum;
+	}
+	public void setCategoryNum(int categoryNum) {
+		this.categoryNum = categoryNum;
+	}
+	public String getCategoryName() {
+		return categoryName;
+	}
+	public void setCategoryName(String categoryName) {
+		this.categoryName = categoryName;
+	}
 
 	
 }

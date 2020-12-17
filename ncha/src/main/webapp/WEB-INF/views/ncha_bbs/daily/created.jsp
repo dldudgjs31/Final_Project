@@ -7,7 +7,7 @@
 <script type="text/javascript" src="http://kenwheeler.github.io/slick/slick/slick.min.js"></script>
 
 <style type="text/css">
-img{
+.profile_photo img{
 	height: 200px;
 	width: 200px;
 }
@@ -165,12 +165,27 @@ function sendOk() {
 			      </td>
 			  </tr>
 			  
+			  <tr align="left" height="40" style="border-top: 1px solid #cccccc; border-bottom: 1px solid #cccccc;"> 
+					<td width="100" bgcolor="#eeeeee" style="text-align: center;">카테고리</td>
+					<td style="padding-left:10px;">
+						<select class="selectField" id="categoryNum" name="categoryNum">
+							<option value="">::카테고리 선택::</option>
+							<option value="1" ${dto.categoryNum=="1"?"selected='selected'":""}>의류</option>
+							<option value="2" ${dto.categoryNum=="2"?"selected='selected'":""}>가구</option>
+							<option value="3" ${dto.categoryNum=="3"?"selected='selected'":""}>전자제품</option>
+							<option value="4" ${dto.categoryNum=="4"?"selected='selected'":""}>도서</option>
+							<option value="5" ${dto.categoryNum=="5"?"selected='selected'":""}>기타</option>
+						</select>
+					</td>
+			  </tr>
+				
 			  <tr align="left" height="40" style="border-bottom: 1px solid #cccccc;">
 			      <td width="100" bgcolor="#eeeeee" style="text-align: center;">메&nbsp;&nbsp;&nbsp;&nbsp;인</td>
 			      <td style="padding-left:10px;"> 
 			          <input type="file" id="image" name="upload" class="boxTF" onchange="preWatchphoto(event);" multiple size="53" style="width: 95%; height: 25px; multiple">
 			      </td>
 			  	</tr>
+			  	
 			  	
               </tbody>  
 				<c:if test="${mode=='update'}">
