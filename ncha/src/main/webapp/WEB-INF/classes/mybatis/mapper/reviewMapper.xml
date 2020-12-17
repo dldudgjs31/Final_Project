@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="review">
+ <insert id="insertReview" parameterType="com.sp.app.review.Review">
+      INSERT INTO product_review(reviewNum,userId,subject,content, productNum, created_date, score) VALUES 
+         (review_SEQ.NEXTVAL,#{userId},#{subject},#{content},#{productNum}, SYSDATE,#{score})
+   </insert>
+
+   <select id="listReview" parameterType="map" resultType="com.sp.app.review.Review">
+        SELECT reviewNum, r.userId,subject,content, r.productNum,
+          TO_CHAR(created,'YYYY-MM-DD') created_date,
+          score
+      FROM product_review r 
+      JOIN member m ON r.userId=m.userId
+      LEFT OUTER JOIN (
+         SELECT productNum
+         FROM product_bbs
+      GROUP BY productNum
+      ) c ON r.productNum=c.productNum
+       ORDER BY reviewNum DESC 
+     </select>
+
+      <delete id="deleteReview" parameterType="map">
+      DELETE FROM product_review WHERE reviewNum = #{reviewNum}
+      <if test="userId != 'admin'">
+         AND userId = #{userId}
+      </if>
+   </delete>
+</mapper> 
