@@ -34,7 +34,7 @@
 
 <div class="body-container" style="width: 830px;">
     <div class="body-title">
-        <h3><i class="fab fa-asymmetrik"></i> 123]게시판 </h3>
+        <h3><i class="fab fa-asymmetrik"></i> ${mode=='update'?'판매글 수정하기':'판매글 올리기'} </h3>
     </div>
     
     <div>
@@ -79,10 +79,10 @@
 			      <td width="100" bgcolor="#eeeeee" style="text-align: center;">제품 카테고리 선택</td>
 			      <td style="padding-left:10px;"> 
 						<select name="categoryNum" class="selectField">
-							<option value="1" ${condition=="subject"?"selected='selected'":""}>의류</option>
-							<option value="2" ${condition=="content"?"selected='selected'":""}>전자가전</option>
-							<option value="3" ${condition=="userName"?"selected='selected'":""}>가구</option>
-							<option value="4" ${condition=="created"?"selected='selected'":""}>생필품</option>
+							<option value="1" >의류</option>
+							<option value="2" >전자가전</option>
+							<option value="3" >가구</option>
+							<option value="4" >생필품</option>
 						</select>
 			       </td>
 			  </tr>
@@ -106,7 +106,7 @@
 						<td width="100" bgcolor="#eee" align="center">첨부된파일</td>
 						<td style="padding-left: 10px;">
 							<c:if test="${not empty dto.saveFilename}">
-								<a href="${pageContext.request.contextPath}/bbs/deleteFile?num=${dto.pruductNum}&page=${page}"><i class="far fa-trash-alt"></i> </a>
+								<a href="${pageContext.request.contextPath}/bbs/deleteFile?num=${dto.productNum}&page=${page}"><i class="far fa-trash-alt"></i> </a>
 							</c:if>
 							${dto.originalFilename}
 							
@@ -120,7 +120,7 @@
 			     <tr height="45"> 
 			      <td align="center" >
 			      	<c:if test="${mode=='update'}">
-						<input type="hidden" name="num" value="${dto.pruductNum}">
+						<input type="hidden" name="productNum" value="${dto.productNum}">
 						<input type="hidden" name="page" value="${page}">
 						<input type="hidden" name="saveFilename" value="${dto.saveFilename}">
 						<input type="hidden" name="originalFilename" value="${dto.originalFilename}">

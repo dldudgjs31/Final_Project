@@ -11,7 +11,7 @@ public interface StoreService {
 	public void updateHitCount(int num) throws Exception;
 	public Store preReadProduct(Map<String, Object> map);
 	public Store nextReadProduct(Map<String, Object> map);
-	public void updateProduct(Store dto, String pathname) throws Exception;
-	public void delete(int num, String pathname, String userId)throws Exception;
+	public void updateProduct(Store dto) throws Exception;
+	public void delete(int num, String sellerId)throws Exception;
 	
 }

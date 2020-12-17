@@ -12,15 +12,96 @@
 	 	SELECT NVL(COUNT(*),0) 
 	 	FROM product_bbs b
 	 	JOIN seller m ON b.sellerId = m.sellerId
-	 
+	 	<where>
+	 		<if test="keyword!=null and keyword!=''">
+	 			<include refid="where-list"/>
+	 		</if>
+	 	</where>	
 	 </select>
 	 
+	 	 <sql id="where-list">
+	 	<choose>
+	 		<when test="condition=='all' ">
+	 			( INSTR(productName, #{keyword}) &gt; 0 
+	 				OR DBMS_LOB.INSTR(detail, #{keyword}) &gt; 0 )
+	 		</when>
+	 		
+	 		<when test="condition=='created_date' ">
+	 			( TO_CHAR(created_date, 'YYYYMMDD') = #{keyword} 
+	 				OR TO_CHAR(created_date, 'YYYY-MM-DD') = #{keyword} )
+	 		</when>
+	 		
+	 		<when test="condition=='detail' ">
+	 			DBMS_LOB.INSTR(detail, #{keyword}) &gt; 0
+	 		</when>
+	 		
+
+			<otherwise>
+	 			INSTR(${condition}, #{keyword}) &gt; 0
+	 		</otherwise> 
+	 	</choose>
+	 </sql>
 	 
 	 <select id="listProduct" parameterType="map" resultType="com.sp.app.store.Store">
 		SELECT productNum,productName,b.created_date,hitCount,price, detail, stock, discount_rate,b.sellerId,categoryNum
 		FROM product_bbs b
 		JOIN seller m ON b.sellerId=m.sellerId
+		<where>
+	 		<if test="keyword!=null and keyword!=''">
+	 			<include refid="where-list"/>
+	 		</if>
+	 	</where>
 		ORDER BY productNum DESC
 		OFFSET #{offset} ROWS FETCH FIRST #{rows} ROWS ONLY
 	 </select>
+	 
+	 <select id="readProduct" parameterType="Integer" resultType="com.sp.app.store.Store">
+	 	SELECT productNum,productName,b.created_date,hitCount,price, detail, stock, discount_rate,b.sellerId,categoryNum
+		FROM product_bbs b
+		JOIN seller m ON b.sellerId=m.sellerId
+		WHERE productNum = #{num}
+	 </select>
+	 
+	 <update id="updateHitCount" parameterType="Integer">
+	 	UPDATE product_bbs SET hitCount=hitCount+1 
+	 	WHERE productNum=#{num}
+	 </update>
+	 
+	 <select id="preReadProduct" parameterType="map" resultType="com.sp.app.store.Store">
+	 	SELECT productNum, productName
+	 	FROM product_bbs b
+	 	JOIN seller s ON  b.sellerId = s.sellerId
+	 	<where>
+	 		<if test="keyword!=null and keyword!=''">
+	 			<include refid="where-list"/>
+	 		</if>
+	 		AND (productNum &gt; #{num})
+	 	</where>
+	 	ORDER BY productNum ASC
+	 	FETCH FIRST 1 ROWS ONLY
+	 </select>
+	 
+	 <select id="nextReadProduct" parameterType="map" resultType="com.sp.app.store.Store">
+	 	SELECT productNum, productName
+	 	FROM product_bbs b
+	 	JOIN seller s ON  b.sellerId = s.sellerId
+	 	<where>
+	 		<if test="keyword!=null and keyword!=''">
+	 			<include refid="where-list"/>
+	 		</if>
+	 		AND (productNum &lt; #{num})
+	 	</where>
+	 	ORDER BY productNum DESC
+	 	FETCH FIRST 1 ROWS ONLY
+	 </select>
+
+	<update id="updateProduct" parameterType="com.sp.app.store.Store">
+		UPDATE product_bbs SET productName=#{productName}, detail=#{detail}, price=#{price}, stock=#{stock}, categoryNum=#{categoryNum}, discount_rate=#{discount_rate}
+			WHERE productNum=#{productNum}
+	</update>	
+	 
+	 <delete id="deleteProduct" parameterType="Integer">
+		DELETE FROM product_bbs WHERE productNum= #{num}
+	</delete>
+	 
 </mapper>

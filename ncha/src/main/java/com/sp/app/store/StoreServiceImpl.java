@@ -54,37 +54,71 @@ public class StoreServiceImpl implements StoreService {
 
 	@Override
 	public Store readProduct(int num) {
-		// TODO Auto-generated method stub
-		return null;
+		Store dto =null;
+		try {
+			dto = dao.selectOne("store.readProduct",num);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return dto;
 	}
 
 	@Override
 	public void updateHitCount(int num) throws Exception {
-		// TODO Auto-generated method stub
-		
+		try {
+			dao.updateData("store.updateHitCount", num);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
 	}
 
 	@Override
 	public Store preReadProduct(Map<String, Object> map) {
-		// TODO Auto-generated method stub
-		return null;
+		Store dto =null;
+		try {
+			dto=dao.selectOne("store.preReadProduct", map);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return dto;
 	}
 
 	@Override
 	public Store nextReadProduct(Map<String, Object> map) {
-		// TODO Auto-generated method stub
-		return null;
+		Store dto =null;
+		try {
+			dto=dao.selectOne("store.nextReadProduct", map);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return dto;
 	}
 
 	@Override
-	public void updateProduct(Store dto, String pathname) throws Exception {
-		// TODO Auto-generated method stub
+	public void updateProduct(Store dto) throws Exception {
+		try {
+			dao.updateData("store.updateProduct", dto);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		
 	}
 
 	@Override
-	public void delete(int num, String pathname, String userId) throws Exception {
-		// TODO Auto-generated method stub
+	public void delete(int num, String sellerId) throws Exception {
+		Store dto = null;
+		try {
+			dto = readProduct(num);
+			if( dto==null || ( !sellerId.equals("admin") && ! dto.getSellerId().equals(sellerId) )) {
+				return;
+			}
+			dao.deleteData("store.deleteProduct", num);
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
 		
 	}
 

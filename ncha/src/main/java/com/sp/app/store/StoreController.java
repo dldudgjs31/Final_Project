@@ -71,7 +71,8 @@ public class StoreController {
 
 		List<Store> list = service.listProduct(map);
 
-		int listNum, n = 0;
+		int listNum=0; 
+		int n = 0;
 		for (Store dto : list) {
 			listNum = dataCount - (offset + n);
 			dto.setListNum(listNum);
@@ -95,7 +96,8 @@ public class StoreController {
 		model.addAttribute("list", list);
 		model.addAttribute("articleUrl", articleUrl);
 		model.addAttribute("page", current_page);
-		model.addAttribute("dataCount", total_page);
+		model.addAttribute("total_page", total_page);
+		model.addAttribute("dataCount", dataCount);
 		model.addAttribute("paging", paging);
 		model.addAttribute("condition", condition);
 		model.addAttribute("keyword", keyword);
@@ -136,11 +138,102 @@ public class StoreController {
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping("product")
-	public String productArticle() throws Exception{
-		
+	@GetMapping("article")
+	public String article(
+			@RequestParam int num,
+			@RequestParam String page,
+			@RequestParam(defaultValue = "all") String condition, 
+			@RequestParam(defaultValue = "") String keyword,
+			Model model) throws Exception {
+		keyword = URLDecoder.decode(keyword, "utf-8");
+
+		String query = "page=" + page;
+		if (keyword.length() != 0) {
+			query += "&condition=" + condition + "&keyword=" + URLEncoder.encode(keyword, "utf-8");
+		}
+		service.updateHitCount(num);
+
+		Store dto = service.readProduct(num);
+		if (dto == null) {
+			return "redirect:/store/list?" + query;
+		}
+		//스마트 에디터를 사용하는 경우 주석으로 막아야함
+		//dto.setContent(myUtil.htmlSymbols(dto.getContent()));
+
+		Map<String, Object> map = new HashMap<>();
+		map.put("num", num);
+		map.put("condition", condition);
+		map.put("keyword", keyword);
+
+		Store preReadDto = service.preReadProduct(map);
+		Store nextReadDto = service.nextReadProduct(map);
+
+		model.addAttribute("dto", dto);
+		model.addAttribute("preReadDto", preReadDto);
+		model.addAttribute("nextReadDto", nextReadDto);
+		model.addAttribute("page", page);
+		model.addAttribute("query", query);
+
 		return ".store.product.article";
 	}
 	
+	@GetMapping("update")
+	public String updateForm(
+			@RequestParam int num,
+			@RequestParam String page,
+			HttpSession session,
+			Model model
+			)throws Exception{
+		SessionInfo info =(SessionInfo)session.getAttribute("seller");
+		Store dto = service.readProduct(num);
+		
+		if(dto==null) {
+			return "redirect:/store/list?page="+page;
+		}
+		
+		if(!info.getSellerId().equals(dto.getSellerId())){
+			return "redirect:/store/list?page="+page;
+		}
+		model.addAttribute("dto",dto);
+		model.addAttribute("mode","update");
+		model.addAttribute("page",page);
+		
+		return ".store.product.created";
+	}
+	
+	@PostMapping("update")
+	public String updateSubmit(
+			Store dto,
+			@RequestParam String page,
+			HttpSession session
+			) throws Exception{
+		
+		try {
+			service.updateProduct(dto);
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		
+		return "redirect:/store/list?page=" + page;
+	}
+	
+	@RequestMapping("delete")
+	public String delete(
+			@RequestParam String page,
+			@RequestParam int num,
+			@RequestParam(defaultValue = "all") String condition,
+			@RequestParam(defaultValue = "") String keyword,
+			HttpSession session
+			) throws Exception {
+		SessionInfo info = (SessionInfo)session.getAttribute("seller");
+		
+		keyword = URLDecoder.decode(keyword,"utf-8");
+		String query = "page="+page;
+		if(keyword.length()!=0) {
+			query +="&condition="+condition+"&keyword="+URLEncoder.encode(keyword,"utf-8");
+		}
+			service.delete(num, info.getSellerId());
+		return "redirect:/store/list?"+query;
+	}
 	
 }
