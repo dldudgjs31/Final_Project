@@ -5,10 +5,18 @@
 
 
 <script type="text/javascript">
-function searchList() {
-	var f=document.searchForm;
-	f.submit();
+function searchList1() {
+	var f1=document.searchFormList;
+
+	f1.submit();
 }
+
+function searchList2() {
+	var f2=document.searchFormKeyword;
+
+	f2.submit();
+}
+
 
 </script>
 <style type="text/css">
@@ -47,9 +55,16 @@ function searchList() {
 						<button type="button" class="btn" onclick="javascript:location.href='${pageContext.request.contextPath}/daily/created';">글올리기</button>
 					</td>
 					<td align="center">
-						<form name="searchForm" action="${pageContext.request.contextPath}/daily/list" method="post">
-							<select class="selectField" id="categoryNum" name="categoryNum" onchange="searchList();">
-							<option value="">::카테고리 선택::</option>
+							<form name="searchFormKeyword" action="${pageContext.request.contextPath}/daily/list" method="post">
+								<input type="text" name="keyword" value="${keyword}" class="boxTF">
+								<button type="button" class="btn" onclick="searchList2();">검색</button>
+							</form>
+					</td>
+					<td align="center">
+						<form name="searchFormList" action="${pageContext.request.contextPath}/daily/list" method="post">
+													
+							<select class="selectField" id="categoryNum" name="categoryNum" onchange="searchList1();">
+							<option value="">::카테고리 모아보기::</option>
 							<option value="1" ${dto.categoryNum=="1"?"selected='selected'":""}>의류</option>
 							<option value="2" ${dto.categoryNum=="2"?"selected='selected'":""}>가구</option>
 							<option value="3" ${dto.categoryNum=="3"?"selected='selected'":""}>전자제품</option>

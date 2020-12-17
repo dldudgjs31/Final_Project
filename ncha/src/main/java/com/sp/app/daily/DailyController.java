@@ -1,6 +1,8 @@
 package com.sp.app.daily;
 
 import java.io.File;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -38,6 +40,7 @@ public class DailyController {
 	public String list(
 			@RequestParam(value="page", defaultValue="1") int current_page,
 			@RequestParam(defaultValue="") String categoryNum,
+			@RequestParam(defaultValue="") String keyword,
 			HttpServletRequest req,
 			Model model
 			) throws Exception{
@@ -45,9 +48,14 @@ public class DailyController {
 		int total_page = 0;
 		int dataCount = 0;
 		
+		if(req.getMethod().equalsIgnoreCase("GET")) {
+			keyword=URLDecoder.decode(keyword,"utf-8");
+		}
+		
 		 Map<String, Object>map = new HashMap<>();
 		 
 		 map.put("categoryNum", categoryNum);
+		 map.put("keyword", keyword);
 		 dataCount = service.dataCount(map);
 		 
 		 
@@ -77,8 +85,9 @@ public class DailyController {
 	        String query = "";
 	        String articleUrl = cp+"/daily/article?page=" + current_page;
 	        
-	        if(categoryNum.length()!=0) {
-				query = "categoryNum="+categoryNum;
+	        if(categoryNum.length()!=0 || keyword.length()!=0) {
+				query = "categoryNum="+categoryNum+"&keyword="+
+						URLEncoder.encode(keyword,"utf-8");
 			}
 	        
 	        if(query.length()!=0) {
@@ -88,6 +97,7 @@ public class DailyController {
 	        String paging = myUtil.paging(current_page, total_page, listUrl);
 			
 	      
+	        model.addAttribute("keyword",keyword);
 	        model.addAttribute("categoryNum", categoryNum);
 			model.addAttribute("list", list);
 			model.addAttribute("page", current_page);
@@ -135,19 +145,21 @@ public class DailyController {
 			@RequestParam int dailyNum,
 			@RequestParam String page,
 			@RequestParam(defaultValue="") String categoryNum,
+			@RequestParam(defaultValue="") String keyword,
 			Model model
 			) throws Exception{
 	
 		
 		String query="page="+page;
-		if(categoryNum.length()!=0) {
-			query+="&categoryNum="+categoryNum;
+		if(categoryNum.length()!=0 || keyword.length()!=0) {
+			query+="&categoryNum="+categoryNum+"&keyword="+
+					URLEncoder.encode(keyword,"utf-8");
 		}
 		
 		
 		service.updateHitCount(dailyNum);
-
 		Daily dto = service.readDaily(dailyNum);
+		
 		if(dto==null) {
 			return "redirect:/daily/list?"+query;
 		}
@@ -159,9 +171,11 @@ public class DailyController {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("dailyNum", dailyNum);
 		map.put("categoryNum", categoryNum);
+		map.put("keyword", keyword);
 
 		Daily preReadDto = service.preReadDaily(map);
 		Daily nextReadDto = service.nextReadDaily(map);
+		
         
 		// 파일
 		List<Daily> listFile=service.listFile(dailyNum);

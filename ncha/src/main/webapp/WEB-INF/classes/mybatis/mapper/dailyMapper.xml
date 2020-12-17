@@ -22,8 +22,10 @@
  			<if test="categoryNum!=null and categoryNum!=''">
  				AND d.categoryNum = #{categoryNum}
  			</if>
+ 			<if test="keyword != null and keyword!=''">
+				INSTR(content,#{keyword}) &gt;= 1
+			</if>
  		</where>
-		
 	</select>
 	
 	<select id="listDaily" parameterType="map" resultType="com.sp.app.daily.Daily">
@@ -41,6 +43,9 @@
 	 			<if test="categoryNum!=null and categoryNum!=''">
 	 				AND d.categoryNum = #{categoryNum}
 	 			</if>
+	 			<if test="keyword != null and keyword!=''">
+					INSTR(content,#{keyword}) &gt;= 1
+				</if>
  			</where>
 	</select>
 	
@@ -68,6 +73,9 @@
  			<if test="categoryNum!=null and categoryNum!=''">
  				AND d.categoryNum = #{categoryNum}
  			</if>
+ 			<if test="keyword != null and keyword!=''">
+				INSTR(content,#{keyword}) &gt;= 1
+			</if>
  		</where>
 		ORDER BY dailyNum ASC
 		FETCH FIRST 1 ROWS ONLY
@@ -84,6 +92,9 @@
  			<if test="categoryNum!=null and categoryNum!=''">
  				AND d.categoryNum = #{categoryNum}
  			</if>
+ 			<if test="keyword != null and keyword!=''">
+				INSTR(content,#{keyword}) &gt;= 1
+			</if>
  		</where>
 		ORDER BY dailyNum DESC
 		FETCH FIRST 1 ROWS ONLY
