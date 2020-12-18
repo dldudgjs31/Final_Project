@@ -127,19 +127,20 @@ public class UsedController {
 	@RequestMapping(value="created", method = RequestMethod.POST)
 	public String writeSubmit(
 			Used dto,
-			HttpSession session,
-			Model model) throws Exception{
+			HttpSession session) throws Exception{
 		
 		SessionInfo info = (SessionInfo)session.getAttribute("member");
-		String root = session.getServletContext().getRealPath("/");
-		String pathname = root+"uploads"+File.separator+"used";
+
 		
 		try {
+			String root = session.getServletContext().getRealPath("/");
+			String pathname = root+"uploads"+File.separator+"used";
+			
 			dto.setUserId(info.getUserId());
 			service.insertUsed(dto, pathname);
 		} catch (Exception e) {
 		}
-		model.addAttribute("pathname",pathname);
+		
 		return "redirect:/used/list";
 	}
 	
@@ -148,26 +149,39 @@ public class UsedController {
 	public String article(
 			@RequestParam int usedNum,
 			@RequestParam String page,
-			Model model,
-			HttpServletResponse resp) throws Exception{
+			@RequestParam(defaultValue="") String categoryNum,
+			@RequestParam(defaultValue="") String keyword,
+			Model model) throws Exception{
 		
-		service.updateHitCount(usedNum);
-	
-		Used dto = service.readUsed(usedNum);
-		if(dto==null) {
-			return "redirect:/used/list";
+		//검색
+		String query="page="+page;
+		if(categoryNum.length()!=0 || keyword.length()!=0) {
+			query+="&categoryNum="+categoryNum+"&keyword="+
+					URLEncoder.encode(keyword,"utf-8");
 		}
+		System.out.println("111111");
+		service.updateHitCount(usedNum);
+		System.out.println("222222");
+		Used dto = service.readUsed(usedNum);
+		System.out.println("333333");
+		if(dto==null) {
+			return "redirect:/used/list?"+query;
+		}
+	
+		List<Used> images = service.readUsedFile(usedNum);
+		List<Used> listFile = service.listFile(usedNum);
+		
 		dto.setContent(dto.getContent().replaceAll("/n", "<br>"));
 		
-		String query="page="+page;
-		
+		//이전글 다음글
 		Map<String,Object>map = new HashMap<String, Object>();
 		map.put("usedNum",usedNum);
-		
+		map.put("categoryNum", categoryNum);
+		map.put("keyword", keyword);
+
 		Used preReadDto = service.preReadDto(map);
 		Used nextReadDto = service.nextReadDto(map);
 		
-		List<Used> listFile = service.listFile(usedNum);
 		
 		model.addAttribute("dto",dto);
 		model.addAttribute("preReadDto",preReadDto);
@@ -175,6 +189,9 @@ public class UsedController {
 		model.addAttribute("listFile",listFile);
 		model.addAttribute("page",page);
 		model.addAttribute("query",query);
+		model.addAttribute("images",images);
+		
+		
 		return ".ncha_bbs.used.article";
 	}
 	

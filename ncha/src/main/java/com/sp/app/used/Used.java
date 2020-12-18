@@ -26,6 +26,7 @@ public class Used {
 	private int used_imageFileNum; // 중고글에 게시할 이미지 번호
 	private String imageFilename; // 이미지 파일 이름
 	private List<MultipartFile> upload; // 파일처리
+	private int filecount;
 	
 	private int replyCount;    // 중고글 댓글 좋아요
 	private int usedLikeCount; // 중고글 좋아요
@@ -134,7 +135,12 @@ public class Used {
 	
 	
 	
-	
+	public int getFilecount() {
+		return filecount;
+	}
+	public void setFilecount(int filecount) {
+		this.filecount = filecount;
+	}
 	public String getCategoryName() {
 		return categoryName;
 	}

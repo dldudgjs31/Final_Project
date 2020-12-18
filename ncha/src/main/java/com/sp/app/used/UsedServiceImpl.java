@@ -29,7 +29,9 @@ public class UsedServiceImpl implements UsedService {
 			dao.insertData("used.insertUsed",dto);
 			
 			if(! dto.getUpload().isEmpty()) {
+				
 				for(MultipartFile mf:dto.getUpload()) {
+					
 					String saveFilename = fileManager.doFileUpload(mf, pathname);
 					if(saveFilename == null)continue;
 					
@@ -127,7 +129,9 @@ public class UsedServiceImpl implements UsedService {
 	@Override
 	public void insertFile(Used dto) throws Exception {
 		try {
+					
 			dao.insertData("used.insertFile",dto);
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw e;
@@ -154,5 +158,16 @@ public class UsedServiceImpl implements UsedService {
 
 	@Override
 	public void deleteFile(Map<String, Object> map) throws Exception {
+	}
+
+	@Override
+	public List<Used> readUsedFile(int usedNum) throws Exception {
+		List<Used> images = null;
+		try {
+			images = dao.selectList("used.readimagelist");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return images;
 	}	
 }

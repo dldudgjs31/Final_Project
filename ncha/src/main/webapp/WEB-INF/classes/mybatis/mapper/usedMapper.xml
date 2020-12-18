@@ -8,6 +8,7 @@
 	</select>
 	
 	
+	
 	<insert id="insertUsed" parameterType="com.sp.app.used.Used">
 		INSERT INTO used_bbs(usedNum, userId, subject, content, hitCount, created_date, price, productCondition, dealingMode, location, sold_check, categoryNum)
 				VALUES(#{usedNum}, #{userId}, #{subject}, #{content}, 0, SYSDATE,
@@ -23,14 +24,12 @@
 	
 	<!-- 리스트 -->
 	<select id="listUsed" parameterType="map" resultType="com.sp.app.used.Used">
-		SELECT u.usedNum, u.userId, userName,c.categoryName, subject, sold_check, hitCount, TO_CHAR(created_date,'YYYY-MM-DD') created_date, NVL(fileCount,0)fileCount, categoryName
+		SELECT u.usedNum, u.userId, userName,c.categoryName, subject, sold_check, hitCount, TO_CHAR(created_date,'YYYY-MM-DD') created_date,categoryName
 		FROM used_bbs u
 		JOIN member m ON u.userId = m.userId
-		LEFT OUTER JOIN(
-			SELECT usedNum, COUNT(*) fileCount FROM used_image 
-			GROUP BY usedNum
-		) f ON u.usedNum = f.usedNum
 		JOIN used_category c ON c.categoryNum = u.categoryNum
+		ORDER BY usedNum DESC
+		OFFSET #{offset} ROWS FETCH FIRST #{rows} ROWS ONLY
 	</select>
 	
 	<!-- 조회수 증가 -->
@@ -58,13 +57,12 @@
 	
 	<select id="readUsed" parameterType="Integer" resultType="com.sp.app.used.Used">
 		SELECT u.usedNum, u.userId, userName, price, productCondition, dealingMode, location,
-			subject,content,TO_CHAR(created_date,'YYYY-MM-DD') created_date, sold_check, categoryName, hitCount, NVL(fileCount,0)fileCount
+			subject,content,TO_CHAR(created_date,'YYYY-MM-DD') created_date, sold_check, categoryName, hitCount, NVL(fileCount,0) fileCount
 		FROM used_bbs u
 		JOIN member m ON u.userId = m.userId
-		JOIN used_image i ON u.usedNum = i.usedNum
 		JOIN used_category c ON c.categoryNum = u.categoryNum
 		LEFT OUTER JOIN(
-			SELECT usedNum, COUNT(*) fileCount FROM used_image 
+			SELECT usedNum, COUNT(*) fileCount FROM used_image
 			GROUP BY usedNum
 		) f ON u.usedNum = f.usedNum
 		WHERE u.usedNum = #{usedNum}
@@ -73,8 +71,14 @@
 	<!-- 파일 -->
 	<insert id="insertFile" parameterType="com.sp.app.used.Used">
 		INSERT INTO used_image(used_imageFileNum, imageFilename, usedNum) VALUES
-				(usedFile_seq.NEXTVAL, #{imageFilename}, #{usedNum})
+				(usedfile_seq.NEXTVAL, #{imageFilename}, #{usedNum})
 	</insert>
+	
+	<select id="readimagelist" parameterType="map" resultType="com.sp.app.used.Used">
+		SELECT u.usedNum, imageFilename
+		FROM used_bbs u
+		JOIN used_image i ON u.usedNum = i.usedNum
+	</select>
 	
 	<select id="listFile" parameterType="Integer" resultType="com.sp.app.used.Used">
 		SELECT used_imageFileNum, imageFilename, usedNum

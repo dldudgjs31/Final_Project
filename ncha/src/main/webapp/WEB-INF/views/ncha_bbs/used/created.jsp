@@ -3,7 +3,50 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
+
+
+<style type="text/css">
+.imgs_wrap img{
+	height:100px;
+	width: 80px;
+}
+</style>
+
+
 <script type="text/javascript">
+var img_files=[];
+
+$(document).ready(function(){
+	$("#upload_img").on("change",handleImgFileSelect);
+});
+
+
+function handleImgFileSelect(e){
+	img_files=[];
+	$(".imgs_wrap").empty();
+	
+	var files=e.target.files;
+	var filesArr = Array.prototype.slice.call(files);
+	
+	
+	filesArr.forEach(function(f){
+		if(!f.type.match("image.*")){
+			alert("확장자는 이미지 확장자만 가능합니다.");
+		}
+		
+		img_files.push(f);
+		
+		var reader = new FileReader();
+		reader.onload = function(e){
+			var html = "<img src=\""+e.target.result+"\" />";
+			$(".imgs_wrap").append(html);
+			index++;
+		}
+	
+		reader.readAsDataURL(f);
+	});
+}
+
 <c:if test="${mode=='update'}">
 function deleteFile(fileNum) {
 		var url="${pageContext.request.contextPath}/used/deleteFile";
@@ -12,7 +55,6 @@ function deleteFile(fileNum) {
 		}, "json");
 }
 </c:if>
-
 
 function sendOk(){
 	var f = document.usedForm;
@@ -53,6 +95,7 @@ function payMethod(s){
 
 	<div>
 		<form name="usedForm" method="post" enctype="multipart/form-data">	
+		
 			<table style="width: 100%; margin: 20px auto 0px; border-spacing: 0px; border-collapse: collapse;">
 			<tr align="left" height="40" style="border-bottom: 1px solid #cccccc;"> 
 				<td width="100" bgcolor="#eeeeee" style="text-align: center;">작성자</td>
@@ -60,12 +103,18 @@ function payMethod(s){
 					${sessionScope.member.userName}
 				</td>
 			</tr>
+			</table>
 			
-			<tbody>
+			<div>
+				<div class = "imgs_wrap">
+				</div>
+			</div>
+			
+			<table>
 			<tr align="left" height="40" style="border-bottom: 1px solid #cccccc;">
-      			<td width="100" bgcolor="#eeeeee" style="text-align: center;">첨&nbsp;&nbsp;&nbsp;&nbsp;부</td>
+      			<td width="100" bgcolor="#eeeeee" style="text-align: center;">사&nbsp;&nbsp;&nbsp;&nbsp;진</td>
      			 <td style="padding-left:10px;"> 
-          			<input type="file" name="upload" multiple="multiple" class="boxTF" size="53" style="width: 95%; height: 25px;">
+          			<input type="file" name="upload" id="upload_img" onclick="fileUploadAction();" multiple="multiple" class="boxTF" size="53" style="width: 95%; height: 25px;">
        			</td>
   			</tr>
 			<c:if test="${mode=='update'}">
@@ -73,13 +122,13 @@ function payMethod(s){
 						  <tr id="${dto.used_imageFileNum}" height="40" style="border-bottom: 1px solid #cccccc;"> 
 						      <td width="100" bgcolor="#eeeeee" style="text-align: center;">첨부된파일</td>
 						      <td style="padding-left:10px;"> 
-								<a href="javascript:deleteFile('${dto.used_imageFileNum}');"><i class="far fa-trash-alt"></i></a> 
-								${dto.imageFilename}
+								<a href="javascript:deleteFile('${vo.used_imageFileNum}');"><i class="far fa-trash-alt"></i></a> 
+								${vo.imageFilename}
 						      </td>
 						  </tr>
 				  </c:forEach>
-			</c:if>
-			</tbody>
+			</c:if>			
+			
 			
 			<tr align="left" height="40" style="border-top: 1px solid #cccccc; border-bottom: 1px solid #cccccc;"> 
 				<td width="100" bgcolor="#eeeeee" style="text-align: center;">제&nbsp;&nbsp;&nbsp;&nbsp;목</td>
@@ -113,20 +162,22 @@ function payMethod(s){
 			<tr align="left" height="40" style="border-top: 1px solid #cccccc; border-bottom: 1px solid #cccccc;"> 
 				<td width="100" bgcolor="#eeeeee" style="text-align: center;">상품&nbsp;&nbsp;상태</td>
 				<td style="padding-left:10px;">
-					<button type="button" onclick="state('New')">미개봉</button>
-					<button type="button" onclick="state('almostNew')">거의새것</button>
-					<button type="button" onclick="state('used')">사용감 있음</button>
+					<button type="button" onclick="state('미개봉')">미개봉</button>
+					<button type="button" onclick="state('거의 새것')">거의 새것</button>
+					<button type="button" onclick="state('사용감 있음')">사용감 있음</button>
 					<input type="hidden" name="productCondition" value="1">
 				</td>
 			</tr>
 
 			<tr align="left" height="40" style="border-top: 1px solid #cccccc; border-bottom: 1px solid #cccccc;"> 
 				<td width="100" bgcolor="#eeeeee" style="text-align: center;">결제&nbsp;&nbsp;방법</td>
+				
 				<td style="padding-left:10px;">
-					<button type="button" onclick="payMethod('cash')">현금</button>
-					<button type="button" onclick="payMethod('account')">계좌이체</button>
-					<input type="hidden" name="dealingMode" value="1">
+					<button type="button" onclick="payMethod('현금')" >현금</button>
+					<button type="button" onclick="payMethod('계좌이체')" >계좌이체</button>
+					<input  type="hidden" name="dealingMode" value="1">
 				</td>
+			
 			</tr>
 			
 			<tr align="left" height="40" style="border-top: 1px solid #cccccc; border-bottom: 1px solid #cccccc;"> 
@@ -134,9 +185,9 @@ function payMethod(s){
 				<td style="padding-left:10px;">
 					<select class="selectField" id="location" name="location">
 						<option value="">::거래지역 선택::</option>
-						<option value="seoul" ${dto.location=="seoul"?"selected='selected'":""}>서울</option>
-						<option value="incheon" ${dto.location=="incheon"?"selected='selected'":""}>인천</option>
-						<option value="gyeonggi" ${dto.location=="gyeonggi"?"selected='selected'":""}>경기</option>
+						<option value="서울" ${dto.location=="서울"?"selected='selected'":""}>서울</option>
+						<option value="인천" ${dto.location=="인천"?"selected='selected'":""}>인천</option>
+						<option value="경기" ${dto.location=="경기"?"selected='selected'":""}>경기</option>
 					</select>
 				</td>
 			</tr>	
@@ -146,7 +197,7 @@ function payMethod(s){
 				<td valign="top" style="padding:5px 0px 5px 10px;"> 
 					<textarea name="content" rows="12" class="boxTA" style="width: 95%;"></textarea>
 				</td>
-			</tr>			
+			</tr>
 		</table>
 
 		<table style="width: 100%; border-spacing: 0px;">
