@@ -24,6 +24,7 @@ public class Daily {
 	
 	private List<MultipartFile> upload;
 	
+	
 	private String imageFilename;
 	private int daily_imageFilenum;
 	private String profile_imageFilename;

@@ -10,6 +10,7 @@
 .profile_photo img{
 	height: 200px;
 	width: 200px;
+
 }
 
 </style>
@@ -74,10 +75,10 @@ $(function(){
 });
 */
   <c:if test="${mode=='update'}">
-  function deleteFile(fileNum) {
+  function deleteFile(daily_imageFilenum) {
 		var url="${pageContext.request.contextPath}/daily/deleteFile";
-		$.post(url, {fileNum:fileNum}, function(data){
-			$("#f"+fileNum).remove();
+		$.post(url, {daily_imageFilenum:daily_imageFilenum}, function(data){
+			$("#"+daily_imageFilenum).remove();
 		}, "json");
   }
 </c:if>
@@ -94,7 +95,7 @@ function sendOk() {
 
 	var str = f.subject.value;
     if(!str) {
-        alert("제목을 입력하세요. ");
+        alert("제목을 입력하세요! ");
         f.subject.focus();
         
         return;
@@ -102,11 +103,19 @@ function sendOk() {
 
 	str = f.content.value;
     if(!str) {
-        alert("내용을 입력하세요. ");
+        alert("내용을 입력하세요! ");
         f.content.focus();
         return;
     }
+    
+    str = f.categoryNum.value;
+    if(!str) {
+        alert("카테고리를 설정하세요! ");
+        f.categoryNum.focus();
+        return;
+    }
 
+    
 	f.action="${pageContext.request.contextPath}/daily/${mode}";
 
     f.submit();
@@ -120,8 +129,19 @@ function sendOk() {
     
     <div>
 		<form name="dailyForm" method="post" enctype="multipart/form-data">
-			<div class="slick-items" style="height: 450px;">
+   		 
+			<div style="height: 450px;">
 			<div style="margin-bottom: 20px; margin-top: 30px; margin-left: 30px;">
+			<!--  이부분 업데이트일시에 올렸던 파일 가져오는 부분인데 짜다가 포기
+			<c:if test="${mode=='update'}">
+				<c:forEach var="vo" items="${list1}">
+					<c:if test="${vo.dailyNum == dto.dailyNum}">
+						 <label style="font-weight: 900; font-size: 50;">첨부된사진</label>
+					      <div  class="profile_photo" style="background-image: url('${pageContext.request.contextPath}/uploads/daily/${vo.imageFilename}');"></div>
+					</c:if>  
+				</c:forEach>
+			</c:if>
+			 -->
 				 <label style="font-weight: 900; font-size: 50;">메인 사진</label>
 				 <div class="profile_photo" id="main_img">
 
@@ -169,7 +189,7 @@ function sendOk() {
 					<td width="100" bgcolor="#eeeeee" style="text-align: center;">카테고리</td>
 					<td style="padding-left:10px;">
 						<select class="selectField" id="categoryNum" name="categoryNum">
-							<option value="">::카테고리 선택::</option>
+							<option value="${dto.categoryNum}"  >::카테고리 선택::$</option>
 							<option value="1" ${dto.categoryNum=="1"?"selected='selected'":""}>의류</option>
 							<option value="2" ${dto.categoryNum=="2"?"selected='selected'":""}>가구</option>
 							<option value="3" ${dto.categoryNum=="3"?"selected='selected'":""}>전자제품</option>
@@ -186,15 +206,14 @@ function sendOk() {
 			      </td>
 			  	</tr>
 			  	
-			  	
               </tbody>  
 				<c:if test="${mode=='update'}">
 				   <c:forEach var="vo" items="${listFile}">
-						  <tr id="${dto.fileNum}" height="40" style="border-bottom: 1px solid #cccccc;"> 
+						  <tr id="${vo.daily_imageFilenum}" height="40" style="border-bottom: 1px solid #cccccc;"> 
 						      <td width="100" bgcolor="#eeeeee" style="text-align: center;">첨부된파일</td>
 						      <td style="padding-left:10px;"> 
-								<a href="javascript:deleteFile('${dto.fileNum}');"><i class="far fa-trash-alt"></i></a> 
-								${dto.imageFilename}
+								<a href="javascript:deleteFile('${vo.daily_imageFilenum}');"><i class="far fa-trash-alt"></i></a> 
+								${vo.imageFilename}
 						      </td>
 						  </tr>
 				   </c:forEach>
@@ -207,61 +226,14 @@ function sendOk() {
 			        <button type="button" class="btn" onclick="sendOk();">${mode=='update'?'수정완료':'등록하기'}</button>
 			        <button type="reset" class="btn">다시입력</button>
 			        <button type="button" class="btn" onclick="javascript:location.href='${pageContext.request.contextPath}/daily/list';">${mode=='update'?'수정취소':'등록취소'}</button>
-			         <c:if test="${mode=='update'}">${pageContext.request.contextPath}/daily/list
-			         	 <input type="hidden" name="num" value="${dto.dailyNum}">
+			         <c:if test="${mode=='update'}">
+			         	 <input type="hidden" name="dailyNum" value="${dto.dailyNum}">
 			        	 <input type="hidden" name="page" value="${page}">
+			        	 <input type="hidden" name="imageFilename" value="${vo.imageFilename}">
 			        </c:if>
 			      </td>
 			    </tr>
 			</table>
 		</form>
     </div>
-    
-<!--   스마트 에디터 가져와야 쓸 수 있음
-<script type="text/javascript">
-var oEditors = [];
-nhn.husky.EZCreator.createInIFrame({
-	oAppRef: oEditors,
-	elPlaceHolder: "content",
-	sSkinURI: "${pageContext.request.contextPath}/resources/se/SmartEditor2Skin.html",	
-	htParams : {bUseToolbar : true,
-		fOnBeforeUnload : function(){
-			// alert(" Ok !!!");
-		}
-	}, //boolean
-	fOnAppLoad : function(){
-		//예제 코드
-		//oEditors.getById["content"].exec("PASTE_HTML", ["로딩이 완료된 후에 본문에 삽입되는 text입니다."]);
-	},
-	fCreator: "createSEditor2"
-});
-
-function pasteHTML() {
-	var sHTML = "<span style='color:#FF0000;'>이미지도 같은 방식으로 삽입합니다.<\/span>";
-	oEditors.getById["content"].exec("PASTE_HTML", [sHTML]);
-}
-
-function showHTML() {
-	var sHTML = oEditors.getById["content"].getIR();
-	alert(sHTML);
-}
-	
-function submitContents(elClickedObj) {
-	oEditors.getById["content"].exec("UPDATE_CONTENTS_FIELD", []);	// 에디터의 내용이 textarea에 적용됩니다.
-	
-	// 에디터의 내용에 대한 값 검증은 이곳에서 document.getElementById("content").value를 이용해서 처리하면 됩니다.
-	
-	try {
-		// elClickedObj.form.submit();
-		return check();
-	} catch(e) {}
-}
-
-function setDefaultFont() {
-	var sDefaultFont = '돋움';
-	var nFontSize = 24;
-	oEditors.getById["content"].setDefaultFont(sDefaultFont, nFontSize);
-}
-</script>  
- -->
 </div>

@@ -16,6 +16,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.sp.app.common.FileManager;
 import com.sp.app.common.MyUtil;
@@ -163,7 +164,7 @@ public class DailyController {
 		if(dto==null) {
 			return "redirect:/daily/list?"+query;
 		}
-		List<Daily> list1 = service.readDailyFile(dailyNum);
+		List<Daily> list1 = service.readDailyFile(dailyNum);	//파일 여러개 불러오는거
 		
         dto.setContent(dto.getContent().replaceAll("\n", "<br>"));
          
@@ -178,7 +179,7 @@ public class DailyController {
 		
         
 		// 파일
-		List<Daily> listFile=service.listFile(dailyNum);
+		List<Daily> listFile=service.listFile(dailyNum);	//
 		model.addAttribute("list1", list1);
 		model.addAttribute("dto", dto);
 		model.addAttribute("preReadDto", preReadDto);
@@ -188,5 +189,112 @@ public class DailyController {
 		model.addAttribute("query", query);
 		
 		return ".ncha_bbs.daily.article";
+	}
+	@RequestMapping(value="update", method=RequestMethod.GET)
+	public String updateForm(
+			@RequestParam int dailyNum,
+			@RequestParam String page,
+			HttpSession session,			
+			Model model	) throws Exception {
+		SessionInfo info=(SessionInfo)session.getAttribute("member");
+		Daily dto = service.readDaily(dailyNum);
+		
+		if(dto==null) {
+			return "redirect:/daily/list?page="+page;
+		}
+		
+		if(! info.getUserId().equals(dto.getUserId())) {
+			return "redirect:/daily/list?page="+page;
+		}
+
+		
+		List<Daily> listFile=service.listFile(dailyNum);
+		model.addAttribute("dailyNum",dailyNum);
+		model.addAttribute("mode", "update");
+		model.addAttribute("page", page);
+		model.addAttribute("dto", dto);
+		model.addAttribute("listFile", listFile);
+		
+		return ".ncha_bbs.daily.created";
+	}
+
+	@RequestMapping(value="update", method=RequestMethod.POST)
+	public String updateSubmit(
+			Model model,
+			int dailyNum,
+			Daily dto,
+			@RequestParam String page,
+			HttpSession session) throws Exception {
+
+		SessionInfo info=(SessionInfo)session.getAttribute("member");
+		System.out.println(dto.getDaily_imageFilenum());
+		
+		try {
+			String root = session.getServletContext().getRealPath("/");
+			String pathname = root + File.separator + "uploads" + File.separator + "daily";		
+			
+			//List<Daily> list1 = service.readDailyFile(dailyNum);	//파일 여러개 불러오는거
+			//model.addAttribute("list1", list1);  수정할때 원래 올렸던 사진 나오게 ㅊ ㅓ리하다가 자러감 
+			
+			dto.setUserId(info.getUserId());
+			service.updateDaily(dto, pathname);
+		} catch (Exception e) {
+		}
+		
+		return "redirect:/daily/list?page="+page;
+	}
+	
+	@RequestMapping(value="deleteFile", method=RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> deleteFile(
+			@RequestParam int daily_imageFilenum,
+			HttpSession session) throws Exception {
+		
+		String root = session.getServletContext().getRealPath("/");
+		String pathname = root + "uploads" + File.separator + "daily";
+		
+		Daily dto=service.readFile(daily_imageFilenum);
+		if(dto!=null) {
+			fileManager.doFileDelete(dto.getImageFilename(), pathname);
+		}
+		
+		Map<String, Object> map=new HashMap<String, Object>();
+		map.put("field", "daily_imageFilenum");
+		map.put("daily_imageFilenum", daily_imageFilenum);
+		service.deleteFile(map);
+		
+   	    // 작업 결과를 json으로 전송
+		Map<String, Object> model = new HashMap<>(); 
+		model.put("state", "true");
+		return model;
+	}
+	
+	@RequestMapping(value="delete")
+	public String delete(
+			@RequestParam int dailyNum,
+			@RequestParam String page,
+			@RequestParam(defaultValue="") String categoryNum,
+			@RequestParam(defaultValue="") String keyword,
+			HttpSession session) throws Exception {
+		SessionInfo info=(SessionInfo)session.getAttribute("member");
+		
+		keyword = URLDecoder.decode(keyword, "utf-8");
+		String query="page="+page;
+		if(keyword.length()!=0) {
+			query+="&categoryNum="+categoryNum+"&keyword="+URLEncoder.encode(keyword, "UTF-8");
+		}
+		
+		if(! info.getUserId().equals("admin")) {
+			return "redirect:/daily/list?"+query;
+		}
+		
+		try {
+			String root = session.getServletContext().getRealPath("/");
+			String pathname = root + "uploads" + File.separator + "daily";
+			service.deleteDaily(dailyNum, pathname);
+		} catch (Exception e) {
+		}
+		
+		return "redirect:/daily/list?"+query;
 	}
 }

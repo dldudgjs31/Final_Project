@@ -39,6 +39,33 @@
 
 </style>
 
+<script type="text/javascript">
+function deleteDaily(dailyNum) {
+	<c:if test="${sessionScope.member.userId==dto.userId || sessionScope.member.userId=='admin' }">
+		if(confirm("게시물을 삭제 하시겠습니까 ?")) {
+			var q="dailyNum="+dailyNum+"&${query}";
+			var url="${pageContext.request.contextPath}/daily/delete?"+q;
+			location.href=url;
+		}
+	</c:if>
+
+	<c:if test="${sessionScope.member.userId!=dto.userId && sessionScope.member.userId!='admin' }">
+		alert("게시글을 삭제할 수 없습니다.");
+	</c:if>
+	}
+
+	function updateDaily(dailyNum) {
+	<c:if test="${sessionScope.member.userId==dto.userId}">
+		var q="dailyNum="+dailyNum+"&page=${page}";
+		var url="${pageContext.request.contextPath}/daily/update?"+q;
+		location.href=url;
+	</c:if>
+	<c:if test="${sessionScope.member.userId!=dto.userId}">
+		alert("게시글을 수정할 수 없습니다.");
+	</c:if>
+	}
+</script>
+
 <div class="body-container" style="width: 700px;">
 	<div class="profile-img">
    		<div class="imgs" style="background-image:url('${pageContext.request.contextPath}/uploads/member/${dto.profile_imageFilename}'); border-bottom: 1px solid #cccccc;">
@@ -47,11 +74,11 @@
    	
 
     <div class="slick-items" style="height: 450px;">
-<c:forEach var="vo" items="${list1}">
-<c:if test="${vo.dailyNum == dto.dailyNum}">
-        <div  class="slider-image" style="background-image: url('${pageContext.request.contextPath}/uploads/daily/${vo.imageFilename}');"></div>
-</c:if>  
-</c:forEach>
+		<c:forEach var="vo" items="${list1}">
+			<c:if test="${vo.dailyNum == dto.dailyNum}">
+			      <div  class="slider-image" style="background-image: url('${pageContext.request.contextPath}/uploads/daily/${vo.imageFilename}');"></div>
+			</c:if>  
+		</c:forEach>
     </div>
      <div>
 			<table style="width: 100%; margin: 20px auto 0px; border-spacing: 0px; border-collapse: collapse;">
@@ -96,10 +123,10 @@
 			<tr height="45">
 			    <td width="300" align="left">
 			       <c:if test="${sessionScope.member.userId==dto.userId}">				    
-			          <button type="button" class="btn" onclick="updateBoard();">수정</button>
+			          <button type="button" class="btn" onclick="updateDaily('${dto.dailyNum}');">수정</button>
 			       </c:if>
 			       <c:if test="${sessionScope.member.userId==dto.userId || sessionScope.member.userId=='admin'}">				    
-			          <button type="button" class="btn" onclick="deleteBoard();">삭제</button>
+			          <button type="button" class="btn" onclick="deleteDaily('${dto.dailyNum}');">삭제</button>
 			       </c:if>
 			    </td>
 			

@@ -1,5 +1,6 @@
 package com.sp.app.daily;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -35,8 +36,7 @@ public class DailyServiceImpl implements DailyService{
 					dto.setDaily_imageFilenum(image_seq);		
 					insertFile(dto);
 				}
-						}
-			System.out.println(pathname);
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -91,18 +91,69 @@ public class DailyServiceImpl implements DailyService{
 			e.printStackTrace();
 		}
 		return list1;
-		
 	}
 	
 	@Override
+	public List<Daily> listFile(int dailyNum) {
+		List<Daily> listFile = null;
+		try {
+			listFile = dao.selectList("daily.listFile",dailyNum);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return listFile;
+	}
+	
+	
+	@Override
 	public void updateDaily(Daily dto, String pathname) throws Exception {
-		// TODO Auto-generated method stub
+		try {
+			int seq = dto.getDailyNum();			
+			
+			dto.setDailyNum(seq);
+			dao.updateData("daily.updateDaily", dto);
+			
+			// 파일 업로드
+			if(! dto.getUpload().isEmpty()) {
+				for(MultipartFile mf:dto.getUpload()) {
+					String imageFilename=fileManager.doFileUpload(mf, pathname);
+					if(imageFilename==null) continue;	
+					dto.setImageFilename(imageFilename);
+					int image_seq = dao.selectOne("daily.image_seq");
+					dto.setDaily_imageFilenum(image_seq);		
+					insertFile(dto);
+				}
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		
 	}
 
 	@Override
 	public void deleteDaily(int dailyNum, String pathname) throws Exception {
-		// TODO Auto-generated method stub
+		try {
+			
+			List<Daily> listFile=listFile(dailyNum);
+			if(listFile!=null) {
+				for(Daily dto:listFile) {
+					fileManager.doFileDelete(dto.getImageFilename(), pathname);
+				}
+			}
+			
+			
+			Map<String, Object> map=new HashMap<String, Object>();
+			map.put("field", "dailyNum");
+			map.put("dailyNum", dailyNum);
+			deleteFileAll(map);
+			
+			
+			dao.deleteData("daily.deleteDaily", dailyNum);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
 		
 	}
 
@@ -117,16 +168,6 @@ public class DailyServiceImpl implements DailyService{
 		
 	}
 
-	@Override
-	public List<Daily> listFile(int dailyNum) {
-		List<Daily> listFile = null;
-		try {
-			listFile = dao.selectList("daily.listFile",dailyNum);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return listFile;
-	}
 	
 
 	@Override
@@ -137,9 +178,25 @@ public class DailyServiceImpl implements DailyService{
 
 	@Override
 	public void deleteFile(Map<String, Object> map) throws Exception {
-		// TODO Auto-generated method stub
+		try {
+			dao.deleteData("daily.deleteFile", map);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}		
+	}
+	
+	@Override
+	public void deleteFileAll(Map<String, Object> map) throws Exception {
+		try {
+			dao.deleteData("daily.deleteFileAll", map);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}		
 		
 	}
+
 
 	@Override
 	public void updateHitCount(int num) throws Exception {
@@ -180,6 +237,7 @@ public class DailyServiceImpl implements DailyService{
 		
 	}
 
+	
 
 
 	

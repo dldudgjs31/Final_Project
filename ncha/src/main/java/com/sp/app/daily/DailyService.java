@@ -29,6 +29,7 @@ public interface DailyService {
 	public List<Daily>listFile(int dailyNum);
 	public Daily readFile(int fileNum);
 	public void deleteFile(Map<String, Object> map) throws Exception;
+	public void deleteFileAll(Map<String, Object> map) throws Exception;
 	
 	
 }

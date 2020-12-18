@@ -2,18 +2,24 @@
 
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="daily">
+
+	<!-- 글번호 주는애 -->
 	<select id="seq" resultType="Integer">
 		SELECT daily_seq.NEXTVAL FROM dual
 	</select>
+	
+	<!-- 이미지 번호주는애 -->
 	<select id="image_seq" resultType="Integer">
 		SELECT dailyFile_seq.NEXTVAL FROM dual
 	</select>
 	
+	<!-- 일상글 넣어주는애 -->
 	<insert id="insertDaily" parameterType="com.sp.app.daily.Daily">
 		INSERT INTO daily_bbs(dailyNum, userId, content, subject, storeURL, usedURL, created_date, hitCount, categoryNum) 
 			VALUES (#{dailyNum}, #{userId}, #{content}, #{subject}, #{storeURL,jdbcType=VARCHAR}, #{usedURL,jdbcType=VARCHAR}, SYSDATE, 0, #{categoryNum})
 	</insert>
 	
+	<!-- 게시글 카운터 -->
 	<select id="dailyCount" parameterType="map" resultType="Integer">
 		SELECT NVL(COUNT(*), 0)
 		FROM daily_bbs d
@@ -28,6 +34,7 @@
  		</where>
 	</select>
 	
+	<!-- 리스트에서 제목, 사진 맨 앞에꺼 출력하는 애 -->
 	<select id="listDaily" parameterType="map" resultType="com.sp.app.daily.Daily">
 		SELECT d.dailyNum, d.userId, userName, subject, hitCount, categoryName,d.categoryNum,
 			       created_date, imageFilename
@@ -49,19 +56,43 @@
  			</where>
 	</select>
 	
-	<select id="listArticleFile" parameterType="map" resultType="com.sp.app.daily.Daily">
-		SELECT d.dailyNum, imageFilename
-			FROM daily_bbs d
-			JOIN daily_image i ON d.dailyNum = i.dailyNum
+		<!-- 첨부된 파일 보여주는 애 -->
+	<select id="listFile" parameterType="Integer" resultType="com.sp.app.daily.Daily">
+		SELECT daily_imageFilenum, dailyNum, imageFilename
+		FROM daily_image
+		WHERE dailyNum=#{dailyNum}
+		ORDER BY daily_imageFilenum ASC
 	</select>
 	
+	
+	
+	<!-- Article에서 사진 보여주는 애 -->
+	<select id="listArticleFile" parameterType="map" resultType="com.sp.app.daily.Daily">
+		SELECT dailyNum, imageFilename,daily_imageFilenum
+			FROM daily_image	
+			ORDER BY daily_imageFilenum ASC
+	</select>
+	
+	<!-- Article에서 글읽어오는애 -->
 	 <select id="readDaily" parameterType="Integer" resultType="com.sp.app.daily.Daily">
-		SELECT d.dailyNum, d.userId, userName, subject, content, created_date, hitCount,profile_imageFilename, categoryName
+		SELECT d.dailyNum, d.userId, userName, subject, content, created_date, hitCount,profile_imageFilename, categoryName,d.categoryNum
 		FROM daily_bbs d
 		JOIN member m ON d.userId = m.userId 
 		JOIN daily_category c ON d.categoryNum = c.categoryNum
 		WHERE d.dailyNum = #{dailyNum}
 	</select>
+	
+	<!-- 업데이트( 제목, 내용 수정 ) -->
+	<update id="updateDaily" parameterType="com.sp.app.daily.Daily">
+		UPDATE daily_bbs d SET subject=#{subject}, content=#{content}, dailyNum=#{dailyNum}
+		WHERE dailyNum = #{dailyNum}
+		
+	</update>
+	
+	<!--게시글 삭제 -->
+	<delete id="deleteDaily" parameterType="Integer">
+		DELETE FROM daily_bbs WHERE dailyNum=#{dailyNum}
+	</delete>
 	
 	<!-- 이전글 -->
 	<select id="preReadDaily" parameterType="map" resultType="com.sp.app.daily.Daily">
@@ -100,19 +131,26 @@
 		FETCH FIRST 1 ROWS ONLY
     </select>
 
+	<!-- 조회수 증가시키는 애 -->
 	<update id="updateHitCount" parameterType="Integer">
 		UPDATE daily_bbs SET hitCount=hitCount+1 WHERE dailyNum = #{dailyNum}
 	</update>
 	
+	<!-- 파일 DB에 넣어주는 애 -->
 	<insert id="insertFile" parameterType="com.sp.app.daily.Daily">
 		INSERT INTO daily_image(daily_imageFilenum, imageFilename, dailyNum)
 			VALUES (#{daily_imageFilenum}, #{imageFilename}, #{dailyNum})
 	</insert>
 	
-	<select id="listFile" parameterType="Integer" resultType="com.sp.app.daily.Daily">
-		SELECT daily_imageFilenum, dailyNum, imageFilename
-		FROM daily_image
-		WHERE dailyNum=#{dailyNum}
-		ORDER BY daily_imageFilenum ASC
-	</select>
+
+	
+	<!-- update에서 사진 지우는 애 -->
+	<delete id="deleteFile" parameterType="map">
+		DELETE FROM daily_image WHERE ${field} = #{daily_imageFilenum}
+	</delete>
+	
+	<!-- delete에서 dailyNum으로 지우는 애 -->
+	<delete id="deleteFileAll" parameterType="Integer">
+		DELETE FROM daily_image WHERE ${field} = #{dailyNum}
+	</delete>
 </mapper>
