@@ -7,12 +7,10 @@ public class Review {
 CREATE TABLE product_review (
    reviewNum  NUMBER         NOT NULL, -- 리뷰번호
    userId     VARCHAR2(50)   NOT NULL, -- 유저아이디
-   subject    VARCHAR2(250)  NOT NULL, -- 내용
-   content    VARCHAR2(4000) NOT NULL, -- 제목
+   content    VARCHAR2(4000) NOT NULL, -- 내용
    productNum NUMBER         NOT NULL,  -- 상품번호(완료)
    created_date DATE DEFAULT SYSDATE NOT NULL,
    score NUMBER NOT NULL,
- parent
    CONSTRAINT pk_product_review PRIMARY KEY(reviewNum,userId),
    CONSTRAINT fk_product_review_userId FOREIGN KEY(userId)
                   REFERENCES member(userId) ON DELETE CASCADE,
@@ -23,12 +21,12 @@ CREATE TABLE product_review (
  * */
 	private int reviewNum , productNum;
 	private String userId;
-	private String subject;
+	private String userName;
+
 	private String content;
 	private String created_date;
 	private int score;
 	
-	private String parent;
 
 	public int getReviewNum() {
 		return reviewNum;
@@ -53,14 +51,14 @@ CREATE TABLE product_review (
 	public void setUserId(String userId) {
 		this.userId = userId;
 	}
-
-	public String getSubject() {
-		return subject;
+	public String getUserName() {
+		return userName;
+	}
+	
+	public void setUserName(String userName) {
+		this.userName = userName;
 	}
 
-	public void setSubject(String subject) {
-		this.subject = subject;
-	}
 
 	public String getContent() {
 		return content;
@@ -86,13 +84,6 @@ CREATE TABLE product_review (
 		this.score = score;
 	}
 
-	public String getParent() {
-		return parent;
-	}
-
-	public void setParent(String parent) {
-		this.parent = parent;
-	}
 	
 	
 }

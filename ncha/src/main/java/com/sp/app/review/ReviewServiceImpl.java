@@ -43,4 +43,27 @@ public class ReviewServiceImpl implements ReviewService {
 			throw e;
 			}
 		}
+	
+	@Override
+	public int dataCount(Map<String, Object> map) {
+		int result=0;
+		
+		try{
+			result=dao.selectOne("review.dataCount",map);			
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+		return result;
+	}
+
+	@Override
+	public double reviewScore(int productNum) {
+		double result=0;
+		try {
+			result=dao.selectOne("review.reviewScore", productNum);			
+		}catch (Exception e) {
+		}
+		return result;
+	}
 }

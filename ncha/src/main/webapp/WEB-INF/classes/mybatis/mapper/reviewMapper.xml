@@ -3,26 +3,37 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="review">
  <insert id="insertReview" parameterType="com.sp.app.review.Review">
-      INSERT INTO product_review(reviewNum,userId,subject,content, productNum, created_date, score) VALUES 
-         (review_SEQ.NEXTVAL,#{userId},#{subject},#{content},#{productNum}, SYSDATE,#{score})
+      INSERT INTO product_review(reviewNum,userId, content, productNum, created_date, score) VALUES 
+         (review_SEQ.NEXTVAL,#{userId},#{content},#{productNum}, SYSDATE,#{score})
    </insert>
-
+   
+	<select id="dataCount" parameterType="map" resultType="Integer">
+	 	SELECT NVL(COUNT(*),0) 
+	 	FROM product_review b
+	 	JOIN member m ON b.userId = m.userId
+	 	WHERE r.productNum=#{productNum}
+	  </select>
+	  
    <select id="listReview" parameterType="map" resultType="com.sp.app.review.Review">
-        SELECT reviewNum, r.userId,subject,content, r.productNum,
-          TO_CHAR(created,'YYYY-MM-DD') created_date,
-          score
+       SELECT reviewNum, r.userId , m.userName, content, r.productNum, 
+               r.created_date, score
       FROM product_review r 
-      JOIN member m ON r.userId=m.userId
-      LEFT OUTER JOIN (
-         SELECT productNum
-         FROM product_bbs
-      GROUP BY productNum
-      ) c ON r.productNum=c.productNum
-       ORDER BY reviewNum DESC 
+      JOIN member m ON r.userId= m.userId
+      WHERE r.productNum=#{productNum}
+      ORDER BY reviewNum DESC 
+      OFFSET #{offset} ROWS FETCH FIRST #{rows} ROWS ONLY
+      
      </select>
 
+	 <select id="reviewScore" parameterType="Integer" resultType="Double">
+	 	SELECT AVG(score)
+		FROM product_review 
+		WHERE productNum = #{productNum}
+	 </select>
+	 
       <delete id="deleteReview" parameterType="map">
-      DELETE FROM product_review WHERE reviewNum = #{reviewNum}
+      DELETE FROM product_review 
+      WHERE reviewNum = #{reviewNum}
       <if test="userId != 'admin'">
          AND userId = #{userId}
       </if>

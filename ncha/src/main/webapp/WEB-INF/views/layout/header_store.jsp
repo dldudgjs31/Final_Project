@@ -110,13 +110,12 @@
 		<li><a href="${pageContext.request.contextPath}/store/list">N차_스토어</a></li>
 		<li><a href="${pageContext.request.contextPath}/used/list">이벤트</a></li>
 		<li><a href="${pageContext.request.contextPath}/store/write">판매글올리기</a></li>
-		<li><a href="${pageContext.request.contextPath}/mypage/profile">마이페이지</a></li>
+		<li><a href="${pageContext.request.contextPath}/review/main">고객센터</a></li>
 		<li><a href="${pageContext.request.contextPath}/">중고거래</a></li>
 	</ul>
 	
 	<!-- 로그인/로그아웃 버튼 -->
 	<ul class="navbar_icons">
-	         
 	         <c:if test="${empty sessionScope.member && empty sessionScope.seller}">
                <li><a href="${pageContext.request.contextPath}/seller/login">로그인</a>	</li>
                     &nbsp;&nbsp;
@@ -124,6 +123,8 @@
             </c:if>
             <c:if test="${not empty sessionScope.member}">
                 <li><span style="color:blue;">${sessionScope.member.userName}</span>님</li>
+                &nbsp;&nbsp;
+      			<li><a href="${pageContext.request.contextPath}/mypage/profile">마이페이지</a></li>
                 &nbsp;&nbsp;
                <li> <a href="${pageContext.request.contextPath}/member/logout">로그아웃</a></li>
                 &nbsp;&nbsp;
