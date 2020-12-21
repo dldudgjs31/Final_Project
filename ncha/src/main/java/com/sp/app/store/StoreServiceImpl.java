@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.sp.app.common.FileManager;
 import com.sp.app.common.dao.CommonDAO;
@@ -19,7 +20,21 @@ public class StoreServiceImpl implements StoreService {
 	@Override
 	public void insertProduct(Store dto, String pathname) throws Exception {
 		try {
+			int seq = dao.selectOne("store.seq");
+			dto.setProductNum(seq);
 			dao.insertData("store.insertProduct", dto);
+			
+			if(! dto.getUpload().isEmpty()) {
+				for(MultipartFile mf : dto.getUpload()) {
+					String imageFilename=fileManager.doFileUpload(mf, pathname);
+					if(imageFilename==null) continue;
+					dto.setImageFilename(imageFilename);
+					int image_seq = dao.selectOne("store.image_seq");
+					dto.setMain_imageFileNum(image_seq);
+					insertFile(dto);
+				}
+			}
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw e;			
@@ -118,6 +133,17 @@ public class StoreServiceImpl implements StoreService {
 			dao.deleteData("store.deleteProduct", num);
 		}catch (Exception e) {
 			e.printStackTrace();
+		}
+		
+	}
+
+	@Override
+	public void insertFile(Store dto) throws Exception {
+		try {
+			dao.insertData("store.insertFile", dto);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
 		}
 		
 	}

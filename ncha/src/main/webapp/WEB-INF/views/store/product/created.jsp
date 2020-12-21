@@ -7,7 +7,6 @@
 <%@ page trimDirectiveWhitespaces="true" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-
 <script type="text/javascript" src="${pageContext.request.contextPath}/resources/se/js/HuskyEZCreator.js" charset="utf-8"></script>
 <script type="text/javascript">
     function check() {
@@ -30,19 +29,68 @@
 
         return true;
     }
+    
+    function preWatchphoto(event){
+    	for (var image of event.target.files) {
+    			var reader = new FileReader();
+    			reader.onload = function(event){
+    				var img =document.createElement("img");
+    				img.setAttribute("src",event.target.result);
+    				document.querySelector("div#main_img").appendChild(img);
+    			}
+    			reader.readAsDataURL(image);
+    		}
+    }
+
+      <c:if test="${mode=='update'}">
+      function deleteFile(store_imageFilenum) {
+    		var url="${pageContext.request.contextPath}/store/deleteFile";
+    		$.post(url, {daily_imageFilenum:daily_imageFilenum}, function(data){
+    			$("#"+daily_imageFilenum).remove();
+    		}, "json");
+      }
+    </c:if>
+    
+$(function(){
+    	
+    	$("form input[name=upload]").change(function(){
+    		if(! $(this).val()) return;
+    		
+    		var b=false;
+    		$("form input[name=upload]").each(function(){
+    			if(! $(this).val()) {
+    				b=true;
+    				return;
+    			}
+    		});
+    		if(b) {
+    			return false;
+    		}
+    	
+    		var $tr = $(this).closest("tr").clone(true); // 이벤트도 복제
+    		$tr.find("input").val("");
+    		$("#boardBody").append($tr);
+    		
+    		
+    	});
+});
+
 </script>
 
 <div class="body-container" style="width: 830px;">
     <div class="body-title">
         <h3><i class="fab fa-asymmetrik"></i> ${mode=='update'?'판매글 수정하기':'판매글 올리기'} </h3>
     </div>
-    
+    				<label style="font-weight: 900; font-size: 50;">메인 사진</label>
+				 <div class="profile_photo" id="main_img">
+
+				 </div>	 
     <div>
 			<form name="boardForm" method="post" onsubmit="return submitContents(this);" enctype="multipart/form-data">
 			  <table style="width: 100%; margin: 20px auto 0px; border-spacing: 0px; border-collapse: collapse;">
 			  <tbody id="boardBody">
 			  <tr align="left" height="40" style="border-top: 1px solid #cccccc; border-bottom: 1px solid #cccccc;"> 
-			      <td width="100" bgcolor="#eeeeee" style="text-align: center;">상풍명</td>
+			      <td width="100" bgcolor="#eeeeee" style="text-align: center;">상품명</td>
 			      <td style="padding-left:10px;"> 
 			        <input type="text" name="productName" maxlength="100" class="boxTF" style="width: 95%;" value="${dto.productName}">
 			      </td>
@@ -94,26 +142,27 @@
 			        <textarea name="detail" id="content" class="boxTA" style="width:98%; height: 270px;">${dto.detail}</textarea>
 			      </td>
 			  </tr>
+			 
 			  
 			  <tr align="left" height="40" style="border-bottom: 1px solid #cccccc;">
-			      <td width="100" bgcolor="#eeeeee" style="text-align: center;">첨&nbsp;&nbsp;&nbsp;&nbsp;부</td>
+			      <td width="100" bgcolor="#eeeeee" style="text-align: center;">대표 이미지</td>
 			      <td style="padding-left:10px;"> 
-			          <input type="file" name="upload" class="boxTF" size="53" style="width: 95%; height: 25px;">
-			       </td>
+			          <input type="file" id="image" name="upload"  multiple="multiple"  class="boxTF" onchange="preWatchphoto(event);" multiple size="53" style="width: 95%; height: 25px; multiple">
+			      </td>
 			  </tr>
-				<c:if test="${mode=='update'}">
-					<tr align="left" height="40" style="border-bottom: 1px solid #ccc;">
-						<td width="100" bgcolor="#eee" align="center">첨부된파일</td>
-						<td style="padding-left: 10px;">
-							<c:if test="${not empty dto.saveFilename}">
-								<a href="${pageContext.request.contextPath}/bbs/deleteFile?num=${dto.productNum}&page=${page}"><i class="far fa-trash-alt"></i> </a>
-							</c:if>
-							${dto.originalFilename}
-							
-						</td>
-					</tr>
-				</c:if>
 			  </tbody>
+			  	<c:if test="${mode=='update'}">
+				   <c:forEach var="vo" items="${listFile}">
+						  <tr id="${vo.main_productFileNum}" height="40" style="border-bottom: 1px solid #cccccc;"> 
+						      <td width="100" bgcolor="#eeeeee" style="text-align: center;">첨부된파일</td>
+						      <td style="padding-left:10px;"> 
+								<a href="javascript:deleteFile('${vo.main_productFileNum}');"><i class="far fa-trash-alt"></i></a> 
+								${vo.imageFilename}
+						      </td>
+						  </tr>
+				   </c:forEach>
+				</c:if>
+			  
 			  </table>
 			
 			  <table style="width: 100%; margin: 0px auto; border-spacing: 0px;">
@@ -122,8 +171,7 @@
 			      	<c:if test="${mode=='update'}">
 						<input type="hidden" name="productNum" value="${dto.productNum}">
 						<input type="hidden" name="page" value="${page}">
-						<input type="hidden" name="saveFilename" value="${dto.saveFilename}">
-						<input type="hidden" name="originalFilename" value="${dto.originalFilename}">
+						 <input type="hidden" name="imageFilename" value="${dto.imageFilename}">
 					</c:if>
 			        <button type="submit" class="btn">${mode=='update'?'수정완료':'등록하기'}</button>
 			        <button type="reset" class="btn">다시입력</button>

@@ -117,7 +117,8 @@ public class StoreController {
 	@PostMapping("created")
 	public String creatdSubmit(
 			Store dto,
-			HttpSession session
+			HttpSession session,
+			Model model
 			) throws Exception{
 		SessionInfo info=(SessionInfo)session.getAttribute("seller");
 		
@@ -130,7 +131,7 @@ public class StoreController {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+		model.addAttribute("pathname",pathname);
 		return "redirect:/store/list";
 	}
 	/**
@@ -160,6 +161,7 @@ public class StoreController {
 		//스마트 에디터를 사용하는 경우 주석으로 막아야함
 		//dto.setContent(myUtil.htmlSymbols(dto.getContent()));
 
+		
 		Map<String, Object> map = new HashMap<>();
 		map.put("num", num);
 		map.put("condition", condition);

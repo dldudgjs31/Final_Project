@@ -3,10 +3,14 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="store">
 
-<insert id="insertProduct" parameterType="com.sp.app.store.Store">
-	INSERT INTO product_bbs(productNum, productName, created_date,hitCount,price, detail,  stock, discount_rate,sellerId,categoryNum)
-	VALUES(product_seq.NEXTVAL, #{productName}, SYSDATE,0,#{price},#{detail}, #{stock},#{discount_rate}, #{sellerId},#{categoryNum})
-</insert>
+	<select id="seq" resultType="Integer">
+		SELECT product_seq.NEXTVAL FROM dual
+	</select>
+
+	<insert id="insertProduct" parameterType="com.sp.app.store.Store">
+		INSERT INTO product_bbs(productNum, productName, created_date,hitCount,price, detail,  stock, discount_rate,sellerId,categoryNum)
+		VALUES(#{productNum}, #{productName}, SYSDATE,0,#{price},#{detail}, #{stock},#{discount_rate}, #{sellerId},#{categoryNum})
+	</insert>
 
 	 <select id="dataCount" parameterType="map" resultType="Integer">
 	 	SELECT NVL(COUNT(*),0) 
@@ -43,9 +47,14 @@
 	 </sql>
 	 
 	 <select id="listProduct" parameterType="map" resultType="com.sp.app.store.Store">
-		SELECT productNum,productName,b.created_date,hitCount,price, detail, stock, discount_rate,b.sellerId,categoryNum
+		SELECT b.productNum,productName,b.created_date,hitCount,price, detail, stock, discount_rate,b.sellerId,categoryNum, imageFilename
 		FROM product_bbs b
 		JOIN seller m ON b.sellerId=m.sellerId
+		JOIN (
+			SELECT * FROM (
+				SELECT productNum, rank() over(partition by productNum order by main_imageFileNum) rank, imageFilename FROM product_image
+			) WHERE rank = 1
+		) i ON b.productNum = i.productNum
 		<where>
 	 		<if test="keyword!=null and keyword!=''">
 	 			<include refid="where-list"/>
@@ -103,5 +112,14 @@
 	 <delete id="deleteProduct" parameterType="Integer">
 		DELETE FROM product_bbs WHERE productNum= #{num}
 	</delete>
+	
+	 <!-- 이미지 처리 -->
+	 <select id="image_seq" resultType="Integer">
+		SELECT productimage_seq.NEXTVAL FROM dual
+	</select>
 	 
+	 <insert id="insertFile" parameterType="com.sp.app.store.Store">
+	 	INSERT INTO product_image(main_imageFileNum, imageFilename, productNum)
+	 	VALUES(#{main_imageFileNum},#{imageFilename},#{productNum})
+	 </insert>
 </mapper>

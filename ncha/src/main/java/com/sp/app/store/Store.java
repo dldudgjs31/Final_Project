@@ -1,5 +1,9 @@
 package com.sp.app.store;
 
+import java.util.List;
+
+import org.springframework.web.multipart.MultipartFile;
+
 public class Store {
 	private int productNum;
 	private int listNum;
@@ -12,10 +16,31 @@ public class Store {
 	private String sellerId;
 	private int categoryNum;
 	private int discount_rate;
-	
 	private String saveFilename;
 	private String originalFilename;
+	private int main_imageFileNum;
+	private String imageFilename;
+	private List<MultipartFile> upload;
 	
+	
+	public List<MultipartFile> getUpload() {
+		return upload;
+	}
+	public void setUpload(List<MultipartFile> upload) {
+		this.upload = upload;
+	}
+	public int getMain_imageFileNum() {
+		return main_imageFileNum; 
+	}
+	public void setMain_imageFileNum(int main_imageFileNum) {
+		this.main_imageFileNum = main_imageFileNum;
+	}
+	public String getImageFilename() {
+		return imageFilename;
+	}
+	public void setImageFilename(String imageFilename) {
+		this.imageFilename = imageFilename;
+	}
 	public String getSaveFilename() {
 		return saveFilename;
 	}
