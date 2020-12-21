@@ -58,7 +58,17 @@ public class ReviewController {
 		double reviewScore=service.reviewScore(productNum);
 		
 		String paging = myUtil.pagingMethod(current_page, total_page, "listPage");
-
+		
+		Map<Integer, Object> ratingOptions = new HashMap<>();
+		ratingOptions.put(0, "☆☆☆☆☆");
+		ratingOptions.put(1, "★☆☆☆☆");
+		ratingOptions.put(2, "★★☆☆☆");
+		ratingOptions.put(3, "★★★☆☆");
+		ratingOptions.put(4, "★★★★☆");
+		ratingOptions.put(5, "★★★★★");
+		
+		model.addAttribute("ratingOptions", ratingOptions);
+		
 		model.addAttribute("list", list);
 		model.addAttribute("pageNo", current_page);
 		model.addAttribute("total_page", total_page);

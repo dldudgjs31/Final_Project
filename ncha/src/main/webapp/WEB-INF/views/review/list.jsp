@@ -16,13 +16,13 @@
 	</thead>
 	
 	<tbody id='listReviewBody'>
-	<c:forEach var="vo" items="${list}">
+		<c:forEach var="vo" items="${list}">
 	    <tr height='35' style='background: #eeeeee;'>
 	       <td width='50%' style='padding:5px 5px; border:1px solid #cccccc; border-right:none;'>
 	           <span><b>${vo.userName}</b></span>
 	        </td>
 	       <td width='50%' style='padding:5px 5px; border:1px solid #cccccc; border-left:none;' align='right'>
-	           <span>${vo.score}</span> |
+	           <span><c:forEach var="score" items="${ratingOptions}" varStatus="status" begin="1" end="${vo.score}">★</c:forEach></span> |
 	           <span>${vo.created_date}</span>
 	        </td>
 	    </tr>
