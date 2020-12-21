@@ -110,7 +110,7 @@
 		<li><a href="${pageContext.request.contextPath}/store/list">N차_스토어</a></li>
 		<li><a href="${pageContext.request.contextPath}/used/list">이벤트</a></li>
 		<li><a href="${pageContext.request.contextPath}/store/write">판매글올리기</a></li>
-		<li><a href="${pageContext.request.contextPath}/review/main">고객센터</a></li>
+		<li><a href="${pageContext.request.contextPath}/notice/list">고객센터</a></li>
 		<li><a href="${pageContext.request.contextPath}/">중고거래</a></li>
 	</ul>
 	
