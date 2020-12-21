@@ -88,7 +88,7 @@ public class MemberController {
 	
 	@RequestMapping(value="login", method=RequestMethod.GET)
 	public String loginForm() {
-		return ".member.login";
+		return ".member.login_select";
 	}
 	
 	@RequestMapping(value="login", method=RequestMethod.POST)
@@ -102,7 +102,7 @@ public class MemberController {
 		Member dto=service.loginMember(userId);
 		if(dto==null ||  !  userPwd.equals(dto.getUserPwd())) {
 			model.addAttribute("message", "아이디 또는 패스워드가 일치하지 않습니다.");
-			return ".member.login";
+			return ".member.login_select";
 		}
 		
 		// 세션에 로그인 정보 저장

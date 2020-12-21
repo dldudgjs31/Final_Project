@@ -85,7 +85,7 @@ public class SellerController {
    
    @RequestMapping(value="login", method=RequestMethod.GET)
    public String loginForm() {
-      return ".member.login_store";
+      return ".member.login_select";
    }
    
    @RequestMapping(value="login", method=RequestMethod.POST)
@@ -98,7 +98,7 @@ public class SellerController {
       Seller dto=service.loginSeller(sellerId);
       if(dto==null ||  !  pwd.equals(dto.getPwd())) {
          model.addAttribute("message", "아이디 또는 패스워드가 일치하지 않습니다.");
-         return ".member.login_store";
+         return ".member.login_select";
       }
       
       SessionInfo info=new SessionInfo();

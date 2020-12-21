@@ -51,5 +51,6 @@ public class NchaController {
 	public String login2() {
 		return "member/login_store";
 	}
+
 	
 }
