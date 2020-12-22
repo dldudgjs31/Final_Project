@@ -12,7 +12,7 @@
 
 <div class="body-container" style="width: 700px;">
     <div class="body-title">
-        <h3><i class="far fa-clipboard"></i> 공지사항 </h3>
+        <h3><i class="far fa-clipboard"></i> 이벤트 게시판</h3>
     </div>
     
     <div>
