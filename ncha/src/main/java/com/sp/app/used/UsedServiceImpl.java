@@ -154,8 +154,8 @@ public class UsedServiceImpl implements UsedService {
 			map.put("field","usedNum");
 			map.put("usedNum",usedNum);
 			deleteAllImage(map);
-			
 			dao.deleteData("used.deleteUsed",usedNum);
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw e;

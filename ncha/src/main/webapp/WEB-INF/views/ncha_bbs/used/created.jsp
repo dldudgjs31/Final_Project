@@ -81,8 +81,16 @@ function sendOk(){
 function deleteFile(used_imageFileNum){
 	var url="${pageContext.request.contextPath}/used/deleteFile";
 	$.post(url, {used_imageFileNum:used_imageFileNum}, function(data){
-		$("#f"+used_imageFileNum).remove();
+		$("#file"+used_imageFileNum).remove();
 	}, "json");
+}
+
+function goList(page){
+	location.href = "${pageContext.request.contextPath}/used/list";
+}
+
+function goArticle(usedNum,page){
+	location.href="${pageContext.request.contextPath}/used/article?page="+page+"&usedNum="+usedNum;
 }
 </script>
 
@@ -93,7 +101,7 @@ function deleteFile(used_imageFileNum){
 	</div>
 
 	<div>
-		<form name="usedForm" method="post" enctype="multipart/form-data">	
+		<form name="usedForm" method="post" enctype="multipart/form-data" style="margin:0 auto; width: 100%;">	
 		
 			<table style="width: 100%; margin: 20px auto 0px; border-spacing: 0px; border-collapse: collapse;">
 			<tr align="left" height="40" style="border-bottom: 1px solid #cccccc;"> 
@@ -102,6 +110,15 @@ function deleteFile(used_imageFileNum){
 					${sessionScope.member.userName}
 				</td>
 			</tr>
+			<c:if test="${mode=='update'}">
+				<tr align="left" height="40" style="border-top: 1px solid #cccccc; border-bottom: 1px solid #cccccc;"> 
+					<td width="100" bgcolor="#eeeeee" style="text-align: center;">거래 상태</td>
+					<td style="padding-left:10px;">
+				        <input type="radio" name="sold_check" value="0" ${dto.sold_check=="0" || not empty dto ?"checked='checked'":"" }> 거래 가능
+					    <input type="radio" name="sold_check" value="1" ${dto.sold_check=="1"?"checked='checked'":"" }> 판매 완료
+					</td>
+				</tr>
+			</c:if>
 			</table>
 			
 			<div>
@@ -118,7 +135,7 @@ function deleteFile(used_imageFileNum){
   			</tr>
 			<c:if test="${mode=='update'}">
 				   <c:forEach var="vo" items="${listFile}">
-						  <tr id="${dto.used_imageFileNum}" height="40" style="border-bottom: 1px solid #cccccc;"> 
+						  <tr id="file${vo.used_imageFileNum}" height="40" style="border-bottom: 1px solid #cccccc;"> 
 						      <td width="100" bgcolor="#eeeeee" style="text-align: center;">첨부된파일</td>
 						      <td style="padding-left:10px;"> 
 								<a href="javascript:deleteFile('${vo.used_imageFileNum}');"><i class="far fa-trash-alt"></i></a> 
@@ -202,14 +219,18 @@ function deleteFile(used_imageFileNum){
 				<td align="center" >
 					<button type="button" class="btn" onclick="sendOk();">${mode=='update'?'수정완료':'등록하기'}</button>
 					<button type="reset" class="btn">다시입력</button>
-					<button type="button" class="btn" onclick="javascript:location.href='${pageContext.request.contextPath}/used/list';">${mode=='update'?'수정취소':'등록취소'}</button>
+					<c:if test="${mode=='created'}">
+						<button type="button" class="btn" onclick="goList('${page}')">등록취소</button>
+					</c:if>
 					<c:if test="${mode=='update'}">
+						<button type="button" class="btn" onclick="goArticle('${usedNum}','${page}')">수정취소</button>
 			         	 <input type="hidden" name="usedNum" value="${dto.usedNum}">
 			        	 <input type="hidden" name="page" value="${page}">
 			        </c:if>
 				</td>
 			</tr>
 		</table>
+		
 		</form>
 	</div>
 

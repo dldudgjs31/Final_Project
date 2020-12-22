@@ -19,13 +19,23 @@
 		SELECT NVL(COUNT(*), 0)
 		FROM used_bbs u
 		JOIN member m ON u.userId=m.userId
+		<where>
+			<if test="categoryNum != null and categoryNum!=''">
+				u.categoryNum = #{categoryNum}
+			</if>
+			<if test="keyword != null and keyword!=''">
+				AND INSTR(content, #{keyword}) &gt; 0 
+			</if>
+		</where>
 	</select>
 	
 	<!-- 글수정 -->
 	<update id="updateUsed" parameterType="com.sp.app.used.Used">
-		UPDATE used_bbs u SET subject=#{subject}, content=#{content}, usedNum=#{usedNum}
+		UPDATE used_bbs u SET subject=#{subject}, content=#{content}, categoryNum = #{categoryNum},sold_check=#{sold_check}, 
+		price=#{price}, productCondition=#{productCondition}, dealingMode=#{dealingMode}, location=#{location}, usedNum=#{usedNum}
 		WHERE usedNum = #{usedNum}
 	</update>
+	
 	
 	<!-- 글 삭제 -->
 	<delete id="deleteUsed" parameterType="Integer">
@@ -38,19 +48,27 @@
 		DELETE FROM used_image WHERE ${field} = #{used_imageFileNum}
 	</delete>
 	
+	
 	<!-- 모든 이미지 삭제 -->
 	<delete id="deleteAllImage" parameterType="map">
 		DELETE FROM used_image WHERE ${field} = #{usedNum}
 	</delete>
 	
+	
 	<!-- 리스트 -->
 	<select id="listUsed" parameterType="map" resultType="com.sp.app.used.Used">
-		SELECT u.usedNum, u.userId, userName,c.categoryName, subject, sold_check, hitCount, TO_CHAR(created_date,'YYYY-MM-DD') created_date,categoryName
+		SELECT u.usedNum, u.userId, userName,c.categoryName, subject, sold_check, hitCount, TO_CHAR(created_date,'YYYY-MM-DD')created_date, u.categoryNum
 		FROM used_bbs u
 		JOIN member m ON u.userId = m.userId
 		JOIN used_category c ON c.categoryNum = u.categoryNum
-		ORDER BY usedNum DESC
-		OFFSET #{offset} ROWS FETCH FIRST #{rows} ROWS ONLY
+		<where>
+			<if test="categoryNum!=null and categoryNum!='' ">
+				u.categoryNum = #{categoryNum}
+			</if>
+			<if test="keyword != null and keyword !='' ">
+				AND INSTR(content, #{keyword}) &gt; 0 
+			</if>
+		</where>
 	</select>
 	
 	<!-- 조회수 증가 -->
@@ -58,11 +76,18 @@
 		UPDATE used_bbs SET hitCount=hitCount+1 WHERE usedNum = #{usedNum}
 	</update>
 	
+	<!-- FETCH FIRST "N" ROWS ONLY 상위  N개결과 검색 -->
 	<!-- 이전글 -->
 	<select id="preReadDto" parameterType="map" resultType="com.sp.app.used.Used">
 		SELECT usedNum, subject
 		FROM used_bbs 
 		WHERE usedNum &gt; #{usedNum}
+		<if test="categoryNum!=null and categoryNum!=''">
+			AND categoryNum = #{categoryNum}
+		</if>
+		<if test="keyword != null and keyword !=''">
+			AND INSTR(content, #{keyword}) &gt; 0 
+		</if>
 		ORDER BY usedNum ASC
 		FETCH FIRST 1 ROWS ONLY
     </select>
@@ -72,13 +97,19 @@
 		SELECT usedNum, subject
 		FROM used_bbs 
 		WHERE usedNum &lt; #{usedNum}
+		<if test="categoryNum!=null and categoryNum!=''">
+			AND categoryNum = #{categoryNum}
+		</if>
+		<if test="keyword != null and keyword !=''">
+			AND INSTR(content, #{keyword}) &gt; 0 
+		</if>
 		ORDER BY usedNum DESC
 		FETCH FIRST 1 ROWS ONLY
     </select>
 	
 	<select id="readUsed" parameterType="Integer" resultType="com.sp.app.used.Used">
 		SELECT u.usedNum, u.userId, userName, price, productCondition, dealingMode, location,
-			subject,content,TO_CHAR(created_date,'YYYY-MM-DD') created_date, sold_check, u.categoryNum, categoryName, hitCount, NVL(fileCount,0) fileCount
+			subject,content,TO_CHAR(created_date,'YYYY-MM-DD') created_date, sold_check, u.categoryNum, c.categoryName, hitCount, NVL(fileCount,0) fileCount
 		FROM used_bbs u
 		JOIN member m ON u.userId = m.userId
 		JOIN used_category c ON c.categoryNum = u.categoryNum
