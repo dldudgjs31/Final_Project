@@ -7,8 +7,7 @@
 		SELECT used_seq.NEXTVAL FROM dual
 	</select>
 	
-	
-	
+	<!-- 글삽입 -->
 	<insert id="insertUsed" parameterType="com.sp.app.used.Used">
 		INSERT INTO used_bbs(usedNum, userId, subject, content, hitCount, created_date, price, productCondition, dealingMode, location, sold_check, categoryNum)
 				VALUES(#{usedNum}, #{userId}, #{subject}, #{content}, 0, SYSDATE,
@@ -21,6 +20,28 @@
 		FROM used_bbs u
 		JOIN member m ON u.userId=m.userId
 	</select>
+	
+	<!-- 글수정 -->
+	<update id="updateUsed" parameterType="com.sp.app.used.Used">
+		UPDATE used_bbs u SET subject=#{subject}, content=#{content}, usedNum=#{usedNum}
+		WHERE usedNum = #{usedNum}
+	</update>
+	
+	<!-- 글 삭제 -->
+	<delete id="deleteUsed" parameterType="Integer">
+		DELETE FROM used_bbs WHERE usedNum = #{usedNum}
+	</delete>
+	
+	
+	<!-- 글 수정할때, 파일 수정할경우 선택한 파일지움 -->
+	<delete id="deleteimage" parameterType="map">
+		DELETE FROM used_image WHERE ${field} = #{used_imageFileNum}
+	</delete>
+	
+	<!-- 모든 이미지 삭제 -->
+	<delete id="deleteAllImage" parameterType="map">
+		DELETE FROM used_image WHERE ${field} = #{usedNum}
+	</delete>
 	
 	<!-- 리스트 -->
 	<select id="listUsed" parameterType="map" resultType="com.sp.app.used.Used">
@@ -57,7 +78,7 @@
 	
 	<select id="readUsed" parameterType="Integer" resultType="com.sp.app.used.Used">
 		SELECT u.usedNum, u.userId, userName, price, productCondition, dealingMode, location,
-			subject,content,TO_CHAR(created_date,'YYYY-MM-DD') created_date, sold_check, categoryName, hitCount, NVL(fileCount,0) fileCount
+			subject,content,TO_CHAR(created_date,'YYYY-MM-DD') created_date, sold_check, u.categoryNum, categoryName, hitCount, NVL(fileCount,0) fileCount
 		FROM used_bbs u
 		JOIN member m ON u.userId = m.userId
 		JOIN used_category c ON c.categoryNum = u.categoryNum
@@ -78,6 +99,13 @@
 		SELECT u.usedNum, imageFilename
 		FROM used_bbs u
 		JOIN used_image i ON u.usedNum = i.usedNum
+	</select>
+	
+	<!-- 이미지넘버에 맞는 파일 하나읽어오기 -->
+	<select id="readImage" parameterType="Integer" resultType="com.sp.app.used.Used">
+		SELECT used_imageFileNum, usedNum, imageFilename
+		FROM used_image
+		WHERE used_imageFileNum = #{used_imageFileNum}
 	</select>
 	
 	<select id="listFile" parameterType="Integer" resultType="com.sp.app.used.Used">

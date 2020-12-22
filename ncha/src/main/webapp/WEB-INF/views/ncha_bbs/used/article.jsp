@@ -26,7 +26,24 @@
 	color: gray;
 }
 </style>
+<script type="text/javascript">
+function updateForm(usedNum, page){
+	<c:if test="${sessionScope.member.userId == dto.userId}">
+		var q = "usedNum="+usedNum+"&page="+page;
+		location.href = "${pageContext.request.contextPath}/used/update?"+q;
+	</c:if>
+	<c:if test="${sessionScope.member.userId != dto.userId}">
+		alert("게시글을 수정할 수 없습니다.");
+	</c:if>
+}
 
+function deleteBoard(usedNum,page){
+	<c:if test="${sessionScope.member.userId == dto.userId || sessionScope.member.userId=='admin'}">
+		var q = "usedNum="+usedNum+"&page="+page;
+		location.href = "${pageContext.request.contextPath}/used/delete?"+q;
+	</c:if>
+}
+</script>
 
 <div class="body-container" style="width: 700px;">
 
@@ -106,10 +123,10 @@
 	<tr height="45">
     <td width="300" align="left">
         <c:if test="${sessionScope.member.userId==dto.userId}">
-            <button type="button" class="btn" onclick="updateForm('${dto.usedNum}', '${pageNo}');">수정</button>
+            <button type="button" class="btn" onclick="updateForm('${dto.usedNum}','${page}');">수정</button>
         </c:if>
         <c:if test="${sessionScope.member.userId==dto.userId || sessionScope.member.userId=='admin'}">
-            <button type="button" class="btn" onclick="deleteBoard('${dto.usedNum}', '${pageNo}');">삭제</button>
+            <button type="button" class="btn" onclick="deleteBoard('${dto.usedNum}','${page}');">삭제</button>
         </c:if>
     </td>
 

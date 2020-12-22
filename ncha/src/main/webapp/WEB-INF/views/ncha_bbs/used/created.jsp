@@ -73,20 +73,19 @@ function sendOk(){
 		return;
 	}
 	
+	
 	f.action="${pageContext.request.contextPath}/used/${mode}";
 	f.submit();
 }
 
-function state(s){
-	var f = document.usedForm;
-	f.productCondition.value=s;
-}
-
-function payMethod(s){
-	var f = document.usedForm;
-	f.dealingMode.value=s;
+function deleteFile(used_imageFileNum){
+	var url="${pageContext.request.contextPath}/used/deleteFile";
+	$.post(url, {used_imageFileNum:used_imageFileNum}, function(data){
+		$("#f"+used_imageFileNum).remove();
+	}, "json");
 }
 </script>
+
 
 <div class = "body-containter" style="width:700px;">
 	<div class="body-title">
@@ -133,7 +132,7 @@ function payMethod(s){
 			<tr align="left" height="40" style="border-top: 1px solid #cccccc; border-bottom: 1px solid #cccccc;"> 
 				<td width="100" bgcolor="#eeeeee" style="text-align: center;">제&nbsp;&nbsp;&nbsp;&nbsp;목</td>
 				<td style="padding-left:10px;">
-					<input type="text" name="subject" maxlength="100" class="boxTF" style="width: 95%;" value="">
+					<input type="text" name="subject" maxlength="100" class="boxTF" style="width: 95%;" value="${dto.subject}">
 				</td>
 			</tr>
 
@@ -155,17 +154,16 @@ function payMethod(s){
 			<tr align="left" height="40" style="border-top: 1px solid #cccccc; border-bottom: 1px solid #cccccc;"> 
 				<td width="100" bgcolor="#eeeeee" style="text-align: center;">가&nbsp;&nbsp;&nbsp;&nbsp;격</td>
 				<td style="padding-left:10px;">
-					<input type="text" name="price" maxlength="100" class="boxTF" style="width: 95%;" value="">
+					<input type="text" name="price" maxlength="100" class="boxTF" style="width: 95%;" value="${dto.price}">
 				</td>
 			</tr>
 			
 			<tr align="left" height="40" style="border-top: 1px solid #cccccc; border-bottom: 1px solid #cccccc;"> 
 				<td width="100" bgcolor="#eeeeee" style="text-align: center;">상품&nbsp;&nbsp;상태</td>
 				<td style="padding-left:10px;">
-					<button type="button" onclick="state('미개봉')">미개봉</button>
-					<button type="button" onclick="state('거의 새것')">거의 새것</button>
-					<button type="button" onclick="state('사용감 있음')">사용감 있음</button>
-					<input type="hidden" name="productCondition" value="1">
+				    <input type="radio" name="productCondition" value="미개봉" ${dto.productCondition=='미개봉' || not empty dto ?"checked='checked'":"" }> 미개봉
+				    <input type="radio" name="productCondition" value="거의 새것" ${dto.productCondition=='거의 새것'?"checked='checked'":"" }> 거의 새것
+				    <input type="radio" name="productCondition" value="사용감 있음" ${dto.productCondition=='사용감 있음'?"checked='checked'":"" }> 사용감 있음
 				</td>
 			</tr>
 
@@ -173,9 +171,8 @@ function payMethod(s){
 				<td width="100" bgcolor="#eeeeee" style="text-align: center;">결제&nbsp;&nbsp;방법</td>
 				
 				<td style="padding-left:10px;">
-					<button type="button" onclick="payMethod('현금')" >현금</button>
-					<button type="button" onclick="payMethod('계좌이체')" >계좌이체</button>
-					<input  type="hidden" name="dealingMode" value="1">
+				    <input type="radio" name="dealingMode" value="현금" ${dto.productCondition=='현금' || not empty dto ?"checked='checked'":"" }> 현금
+				    <input type="radio" name="dealingMode" value="계좌이체" ${dto.productCondition=='계좌이체'?"checked='checked'":"" }> 계좌이체
 				</td>
 			
 			</tr>
@@ -195,7 +192,7 @@ function payMethod(s){
 			<tr align="left" style="border-bottom: 1px solid #cccccc;">
 				<td width="100" bgcolor="#eeeeee" style="text-align: center; padding-top:5px;" valign="top">내&nbsp;&nbsp;&nbsp;&nbsp;용</td>
 				<td valign="top" style="padding:5px 0px 5px 10px;"> 
-					<textarea name="content" rows="12" class="boxTA" style="width: 95%;"></textarea>
+					<textarea name="content" rows="12" class="boxTA" style="width: 95%;">${dto.content}</textarea>
 				</td>
 			</tr>
 		</table>
@@ -206,6 +203,10 @@ function payMethod(s){
 					<button type="button" class="btn" onclick="sendOk();">${mode=='update'?'수정완료':'등록하기'}</button>
 					<button type="reset" class="btn">다시입력</button>
 					<button type="button" class="btn" onclick="javascript:location.href='${pageContext.request.contextPath}/used/list';">${mode=='update'?'수정취소':'등록취소'}</button>
+					<c:if test="${mode=='update'}">
+			         	 <input type="hidden" name="usedNum" value="${dto.usedNum}">
+			        	 <input type="hidden" name="page" value="${page}">
+			        </c:if>
 				</td>
 			</tr>
 		</table>

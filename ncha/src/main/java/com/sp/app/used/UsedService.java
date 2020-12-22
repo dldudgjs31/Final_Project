@@ -22,5 +22,6 @@ public interface UsedService {
 	public List<Used> listFile(int num); // 다중파일 처리
 	public Used readFile(int fileNum); //파일 읽기
 	public List<Used> readUsedFile(int usedNum) throws Exception; //이미지 여러개 읽어오기
-	public void deleteFile(Map<String, Object> map) throws Exception; //파일삭제
+	public void deleteImage(Map<String, Object> map)throws Exception;
+	public void deleteAllImage(Map<String, Object> map) throws Exception; //파일삭제
 }
