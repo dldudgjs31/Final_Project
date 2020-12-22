@@ -3,16 +3,44 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
+<style type="text/css">
+.imgLayout{
+	width: 190px;
+	height: 205px;
+	padding: 10px 5px 10px;
+	margin: 5px;
+	border: 1px solid #DAD9FF;
+	cursor: pointer;
+}
+.subject {
+     width:180px;
+     height:25px;
+     line-height:25px;
+     margin:5px auto;
+     border-top: 1px solid #DAD9FF;
+     display: inline-block;
+     white-space:nowrap;
+     overflow:hidden;
+     text-overflow:ellipsis;
+     cursor: pointer;
+}
+</style>
+
 <script type="text/javascript">
-	function searchList() {
+function searchList() {
 		var f=document.searchForm;
 		f.submit();
-	}
+}
+
+function article(num) {
+	var url="${articleUrl}&num="+num;
+	location.href=url;
+}
 </script>
 
-<div class="body-container" style="width: 700px;">
+<div class="body-container" style="width: 630px;">
     <div class="body-title">
-        <h3><i class="far fa-clipboard"></i> 이벤트 게시판</h3>
+        <h3><i class="far fa-image"></i> 이벤트게시판 </h3>
     </div>
     
     <div>
@@ -27,58 +55,43 @@
 		   </tr>
 		</table>
 		
-		<table style="width: 100%; margin: 0px auto; border-spacing: 0px; border-collapse: collapse;">
-		  <tr align="center" bgcolor="#eeeeee" height="35" style="border-top: 2px solid #cccccc; border-bottom: 1px solid #cccccc;"> 
-		      <th width="60" style="color: #787878;">번호</th>
-		      <th style="color: #787878;">제목</th>
-		      <th width="100" style="color: #787878;">작성자</th>
-		      <th width="80" style="color: #787878;">작성일</th>
-		      <th width="60" style="color: #787878;">조회수</th>
-		      <th width="50" style="color: #787878;">첨부</th>
-		  </tr>
-		 
-		<c:forEach var="dto" items="${noticeList}">
-		  <tr align="center" bgcolor="#ffffff" height="35" style="border-bottom: 1px solid #cccccc;"> 
-		      <td><span style="display: inline-block;padding:1px 3px; background: #ED4C00;color: #FFFFFF">공지</span></td>
-		      <td align="left" style="padding-left: 10px;">
-		           <a href="${articleUrl}&num=${dto.num}">${dto.subject}</a>
-		      </td>
-		      <td>${dto.userName}</td>
-		      <td>${dto.created}</td>
-		      <td>${dto.hitCount}</td>
-		      <td>
-                   <c:if test="${dto.fileCount != 0}">
-                        <a href="${pageContext.request.contextPath}/notice/zipdownload?num=${dto.num}"><i class="far fa-file"></i></a>
-                   </c:if>		      
-		      </td>
-		  </tr>
-		</c:forEach>
-		 
-		<c:forEach var="dto" items="${list}">
-		  <tr align="center" bgcolor="#ffffff" height="35" style="border-bottom: 1px solid #cccccc;"> 
-		      <td>${dto.listNum}</td>
-		      <td align="left" style="padding-left: 10px;">
-		           <a href="${articleUrl}&num=${dto.num}">${dto.subject}</a>
-		           <c:if test="${dto.gap < 1}">
-		               <img src='${pageContext.request.contextPath}/resources/images/new.gif'>
-		           </c:if>
-		      </td>
-		      <td>${dto.userName}</td>
-		      <td>${dto.created}</td>
-		      <td>${dto.hitCount}</td>
-		      <td>
-                   <c:if test="${dto.fileCount != 0}">
-                        <a href="${pageContext.request.contextPath}/notice/zipdownload?num=${dto.num}"><i class="far fa-file"></i></a>
-                   </c:if>		      
-		      </td>
-		  </tr>
-		  </c:forEach>
-		</table>
+		<table style="width: 100%; margin: 0px auto; border-spacing: 0px;">
+<c:forEach var="dto" items="${list}" varStatus="status">
+                 <c:if test="${status.index==0}">
+                       <tr>
+                 </c:if>
+                 <c:if test="${status.index!=0 && status.index%3==0}">
+                        <c:out value="</tr><tr>" escapeXml="false"/>
+                 </c:if>
+			     <td width="210" align="center">
+			        <div class="imgLayout">
+			             <img src="${pageContext.request.contextPath}/uploads/event/${dto.imageFilename}" width="180"
+			                   height="180" border="0" onclick="javascript:article('${dto.eventNum}');">
+			             <span class="subject" onclick="javascript:article('${dto.eventNum}');" >
+			                   ${dto.subject}
+			             </span>
+			         </div>
+			     </td>
+</c:forEach>
+
+<c:set var="n" value="${list.size()}"/>
+<c:if test="${n>0&&n%3!=0}">
+		        <c:forEach var="i" begin="${n%3+1}" end="3" step="1">
+			         <td width="210">
+			             <div class="imgLayout">&nbsp;</div>
+			         </td>
+		        </c:forEach>
+</c:if>
+	
+<c:if test="${n!=0 }">
+		       <c:out value="</tr>" escapeXml="false"/>
+</c:if>
+		</table>           
 		 
 		<table style="width: 100%; margin: 0px auto; border-spacing: 0px;">
 		   <tr height="35">
 			<td align="center">
-			    ${dataCount==0 ? "등록된 게시물이 없습니다.":paging}
+			    ${dataCount==0?"등록된 게시물이 없습니다.":paging}
 			 </td>
 		   </tr>
 		</table>
@@ -86,10 +99,10 @@
 		<table style="width: 100%; margin: 10px auto; border-spacing: 0px;">
 		   <tr height="40">
 		      <td align="left" width="100">
-		          <button type="button" class="btn" onclick="javascript:location.href='${pageContext.request.contextPath}/notice/list';">새로고침</button>
+		          <button type="button" class="btn" onclick="javascript:location.href='${pageContext.request.contextPath}/event/list';">새로고침</button>
 		      </td>
 		      <td align="center">
-		          <form name="searchForm" action="${pageContext.request.contextPath}/notice/list" method="post">
+		          <form name="searchForm" action="${pageContext.request.contextPath}/event/list" method="post">
 		              <select name="condition" class="selectField">
 		                  <option value="all" ${condition=="all"?"selected='selected'":""}>모두</option>
 		                  <option value="subject" ${condition=="subject"?"selected='selected'":""}>제목</option>
@@ -102,9 +115,7 @@
 		        </form>
 		      </td>
 		      <td align="right" width="100">
-		        <c:if test="${sessionScope.member.userId=='admin'}">
-		          <button type="button" class="btn" onclick="javascript:location.href='${pageContext.request.contextPath}/notice/created';">글올리기</button>
-		         </c:if>
+		          <button type="button" class="btn" onclick="javascript:location.href='${pageContext.request.contextPath}/event/created';">등록하기</button>
 		      </td>
 		   </tr>
 		</table>

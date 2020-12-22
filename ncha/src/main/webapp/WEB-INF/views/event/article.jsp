@@ -4,36 +4,36 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
 <script type="text/javascript">
-function deleteBoard() {
-	<c:if test="${sessionScope.member.userId=='admin'}">
-	  var q = "num=${dto.num}&${query}";
-	  var url = "${pageContext.request.contextPath}/notice/delete?" + q;
+function deletePhoto() {
+<c:if test="${sessionScope.member.userId=='admin' || sessionScope.member.userId==dto.userId}">
+	var q = "num=${dto.num}&${query}";
+    var url = "${pageContext.request.contextPath}/photo/delete?" + q;
 
-	  if(confirm("위 자료를 삭제 하시 겠습니까 ? "))
-	  	location.href=url;
-	</c:if>    
-	<c:if test="${sessionScope.member.userId!='admin'}">
-	  alert("게시물을 삭제할 수  없습니다.");
-	</c:if>
-	}
+    if(confirm("위 자료를 삭제 하시 겠습니까 ? "))
+  	  location.href=url;
+</c:if>    
+<c:if test="${sessionScope.member.userId!='admin' && sessionScope.member.userId!=dto.userId}">
+  alert("게시물을 삭제할 수  없습니다.");
+</c:if>
+}
 
-	function updateBoard() {
-	<c:if test="${sessionScope.member.userId=='admin'}">
-	  var q = "num=${dto.num}&page=${page}";
-	  var url = "${pageContext.request.contextPath}/notice/update?" + q;
+function updatePhoto() {
+<c:if test="${sessionScope.member.userId==dto.userId}">
+	var q = "num=${dto.num}&page=${page}";
+    var url = "${pageContext.request.contextPath}/photo/update?" + q;
 
-	  location.href=url;
-	</c:if>
+    location.href=url;
+</c:if>
 
-	<c:if test="${sessionScope.member.userId!='admin'}">
-	 alert("게시물을 수정할 수  없습니다.");
-	</c:if>
-	}
+<c:if test="${sessionScope.member.userId!=dto.userId}">
+   alert("게시물을 수정할 수  없습니다.");
+</c:if>
+}
 </script>
 
 <div class="body-container" style="width: 700px;">
     <div class="body-title">
-        <h3><i class="far fa-clipboard"></i> 공지사항 </h3>
+        <h3><i class="far fa-image"></i> 포토갤러리 </h3>
     </div>
     
     <div>
@@ -49,30 +49,26 @@ function deleteBoard() {
 			       이름 : ${dto.userName}
 			    </td>
 			    <td width="50%" align="right" style="padding-right: 5px;">
-			        ${dto.created} | 조회 ${dto.hitCount}
+			        ${dto.created}
 			    </td>
 			</tr>
 			
+			<tr>
+			  <td colspan="2" align="left" style="padding: 10px 5px;">
+			      <img src="${pageContext.request.contextPath}/uploads/photo/${dto.imageFilename}" style="max-width:100%; height:auto; resize:both;">
+			   </td>
+			</tr>			
 			<tr style="border-bottom: 1px solid #cccccc;">
-			  <td colspan="2" align="left" style="padding: 10px 5px;" valign="top" height="200">
+			  <td colspan="2" align="left" style="padding: 10px 5px;" valign="top" height="50">
 			      ${dto.content}
 			   </td>
 			</tr>
-			
-			<c:forEach var="vo" items="${listFile}">
-				<tr height="35" style="border-bottom: 1px solid #cccccc;">
-				    <td colspan="2" align="left" style="padding-left: 5px;">
-				      <a href="${pageContext.request.contextPath}/notice/download?fileNum=${vo.fileNum}">${vo.originalFilename}</a>
-			          (<fmt:formatNumber value="${vo.fileSize/1024}" pattern="0.00"/> KByte)
-				    </td>
-				</tr>
-			</c:forEach>
 			
 			<tr height="35" style="border-bottom: 1px solid #cccccc;">
 			    <td colspan="2" align="left" style="padding-left: 5px;">
 			       이전글 :
 			         <c:if test="${not empty preReadDto}">
-			              <a href="${pageContext.request.contextPath}/notice/article?${query}&num=${preReadDto.num}">${preReadDto.subject}</a>
+			              <a href="${pageContext.request.contextPath}/photo/article?${query}&num=${preReadDto.num}">${preReadDto.subject}</a>
 			        </c:if>
 			    </td>
 			</tr>
@@ -81,7 +77,7 @@ function deleteBoard() {
 			    <td colspan="2" align="left" style="padding-left: 5px;">
 			       다음글 :
 			         <c:if test="${not empty nextReadDto}">
-			              <a href="${pageContext.request.contextPath}/notice/article?${query}&num=${nextReadDto.num}">${nextReadDto.subject}</a>
+			              <a href="${pageContext.request.contextPath}/photo/article?${query}&num=${nextReadDto.num}">${nextReadDto.subject}</a>
 			        </c:if>
 			    </td>
 			</tr>
@@ -90,16 +86,16 @@ function deleteBoard() {
 			<table style="width: 100%; margin: 0px auto 20px; border-spacing: 0px;">
 			<tr height="45">
 			    <td width="300" align="left">
-			       <c:if test="${sessionScope.member.userId=='admin'}">				    
-			          <button type="button" class="btn" onclick="updateBoard();">수정</button>
+			       <c:if test="${sessionScope.member.userId==dto.userId}">				    
+			          <button type="button" class="btn" onclick="updatePhoto();">수정</button>
 			       </c:if>
-			       <c:if test="${sessionScope.member.userId=='admin'}">				    
-			          <button type="button" class="btn" onclick="deleteBoard();">삭제</button>
+			       <c:if test="${sessionScope.member.userId==dto.userId || sessionScope.member.userId=='admin'}">				    
+			          <button type="button" class="btn" onclick="deletePhoto();">삭제</button>
 			       </c:if>
 			    </td>
 			
 			    <td align="right">
-			        <button type="button" class="btn" onclick="javascript:location.href='${pageContext.request.contextPath}/notice/list?${query}';">리스트</button>
+			        <button type="button" class="btn" onclick="javascript:location.href='${pageContext.request.contextPath}/photo/list?${query}';">리스트</button>
 			    </td>
 			</tr>
 			</table>

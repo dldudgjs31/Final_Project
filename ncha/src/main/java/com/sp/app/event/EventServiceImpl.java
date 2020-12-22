@@ -1,50 +1,30 @@
 package com.sp.app.event;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
 import com.sp.app.common.FileManager;
 import com.sp.app.common.dao.CommonDAO;
 
-@Service("notice.noticeService")
+@Service("event.eventServiceImpl")
 public class EventServiceImpl implements EventService {
 	@Autowired
 	private CommonDAO dao;
-	
 	@Autowired
 	private FileManager fileManager;
-	
+
 	@Override
-	public void insertNotice(Event dto, String pathname) throws Exception {
+	public void insertEvent(Event dto, String pathname) throws Exception {
 		try {
-			int seq=dao.selectOne("notice.seq");
-			dto.setNum(seq);
+			String saveFilename = fileManager.doFileUpload(dto.getUpload(), pathname);
+			if (saveFilename != null) {
+				dto.setImageFilename(saveFilename);
 
-			dao.insertData("notice.insertNotice", dto);
-			
-			// 파일 업로드
-			if(! dto.getUpload().isEmpty()) {
-				for(MultipartFile mf:dto.getUpload()) {
-					String saveFilename=fileManager.doFileUpload(mf, pathname);
-					if(saveFilename==null) continue;
-
-					String originalFilename=mf.getOriginalFilename();
-					long fileSize=mf.getSize();
-					
-					dto.setOriginalFilename(originalFilename);
-					dto.setSaveFilename(saveFilename);
-					dto.setFileSize(fileSize);
-					
-					//noticeFile에 for문으로 저장
-					insertFile(dto);
-				}
+				dao.insertData("event.insertEvent", dto);
 			}
-			
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw e;
@@ -53,113 +33,85 @@ public class EventServiceImpl implements EventService {
 
 	@Override
 	public int dataCount(Map<String, Object> map) {
-		int result=0;
-		
+		int result = 0;
+
 		try {
-			result=dao.selectOne("notice.dataCount", map);
+			result = dao.selectOne("event.dataCount", map);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+
 		return result;
 	}
 
 	@Override
-	public List<Event> listNotice(Map<String, Object> map) {
-		List<Event> list=null;
-		
+	public List<Event> listEvent(Map<String, Object> map) {
+
+		List<Event> list = null;
 		try {
-			list=dao.selectList("notice.listNotice", map);
+			list = dao.selectList("event.listEvent", map);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+
 		return list;
 	}
 
 	@Override
-	public List<Event> listNoticeTop() {
-		List<Event> list=null;
-		
+	public Event readEvent(int eventNum) {
+		Event dto = null;
+
 		try {
-			list=dao.selectList("notice.listNoticeTop");
+			dto = dao.selectOne("event.readEvent", eventNum);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
-		return list;
-	}
 
-	@Override
-	public Event readNotice(int num) {
-		Event dto=null;
-
-		try {
-			dto=dao.selectOne("notice.readNotice", num);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
 		return dto;
 	}
 
 	@Override
-	public void updateHitCount(int num) throws Exception {
-		try {
-			dao.updateData("notice.updateHitCount", num);
-		} catch (Exception e) {
-			e.printStackTrace();
-			throw e;
-		}
-	}
-
-	@Override
-	public Event preReadNotice(Map<String, Object> map) {
-		Event dto=null;
+	public Event preReadEvent(Map<String, Object> map) {
+		Event dto = null;
 
 		try {
-			dto=dao.selectOne("notice.preReadNotice", map);
+			dto = dao.selectOne("event.preReadEvent", map);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+
 		return dto;
 	}
 
 	@Override
-	public Event nextReadNotice(Map<String, Object> map) {
-		Event dto=null;
+	public Event nextReadEvent(Map<String, Object> map) {
+		Event dto = null;
 
 		try {
-			dto=dao.selectOne("notice.nextReadNotice", map);
+			dto = dao.selectOne("event.nextReadEvent", map);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+
 		return dto;
 	}
 
 	@Override
-	public void updateNotice(Event dto, String pathname) throws Exception {
+	public void updateEvent(Event dto, String pathname) throws Exception {
 		try {
-			dao.updateData("notice.updateNotice", dto);
-			
-			if(! dto.getUpload().isEmpty()) {
-				for(MultipartFile mf:dto.getUpload()) {
-					String saveFilename=fileManager.doFileUpload(mf, pathname);
-					if(saveFilename==null) continue;
-					
-					String originalFilename=mf.getOriginalFilename();
-					long fileSize=mf.getSize();
-					
-					dto.setOriginalFilename(originalFilename);
-					dto.setSaveFilename(saveFilename);
-					dto.setFileSize(fileSize);
-					
-					insertFile(dto);
+			// 업로드한 파일이 존재한 경우
+			String saveFilename = fileManager.doFileUpload(dto.getUpload(), pathname);
+
+			if (saveFilename != null) {
+				// 이전 파일 지우기
+				if (dto.getImageFilename().length() != 0) {
+					fileManager.doFileDelete(dto.getImageFilename(), pathname);
 				}
+
+				dto.setImageFilename(saveFilename);
 			}
-			
+
+			dao.updateData("event.updateEvent", dto);
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw e;
@@ -167,70 +119,17 @@ public class EventServiceImpl implements EventService {
 	}
 
 	@Override
-	public void deleteNotice(int num, String pathname) throws Exception {
+	public void deleteEvent(int eventNum, String pathname, String sellerId) throws Exception {
 		try {
-			// 파일 지우기 :서버단 파일 제거
-			List<Event> listFile=listFile(num);
-			if(listFile!=null) {
-				for(Event dto:listFile) {
-					fileManager.doFileDelete(dto.getSaveFilename(), pathname);
-				}
-			}
+			Event dto = readEvent(eventNum);
+			if(dto==null || (! sellerId.equals("admin") && ! sellerId.equals(dto.getSellerId())))
+				return;
 			
-			// 파일 테이블 내용 지우기 :DB단 파일 제거
-			Map<String, Object> map=new HashMap<String, Object>();
-			map.put("field", "num");
-			map.put("num", num);
-			deleteFile(map);
+			if(dto.getImageFilename()!=null)
+				fileManager.doFileDelete(dto.getImageFilename(), pathname);
 			
-			// 게시글 삭제
-			dao.deleteData("notice.deleteNotice", num);
-		} catch (Exception e) {
-			e.printStackTrace();
-			throw e;
-		}
-	}
-
-	@Override
-	public void insertFile(Event dto) throws Exception {
-		try {
-			dao.insertData("notice.insertFile", dto);
-		} catch (Exception e) {
-			e.printStackTrace();
-			throw e;
-		}
-	}
-	
-	@Override
-	public List<Event> listFile(int num) {
-		List<Event> listFile=null;
-		
-		try {
-			listFile=dao.selectList("notice.listFile", num);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
-		return listFile;
-	}
-
-	@Override
-	public Event readFile(int fileNum) {
-		Event dto=null;
-		
-		try {
-			dto=dao.selectOne("notice.readFile", fileNum);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
-		return dto;
-	}
-
-	@Override
-	public void deleteFile(Map<String, Object> map) throws Exception {
-		try {
-			dao.deleteData("notice.deleteFile", map);
+			// 게시물지우기
+			dao.deleteData("photo.deletePhoto", eventNum);
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw e;
