@@ -38,10 +38,10 @@
 	
 	<select id="listEvent" parameterType="map" resultType="com.sp.app.event.Event">
 		SELECT eventNum, e.sellerId, subject, imageFilename, 
-		       TO_CHAR(start_date, 'yyyy-mm-dd') as start_date,
-		       TO_CHAR(end_date, 'yyyy-mm-dd') as end_date
+		       TO_CHAR(start_date,'yyyy-mm-dd')as start_date,
+		       TO_CHAR(end_date,'yyyy-mm-dd')as end_date
 		FROM event e
-		JOIN seller s ON e.sellerId= s.sellerId
+		JOIN seller s ON e.sellerId=s.sellerId
 		<where>
 			<if test="keyword != null and keyword != ''">
 				<include refid="where-list"/>
@@ -55,7 +55,7 @@
 		SELECT eventNum , e.sellerId, subject, imageFilename, 
 				content, start_date, end_date
 		FROM event e
-		JOIN seller s ON e.sellerId= s.sellerId
+		JOIN seller s ON e.sellerId=s.sellerId
 		 WHERE eventNum=#{eventNum}
 	</select>
 	

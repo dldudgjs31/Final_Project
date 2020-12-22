@@ -114,12 +114,13 @@ public class EventController {
 		String root=session.getServletContext().getRealPath("/");
 		String path=root+"uploads"+File.separator+"event";
 		
-		SessionInfo info=(SessionInfo)session.getAttribute("member");
+		SessionInfo info=(SessionInfo)session.getAttribute("seller");
 		
 		try {
 			dto.setSellerId(info.getSellerId());
 			service.insertEvent(dto, path);
 		} catch (Exception e) {
+			e.printStackTrace();
 		}
 		
 		return "redirect:/event/list";

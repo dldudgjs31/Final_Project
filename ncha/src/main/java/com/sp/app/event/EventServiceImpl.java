@@ -20,6 +20,7 @@ public class EventServiceImpl implements EventService {
 	public void insertEvent(Event dto, String pathname) throws Exception {
 		try {
 			String saveFilename = fileManager.doFileUpload(dto.getUpload(), pathname);
+			
 			if (saveFilename != null) {
 				dto.setImageFilename(saveFilename);
 

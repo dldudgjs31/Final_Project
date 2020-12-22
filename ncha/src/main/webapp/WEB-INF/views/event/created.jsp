@@ -5,7 +5,7 @@
 
 <script type="text/javascript">
     function sendOk() {
-        var f = document.photoForm;
+        var f = document.eventForm;
 
     	var str = f.subject.value;
         if(!str) {
@@ -22,7 +22,7 @@
         }
 
         var mode="${mode}";
-        if(mode=="created"||mode=="update" && f.upload.value!="") {
+        if(mode=="created"||(mode=="update" && f.upload.value!="")) {
     		if(! /(\.gif|\.jpg|\.png|\.jpeg)$/i.test(f.upload.value)) {
     			alert('이미지 파일만 가능합니다.(bmp 파일은 불가) !!!');
     			f.upload.focus();
@@ -30,7 +30,7 @@
     		}
     	}
     	
-    	f.action="${pageContext.request.contextPath}/photo/${mode}";
+    	f.action="${pageContext.request.contextPath}/event/${mode}";
 
         f.submit();
     }
@@ -38,11 +38,11 @@
 
 <div class="body-container" style="width: 700px;">
     <div class="body-title">
-        <h3><i class="far fa-image"></i> 포토갤러리 </h3>
+        <h3><i class="far fa-image"></i> 이벤트게시판 </h3>
     </div>
     
     <div>
-			<form name="photoForm" method="post" enctype="multipart/form-data">
+			<form name="eventForm" method="post" enctype="multipart/form-data">
 			  <table style="width: 100%; margin: 20px auto 0px; border-spacing: 0px; border-collapse: collapse;">
 			  <tr align="left" height="40" style="border-top: 1px solid #cccccc; border-bottom: 1px solid #cccccc;"> 
 			      <td width="100" bgcolor="#eeeeee" style="text-align: center;">제&nbsp;&nbsp;&nbsp;&nbsp;목</td>
@@ -52,9 +52,9 @@
 			  </tr>
 			
 			  <tr align="left" height="40" style="border-bottom: 1px solid #cccccc;"> 
-			      <td width="100" bgcolor="#eeeeee" style="text-align: center;">작성자</td>
+			      <td width="100" bgcolor="#eeeeee" style="text-align: center;">주최</td>
 			      <td style="padding-left:10px;"> 
-			          ${sessionScope.member.userName}
+			          ${sessionScope.seller.sellerId}
 			      </td>
 			  </tr>
 			
@@ -62,6 +62,20 @@
 			      <td width="100" bgcolor="#eeeeee" style="text-align: center; padding-top:5px;" valign="top">설&nbsp;&nbsp;&nbsp;&nbsp;명</td>
 			      <td valign="top" style="padding:5px 0px 5px 10px;"> 
 			        <textarea name="content" rows="12" class="boxTA" style="width: 95%;">${dto.content}</textarea>
+			      </td>
+			  </tr>
+			  
+			   <tr align="left" height="40" style="border-bottom: 1px solid #cccccc;">
+			      <td width="100" bgcolor="#eeeeee" style="text-align: center;">시작일</td>
+			     <td style="padding-left:10px;"> 
+			        <input type="date" name="start_date" maxlength="100" class="boxTF" style="width: 95%;" value="${dto.start_date}">
+			      </td>
+			  </tr>
+			  
+			   <tr align="left" height="40" style="border-bottom: 1px solid #cccccc;">
+			      <td width="100" bgcolor="#eeeeee" style="text-align: center;">종료일</td>
+			     <td style="padding-left:10px;"> 
+			        <input type="date" name="end_date" maxlength="100" class="boxTF" style="width: 95%;" value="${dto.end_date}">
 			      </td>
 			  </tr>
 			  
@@ -82,9 +96,9 @@
 			      <td align="center" >
 			        <button type="button" class="btn" onclick="sendOk();">${mode=='update'?'수정완료':'등록하기'}</button>
 			        <button type="reset" class="btn">다시입력</button>
-			        <button type="button" class="btn" onclick="javascript:location.href='${pageContext.request.contextPath}/photo/list';">${mode=='update'?'수정취소':'등록취소'}</button>
+			        <button type="button" class="btn" onclick="javascript:location.href='${pageContext.request.contextPath}/event/list';">${mode=='update'?'수정취소':'등록취소'}</button>
 			         <c:if test="${mode=='update'}">
-			         	 <input type="hidden" name="num" value="${dto.num}">
+			         	 <input type="hidden" name="eventNum" value="${dto.eventNum}">
 			         	 <input type="hidden" name="imageFilename" value="${dto.imageFilename}">
 			        	 <input type="hidden" name="page" value="${page}">
 			        </c:if>

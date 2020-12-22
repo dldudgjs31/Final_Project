@@ -32,8 +32,8 @@ function searchList() {
 		f.submit();
 }
 
-function article(num) {
-	var url="${articleUrl}&num="+num;
+function article(eventNum) {
+	var url="${articleUrl}&eventNum="+eventNum;
 	location.href=url;
 }
 </script>
