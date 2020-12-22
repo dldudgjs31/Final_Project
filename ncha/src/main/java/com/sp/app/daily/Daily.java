@@ -17,10 +17,12 @@ public class Daily {
 	private int hitCount;
 	private int categoryNum; // 카테고리 번호
 	private String categoryName;
+	private int replyCount;
+	
 	
 	private int answer;
 	private int answerCount;
-	private int likeCount;
+	private int dailyLikeCount;
 	
 	private List<MultipartFile> upload;
 	
@@ -30,6 +32,14 @@ public class Daily {
 	private String profile_imageFilename;
 	
 	
+	
+	
+	public int getReplyCount() {
+		return replyCount;
+	}
+	public void setReplyCount(int replyCount) {
+		this.replyCount = replyCount;
+	}
 
 	public List<MultipartFile> getUpload() {
 		return upload;
@@ -65,15 +75,16 @@ public class Daily {
 	public void setAnswerCount(int answerCount) {
 		this.answerCount = answerCount;
 	}
-	public int getLikeCount() {
-		return likeCount;
-	}
-	public void setLikeCount(int likeCount) {
-		this.likeCount = likeCount;
-	}
+	
 	
 	
 	 
+	public int getDailyLikeCount() {
+		return dailyLikeCount;
+	}
+	public void setDailyLikeCount(int dailyLikeCount) {
+		this.dailyLikeCount = dailyLikeCount;
+	}
 	public int getDailyNum() {
 		return dailyNum;
 	}

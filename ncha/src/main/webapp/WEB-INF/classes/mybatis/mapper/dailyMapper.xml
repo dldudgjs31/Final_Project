@@ -37,7 +37,7 @@
 	<!-- 리스트에서 제목, 사진 맨 앞에꺼 출력하는 애 -->
 	<select id="listDaily" parameterType="map" resultType="com.sp.app.daily.Daily">
 		SELECT d.dailyNum, d.userId, userName, subject, hitCount, categoryName,d.categoryNum,
-			       created_date, imageFilename
+			       created_date, imageFilename, NVL(replyCount, 0) replyCount
 			FROM daily_bbs d
 			JOIN member m ON d.userId=m.userId
 			JOIN daily_category c ON d.categoryNum=c.categoryNum
@@ -46,6 +46,11 @@
 			      SELECT dailyNum, rank() over(partition by dailyNum order by daily_imageFilenum) rank,  imageFilename FROM daily_image
 			   ) WHERE rank = 1 
 			)  i ON d.dailyNum = i.dailyNum
+			LEFT OUTER JOIN (
+			SELECT dailyNum, COUNT(*) replyCount FROM daily_Reply
+			WHERE answer = 0
+			GROUP BY dailyNum
+		) r ON d.dailyNum = r.dailyNum
 			<where>
 	 			<if test="categoryNum!=null and categoryNum!=''">
 	 				AND d.categoryNum = #{categoryNum}
@@ -75,10 +80,15 @@
 	
 	<!-- Article에서 글읽어오는애 -->
 	 <select id="readDaily" parameterType="Integer" resultType="com.sp.app.daily.Daily">
-		SELECT d.dailyNum, d.userId, userName, subject, content, created_date, hitCount,profile_imageFilename, categoryName,d.categoryNum
+		SELECT d.dailyNum, d.userId, userName, subject, content, created_date, hitCount,profile_imageFilename,
+		 categoryName,d.categoryNum,   NVL(dailyLikeCount, 0) dailyLikeCount
 		FROM daily_bbs d
 		JOIN member m ON d.userId = m.userId 
 		JOIN daily_category c ON d.categoryNum = c.categoryNum
+		LEFT OUTER JOIN (
+			SELECT dailyNum, COUNT(*) dailyLikeCount FROM daily_like
+			GROUP BY dailyNum
+		) bc ON d.dailyNum = bc.dailyNum
 		WHERE d.dailyNum = #{dailyNum}
 	</select>
 	
@@ -153,4 +163,87 @@
 	<delete id="deleteFileAll" parameterType="Integer">
 		DELETE FROM daily_image WHERE ${field} = #{dailyNum}
 	</delete>
+	
+	<!-- 댓글 답글 좋아요 -->
+	
+	<!-- 게시 글 좋아요 추가 -->
+	<insert id="insertDailyLike" parameterType="map">
+		INSERT INTO daily_Like(dailyNum, userId) VALUES (#{dailyNum}, #{userId})
+	</insert>
+	
+	<!-- 게시글 좋아요 개수 -->
+	<select id="dailyLikeCount" parameterType="Integer" resultType="Integer">
+		SELECT COUNT(*) FROM daily_Like WHERE dailyNum=#{dailyNum}
+	</select>
+	
+	<!-- 댓글등록 -->
+	<insert id="insertReply" parameterType="com.sp.app.daily.Reply">
+		INSERT INTO daily_Reply(daily_replyNum, dailyNum, userId, content, answer, created_date)
+			VALUES (dailyReply_seq.NEXTVAL, #{dailyNum}, #{userId}, #{content}, #{answer}, SYSDATE)
+	</insert>
+	
+	<select id="replyCount" parameterType="map" resultType="Integer">
+		SELECT NVL(COUNT(*), 0) FROM daily_Reply
+		WHERE dailyNum=#{dailyNum} AND answer=0
+	</select>
+	
+	<!-- 댓글리스트 -->
+	<select id="listReply" parameterType="map" resultType="com.sp.app.daily.Reply">
+		SELECT d.daily_replyNum, d.userId, userName, d.dailyNum, content, d.created_date, 
+		       NVL(answerCount, 0) answerCount,
+		       NVL(likeCount, 0) likeCount,
+		       NVL(disLikeCount, 0) disLikeCount
+		FROM daily_Reply d
+		JOIN member m ON d.userId = m.userId
+		LEFT OUTER JOIN (
+			SELECT answer, COUNT(*) answerCount
+			FROM daily_Reply WHERE answer!=0 GROUP BY answer
+		) a ON d.daily_replyNum = a.answer
+		LEFT OUTER JOIN (
+			SELECT daily_replyNum, COUNT(DECODE(replyLike, 1, 1)) likeCount,
+				   COUNT(DECODE(replyLike, 0, 1)) disLikeCount
+			FROM dailyReplyLike GROUP BY daily_replyNum
+		) c ON d.daily_replyNum = c.daily_replyNum
+		WHERE d.dailyNum=#{dailyNum}  AND d.answer=0
+		ORDER BY d.daily_replyNum DESC
+		OFFSET #{offset} ROWS FETCH FIRST #{rows} ROWS ONLY
+	</select>
+	
+	<!-- 댓글 및 답글 삭제 -->
+	<delete id="deleteReply" parameterType="map">
+		DELETE FROM daily_Reply
+		WHERE daily_replyNum=#{daily_replyNum}
+		<if test="mode=='reply'">
+			OR answer=#{daily_replyNum}
+		</if>
+	</delete>
+	
+	<!-- 댓글의 답글 리스트 -->
+	<select id="listReplyAnswer" parameterType="Integer" resultType="com.sp.app.daily.Reply">
+		SELECT daily_replyNum, dailyNum, r.userId, userName, content, created_date, answer
+		FROM daily_Reply r
+		JOIN member m ON r.userId = m.userId
+		WHERE answer = #{answer}
+		ORDER BY daily_replyNum DESC
+	</select>
+	
+	<!-- 댓글의 답글 개수 -->
+	<select id="replyAnswerCount" parameterType="Integer" resultType="Integer">
+		SELECT NVL(COUNT(*), 0)
+		FROM daily_Reply WHERE answer = #{answer}
+	</select>
+	
+	<!-- 좋아요/싫어요 추가 -->
+	<insert id="insertReplyLike" parameterType="map">
+		INSERT INTO dailyReplyLike(daily_replyNum, userId, replyLike)
+			VALUES (#{daily_replyNum}, #{userId}, #{replyLike})
+	</insert>
+	
+	<!-- 좋아요/싫어요 개수 -->
+	<select id="replyLikeCount" parameterType="map" resultType="map">
+		SELECT COUNT(DECODE(replyLike, 1, 1)) likeCount,
+			   COUNT(DECODE(replyLike, 0, 1)) disLikeCount
+		FROM dailyReplyLike WHERE daily_replyNum = #{daily_replyNum}
+	</select>
+	
 </mapper>

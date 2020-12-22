@@ -189,7 +189,7 @@ function sendOk() {
 					<td width="100" bgcolor="#eeeeee" style="text-align: center;">카테고리</td>
 					<td style="padding-left:10px;">
 						<select class="selectField" id="categoryNum" name="categoryNum">
-							<option value="${dto.categoryNum}"  >::카테고리 선택::$</option>
+							<option value="${dto.categoryNum}"  >::카테고리 선택::</option>
 							<option value="1" ${dto.categoryNum=="1"?"selected='selected'":""}>의류</option>
 							<option value="2" ${dto.categoryNum=="2"?"selected='selected'":""}>가구</option>
 							<option value="3" ${dto.categoryNum=="3"?"selected='selected'":""}>전자제품</option>

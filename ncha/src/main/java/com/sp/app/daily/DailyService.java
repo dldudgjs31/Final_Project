@@ -31,5 +31,20 @@ public interface DailyService {
 	public void deleteFile(Map<String, Object> map) throws Exception;
 	public void deleteFileAll(Map<String, Object> map) throws Exception;
 	
+	//댓글 답글  좋아요
+	public void insertDailyLike(Map<String, Object> map) throws Exception;
+	public int dailyLikeCount(int dailyNum);
+	
+	public void insertReply(Reply dto) throws Exception;
+	public List<Reply> listReply(Map<String, Object> map);
+	public int replyCount(Map<String, Object> map);
+	public void deleteReply(Map<String, Object> map) throws Exception;
+	
+	public List<Reply> listReplyAnswer(int answer);
+	public int replyAnswerCount(int answer);
+	
+	public void insertReplyLike(Map<String, Object> map) throws Exception;
+	public Map<String, Object> replyLikeCount(Map<String, Object> map);
+	
 	
 }

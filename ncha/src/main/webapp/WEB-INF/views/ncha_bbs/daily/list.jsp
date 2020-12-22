@@ -107,7 +107,7 @@ function searchList2() {
 							<td width="210" align="center">
 								<div class="imgLayout">
 									<img  src="${pageContext.request.contextPath}/uploads/daily/${dto.imageFilename}" width="180" height="180" border="0">
-									<a href="${articleUrl}&dailyNum=${dto.dailyNum}" class="subject">${dto.subject}</a>
+									<a href="${articleUrl}&dailyNum=${dto.dailyNum}" class="subject">${dto.subject} (${dto.replyCount})</a>
 								</div>
 							</td>
 						</c:forEach>
