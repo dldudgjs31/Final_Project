@@ -4,7 +4,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
 <script type="text/javascript">
-function deletePhoto() {
+function deleteEvent() {
 <c:if test="${sessionScope.seller.sellerId=='admin' || sessionScope.seller.sellerId==dto.sellerId}">
 	var q = "eventNum=${dto.eventNum}&${query}";
     var url = "${pageContext.request.contextPath}/event/delete?" + q;
@@ -17,7 +17,7 @@ function deletePhoto() {
 </c:if>
 }
 
-function updatePhoto() {
+function updateEvent() {
 <c:if test="${sessionScope.seller.sellerId==dto.sellerId}">
 	var q = "eventNum=${dto.eventNum}&page=${page}";
     var url = "${pageContext.request.contextPath}/event/update?" + q;

@@ -114,9 +114,11 @@ function article(eventNum) {
 		            <button type="button" class="btn" onclick="searchList()">검색</button>
 		        </form>
 		      </td>
+		       <c:if test="${sessionScope.member.userId=='admin'||not empty sessionScope.seller}">
 		      <td align="right" width="100">
 		          <button type="button" class="btn" onclick="javascript:location.href='${pageContext.request.contextPath}/event/created';">등록하기</button>
 		      </td>
+		      </c:if>
 		   </tr>
 		</table>
     </div>
