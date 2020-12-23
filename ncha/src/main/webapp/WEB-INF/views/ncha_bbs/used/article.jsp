@@ -43,6 +43,10 @@ function deleteBoard(usedNum,page){
 		location.href = "${pageContext.request.contextPath}/used/delete?"+q;
 	</c:if>
 }
+
+function goList(page){
+	location.href = "${pageContext.request.contextPath}/used/list?page="+page;
+}
 </script>
 
 <div class="body-container" style="width: 700px;">
@@ -131,7 +135,7 @@ function deleteBoard(usedNum,page){
     </td>
 
     <td align="right">
-        <button type="button" class="btn" onclick="javascript:location.href='${pageContext.request.contextPath}/used/list?${query}';">리스트</button>
+        <button type="button" class="btn" onclick="goList(${page});">리스트</button>
     </td>
 	</tr>
 </table>

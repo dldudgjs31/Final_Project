@@ -4,9 +4,14 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
 <script type="text/javascript">
-function searchList() {
-	var f=document.searchForm;
-	f.submit();
+function categoryList() {
+	var f1=document.categoryForm;
+	f1.submit();
+}
+
+function searchKeyword(){
+	var f2 = document.keywordForm;
+	f2.submit();
 }
 </script>
 
@@ -21,8 +26,20 @@ function searchList() {
 				<td align="left" width="50%">
 					${dataCount}개(${page}/${total_page} 페이지)
 				</td>
+				<td align="center">
+					<form name="categoryForm" action="${pageContext.request.contextPath}/used/list" method="post">
+						<select class="selectField" id="categoryNum" name="categoryNum" onchange="categoryList();">
+							<option value="">::카테고리 모아보기::</option>
+							<option value="1" ${dto.categoryNum=="1"?"selected='selected'":""}>의류</option>
+							<option value="2" ${dto.categoryNum=="2"?"selected='selected'":""}>가구</option>
+							<option value="3" ${dto.categoryNum=="3"?"selected='selected'":""}>전자제품</option>
+							<option value="4" ${dto.categoryNum=="4"?"selected='selected'":""}>도서</option>
+							<option value="5" ${dto.categoryNum=="5"?"selected='selected'":""}>기타</option>
+						</select>
+					</form>
+				</td>
 				<td align="right">
-					&nbsp;
+					<button type="button" class="btn" onclick="javascript:location.href='${pageContext.request.contextPath}/used/list';">새로고침</button>
 				</td>
 			</tr>
 		</table>
@@ -70,8 +87,11 @@ function searchList() {
 
 		<table style="width: 100%; margin: 10px auto; border-spacing: 0px;">
 			<tr height="40">
-				<td align="left" width="100">
-					<button type="button" class="btn" onclick="javascript:location.href='${pageContext.request.contextPath}/used/list';">새로고침</button>
+				<td align="center">
+					<form name="keywordForm" action="${pageContext.request.contextPath}/used/list" method="post">
+						<input type="text" name="keyword" value="${keyword}" class="boxTF">
+						<button type="button" class="btn" onclick="searchKeyword();">검색</button>
+					</form>
 				</td>
 				<td align="right" width="100">
 					<button type="button" class="btn" onclick="javascript:location.href='${pageContext.request.contextPath}/used/created';">글올리기</button>

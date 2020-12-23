@@ -39,14 +39,13 @@ public class UsedController {
 	
 	@Autowired
 	private FileManager fileManager;
-	//@Autowired
-	//private FileManager fileManager;
+	
 	
 	@RequestMapping("list")
 	public String list(
 			@RequestParam(value="page", defaultValue = "1") int current_page,
-			@RequestParam(defaultValue = "all") String category,
-			@RequestParam(defaultValue = "") String keyword,
+			@RequestParam(defaultValue = "") String categoryNum, //카테고리분류
+			@RequestParam(defaultValue = "") String keyword,     //내용 검색
 			HttpServletRequest req,
 			Model model) throws Exception{
 		
@@ -59,10 +58,10 @@ public class UsedController {
 		}
 		//전체 페이지 수
 		Map<String, Object> map = new HashMap<String,Object>();
-		map.put("category", category);
+		map.put("categoryNum", categoryNum);
 		map.put("keyword", keyword);
-		
 		dataCount = service.dataCount(map); //데이터 갯수 가져옴
+		
 		if(dataCount!=0) { 
 			total_page=myUtil.pageCount(rows, dataCount); //전체 페이지수 계산
 		}
@@ -92,13 +91,13 @@ public class UsedController {
 		String articleUrl=cp+"/used/article?page="+current_page;
 		
 		if(keyword.length()!=0) {
-			query="category="+category+"&keyword"+URLEncoder.encode(keyword, "utf-8");
+			query="categoryNum="+categoryNum+"&keyword="+URLEncoder.encode(keyword, "utf-8");
 		}
 		
 		
 		if(query.length()!=0) { //검색조건이 있는 경우
-			listUrl = cp + "/used/list?" + query;
-			articleUrl = cp+"/used/article?page="+current_page+"&"+query;
+			listUrl += "?" + query;
+			articleUrl += "&"+query;
 		}
 		
 		String paging = myUtil.paging(current_page, total_page, listUrl);
@@ -107,12 +106,11 @@ public class UsedController {
 		model.addAttribute("list", list);
 		model.addAttribute("page", current_page);
 		model.addAttribute("dataCount", dataCount);
-		model.addAttribute("articleUrl", articleUrl);
 		model.addAttribute("total_page", total_page);
 		model.addAttribute("paging", paging);
 		model.addAttribute("articleUrl",articleUrl);
 		
-		model.addAttribute("category", category);
+		model.addAttribute("categoryNum", categoryNum);
 		model.addAttribute("keyword", keyword);
 		
 		
@@ -160,7 +158,7 @@ public class UsedController {
 	public String article(
 			@RequestParam int usedNum,
 			@RequestParam String page,
-			@RequestParam(defaultValue="all") String category,
+			@RequestParam(defaultValue="all") String categoryNum,
 			@RequestParam(defaultValue="") String keyword,
 			Model model) throws Exception{
 		
@@ -168,14 +166,14 @@ public class UsedController {
 		
 		//검색
 		String query="page="+page;
-		if(category.length()!=0 || keyword.length()!=0) {
-			query+="&category="+category+"&keyword="+
+		if(categoryNum.length()!=0 || keyword.length()!=0) {
+			query+="&categoryNum="+categoryNum+"&keyword="+
 					URLEncoder.encode(keyword,"utf-8");
 		}
 	
 		service.updateHitCount(usedNum);
-		
 		Used dto = service.readUsed(usedNum);
+		
 		if(dto==null) {
 			return "redirect:/used/list?"+query;
 		}
@@ -185,7 +183,7 @@ public class UsedController {
 		//이전글 다음글
 		Map<String,Object>map = new HashMap<String, Object>();
 		map.put("usedNum",usedNum);
-		map.put("category", category);
+		map.put("categoryNum", categoryNum);
 		map.put("keyword", keyword);
 
 		Used preReadDto = service.preReadDto(map);
@@ -284,18 +282,20 @@ public class UsedController {
 	}
 	
 	@RequestMapping(value="delete")
-	@ResponseBody
 	public String deleteSubmit(
 			@RequestParam int usedNum,
 			@RequestParam String page,
+			@RequestParam (defaultValue = "") String categoryNum,
+			@RequestParam (defaultValue = "") String keyword,
 			HttpSession session ) throws Exception{
 		
-	//	keyword = URLDecoder.decode(keyword,"utf-8");
-		String query = "page="+page;
+		keyword = URLDecoder.decode(keyword,"utf-8");
 		
-		//if(keyword.length()!=0) {
-		//	query+="&keyword="+keyword+"&categoryNum="+categoryNum;
-		// }
+		String query = "page="+page;
+		if(keyword.length()!=0) {
+			query+="&categoryNum="+categoryNum+"&keyword="+keyword;
+		}
+		
 		try {
 			String root = session.getServletContext().getRealPath("/");
 			String pathname = root+"uploads"+File.separator+"used";
@@ -304,6 +304,6 @@ public class UsedController {
 		} catch (Exception e) {
 		}
 		
-		return "redirect:/used/list?page="+page;
+		return "redirect:/used/list?"+query;
 	}
 }
