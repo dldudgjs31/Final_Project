@@ -213,83 +213,42 @@
    
 <div id="daily" class="tabs">
 	<div class="post-list">
-	
+	<c:forEach var="dto1" items="${list1}">
+	 <c:if test="${sessionScope.member.userId==dto1.userId}">	
 	    <a href="" class="post">
 	      <div class="post-image">
-	      	<img alt="" src="${pageContext.request.contextPath}/resources/img/23627.jpg">
+	      	<img alt="" src="${pageContext.request.contextPath}//uploads/daily/${dto1.imageFilename}" width="180" height="180" border="0">
 	      </div>
 	      <span class="post-overlay">
 	        <p>
-	          <span class="post-likes">150</span>
-	          <span class="post-comments">10</span>
+	          <span class="post-likes">${dto1.dailyLikeCount }</span>
+	          <span class="post-comments">${dto1.replyCount }</span>
 	        </p>
 	      </span>
-	    </a>  
-	    <a href="" class="post">
-	      <div class="post-image">
-	      	<img alt="" src="${pageContext.request.contextPath}/resources/img/23627.jpg">
-	      </div>
-	      <span class="post-overlay">
-	        <p>
-	          <span class="post-likes">150</span>
-	          <span class="post-comments">10</span>
-	        </p>
-	      </span>
-	    </a>  
-	    <a href="" class="post">
-	      <div class="post-image">
-	      	<img alt="" src="${pageContext.request.contextPath}/resources/img/23627.jpg">
-	      </div>
-	      <span class="post-overlay">
-	        <p>
-	          <span class="post-likes">150</span>
-	          <span class="post-comments">10</span>
-	        </p>
-	      </span>
-	    </a>  
+	    </a>
+	</c:if>  
+	</c:forEach>
 	</div>
 </div>
 
-
-
 <div id="used" class="tabs" style="display:none;">
-<div class="post-list">
+	 <div class="post-list">
 	
+	 <c:forEach var="dto2" items="${list2}">
+	 <c:if test="${sessionScope.member.userId==dto2.userId}">	
 	    <a href="" class="post">
 	      <div class="post-image">
-	      	<img alt="" src="${pageContext.request.contextPath}/resources/img/logo.png">
+	      	<img alt="" src="${pageContext.request.contextPath}//uploads/used/${dto2.imageFilename}" width="180" height="180" border="0">
 	      </div>
 	      <span class="post-overlay">
 	        <p>
-	          <span class="post-likes">150</span>
-	          <span class="post-comments">10</span>
+	          <span class="post-likes">${dto2.usedLikeCount }</span>
+	          <span class="post-comments">${dto2.replyCount }</span>
 	        </p>
 	      </span>
-	    </a>  
-	    
-	    <a href="" class="post">
-	      <div class="post-image">
-	      	<img alt="" src="${pageContext.request.contextPath}/resources/img/logo.png">
-	      </div>
-	      <span class="post-overlay">
-	        <p>
-	          <span class="post-likes">150</span>
-	          <span class="post-comments">10</span>
-	        </p>
-	      </span>
-	    </a>  
-	    
-	    <a href="" class="post">
-	      <div class="post-image">
-	      	<img alt="" src="${pageContext.request.contextPath}/resources/img/logo.png">
-	      </div>
-	      <span class="post-overlay">
-	        <p>
-	          <span class="post-likes">150</span>
-	          <span class="post-comments">10</span>
-	        </p>
-	      </span>
-	    </a>  
+	    </a>
+	</c:if>  
+	</c:forEach>
 	</div>
 </div>
 

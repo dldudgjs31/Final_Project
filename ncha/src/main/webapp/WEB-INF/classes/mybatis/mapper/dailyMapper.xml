@@ -37,7 +37,7 @@
 	<!-- 리스트에서 제목, 사진 맨 앞에꺼 출력하는 애 -->
 	<select id="listDaily" parameterType="map" resultType="com.sp.app.daily.Daily">
 		SELECT d.dailyNum, d.userId, userName, subject, hitCount, categoryName,d.categoryNum,
-			       created_date, imageFilename, NVL(replyCount, 0) replyCount
+			       created_date, imageFilename, NVL(replyCount, 0) replyCount,dailyLikeCount
 			FROM daily_bbs d
 			JOIN member m ON d.userId=m.userId
 			JOIN daily_category c ON d.categoryNum=c.categoryNum
@@ -51,6 +51,10 @@
 			WHERE answer = 0
 			GROUP BY dailyNum
 		) r ON d.dailyNum = r.dailyNum
+		LEFT OUTER JOIN (
+			SELECT dailyNum, COUNT(*) dailyLikeCount FROM daily_like
+			GROUP BY dailyNum
+		) bc ON d.dailyNum = bc.dailyNum
 			<where>
 	 			<if test="categoryNum!=null and categoryNum!=''">
 	 				AND d.categoryNum = #{categoryNum}
