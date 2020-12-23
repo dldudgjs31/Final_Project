@@ -6,41 +6,30 @@
   
   <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark fixed-top" style="font-family: 'Noto Serif KR', serif; font-size: 15px;">
     <div class="container">
-      <a class="navbar-brand" href="${pageContext.request.contextPath}/"><img alt="로고" src="${pageContext.request.contextPath}/resources/img/logo.png" style="width:150px;"></a>
+      <a class="navbar-brand" href="${pageContext.request.contextPath}/"><img alt="로고" src="${pageContext.request.contextPath}/resources/img/logo2.png" style="width:150px;"></a>
       <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarResponsive">
         <ul class="navbar-nav ml-auto">
           <li class="nav-item">
-            <a class="nav-link" href="${pageContext.request.contextPath}/">Home</a>
-          </li>
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownPortfolio" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              N차 신상 커뮤니티
-            </a>
-            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownPortfolio">
-              <a class="dropdown-item" href="${pageContext.request.contextPath}/daily/list">N차_일상글</a>
-              <a class="dropdown-item" href="${pageContext.request.contextPath}/used/list">N차_신상글</a>
-            </div>
-          </li>
-          
-		 <c:if test="${not empty sessionScope.member}">
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownPortfolio" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              	글올리기
-            </a>
-            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownPortfolio">
-              <a class="dropdown-item" href="${pageContext.request.contextPath}/daily/created">N차_일상 글올리기</a>
-              <a class="dropdown-item" href="${pageContext.request.contextPath}/used/created">N차_신상 글올리기</a>
-            </div>
+            <a class="nav-link" href="${pageContext.request.contextPath}/store/main">Home</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="${pageContext.request.contextPath}/mypage/profile">마이페이지</a>
+            <a class="nav-link" href="${pageContext.request.contextPath}/store/list">N차_스토어</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="${pageContext.request.contextPath}/event/list">이벤트</a>
+          </li>
+
+    
+		 <c:if test="${not empty sessionScope.seller && sessionScope.member.userId=='admin'}">
+          <li class="nav-item">
+            <a class="nav-link" href="${pageContext.request.contextPath}/store/write">판매글올리기</a>
           </li>
           </c:if>
           <li class="nav-item">
-            <a class="nav-link" href="${pageContext.request.contextPath}/store/main">스토어</a>
+            <a class="nav-link" href="${pageContext.request.contextPath}/">중고거래</a>
           </li>
 	         <c:if test="${empty sessionScope.member && empty sessionScope.seller}">
 	     <li class="nav-item">
@@ -69,7 +58,7 @@
                 </c:if>
             </c:if>
             
-                        <c:if test="${not empty sessionScope.seller}">
+            <c:if test="${not empty sessionScope.seller}">
              <li  class="nav-item"> 
              	<span class="nav-link" style="color:skyblue;">[${sessionScope.seller.sellerName}]님 </span>
              </li>

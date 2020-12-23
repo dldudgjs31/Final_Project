@@ -50,7 +50,7 @@
 		SELECT b.productNum,productName,b.created_date,hitCount,price, detail, stock, discount_rate,b.sellerId,categoryNum, imageFilename
 		FROM product_bbs b
 		JOIN seller m ON b.sellerId=m.sellerId
-		JOIN (
+		LEFT OUTER JOIN (
 			SELECT * FROM (
 				SELECT productNum, rank() over(partition by productNum order by main_imageFileNum) rank, imageFilename FROM product_image
 			) WHERE rank = 1
