@@ -9,6 +9,6 @@ public interface ReviewService {
 	public List<Review> listReview(Map<String, Object> map);
 	public void deleteReview(Map<String, Object> map) throws Exception;
 	public double reviewScore(int productNum);
-	public int dataCount(Map<String, Object> map);
+	public int dataCount(int productNum);
 
 }

@@ -45,11 +45,11 @@ public class ReviewServiceImpl implements ReviewService {
 		}
 	
 	@Override
-	public int dataCount(Map<String, Object> map) {
+	public int dataCount(int productNum) {
 		int result=0;
 		
 		try{
-			result=dao.selectOne("review.dataCount",map);			
+			result=dao.selectOne("review.dataCount",productNum);			
 		} catch(Exception e) {
 			e.printStackTrace();
 		}

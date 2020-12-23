@@ -41,7 +41,7 @@ public class ReviewController {
 		map.put("productNum",productNum);
 		
 		int rows = 10;
-		int dataCount = service.dataCount(map);
+		int dataCount = service.dataCount(productNum);
 		int total_page = myUtil.pageCount(rows, dataCount);
 		if (current_page > total_page)
 			current_page = total_page;
