@@ -97,14 +97,14 @@ public class EventController {
 		model.addAttribute("condition", condition);
 		model.addAttribute("keyword", keyword);
 		
-		return ".event.list";
+		return ".store.event.list";
 	}
 
 	@RequestMapping(value="created", method=RequestMethod.GET)
 	public String createdForm(Model model) throws Exception {
 		
 		model.addAttribute("mode", "created");
-		return ".event.created";
+		return ".store.event.created";
 	}
 	
 	@RequestMapping(value="created", method=RequestMethod.POST)
@@ -123,7 +123,7 @@ public class EventController {
 			e.printStackTrace();
 		}
 		
-		return "redirect:/event/list";
+		return "redirect:/store/event/list";
 	}
 	
 	@RequestMapping(value="article", method=RequestMethod.GET)
@@ -143,7 +143,7 @@ public class EventController {
 
 		Event dto = service.readEvent(eventNum);
 		if (dto == null)
-			return "redirect:/event/list?"+query;
+			return "redirect:/store/event/list?"+query;
 		
 		dto.setContent(dto.getContent().replaceAll("\n", "<br>"));
 		
@@ -163,7 +163,7 @@ public class EventController {
 		model.addAttribute("page", page);
 		model.addAttribute("query", query);
 		
-		return ".event.article";
+		return ".store.event.article";
 	}
 	
 	@RequestMapping(value="update", method=RequestMethod.GET)
@@ -177,18 +177,18 @@ public class EventController {
 		
 		Event dto = service.readEvent(eventNum);
 		if (dto == null)
-			return "redirect:/event/list?page="+page;
+			return "redirect:/store/event/list?page="+page;
 
 		// 글을 등록한 사람만 수정 가능
 		if(! dto.getSellerId().equals(info.getSellerId())) {
-			return "redirect:/event/list?page="+page;
+			return "redirect:/store/event/list?page="+page;
 		}
 		
 		model.addAttribute("dto", dto);
 		model.addAttribute("page", page);
 		model.addAttribute("mode", "update");
 		
-		return ".event.created";
+		return ".store.event.created";
 	}
 	
 	@RequestMapping(value="update", method=RequestMethod.POST)
@@ -204,7 +204,7 @@ public class EventController {
 		} catch (Exception e) {
 		}
 		
-		return "redirect:/event/article?eventNum="+dto.getEventNum()+"&page="+page;
+		return "redirect:/store/event/article?eventNum="+dto.getEventNum()+"&page="+page;
 	}
 	
 	@RequestMapping(value="delete", method=RequestMethod.GET)
@@ -231,6 +231,6 @@ public class EventController {
 		} catch (Exception e) {
 		}
 		
-		return "redirect:/event/list?"+query;
+		return "redirect:/store/event/list?"+query;
 	}
 }
