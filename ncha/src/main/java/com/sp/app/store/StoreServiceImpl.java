@@ -148,4 +148,26 @@ public class StoreServiceImpl implements StoreService {
 		
 	}
 
+	@Override
+	public List<Store> readProductFile(int productNum) throws Exception {
+		List<Store> list1 = null;
+		try {
+			list1 = dao.selectList("store.listArticleFile", productNum);
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		return list1;
+	}
+
+	@Override
+	public List<Store> listFile(int productNum) throws Exception {
+		List<Store> listFile = null;
+		try {
+			listFile = dao.selectList("store.listFile", productNum);
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		return listFile;
+	}
+
 }

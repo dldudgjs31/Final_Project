@@ -9,8 +9,8 @@
    
 	<select id="dataCount" parameterType="map" resultType="Integer">
 	 	SELECT NVL(COUNT(*),0) 
-	 	FROM product_review b
-	 	JOIN member m ON b.userId = m.userId
+	 	FROM product_review r
+	 	JOIN member m ON r.userId = m.userId
 	 	WHERE r.productNum=#{productNum}
 	  </select>
 	  

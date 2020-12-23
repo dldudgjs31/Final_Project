@@ -76,8 +76,19 @@ $(function(){
 });
 
 </script>
+	<form name="boardForm" method="post" onsubmit="return submitContents(this);" enctype="multipart/form-data">
 
-<div class="body-container" style="width: 830px;">
+	  <div class="form-group">
+	    <label for="productName">상품명</label>
+	    <input type="text" name="productName" class="form-control" id="productName" placeholder="등록하실 상품명을 입력하세요.">
+  </div>
+	
+	</form>
+
+
+
+
+
     <div class="body-title">
         <h3><i class="fab fa-asymmetrik"></i> ${mode=='update'?'판매글 수정하기':'판매글 올리기'} </h3>
     </div>
@@ -181,7 +192,6 @@ $(function(){
 			    </tr>
 			  </table>
 			</form>
-    </div>
     
 <script type="text/javascript">
 var oEditors = [];

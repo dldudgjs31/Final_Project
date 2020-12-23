@@ -2,9 +2,7 @@
 <%@ page trimDirectiveWhitespaces="true" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-<link rel="stylesheet" type="text/css" href="http://kenwheeler.github.io/slick/slick/slick.css" />
-<link rel="stylesheet" type="text/css" href="http://kenwheeler.github.io/slick/slick/slick-theme.css" />
-<script type="text/javascript" src="http://kenwheeler.github.io/slick/slick/slick.min.js"></script>
+
 <style type="text/css">
 .star {font-size:0; letter-spacing:-4px;}
 .star a {
@@ -17,17 +15,6 @@
 }
 .star a:first-child {margin-left:0;}
 .star a.on {color:#F2CB61;}
-
-.slick-items{
-	width: 100%;
-}
-
-.slider-image{
-	background-repeat: no-repeat;
-	background-position: center;
-	background-size: cover;
-	height: 450px;
-}
 </style>
 
 <script type="text/javascript">
@@ -57,22 +44,7 @@ function updateBoard(num){
 	</c:if>
 }
 
-$(document).ready(function () {
 
-
-	$('.slick-items').slick({
-		autoplay : true,
-		dots: true,
-		speed : 300 /* 이미지가 슬라이딩시 걸리는 시간 */,
-		infinite: true,
-		autoplaySpeed: 3000 /* 이미지가 다른 이미지로 넘어 갈때의 텀 */,
-		arrows: true,
-		slidesToShow: 1,
-		slidesToScroll: 1,
-		fade: false
-	});
-
-});
 </script>
 
 <script type="text/javascript">
@@ -80,14 +52,10 @@ function login() {
 	location.href="${pageContext.request.contextPath}/member/login";
 }
 </script>
-    <div class="slick-items" style="height: 450px;">
-		<c:forEach var="vo" items="${list1}">
-			<c:if test="${vo.productNum == dto.productNum}">
-			      <div  class="slider-image" style="background-image: url('${pageContext.request.contextPath}/uploads/product/${vo.imageFilename}');"></div>
-			</c:if>  
-		</c:forEach>
-    </div>
-    
+<div class="body-container" style="width: 700px;">
+	<div class="body-title">
+		<h3><i class="fas fa-chalkboard"></i> 자유 게시판 </h3>
+	</div>
 
 	<div>
 		<table style="width: 100%; margin-top: 20px; border-spacing: 0px; border-collapse: collapse;">
@@ -140,22 +108,17 @@ function login() {
 					</c:if>
 				</td>
 			</tr>
-			<tr>
-				<td colspan="2" align="left" style="padding-left: 5px;">
-					<button type="button" class="btn btn-primary">Primary</button>
-				</td>
-			</tr>
 		</table>
 
 		<table style="width: 100%; margin: 0px auto 20px; border-spacing: 0px;">
 			<tr height="45">
 				<td width="300" align="left">
-					<button type="button" class="btn btn-primary" onclick="updateBoard('${dto.productNum}');">수정</button>
-					<button type="button" class="btn btn-danger"onclick="deleteBoard('${dto.productNum}');">삭제</button>
+					<button type="button" class="btn" onclick="updateBoard('${dto.productNum}');">수정</button>
+					<button type="button" class="btn" onclick="deleteBoard('${dto.productNum}');">삭제</button>
 				</td>
 
 				<td align="right">
-					<button type="button"class="btn btn-primary" onclick="javascript:location.href='${pageContext.request.contextPath}/store/list?${query}';">리스트</button>
+					<button type="button" class="btn" onclick="javascript:location.href='${pageContext.request.contextPath}/store/list?${query}';">리스트</button>
 				</td>
 			</tr>
 		</table>
@@ -213,7 +176,7 @@ $(function(){
 function listPage(page) {
 	var url = "${pageContext.request.contextPath}/review/listReview";
 	//var query = "productNum=${dto.productNum}&pageNo="+page;
-	var query = "productNum=${dto.productNum}&pageNo="+page;
+	var query = "productNum=3&pageNo="+page;
 	
 	var fn = function(data){
 		$("#listReview").html(data);
@@ -225,7 +188,8 @@ function listPage(page) {
 //리뷰 등록
 $(function(){
 	$(".btnSendReview").click(function(){
-		var productNum="${dto.productNum}";
+		//var productNum="${dto.productNum}";
+		var productNum="3";
 		var $tb = $(this).closest("table");
 		var content=$tb.find("textarea").val().trim();
 		if(! content) {
@@ -293,7 +257,7 @@ $(function(){
 </div>
 
 <table style='width: 100%; margin: 10px auto 30px; border-spacing: 0px;'>
-<%-- 	<thead id='listReviewHeader'>
+	<thead id='listReviewHeader'>
 		<tr height='35'>
 		    <td colspan='2'>
 		       <div style='clear: both;'>
@@ -302,7 +266,7 @@ $(function(){
 		       </div>
 		    </td>
 		</tr>
-	</thead> --%>
+	</thead>
 	
 	<tbody id='listReviewBody'>
 		<c:forEach var="vo" items="${list}">
@@ -332,3 +296,4 @@ $(function(){
 	</tfoot>
 </table>
 
+</div>

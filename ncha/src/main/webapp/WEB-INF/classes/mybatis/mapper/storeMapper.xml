@@ -122,4 +122,18 @@
 	 	INSERT INTO product_image(main_imageFileNum, imageFilename, productNum)
 	 	VALUES(#{main_imageFileNum},#{imageFilename},#{productNum})
 	 </insert>
+	 
+	 <select id="listArticleFile" parameterType="map" resultType="com.sp.app.store.Store">
+		SELECT main_imageFileNum, imageFilename, productNum
+			FROM product_image	
+			ORDER BY main_imageFileNum ASC
+	</select>
+	
+	<select id="listFile" parameterType="Integer" resultType="com.sp.app.store.Store">
+		SELECT main_imageFileNum, imageFilename, productNum
+		FROM product_image	
+		WHERE productNum=#{productNum}
+		ORDER BY main_imageFileNum ASC
+	</select>
+	
 </mapper>

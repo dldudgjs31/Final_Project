@@ -89,8 +89,8 @@ $(document).ready(function() {
               <a href="${articleUrl}&num=${dto.productNum}">${dto.productName}</a>
             </h4>
             
-            <del><p class="card-text">정가 : <fmt:formatNumber value="${dto.price}" pattern=""/>원</p></del>
-            <p class="card-text">세일가 : <fmt:formatNumber value="${dto.price - dto.discount_rate}" pattern=""/>원</p>
+            <del><p class="card-text">정가 : <fmt:formatNumber type="currency" value="${dto.price}" />원</p></del>
+            <p class="card-text">세일가 : <fmt:formatNumber  type="currency"  value="${dto.price - dto.discount_rate}"/>원</p>
           </div>
         </div>
       </div>

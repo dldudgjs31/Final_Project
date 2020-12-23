@@ -158,9 +158,9 @@ public class StoreController {
 		if (dto == null) {
 			return "redirect:/store/list?" + query;
 		}
-		//스마트 에디터를 사용하는 경우 주석으로 막아야함
-		//dto.setContent(myUtil.htmlSymbols(dto.getContent()));
-
+		
+		List<Store> list1 = service.readProductFile(num);
+		List<Store> listFile = service.listFile(num);
 		
 		Map<String, Object> map = new HashMap<>();
 		map.put("num", num);
@@ -171,6 +171,8 @@ public class StoreController {
 		Store nextReadDto = service.nextReadProduct(map);
 
 		model.addAttribute("dto", dto);
+		model.addAttribute("list1", list1);
+		model.addAttribute("listFile", listFile);
 		model.addAttribute("preReadDto", preReadDto);
 		model.addAttribute("nextReadDto", nextReadDto);
 		model.addAttribute("page", page);

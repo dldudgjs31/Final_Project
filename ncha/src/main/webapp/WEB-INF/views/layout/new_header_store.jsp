@@ -23,9 +23,9 @@
           </li>
 
     
-		 <c:if test="${not empty sessionScope.seller && sessionScope.member.userId=='admin'}">
+		 <c:if test="${not empty sessionScope.seller || sessionScope.member.userId=='admin'}">
           <li class="nav-item">
-            <a class="nav-link" href="${pageContext.request.contextPath}/store/write">판매글올리기</a>
+            <a class="nav-link" href="${pageContext.request.contextPath}/store/created">판매글올리기</a>
           </li>
           </c:if>
           <li class="nav-item">

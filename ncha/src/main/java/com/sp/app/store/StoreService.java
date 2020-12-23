@@ -15,6 +15,9 @@ public interface StoreService {
 	
 	//글보기 관련
 	public Store readProduct(int num);
+	public List<Store> readProductFile(int productNum) throws Exception;
+	public List<Store> listFile(int productNum) throws Exception;
+	
 	public void updateHitCount(int num) throws Exception;
 	public Store preReadProduct(Map<String, Object> map);
 	public Store nextReadProduct(Map<String, Object> map);
