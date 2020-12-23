@@ -4,21 +4,6 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
 
-<script type="text/javascript">
-function searchList1() {
-	var f1=document.searchFormList;
-
-	f1.submit();
-}
-
-function searchList2() {
-	var f2=document.searchFormKeyword;
-
-	f2.submit();
-}
-
-
-</script>
 <style type="text/css">
 .imgLayout{
 	width: 190px;
@@ -41,7 +26,203 @@ function searchList2() {
 	text-overflow: ellipsis;
 	cursor: pointer;
 }
+
+.body-container{
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	width: 70%;
+}
+.post-list {
+  display: grid;
+  width:99%;
+  grid-template-columns: repeat(3, minmax(100px, 293px));
+  grid-template-rowls: repeat(auto, minmax(100px, 293px));
+  justify-content: center;
+  gap: 28px;
+}
+
+.post {
+  cursor: pointer;
+  position: relative;
+  display: block; /*Es un ancla por eso le cambio el displya*/
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+}
+
+.post-image {
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.image{
+	width: 100%;
+	height: 100%;
+}
+.post-image img {
+  object-fit: cover;
+  width:100%;
+  height: 293px;
+}
+.post-overlay {
+  background-color: rgb(0, 0, 0, 0.4);
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  top: 0;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  text-align: center;
+}
+.post:hover .post-overlay {
+  display: flex;
+}
+.post-likes,
+.post-comments {
+  width: 80px;
+  margin: 5px;
+  font-weight: bold;
+  text-align: center;
+  display: inline-block;
+}
+
+.profile-title{
+	display: grid;
+	grid-template-columns: repeat(3, minmax(100px, 293px));
+	grid-template-rows: repeat(4,100px);
+	grid-template-areas:
+    "img name setting"
+    "img follower following"
+    "img intro intro"
+    "tab tab tab";
+}
+.profile-img{
+	grid-area:img;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+.imgs{
+	width: 200px; 
+	height: 200px; 
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: cover;
+	border-radius: 50%;
+	border: 1px solid silver;
+}
+.profile-introduce{
+	grid-area:intro;
+}
+.profile-name{
+	grid-area:name;
+	display: flex;
+	align-items: flex-end;
+	align-content: center;
+}
+.profile-setting{
+	grid-area:setting;
+	display: flex;
+	align-items: flex-end;
+	align-content: center;
+}
+.profile-follower{
+	grid-area:follower;
+	display: flex;
+	align-items: center;
+	align-content: center;	
+}
+.profile-following{
+	grid-area:following;
+	display: flex;
+	align-items: center;
+	align-content: center;	
+}
+.profile-tab{
+	grid-area:tab;
+	display: flex;
+	align-items: center;
+	justify-content:center;
+	border-top: 1px solid #ccc;
+	font-size : 15px;
+	color:silver;
+}
+.tabs{
+	display: flex;
+	justify-content: center;
+}
+#profile-tabbox{
+	width: 10%;
+	height: 90px; 
+	padding-top: 10px; 
+	margin:10px; 
+	text-align: center;
+}
+#profile-tabbox:hover{
+	border-top: 2px solid black;
+	color:black;
+}
+
+.button {
+  padding: 15px 25px;
+  font-size: 10px;
+  text-align: center;
+  cursor: pointer;
+  outline: none;
+  color: #fff;
+  background-color: #2196F3;
+  border: none;
+  border-radius: 15px;
+  box-shadow: 0 9px #999;
+}
+
+.button:hover {background-color: #0b7dda;}
+
+.button:active {
+  background-color: #0b7dda;
+  box-shadow: 0 5px #666;
+  transform: translateY(4px);
+}
+@media screen and (max-width: 768px) {
+	.body-container{
+		width:100%;
+	}
+	  .post-list {
+	    gap: 3px;
+	    grid-template-columns: repeat(3, 180px);
+	  }
+	  .post-image img {
+	  height: 180px;
+	  }
+	  .imgs{
+	  width: 150px;
+	  height: 150px;
+	  }
+}
+
 </style>
+<script type="text/javascript">
+
+function searchList1() {
+	var f1=document.searchFormList;
+
+	f1.submit();
+}
+
+function searchList2() {
+	var f2=document.searchFormKeyword;
+
+	f2.submit();
+}
+
+
+</script>
 
 <div class="body-container" style="width: 900px;">
     <div>
@@ -95,40 +276,28 @@ function searchList2() {
        
        <div>
        		<div>
-	       		<table style="width: 630px; margin: 20px auto 0px; border-spacing: 0px;">
-						<c:forEach var="dto" items="${list}" varStatus="status">
-						
-							<c:if test="${status.index==0}">
-								<tr>
-							</c:if>
-							<c:if test="${status.index!=0 && status.index%4==0}">
-								<c:out value="</tr><tr>" escapeXml="false"/>
-							</c:if>
-							<td width="210" align="center">
-								<div class="imgLayout">
-									<img  src="${pageContext.request.contextPath}/uploads/daily/${dto.imageFilename}" width="180" height="180" border="0">
-									<a href="${articleUrl}&dailyNum=${dto.dailyNum}" class="subject">${dto.subject} (${dto.replyCount})</a>
-								</div>
-							</td>
-						</c:forEach>
-						
-							<c:set var="n" value="${list.size()}"/>
-							<c:if test="${n>0 && n%4!=0}">
-								<c:forEach var="i" begin="${n%4+1}" end="4">
-										<td width="210">
-											<div class="imgLayout">&nbsp;</div>
-										</td>
-								</c:forEach>
-							</c:if>   
-							
-				</table>
-				  <table style="width: 100%; margin: 0px auto; border-spacing: 0px;">
-					   <tr height="35">
-						<td align="center">
-						    ${dataCount==0 ? "등록된 게시물이 없습니다.":paging}
-						 </td>
-					   </tr>
-				</table>
+			<div class="post-list">
+			<c:forEach var="dto" items="${list}">
+			    <a href="${articleUrl}&dailyNum=${dto.dailyNum}" class="post">
+			      <div class="post-image">
+			      	<img alt="" src="${pageContext.request.contextPath}//uploads/daily/${dto.imageFilename}" width="180" height="180" border="0">
+			      </div>
+			      <span class="post-overlay">
+			        <p>
+			          <span class="post-likes">${dto.dailyLikeCount }</span>
+			          <span class="post-comments">${dto.replyCount }</span>
+			        </p>
+			      </span>
+			    </a>
+			</c:forEach>
+			</div>
+			<table style="width: 100%; margin: 0px auto; border-spacing: 0px;">
+				   <tr height="35">
+					<td align="center">
+					    ${dataCount==0 ? "등록된 게시물이 없습니다.":paging}
+					 </td>
+				   </tr>
+			</table>
        		</div>
        </div>
     </div>

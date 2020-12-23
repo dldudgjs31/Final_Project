@@ -92,9 +92,9 @@ public class profileController {
 			articleUrl1+="&"+query1;
 		}
         String paging1 = myUtil.paging(current_page1, total_page1, listUrl1);
-		
-      
+       
         
+		model.addAttribute("mode", "mypage");
 		model.addAttribute("list1", list1);
 		model.addAttribute("page1", current_page1);
 		model.addAttribute("dataCount1", dataCount1);

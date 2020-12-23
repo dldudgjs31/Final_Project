@@ -184,6 +184,13 @@
 
 </style>
 
+<script type="text/javascript">
+function linkOk(){
+	var f = document.mypageForm;
+	f.action="${pageContext.request.contextPath}/profile/myArticle";
+}
+</script>
+
 <div class="body-container" >
     <div class="profile-title">
     	<div class="profile-img">
@@ -191,7 +198,7 @@
     		
     		</div>
     	</div>
-    	<div class="profile-introduce">안녕하세요. n차신상 개발자 이영헌입니다.${dto.introduce}</div>
+    	<div class="profile-introduce">자기소개 ! ${dto.introduce}</div>
     	<div class="profile-name">
     		<h1>${sessionScope.member.userId}</h1>&nbsp;&nbsp;
     		<c:if test="${sessionScope.member.userId!= dto.userId}">
@@ -210,14 +217,14 @@
     		<div id="profile-tabbox" style="width: 10%; height: 90px; padding-top: 10px;" onclick="openTab('used')">중고글</div>
     	</div>
     </div>
-   
+<form name="mypageForm" method="post">
 <div id="daily" class="tabs">
 	<div class="post-list">
 	<c:forEach var="dto1" items="${list1}">
-	 <c:if test="${sessionScope.member.userId==dto1.userId}">	
-	    <a href="" class="post">
+	 <c:if test="${sessionScope.member.userId==dto1.userId}">
+	    <a href="${articleUrl1}&dailyNum=${dto1.dailyNum}&mode=${mode}" class="post"> <!-- ${articleUrl1}&dailyNum=${dto1.dailyNum} -->
 	      <div class="post-image">
-	      	<img alt="" src="${pageContext.request.contextPath}//uploads/daily/${dto1.imageFilename}" width="180" height="180" border="0">
+	      	<img alt="" src="${pageContext.request.contextPath}//uploads/daily/${dto1.imageFilename}" width="180" height="180" border="0" onclick="linkOk();">
 	      </div>
 	      <span class="post-overlay">
 	        <p>
@@ -230,7 +237,7 @@
 	</c:forEach>
 	</div>
 </div>
-
+</form>
 <div id="used" class="tabs" style="display:none;">
 	 <div class="post-list">
 	

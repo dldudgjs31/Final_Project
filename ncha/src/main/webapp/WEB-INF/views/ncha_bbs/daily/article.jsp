@@ -355,7 +355,9 @@ $(function(){
     <div class="slick-items" style="height: 450px;">
 		<c:forEach var="vo" items="${list1}">
 			<c:if test="${vo.dailyNum == dto.dailyNum}">
-			      <div  class="slider-image" style="background-image: url('${pageContext.request.contextPath}/uploads/daily/${vo.imageFilename}');"></div>
+			      <div  class="slider-image">
+			      	<img alt="" src="${pageContext.request.contextPath}/uploads/daily/${vo.imageFilename}" height="450px" width="693px">
+			      </div>
 			</c:if>  
 		</c:forEach>
     </div>
@@ -366,7 +368,7 @@ $(function(){
 				   ${dto.subject}
 			    </td>
 			</tr>
-		
+			
 			<tr style="border-bottom: 1px solid #cccccc;">
 			  <td colspan="2" align="left" style="padding: 10px 5px;" valign="top" height="200">
 			      ${dto.content}
@@ -414,9 +416,16 @@ $(function(){
 					<span id="dailyLikeCount">${dto.dailyLikeCount}</span>
 				</td>
 			
+			<c:if test="${mode=='mypage'}">
+			    <td align="right">
+			        <button type="button" class="btn" onclick="javascript:location.href='${pageContext.request.contextPath}/mypage/profile';">마이페이지</button>
+			    </td>
+			</c:if>
+			<c:if test="${mode!='mypage'}">
 			    <td align="right">
 			        <button type="button" class="btn" onclick="javascript:location.href='${pageContext.request.contextPath}/daily/list?${query}';">리스트</button>
 			    </td>
+			</c:if>
 			</tr>
 			</table>
 			
@@ -460,7 +469,6 @@ $(document).ready(function () {
 		slidesToScroll: 1,
 		fade: false
 	});
-
 });
 
 </script>

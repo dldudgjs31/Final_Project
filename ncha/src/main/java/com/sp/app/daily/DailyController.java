@@ -46,7 +46,7 @@ public class DailyController {
 			HttpServletRequest req,
 			Model model
 			) throws Exception{
-		int rows = 7; 
+		int rows = 3; 
 		int total_page = 0;
 		int dataCount = 0;
 		
@@ -58,56 +58,56 @@ public class DailyController {
 		 
 		 map.put("categoryNum", categoryNum);
 		 map.put("keyword", keyword);
+		 
 		 dataCount = service.dataCount(map);
-		 
-		 
-	        if(dataCount != 0)
-	            total_page = myUtil.pageCount(rows,  dataCount) ;
-	        
-	        if(total_page < current_page) 
-	            current_page = total_page;
+        if(dataCount != 0)
+            total_page = myUtil.pageCount(rows,  dataCount);
+        
+        if(total_page < current_page) 
+            current_page = total_page;
 
-	        int offset = (current_page-1) * rows;
-			if(offset < 0) offset = 0;
-	        map.put("offset", offset);
-	        map.put("rows", rows);
-	        
-	        List<Daily> list = service.listDaily(map);
-	        
-	        int listNum, n = 0;
-	        for(Daily dto : list) {
-	            listNum = dataCount - (offset + n);
-	            dto.setListNum(listNum);
-	            n++;
-	        }
-	        
-	        String cp=req.getContextPath();
+        int offset = (current_page-1) * rows;
+		if(offset < 0) offset = 0;
+        map.put("offset", offset);
+        map.put("rows", rows);
+        
+        List<Daily> list = service.listDaily(map);
+        
+        int listNum, n = 0;
+        for(Daily dto : list) {
+            listNum = dataCount - (offset + n);
+            dto.setListNum(listNum);
+            n++;
+        }
+        
+        String cp=req.getContextPath();
 
-	        String listUrl = cp+"/daily/list";
-	        String query = "";
-	        String articleUrl = cp+"/daily/article?page=" + current_page;
-	        
-	        if(categoryNum.length()!=0 || keyword.length()!=0) {
-				query = "categoryNum="+categoryNum+"&keyword="+
-						URLEncoder.encode(keyword,"utf-8");
-			}
-	        
-	        if(query.length()!=0) {
-				listUrl+="?"+query;
-				articleUrl+="&"+query;
-			}
-	        String paging = myUtil.paging(current_page, total_page, listUrl);
-			
-	      
-	        model.addAttribute("keyword",keyword);
-	        model.addAttribute("categoryNum", categoryNum);
-			model.addAttribute("list", list);
-			model.addAttribute("page", current_page);
-			model.addAttribute("dataCount", dataCount);
-			model.addAttribute("total_page", total_page);
-			model.addAttribute("paging", paging);		
-			model.addAttribute("articleUrl", articleUrl);
-		return ".ncha_bbs.daily.list";
+        String listUrl = cp+"/daily/list";
+        String query = "";
+        String articleUrl = cp+"/daily/article?page=" + current_page;
+        
+        if(categoryNum.length()!=0 || keyword.length()!=0) {
+			query = "categoryNum="+categoryNum+"&keyword="+
+					URLEncoder.encode(keyword,"utf-8");
+		}
+        
+        if(query.length()!=0) {
+			listUrl+="?"+query;
+			articleUrl+="&"+query;
+		}
+        String paging = myUtil.paging(current_page, total_page, listUrl);
+		
+      
+		model.addAttribute("mode","mode");
+        model.addAttribute("keyword",keyword);
+        model.addAttribute("categoryNum", categoryNum);
+		model.addAttribute("list", list);
+		model.addAttribute("page", current_page);
+		model.addAttribute("dataCount", dataCount);
+		model.addAttribute("total_page", total_page);
+		model.addAttribute("paging", paging);		
+		model.addAttribute("articleUrl", articleUrl);
+	return ".ncha_bbs.daily.list";
 	}
 	@RequestMapping(value="created", method=RequestMethod.GET)
 	public String writeForm(
@@ -119,6 +119,7 @@ public class DailyController {
 		if(info.getUserId()!=null) {
 			
 		}
+		
 		model.addAttribute("mode","created");
 		return ".ncha_bbs.daily.created";
 	}
@@ -144,6 +145,7 @@ public class DailyController {
 	
 	@RequestMapping("article")
 	public String article(
+			 String mode,
 			@RequestParam int dailyNum,
 			@RequestParam String page,
 			@RequestParam(defaultValue="") String categoryNum,
@@ -181,6 +183,8 @@ public class DailyController {
         
 		// 파일
 		List<Daily> listFile=service.listFile(dailyNum);	
+		
+		model.addAttribute("mode", mode);
 		model.addAttribute("list1", list1);
 		model.addAttribute("dto", dto);
 		model.addAttribute("preReadDto", preReadDto);
