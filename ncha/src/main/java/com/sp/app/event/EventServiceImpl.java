@@ -130,7 +130,7 @@ public class EventServiceImpl implements EventService {
 				fileManager.doFileDelete(dto.getImageFilename(), pathname);
 			
 			// 게시물지우기
-			dao.deleteData("photo.deletePhoto", eventNum);
+			dao.deleteData("event.deleteEvent", eventNum);
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw e;

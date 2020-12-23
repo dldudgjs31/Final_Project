@@ -173,7 +173,7 @@ public class EventController {
 			HttpSession session,
 			Model model) throws Exception {
 		
-		SessionInfo info=(SessionInfo)session.getAttribute("member");
+		SessionInfo info=(SessionInfo)session.getAttribute("seller");
 		
 		Event dto = service.readEvent(eventNum);
 		if (dto == null)
@@ -224,7 +224,7 @@ public class EventController {
 		String root=session.getServletContext().getRealPath("/");
 		String pathname=root+"uploads"+File.separator+"event";
 		
-		SessionInfo info=(SessionInfo)session.getAttribute("member");
+		SessionInfo info=(SessionInfo)session.getAttribute("seller");
 		
 		try {
 			service.deleteEvent(eventNum, pathname, info.getSellerId());

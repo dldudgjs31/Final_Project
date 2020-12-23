@@ -1,167 +1,62 @@
 ﻿<%@ page contentType="text/html; charset=UTF-8"%>
 <%@ page trimDirectiveWhitespaces="true" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+  <link href="${pageContext.request.contextPath}/resources/css/modern-business.css" rel="stylesheet">
+  
+ <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark fixed-top" style="font-family: 'Noto Serif KR', serif; font-size: 15px;">
+    <div class="container">
+      <a class="navbar-brand" href="${pageContext.request.contextPath}/"><img alt="로고" src="${pageContext.request.contextPath}/resources/img/logo.png" style="width:150px;"></a>
+      <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarResponsive">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="${pageContext.request.contextPath}/admin">Home</a>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownPortfolio" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              	회원 관리
+            </a>
+            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownPortfolio">
+              <a class="dropdown-item" href="${pageContext.request.contextPath}/">일반회원</a>
+              <a class="dropdown-item" href="${pageContext.request.contextPath}/">판매회원</a>
+            </div>
+          </li>
+   
+   		  <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownPortfolio" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              	게시판 관리
+            </a>
+            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownPortfolio">
+              <a class="dropdown-item" href="${pageContext.request.contextPath}/">이벤트게시판</a>
+              <a class="dropdown-item" href="${pageContext.request.contextPath}/">공지게시판</a>
+            </div>
+          </li>
+          
+          <li class="nav-item">
+            <a class="nav-link" href="${pageContext.request.contextPath}/">주문내역관리</a>
+          </li>
+           <li class="nav-item">
+            <a class="nav-link" href="${pageContext.request.contextPath}/">N차_신상</a>
+          </li>
+           <li class="nav-item">
+            <a class="nav-link" href="${pageContext.request.contextPath}/store/main">N차_스토어</a>
+          </li>
+	       
 
-<script type="text/javascript">
-//엔터 처리
-$(function(){
-	   $("input").not($(":button")).keypress(function (evt) {
-	        if (evt.keyCode == 13) {
-	            var fields = $(this).parents('form,body').find('button,input,textarea,select');
-	            var index = fields.index(this);
-	            if ( index > -1 && ( index + 1 ) < fields.length ) {
-	                fields.eq( index + 1 ).focus();
-	            }
-	            return false;
-	        }
-	     });
-});
-</script>
-
-<style>
-.navbar_menu a{
-	text-decoration: none;
-	color: white;
-}
-.navbar1{
-	display: flex;
-	justify-content: space-between; /* 가로정렬 */
-	align-items: center;/* 세로정렬 */
-	background-color: #263343;
-	padding: 8px 12px;
-	font-family: 'Noto Serif KR', serif;
-}
-
-.navbar_logo{
-	font-size: 24px;
-	color: white;
-
-}
-.navbar_logo i{
-	color: #d49466;
-}
-
-.navbar_menu{
-	display: flex;
-	list-style: none;
-	padding-left: 0;
-	
-}
-.navbar_menu li {
-	padding: 8px 12px;
-	font-size: 12px;
-}
-.navbar_menu li:hover {
-	background-color: #d49466;
-	border-radius: 4px;
-}
-.navbar_icons{
-	list-style: none;
-	color: white;
-	display: flex;
-		padding-left: 0;
-}
-
-.navbar_icons li {
-	padding: 8px 12px;
-}
-.navbar_icons li a{
-	color: white;
-}
-.navbar_icons li:hover {
-	background-color: #d49466;
-	border-radius: 4px;
-}
-.navbar_toggleBtn {
-	display:none;
-	position: absolute;
-	right: 32px;
-	font-size: 24px;
-	color: #d49466;
-}
-@media screen and (max-width:768px){
-	.navbar1 {
-		flex-direction: column; /* 아래 밑으로 정렬  */
-		align-items: flex-start;/*  */
-		padding: 8px 24px;
-	}
-	
-	.navbar_menu{
-		display: none;
-		flex-direction: column; /* 아래 밑으로 정렬  */
-		align-items: center;/* 세로 가운데 정렬 */
-		width: 100%;		
-	}
-	.navbar_menu li{
-		width: 100%;
-		text-align: center;
-	}
-	.navbar_icons{
-		display: none;
-		justify-content: center;
-		width: 100%;
-		padding-left: 0;
-	}
-	.navbar_toggleBtn {
-		display: block;
-	}
-	
-	.navbar_menu.active,
-	.navbar_icons.active{
-		display: flex;
-	}
-}
-</style>
-<nav class="navbar1">
-	<div class="navbar_logo" style="width: 100px;">
-		<a href="${pageContext.request.contextPath}/" >
-		<img alt="로고" src="${pageContext.request.contextPath}/resources/img/logo.png" style="width:150px;">
-		</a>
-	</div>
-	<!-- 메인 메뉴바 -->
-	<ul class="navbar_menu">
-	<li><a href="${pageContext.request.contextPath}/admin">HOME</a></li>
-		<li>
-			<a href="#">회원관리</a>
-			<ul>
-        		<li><a href="#">일반회원</a></li>
-        		<li><a href="#">판매회원</a></li>
-			</ul>
-		</li>
-		<li><a href="#">전체 게시글관리</a></li>
-		<li><a href="#">이벤트게시판관리</a></li>
-		<li><a href="#">공지사항관리</a></li>
-	
-	</ul>
-	
-	<!-- 로그인/로그아웃 버튼 -->
-	<ul class="navbar_icons">
-	
-	     
             <c:if test="${not empty sessionScope.member}">
-                <li><span style="color:blue;">${sessionScope.member.userName}</span>님</li>
-                &nbsp;&nbsp;
-               <li> <a href="${pageContext.request.contextPath}/member/logout">로그아웃</a></li>
-                &nbsp;&nbsp;
-               <li><a href="${pageContext.request.contextPath}/">메인화면</a></li>
-            </c:if>
-	</ul> 
-	
-	<a href="#" class="navbar_toggleBtn">
-	<i class="fas fa-bars"></i>
-	</a>
-</nav>
-<script>
-$(function(){
-	var toggleBtn = document.querySelector(".navbar_toggleBtn");
-	var menu = document.querySelector(".navbar_menu");
-	var icons = document.querySelector(".navbar_icons");
-		$("body").on("click",".navbar_toggleBtn",function(){
-		menu.classList.toggle("active");
-		icons.classList.toggle("active");
-		
-		});
-			
-	});
-</script>
+             <li  class="nav-item"> 
+             	<span class="nav-link" style="color:skyblue;">[${sessionScope.member.userName}]님 </span>
+             </li>
+             </c:if>
+              <li class="nav-item">
+               	 <a class="nav-link" href="${pageContext.request.contextPath}/member/logout">로그아웃</a>
+               </li>
+	         
+        </ul>
+      </div>
+    </div>
+  </nav>
+    	
