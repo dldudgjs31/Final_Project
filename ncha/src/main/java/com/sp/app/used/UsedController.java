@@ -158,7 +158,7 @@ public class UsedController {
 	public String article(
 			@RequestParam int usedNum,
 			@RequestParam String page,
-			@RequestParam(defaultValue="all") String categoryNum,
+			@RequestParam(defaultValue="") String categoryNum,
 			@RequestParam(defaultValue="") String keyword,
 			Model model) throws Exception{
 		

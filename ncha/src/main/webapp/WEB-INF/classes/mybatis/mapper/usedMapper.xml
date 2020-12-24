@@ -24,7 +24,7 @@
 				u.categoryNum = #{categoryNum}
 			</if>
 			<if test="keyword != null and keyword!=''">
-				AND INSTR(content, #{keyword}) &gt; 0 
+				AND INSTR(content, #{keyword}) &gt;= 1 
 			</if>
 		</where>
 	</select>
@@ -66,7 +66,7 @@
 				u.categoryNum = #{categoryNum}
 			</if>
 			<if test="keyword != null and keyword !='' ">
-				AND INSTR(content, #{keyword}) &gt; 0 
+				AND INSTR(content, #{keyword}) &gt;= 1 
 			</if>
 		</where>
 		ORDER BY u.usedNum DESC
@@ -87,7 +87,7 @@
 			AND categoryNum = #{categoryNum}
 		</if>
 		<if test="keyword != null and keyword !=''">
-			AND INSTR(content, #{keyword}) &gt; 0 
+			AND INSTR(content, #{keyword}) &gt;= 1 
 		</if>
 		ORDER BY usedNum ASC
 		FETCH FIRST 1 ROWS ONLY
@@ -102,7 +102,7 @@
 			AND categoryNum = #{categoryNum}
 		</if>
 		<if test="keyword != null and keyword !=''">
-			AND INSTR(content, #{keyword}) &gt; 0 
+			AND INSTR(content, #{keyword}) &gt;= 1 
 		</if>
 		ORDER BY usedNum DESC
 		FETCH FIRST 1 ROWS ONLY
