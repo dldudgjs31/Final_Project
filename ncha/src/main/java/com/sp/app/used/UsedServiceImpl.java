@@ -142,7 +142,7 @@ public class UsedServiceImpl implements UsedService {
 	public void deleteUsed(int usedNum, String pathname) throws Exception {
 		try {
 			//서버에 파일 지우기
-			List<Used> listFile = listFile(usedNum);
+			List<Used> listFile = imageList(usedNum);
 			if(listFile != null) {
 				for(Used dto:listFile) {
 					fileManager.doFileDelete(dto.getImageFilename(),pathname);
@@ -166,7 +166,7 @@ public class UsedServiceImpl implements UsedService {
 	@Override
 	public void insertFile(Used dto) throws Exception {
 		try {
-			dao.insertData("used.insertFile", dto);
+			dao.insertData("used.insertImage", dto);
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw e;
@@ -174,11 +174,11 @@ public class UsedServiceImpl implements UsedService {
 	}
 
 	@Override
-	public List<Used> listFile(int num) {
+	public List<Used> imageList(int num) {
 		List<Used> listFile = null;
 
 		try {
-			listFile = dao.selectList("used.listFile", num);
+			listFile = dao.selectList("used.imageList", num);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -207,17 +207,7 @@ public class UsedServiceImpl implements UsedService {
 		}
 	}
 
-	@Override
-	public List<Used> readUsedFile(int usedNum) throws Exception {
-		List<Used> images = null;
-		try {
-			images = dao.selectList("used.readimagelist");
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return images;
-	}
-
+	
 	@Override
 	public void deleteImage(Map<String, Object> map) throws Exception {
 		try {
@@ -226,5 +216,110 @@ public class UsedServiceImpl implements UsedService {
 			e.printStackTrace();
 			throw e;
 		}
+	}
+
+	//마이페이지 관련
+	@Override
+	public List<Used> listUsed_mypage(Map<String, Object> map) {
+		List<Used> list = null;
+		try {
+			list = dao.selectList("used.listUsed_mypage",map);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
+
+
+	
+	//중고글 좋아요 관련	
+	@Override
+	public void insertUsedLike(Map<String, Object> map) throws Exception {
+		try {
+			dao.insertData("used.insertUsedLike",map);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
+	}
+
+	@Override
+	public int usedLikeCount(int usedNum) {
+		int result = 0;
+		try {
+			result = dao.selectOne("used.usedLikeCount",usedNum);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
+
+	
+	
+	
+	//댓글 CRUD
+	
+	@Override
+	public void insertReply(Reply dto) throws Exception {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void deleteReply(Map<String, Object> map) throws Exception {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void updateReply(Map<String, Object> map) throws Exception {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public List<Reply> listReply(Map<String, Object> map) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	
+	
+	// 댓글 관련
+	
+
+	@Override
+	public int replyCount(Map<String, Object> map) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public void insertReplyLike(Map<String, Object> map) throws Exception {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public Map<String, Object> replyLikecount(Map<String, Object> map) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	
+	
+	
+	//대댓글 관련 
+	
+	@Override
+	public int replyAnswerCount(int answer) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public List<Reply> listReplyAnswer(int answer) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

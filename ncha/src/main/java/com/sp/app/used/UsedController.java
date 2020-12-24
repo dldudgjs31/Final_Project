@@ -190,16 +190,16 @@ public class UsedController {
 		Used nextReadDto = service.nextReadDto(map);
 		
 		//파일
-		List<Used> images = service.readUsedFile(usedNum);
-		List<Used> listFile = service.listFile(usedNum);
+		List<Used> imageList = service.imageList(usedNum);
+		int likeCount = service.usedLikeCount(usedNum);
 		
 		model.addAttribute("dto",dto);
 		model.addAttribute("preReadDto",preReadDto);
 		model.addAttribute("nextReadDto",nextReadDto);
-		model.addAttribute("listFile",listFile);
+		model.addAttribute("imageList",imageList);
 		model.addAttribute("page",page);
 		model.addAttribute("query",query);
-		model.addAttribute("images",images);
+		model.addAttribute("likeCount",likeCount);
 		
 		
 		return ".ncha_bbs.used.article";
@@ -216,13 +216,13 @@ public class UsedController {
 		
 		Used dto = service.readUsed(usedNum);
 		//List<Used> images = service.readUsedFile(usedNum);
-		List<Used> listFile = service.listFile(usedNum);
+		List<Used> imageList = service.imageList(usedNum);
 		
 		model.addAttribute("usedNum",usedNum);
 		model.addAttribute("mode","update");
 		model.addAttribute("page",page);
 		model.addAttribute("dto",dto);
-		model.addAttribute("listFile",listFile);
+		model.addAttribute("imageList",imageList);
 	
 		
 		return ".ncha_bbs.used.created";
@@ -305,5 +305,35 @@ public class UsedController {
 		}
 		
 		return "redirect:/used/list?"+query;
+	}
+	
+	//중고게시글 좋아요 추가 : AJAX-JSON
+	@RequestMapping(value="insertUsedLike",method =RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> insertUsedLike(
+			@RequestParam int usedNum,
+			HttpSession session){
+		
+		String state = "true";
+		int usedLikeCount = 0;
+		SessionInfo info = (SessionInfo)session.getAttribute("member");
+		
+		Map<String, Object> paramMap = new HashMap<>();
+		paramMap.put("usedNum",usedNum);
+		paramMap.put("userId", info.getUserId());
+		System.out.println(usedNum+" "+info.getUserId());
+		try {
+			service.insertUsedLike(paramMap);
+		} catch (Exception e) {
+			state="false";
+		}
+		
+		usedLikeCount = service.usedLikeCount(usedNum);
+		
+		Map<String, Object> model = new HashMap<>();
+		model.put("state", state);
+		model.put("usedLikeCount", usedLikeCount);
+		
+		return model;
 	}
 }

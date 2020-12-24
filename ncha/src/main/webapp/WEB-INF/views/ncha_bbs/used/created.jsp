@@ -47,14 +47,6 @@ function handleImgFileSelect(e){
 	});
 }
 
-<c:if test="${mode=='update'}">
-function deleteFile(fileNum) {
-		var url="${pageContext.request.contextPath}/used/deleteFile";
-		$.post(url, {fileNum:fileNum}, function(data){
-			$("#f"+fileNum).remove();
-		}, "json");
-}
-</c:if>
 
 function sendOk(){
 	var f = document.usedForm;
@@ -134,7 +126,7 @@ function goArticle(usedNum,page){
        			</td>
   			</tr>
 			<c:if test="${mode=='update'}">
-				   <c:forEach var="vo" items="${listFile}">
+				   <c:forEach var="vo" items="${imageList}">
 						  <tr id="file${vo.used_imageFileNum}" height="40" style="border-bottom: 1px solid #cccccc;"> 
 						      <td width="100" bgcolor="#eeeeee" style="text-align: center;">첨부된파일</td>
 						      <td style="padding-left:10px;"> 

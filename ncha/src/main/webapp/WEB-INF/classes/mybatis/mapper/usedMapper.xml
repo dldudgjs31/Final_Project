@@ -69,6 +69,7 @@
 				AND INSTR(content, #{keyword}) &gt; 0 
 			</if>
 		</where>
+		ORDER BY u.usedNum DESC
 	</select>
 	
 	<!-- 조회수 증가 -->
@@ -120,17 +121,11 @@
 		WHERE u.usedNum = #{usedNum}
 	</select>
 	
-	<!-- 파일 -->
-	<insert id="insertFile" parameterType="com.sp.app.used.Used">
+	<!-- 이미지 관련 -->
+	<insert id="insertImage" parameterType="com.sp.app.used.Used">
 		INSERT INTO used_image(used_imageFileNum, imageFilename, usedNum) VALUES
 				(usedfile_seq.NEXTVAL, #{imageFilename}, #{usedNum})
 	</insert>
-	
-	<select id="readimagelist" parameterType="map" resultType="com.sp.app.used.Used">
-		SELECT u.usedNum, imageFilename
-		FROM used_bbs u
-		JOIN used_image i ON u.usedNum = i.usedNum
-	</select>
 	
 	<!-- 이미지넘버에 맞는 파일 하나읽어오기 -->
 	<select id="readImage" parameterType="Integer" resultType="com.sp.app.used.Used">
@@ -139,9 +134,41 @@
 		WHERE used_imageFileNum = #{used_imageFileNum}
 	</select>
 	
-	<select id="listFile" parameterType="Integer" resultType="com.sp.app.used.Used">
+	<select id="imageList" parameterType="Integer" resultType="com.sp.app.used.Used">
 		SELECT used_imageFileNum, imageFilename, usedNum
 		FROM used_image
 		WHERE usedNum=#{usedNum}    
+	</select>
+	
+	<!-- 마이페이지  -->
+	<select id="listUsed_mypage" parameterType="map" resultType="com.sp.app.used.Used">
+		SELECT u.usedNum, u.userId, userName, subject, 
+			       imageFilename, NVL(replyCount, 0) replyCount, usedLikeCount
+			FROM used_bbs u
+			JOIN member m ON u.userId=m.userId
+			JOIN (
+			   SELECT * FROM (
+			      SELECT usedNum, rank() over(partition by usedNum order by used_imageFileNum) rank,  imageFilename FROM used_image
+			   ) WHERE rank = 1 
+			)  i ON u.usedNum = i.usedNum
+			LEFT OUTER JOIN (
+			SELECT usedNum, COUNT(*) replyCount FROM used_Reply
+			WHERE answer = 0
+			GROUP BY usedNum
+		) r ON u.usedNum = r.usedNum
+			LEFT OUTER JOIN (
+				SELECT usedNum, COUNT(*) usedLikeCount FROM used_like
+				GROUP BY usedNum
+		) bc ON u.usedNum = bc.usedNum
+	</select>
+	
+	
+	<!-- 중고글 좋아요 추가 및 카운트 -->
+	<insert id="insertUsedLike" parameterType="map">
+		INSERT INTO used_like(usedNum,userId) VALUES (#{usedNum},#{userId})
+	</insert>
+	
+	<select id="usedLikeCount" parameterType="Integer" resultType="Integer">
+		SELECT COUNT(*) FROM used_like WHERE usedNum = #{usedNum}
 	</select>
 </mapper>

@@ -47,6 +47,75 @@ function deleteBoard(usedNum,page){
 function goList(page){
 	location.href = "${pageContext.request.contextPath}/used/list?page="+page;
 }
+
+//jqXHR : jQuery XMLHttpRequest, jqXHR객체는 $.ajax () 함수에 의해 반환
+function ajaxJSON(url, method, query, fn){
+	$.ajax({
+		type:method,
+		url:url,
+		data:query,
+		dataType:"json",
+		success:function(data){
+			fn(data);
+		},
+		beforeSend:function(jqXHR){
+			jqXHR.setRequestHeader("AJAX",true);
+		},
+		error:function(jqXHR){
+			if(jqXHR.status === 403){
+				login();
+				return false;
+			}
+			console.log(jqXHR.responseText);
+		}
+	});
+}
+
+function ajaxHTMl(url, method, query, selector){
+	$.ajax({
+		type: method,
+		url : url,
+		data: query,
+		success:function(data){
+			$(selector).html(data);
+		},
+		beforeSend:function(jqXHR){
+			jqXHR.setRequestHeader("AJAX",true);
+		},
+		error:function(jqXHR){
+			if(jqXHR.status===403){
+				login();
+				return false;
+			}
+			console.log(jqXHR.responseText);
+		}
+	});	
+}
+
+//중고글 공감버튼
+$(function(){
+	$(".btnSendUsedLike").click(function(){
+		if(! confirm("게시글을 좋아요 하시겠습니까?")){
+			return false;
+		}
+		
+		var url = "${pageContext.request.contextPath}/used/insertUsedLike";
+		var usedNum = "${dto.usedNum}";
+		var query = "usedNum="+usedNum;
+		
+		var fn = function(data){
+			var state=data.state;
+			if(state==="true"){
+				var count = data.usedLikeCount;
+				$("#usedLikeCount").text(count);
+			}else if(state==="false"){
+				alert("좋아요는 한번만 가능합니다");
+			}
+		};
+		ajaxJSON(url,"post",query,fn);
+	});
+});
+
 </script>
 
 <div class="body-container" style="width: 700px;">
@@ -63,7 +132,7 @@ function goList(page){
 	</table>
 	
 	<div id="slick-items" style="padding:10px 10px;">
-		<c:forEach var="vo" items="${images}">
+		<c:forEach var="vo" items="${imageList}">
 			<c:if test="${vo.usedNum == dto.usedNum}">
         		<div  class="slider-image" style="background-image: url('${pageContext.request.contextPath}/uploads/used/${vo.imageFilename}');"></div>
 			</c:if>  
@@ -72,8 +141,14 @@ function goList(page){
     
 	<table style="width: 100%; margin: 20px auto 0px; border-spacing: 0px; border-collapse: collapse;">	
 		<tr style="border-bottom: 1px solid #cccccc;">
+			<td align="center" class="btnSendUsedLike">
+				<img alt="좋아요버튼" src="${pageContext.request.contextPath}/resources/images/heart.png" style="height: 25px; width: 25px">
+				<span id="usedLikeCount">${dto.usedLikeCount}</span>
+			</td>
+		</tr>
+		<tr style="border-bottom: 1px solid #cccccc;">
 		  <td colspan="2" align="left" style="padding-left: 5px;">
-		     카테고리 : ${dto.categoryName}  
+		     카테고리 :${dto.categoryName}  
 		  </td>
 		</tr>
 		<tr style="border-bottom: 1px solid #cccccc;">
@@ -122,6 +197,7 @@ function goList(page){
 		     </td>
 		</tr>
 </table>
+
 
 <table style="width: 100%; margin: 0px auto 20px; border-spacing: 0px;">
 	<tr height="45">
