@@ -80,6 +80,130 @@ function login() {
 	location.href="${pageContext.request.contextPath}/member/login";
 }
 </script>
+
+
+<script type="text/javascript">
+$(function(){
+	$(".buyAdd").click(function(){
+		var totalBuyQty = parseInt($("#totalBuyQty").text());
+		var totalBuyAmt = parseInt($("#totalBuyAmt").text());
+		
+		var title=$(this).parent().parent().children().eq(0).text();
+		var code=$(this).attr("data-code");
+		var price=parseInt($(this).attr("data-price"));
+		var qty=1;
+		
+		var t="#buyTr"+code;
+		if($(t).length) { // 해당 코드가 존재하면
+			// qty=$(t).children().children("input[name=quantity]").val();
+			qty=$(t+" input[name=quantity]").val();
+			if(! qty) qty=0;
+			
+			pty=parseInt(qty)+1;
+			
+			$(t+" input[name=quantity]").val(pty);
+			$(t+" .productPrice").text(pty*price);
+			
+			totalBuyQty=totalBuyQty+1;
+			totalBuyAmt=totalBuyAmt+price;
+			$("#totalBuyQty").text(totalBuyQty);
+			$("#totalBuyAmt").text(totalBuyAmt);
+		
+			return;
+		}
+		
+		var $tr, $td, $input;
+		
+		var vprice = "<span class='productPrice'>"+price+"</span>원 <span class='buyCancel' data-code='"+code+"' data-price='"+price+"'>×</span>";
+	    $tr=$("<tr height='40' style='border-bottom: 1px solid #cccccc;' id='buyTr"+code+"'>");
+	    $td=$("<td>", {width:"200", style:"text-align: center;", html:title});
+	    $tr.append($td);
+	    $td=$("<td width='180' style='text-align: right;'>");
+	    $input=$("<input>", {type:"text", name:"quantity", class:"boxTF", style:"width: 30%;", value:qty, readonly:"readonly"});
+	    $td.append($input);
+	    $input=$("<input>", {type:"button", class:"btn btnPlus", value:"+"});
+	    $td.append($input);
+	    $input=$("<input>", {type:"button", class:"btn btnMinus", value:"-"});
+	    $td.append($input);
+	    $input=$("<input>", {type:"hidden", name:"code", value:code});
+	    $td.append($input);
+	    $tr.append($td);
+	    $td=$("<td>", {width:"200", style:"text-align: right; padding-right: 5px;", html:vprice});
+	    $tr.append($td);
+	    
+	    $("#buyList").append($tr);
+		
+		totalBuyQty=totalBuyQty+1;
+		totalBuyAmt=totalBuyAmt+price;
+		$("#totalBuyQty").text(totalBuyQty);
+		$("#totalBuyAmt").text(totalBuyAmt);
+	    
+	});
+});
+
+$(function(){
+	$("body").on("click", ".buyCancel", function(){
+		var code=$(this).attr("data-code");
+		var price=parseInt($(this).attr("data-price"));
+		var t="#buyTr"+code;
+		var qty=$(t+" input[name=quantity]").val();
+		if(! qty) qty=0;
+		
+		$(t).remove();
+		
+		var totalBuyQty = parseInt($("#totalBuyQty").text());
+		var totalBuyAmt = parseInt($("#totalBuyAmt").text());
+		totalBuyQty=totalBuyQty-parseInt(qty);
+		totalBuyAmt=totalBuyAmt-(price*parseInt(qty));
+		$("#totalBuyQty").text(totalBuyQty);
+		$("#totalBuyAmt").text(totalBuyAmt);
+	});
+});
+
+$(function(){
+	$("body").on("click", ".btnPlus", function(){
+		var code=$(this).siblings("input[name=code]").val();
+		var price=parseInt($(this).parent().next().children(".buyCancel").attr("data-price"));
+		var qty=parseInt($(this).parent().children("input[name=quantity]").val());
+		var productPrice=parseInt($(this).parent().next().children(".productPrice").text());
+		var totalBuyQty = parseInt($("#totalBuyQty").text());
+		var totalBuyAmt = parseInt($("#totalBuyAmt").text());
+
+		qty=qty+1;
+		productPrice=productPrice+price;
+		$(this).parent().children("input[name=quantity]").val(qty);
+		$(this).parent().next().children(".productPrice").text(productPrice);
+		
+		totalBuyQty=totalBuyQty+1;
+		totalBuyAmt=totalBuyAmt+price;
+		$("#totalBuyQty").text(totalBuyQty);
+		$("#totalBuyAmt").text(totalBuyAmt);
+	});
+
+	$("body").on("click", ".btnMinus", function(){
+		var code=$(this).siblings("input[name=code]").val();
+		var price=parseInt($(this).parent().next().children(".buyCancel").attr("data-price"));
+		var qty=parseInt($(this).parent().children("input[name=quantity]").val());
+		var productPrice=parseInt($(this).parent().next().children(".productPrice").text());
+		var totalBuyQty = parseInt($("#totalBuyQty").text());
+		var totalBuyAmt = parseInt($("#totalBuyAmt").text());
+		if(qty<=0)
+			return;
+		
+		qty=qty-1;
+		productPrice=productPrice-price;
+		$(this).parent().children("input[name=quantity]").val(qty);
+		$(this).parent().next().children(".productPrice").text(productPrice);
+		
+		totalBuyQty=totalBuyQty-1;
+		totalBuyAmt=totalBuyAmt-price;
+		$("#totalBuyQty").text(totalBuyQty);
+		$("#totalBuyAmt").text(totalBuyAmt);
+	});
+});
+
+</script>
+
     <div class="slick-items" style="height: 450px;">
 		<c:forEach var="vo" items="${list1}">
 			<c:if test="${vo.productNum == dto.productNum}">
@@ -88,24 +212,91 @@ function login() {
 		</c:forEach>
     </div>
     
+    
+    
+    
+    
 
 	<div>
-		<table style="width: 100%; margin-top: 20px; border-spacing: 0px; border-collapse: collapse;">
-			<tr height="35" style="border-top: 1px solid #cccccc; border-bottom: 1px solid #cccccc;">
-				<td colspan="2" align="center">
+		<table class="table" >
+			<tr>
+				<td colspan="2" class="text-center">
 					${dto.productName}
 				</td>
 			</tr>
-
-			<tr height="35" style="border-bottom: 1px solid #cccccc;">
-				<td width="50%" align="left" style="padding-left: 5px;">
-					이름 : ${dto.sellerId}
+	
+			<tr>
+				<td width="50%" >
+					판매자 : ${dto.sellerId}
 				</td>
-				<td width="50%" align="right" style="padding-right: 5px;">
+				<td width="50%" class="text-right" >
 					${dto.created_date } | 조회 ${dto.hitCount}
 				</td>
 			</tr>
+			<tr>
+				<td width="50%" >
+				<del>정가 : <fmt:formatNumber type="currency" value="${dto.price}" />원</del>
+				세일가 : <fmt:formatNumber  type="currency"  value="${dto.price - dto.discount_rate}"/>원
+				</td>
+				<td width="50%" class="text-right" >
+					남은 재고수량 : ${dto.stock}
+				</td>
+			</tr>
 			
+			<tr >
+				<td colspan="2" align="left" style="padding: 10px 5px;" valign="top" height="50">
+					
+					
+					 	<div style="clear: both;">
+		<div style="width: 400px; float: left;">
+			<table style="width: 100%; border-spacing: 0; border-collapse: collapse;">
+				<tr height="35" style="border-top: 1px solid #cccccc; border-bottom: 1px solid #cccccc;">
+					<td bgcolor="#eeeeee" style="text-align: center;">상품명</td>
+					<td width="150" bgcolor="#eeeeee" style="text-align: center;">금액</td>
+					<td width="100" bgcolor="#eeeeee" style="text-align: center;">구매</td>
+				</tr>
+				<tr height="35" style="border-bottom: 1px solid #cccccc;">
+					<td style="text-align: center;">${dto.productName}</td>
+					<td style="text-align: right; padding-right: 5px;"><fmt:formatNumber value="${dto.price-dto.discount_rate}"  type="currency"/></td>
+					<td style="text-align: center;"><span class="buyAdd" data-code="100" data-price="${dto.price-dto.discount_rate}">구매추가</span></td>
+				</tr>
+	
+			</table>
+		</div>
+		<div style="width: 580px; float: left; margin-left:20px; padding: 0 5px 5px; box-sizing: border-box;">
+		
+		    <form name="buyForm" method="post">
+		    <table style="width: 100%; border-spacing: 0px; border-collapse: collapse; border: 1px solid #cccccc; background: #eeeeee;">
+		        <thead>
+			    	<tr height="40" style="border-bottom: 1px solid #cccccc;">
+			    		<td colspan="3"><span style="font-weight: 700; padding-left: 10px;">| 구매 리스트</span></td>
+			    	</tr>
+		    	</thead>
+		    	<tbody id="buyList">
+		    	</tbody>
+		    	<tfoot>
+			    	<tr height="40" style="border-top: 1px solid #cccccc;">
+			    		<td align="right" colspan="3">
+			    		   <span>총수량 : </span><span id="totalBuyQty">0</span>개 | 
+			    		   <span style="font-weight: 700;">총 상품금액 : </span><span id="totalBuyAmt" style="font-weight: 900; color: #2eb1d3; font-size: 17px;">0</span>
+			    		   <span style="padding-right: 10px; font-weight: 700; color: #2eb1d3;">원</span>
+			    		 </td>
+			    	</tr>
+		    	</tfoot>
+		    </table>
+			</form>
+			
+		</div>
+	</div>
+					
+				</td>
+			</tr>
+			<tr>
+				<td colspan="2" align="left" style="padding-left: 5px;">
+					<button type="button" class="btn btn-primary">구매하기</button>
+					<button type="button" class="btn btn-primary">장바구니</button>
+				</td>
+			</tr>
 			<tr >
 				<td colspan="2" align="left" style="padding: 10px 5px;" valign="top" height="200">
 					${dto.detail}
@@ -141,9 +332,7 @@ function login() {
 				</td>
 			</tr>
 			<tr>
-				<td colspan="2" align="left" style="padding-left: 5px;">
-					<button type="button" class="btn btn-primary">Primary</button>
-				</td>
+
 			</tr>
 		</table>
 
@@ -161,7 +350,6 @@ function login() {
 		</table>
 	</div>
 	
-<div class="body-container" style="width: 700px;">
 
 <script type="text/javascript">
 $(function(){
@@ -257,7 +445,7 @@ $(function(){
 
     <div>
         <form name="reviewForm">
-		<table style='width: 100%; margin: 15px auto 0px; border-spacing: 0px;'>
+		<table class="table">
 			<tr height='30'> 
 				 <td align='left' >
 				 	<span style='font-weight: bold;' >리뷰쓰기</span>
@@ -290,9 +478,8 @@ $(function(){
 		<div id="listReview"></div>
     
     </div>
-</div>
 
-<table style='width: 100%; margin: 10px auto 30px; border-spacing: 0px;'>
+<table class="table">
 <%-- 	<thead id='listReviewHeader'>
 		<tr height='35'>
 		    <td colspan='2'>
