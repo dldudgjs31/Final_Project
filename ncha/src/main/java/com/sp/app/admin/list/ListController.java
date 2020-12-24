@@ -1,0 +1,92 @@
+package com.sp.app.admin.list;
+
+import java.net.URLDecoder;
+import java.net.URLEncoder;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import com.sp.app.common.MyUtil;
+import com.sp.app.member.Member;
+
+@Controller("admin.list.listController")
+@RequestMapping("/admin/list/*")
+public class ListController {
+	@Autowired
+	private ListService service;
+
+	@Autowired
+	private MyUtil myUtil;
+
+	@RequestMapping("member")
+	public String list(@RequestParam(value = "page", defaultValue = "1") int current_page,
+			@RequestParam(defaultValue = "hak") String condition, @RequestParam(defaultValue = "") String keyword,
+			HttpServletRequest req, Model model) throws Exception {
+
+		if (req.getMethod().equalsIgnoreCase("GET")) {
+			keyword = URLDecoder.decode(keyword, "utf-8");
+		}
+
+		int rows = 10;
+		int dataCount, total_page;
+
+		Map<String, Object> map = new HashMap<>();
+		map.put("condition", condition);
+		map.put("keyword", keyword);
+
+		dataCount = service.dataCountMember(map);
+		total_page = myUtil.pageCount(rows, dataCount);
+		if (current_page > total_page) {
+			current_page = total_page;
+		}
+
+		int offset = (current_page - 1) * rows;
+		if (offset < 0)
+			offset = 0;
+		map.put("offset", offset);
+		map.put("rows", rows);
+
+		List<Member> list = service.listMember(map);
+
+		String cp = req.getContextPath();
+		String listUrl = cp + "/score/list";
+
+		if (keyword.length() != 0) {
+			listUrl += "?condition=" + condition + "&keyword=" + URLEncoder.encode(keyword, "UTF-8");
+		}
+		String paging = myUtil.paging(current_page, total_page, listUrl);
+
+		model.addAttribute("list", list);
+		model.addAttribute("dataCount", dataCount);
+		model.addAttribute("page", current_page);
+		model.addAttribute("total_page", total_page);
+		model.addAttribute("paging", paging);
+
+		return ".admin.list.member";
+	}
+
+	
+	
+
+	  @RequestMapping("deleteMember")
+	   public String deleteMember(
+	         @RequestParam String userId,
+	         @RequestParam String page
+	         ) throws Exception{
+	      try {
+	         service.deleteMember(userId);
+	      } catch (Exception e) {
+	         throw e;
+	      }
+	      return "redirect:/admin/list/member?page="+page;
+	   }
+}
+
