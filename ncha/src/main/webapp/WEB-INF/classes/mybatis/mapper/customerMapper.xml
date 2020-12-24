@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="customer">
+
+<update id="insertOrder" parameterType="com.sp.app.customer.Customer">
+	INSERT ALL
+		INTO store_order_list (orderNum, memberIdx,total_sales, order_date)
+		VALUES(order_seq.NEXTVAL,#{memberIdx},#{total_sales},SYSDATE)
+		INTO product_order_detail (orderNum, sellerId,productNum, number_sales, price)
+		VALUES(order_seq.NEXTVAL,#{sellerId},#{productNum},#{number_sales},#{price})
+	SELECT * FROM dual
+</update>
+
+<update id="updateStock" parameterType="Integer">
+
+</update>
+</mapper>
