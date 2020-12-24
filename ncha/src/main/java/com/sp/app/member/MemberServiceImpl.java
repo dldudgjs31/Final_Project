@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 
 import com.sp.app.common.FileManager;
 import com.sp.app.common.dao.CommonDAO;
-import com.sp.app.daily.Daily;
 
 @Service("member.memberService")
 public class MemberServiceImpl implements MemberService {
@@ -180,14 +179,23 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public int dataCount(Map<String, Object> map) {
 		int result=0;
-
+		try {
+			result=dao.selectOne("list.dataCountMember", map);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		return result;
 	}
 
 	@Override
 	public List<Member> listMember(Map<String, Object> map) {
 		List<Member> list=null;
-
+		
+		try {
+			list=dao.selectList("list.listMember", map);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		return list;
 	}
 
@@ -196,6 +204,8 @@ public class MemberServiceImpl implements MemberService {
 		Member dto= null;
 		try {
 			dto=dao.selectOne("member.readProfile", userId);
+			dto.setFollowerCount(dao.selectOne("member.followerCount",userId));
+			dto.setFollowingCount(dao.selectOne("member.followingCount",userId));
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw e;

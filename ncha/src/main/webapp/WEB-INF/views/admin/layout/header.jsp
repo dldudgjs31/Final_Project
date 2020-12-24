@@ -20,8 +20,8 @@
               	회원 관리
             </a>
             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownPortfolio">
-              <a class="dropdown-item" href="${pageContext.request.contextPath}/">일반회원</a>
-              <a class="dropdown-item" href="${pageContext.request.contextPath}/">판매회원</a>
+              <a class="dropdown-item" href="${pageContext.request.contextPath}/admin/list/member">일반회원</a>
+              <a class="dropdown-item" href="${pageContext.request.contextPath}/admin/list/seller">판매회원</a>
             </div>
           </li>
    

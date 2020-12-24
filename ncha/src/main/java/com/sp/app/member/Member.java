@@ -19,7 +19,43 @@ public class Member {
 	private MultipartFile uploadphoto;
 	private String profile_imageFilename; 
 	
+	private int listNum;
 	
+	private String userId1;
+	private String userId2;
+	private int followerCount;
+	private int followingCount;
+	
+	public String getUserId1() {
+		return userId1;
+	}
+	public void setUserId1(String userId1) {
+		this.userId1 = userId1;
+	}
+	public String getUserId2() {
+		return userId2;
+	}
+	public void setUserId2(String userId2) {
+		this.userId2 = userId2;
+	}
+	public int getFollowerCount() {
+		return followerCount;
+	}
+	public void setFollowerCount(int followerCount) {
+		this.followerCount = followerCount;
+	}
+	public int getFollowingCount() {
+		return followingCount;
+	}
+	public void setFollowingCount(int followingCount) {
+		this.followingCount = followingCount;
+	}
+	public int getListNum() {
+		return listNum;
+	}
+	public void setListNum(int listNum) {
+		this.listNum = listNum;
+	}
 	public long getMemberIdx() {
 		return memberIdx;
 	}

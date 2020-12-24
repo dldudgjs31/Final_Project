@@ -198,9 +198,9 @@ function linkOk(){
     		
     		</div>
     	</div>
-    	<div class="profile-introduce">자기소개 ! ${dto.introduce}</div>
+    	<div class="profile-introduce">자기소개 !${dto.introduce}</div>
     	<div class="profile-name">
-    		<h1>${sessionScope.member.userId}</h1>&nbsp;&nbsp;
+    		<h1>${dto.userId}</h1>&nbsp;&nbsp;
     		<c:if test="${sessionScope.member.userId!= dto.userId}">
     			<span><button class="button">팔로우하기</button></span>
     		</c:if>
@@ -210,8 +210,8 @@ function linkOk(){
     		<span><a href="${pageContext.request.contextPath}/mypage/profileUpdate"><i class="fas fa-user-cog"></i>&nbsp;&nbsp;프로필 수정 </a></span>
     	</c:if>
     	</div>
-    	<div class="profile-follower"><strong>팔로워 </strong>&nbsp;&nbsp;&nbsp;1000</div>
-    	<div class="profile-following"><strong>팔로잉 </strong>&nbsp;&nbsp;&nbsp;1000</div>
+    	<div class="profile-follower"><strong>팔로워 </strong>&nbsp;&nbsp;&nbsp;${dto.followerCount }</div>
+    	<div class="profile-following"><strong>팔로잉 </strong>&nbsp;&nbsp;&nbsp;${dto.followingCount}</div>
     	<div class="profile-tab">
     		<div id="profile-tabbox" style="width: 10%; height: 90px; padding-top: 10px; " onclick="openTab('daily')">일상글</div>
     		<div id="profile-tabbox" style="width: 10%; height: 90px; padding-top: 10px;" onclick="openTab('used')">중고글</div>

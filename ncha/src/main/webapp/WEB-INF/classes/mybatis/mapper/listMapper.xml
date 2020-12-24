@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="list">
+	
+	<select id="dataCountMember" parameterType="map" resultType="Integer">
+		SELECT NVL(COUNT(*), 0)
+		FROM member
+	</select>
+	
+	<select id="listMember" parameterType="map" resultType="com.sp.app.member.Member">
+		SELECT userId, userName, 
+		TO_CHAR(birth, 'YYYY-MM-DD') birth, email, tel, zip, addr1
+		FROM member 
+		OFFSET #{offset} ROWS FETCH FIRST #{rows} ROWS ONLY
+	</select>
+   
+	<delete id="deleteMember" parameterType="String">
+    	DELETE FROM member WHERE userId=#{userId}
+    </delete>
+ 
+	<select id="dataCountSeller" parameterType="map" resultType="Integer">
+		SELECT NVL(COUNT(*), 0)
+		FROM seller
+	</select>
+	
+	<select id="listSeller" parameterType="map" resultType="com.sp.app.seller.Seller">
+		SELECT sellerId, sellerName, email, tel, allow
+		FROM seller
+		OFFSET #{offset} ROWS FETCH FIRST #{rows} ROWS ONLY
+	</select>
+   
+	<delete id="deleteSeller" parameterType="String">
+    	DELETE FROM seller WHERE sellerId=#{sellerId}
+    </delete>
+ 
+	
+    
+</mapper>
