@@ -104,7 +104,7 @@ public class profileController {
 		/////// 여기까지    일상글 리스트 불러오기 
 	
 		
-/*		
+	
 		int total_page2=0;
 		int dataCount2=0;
 		
@@ -156,7 +156,7 @@ public class profileController {
 		model.addAttribute("total_page2", total_page2);
 		model.addAttribute("paging2", paging2);
 		model.addAttribute("articleUrl2",articleUrl2);
-*/		////////////////////여기가지가 중고글불러오기
+		////////////////////여기가지가 중고글불러오기
 		
 		return ".ncha_bbs.main.mypage";
 	}
