@@ -19,7 +19,14 @@ public class Member {
 	private MultipartFile uploadphoto;
 	private String profile_imageFilename; 
 	
+	private int listNum;
 	
+	public int getListNum() {
+		return listNum;
+	}
+	public void setListNum(int listNum) {
+		this.listNum = listNum;
+	}
 	public long getMemberIdx() {
 		return memberIdx;
 	}

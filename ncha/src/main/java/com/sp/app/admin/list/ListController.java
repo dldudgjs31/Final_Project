@@ -1,7 +1,5 @@
 package com.sp.app.admin.list;
 
-import java.net.URLDecoder;
-import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -28,20 +26,11 @@ public class ListController {
 
 	@RequestMapping("member")
 	public String list(@RequestParam(value = "page", defaultValue = "1") int current_page,
-			@RequestParam(defaultValue = "hak") String condition, @RequestParam(defaultValue = "") String keyword,
 			HttpServletRequest req, Model model) throws Exception {
-
-		if (req.getMethod().equalsIgnoreCase("GET")) {
-			keyword = URLDecoder.decode(keyword, "utf-8");
-		}
-
-		int rows = 10;
+int rows = 10;
 		int dataCount, total_page;
 
 		Map<String, Object> map = new HashMap<>();
-		map.put("condition", condition);
-		map.put("keyword", keyword);
-
 		dataCount = service.dataCountMember(map);
 		total_page = myUtil.pageCount(rows, dataCount);
 		if (current_page > total_page) {
@@ -55,13 +44,17 @@ public class ListController {
 		map.put("rows", rows);
 
 		List<Member> list = service.listMember(map);
-
-		String cp = req.getContextPath();
-		String listUrl = cp + "/score/list";
-
-		if (keyword.length() != 0) {
-			listUrl += "?condition=" + condition + "&keyword=" + URLEncoder.encode(keyword, "UTF-8");
+		int listNum, n=0;
+		for(Member dto:list) {
+			listNum=dataCount-(offset+n);
+			dto.setListNum(listNum);
+			n++;
 		}
+		
+		String cp = req.getContextPath();
+		String listUrl = cp + "/admin/list/member";
+
+	
 		String paging = myUtil.paging(current_page, total_page, listUrl);
 
 		model.addAttribute("list", list);

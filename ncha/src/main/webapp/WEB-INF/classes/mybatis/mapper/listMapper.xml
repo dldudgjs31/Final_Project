@@ -5,15 +5,13 @@
 	
 	<select id="dataCountMember" parameterType="map" resultType="Integer">
 		SELECT NVL(COUNT(*), 0)
-		FROM memberIdx
+		FROM member
 	</select>
 	
 	<select id="listMember" parameterType="map" resultType="com.sp.app.member.Member">
-		SELECT m.memberIdx, membership, userId, userName, 
+		SELECT userId, userName, 
 		TO_CHAR(birth, 'YYYY-MM-DD') birth, email, tel, zip, addr1
-		FROM memberId m
-		LEFT OUTER JOIN member m1 ON m.memberIdx = m1.memberIdx
-		ORDER BY m.memberIdx ASC
+		FROM member 
 		OFFSET #{offset} ROWS FETCH FIRST #{rows} ROWS ONLY
 	</select>
    

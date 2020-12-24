@@ -97,16 +97,16 @@ function deleteMember(userId) {
 	<th width="70">번호</th>
 	<th width="90">아이디</th>
 	<th width="90">이름</th>
-	<th width="90">생년월일</th>
-	<th width="120">전화번호</th>
+	<th width="200">생년월일</th>
+	<th width="200">전화번호</th>
 	<th width="100">이메일</th>
-	<th width="70">우편번호</th>
+	<th width="110">우편번호</th>
 	<th width="300">주소</th>
 </tr>
 
 <c:forEach var="dto" items="${list}">
 <tr height="35" bgcolor="#ffffff" align="center">
-	<td>${dto.memberIdx}</td>
+	<td>${dto.listNum}</td>
 	<td>${dto.userId}</td>
 	<td>${dto.userName}</td>
 	<td>${dto.birth}</td>
