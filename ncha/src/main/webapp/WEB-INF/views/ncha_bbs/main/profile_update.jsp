@@ -128,7 +128,7 @@ function memberOk(userId) {
         return;
     }
 
- 	f.action = "${pageContext.request.contextPath}/member/${mode}";
+ 	f.action = "${pageContext.request.contextPath}/mypage/profile";
 
     f.submit();
 }
@@ -186,9 +186,9 @@ function preWatchphoto(input){
 			       	<c:if test="${mode=='update'}">
 			       			<input type="hidden" name="profile_imageFilename" value="${dto.profile_imageFilename}">
 					</c:if>
-			        <button type="button" name="sendButton" class="btn" onclick="memberOk();">${mode=="member"?"회원가입":"정보수정"}</button>
+			        <button type="button" name="sendButton" class="btn" onclick="javascript:location.href='${pageContext.request.contextPath}/mypage/profile';">정보수정</button>
 			        <button type="reset" class="btn">다시입력</button>
-			        <button type="button" class="btn" onclick="javascript:location.href='${pageContext.request.contextPath}/';">${mode=="member"?"가입취소":"수정취소"}</button>
+			        <button type="button" class="btn" onclick="javascript:location.href='${pageContext.request.contextPath}/mypage/profile';">수정취소</button>
 			      </td>
 			    </tr>
 			    <tr height="30">

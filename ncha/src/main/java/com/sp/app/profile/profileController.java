@@ -1,5 +1,6 @@
 package com.sp.app.profile;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -19,6 +20,7 @@ import com.sp.app.common.FileManager;
 import com.sp.app.common.MyUtil;
 import com.sp.app.daily.Daily;
 import com.sp.app.daily.DailyService;
+import com.sp.app.follow.FollowService;
 import com.sp.app.member.Member;
 import com.sp.app.member.MemberService;
 import com.sp.app.member.SessionInfo;
@@ -35,6 +37,8 @@ public class profileController {
 	@Autowired
 	private UsedService service2;
 	@Autowired
+	private FollowService service3;
+	@Autowired
 	private MyUtil myUtil;
 	@Autowired
 	private FileManager fileManager;
@@ -50,6 +54,8 @@ public class profileController {
 			) throws Exception{		
 		SessionInfo info=(SessionInfo)session.getAttribute("member");
 		Member dto=service.readProfile(info.getUserId());
+		dto.setUserId1(info.getUserId());
+		dto.setUserId2(info.getUserId());
 		model.addAttribute("dto", dto);
 		///// 여까지 프로필 정보 
 		
@@ -209,10 +215,14 @@ public class profileController {
 	
 	@RequestMapping("profileUpdate")
 	public String profileUpdate(
-			HttpSession session,
-			Model model) throws Exception{
-		SessionInfo info=(SessionInfo)session.getAttribute("member");
-		Member dto=service.readProfile(info.getUserId());
+			Member dto,
+			final RedirectAttributes reAttr,
+			Model model,
+			HttpSession session) throws Exception{
+		String root = session.getServletContext().getRealPath("/");
+		String pathname = root+"uploads"+File.separator+"member";
+		
+		//service.updateProfile(dto,pathname);
 		model.addAttribute("dto", dto);
 		
 		return ".ncha_bbs.main.profile_update";

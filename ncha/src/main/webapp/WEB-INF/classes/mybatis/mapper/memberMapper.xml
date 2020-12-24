@@ -46,8 +46,22 @@
 	
 	<select id="readProfile" parameterType="String" resultType="com.sp.app.member.Member">
 		SELECT userId, introduce, profile_imagefilename
-		FROM member
+		FROM member 	
 		WHERE userId = #{userId}  
+	</select>
+	
+	<select id="followerCount" parameterType="map" resultType="Integer">
+		SELECT COUNT(*) followerCount
+		FROM follower f 
+		JOIN member m ON f.userId1=m.userId
+		WHERE f.userId1=#{userId}
+	</select>
+	
+	<select id="followingCount" parameterType="map" resultType="Integer">
+		SELECT COUNT(*) followingCount
+		FROM follower f 
+		JOIN member m ON f.userId1=m.userId
+		WHERE userId2=#{userId}
 	</select>
 	
 	

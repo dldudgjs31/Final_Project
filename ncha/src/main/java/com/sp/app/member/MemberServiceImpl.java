@@ -204,6 +204,8 @@ public class MemberServiceImpl implements MemberService {
 		Member dto= null;
 		try {
 			dto=dao.selectOne("member.readProfile", userId);
+			dto.setFollowerCount(dao.selectOne("member.followerCount",userId));
+			dto.setFollowingCount(dao.selectOne("member.followingCount",userId));
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw e;
