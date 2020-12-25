@@ -1,6 +1,7 @@
 package com.sp.app.profile;
 
-import java.io.File;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -16,11 +17,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.sp.app.common.FileManager;
 import com.sp.app.common.MyUtil;
 import com.sp.app.daily.Daily;
 import com.sp.app.daily.DailyService;
-import com.sp.app.follow.FollowService;
 import com.sp.app.member.Member;
 import com.sp.app.member.MemberService;
 import com.sp.app.member.SessionInfo;
@@ -36,12 +35,10 @@ public class profileController {
 	private DailyService service1;
 	@Autowired
 	private UsedService service2;
-	@Autowired
-	private FollowService service3;
+	
 	@Autowired
 	private MyUtil myUtil;
-	@Autowired
-	private FileManager fileManager;
+	
 	
 	
 	@RequestMapping("profile")
@@ -219,8 +216,8 @@ public class profileController {
 			final RedirectAttributes reAttr,
 			Model model,
 			HttpSession session) throws Exception{
-		String root = session.getServletContext().getRealPath("/");
-		String pathname = root+"uploads"+File.separator+"member";
+		//String root = session.getServletContext().getRealPath("/");
+		//String pathname = root+"uploads"+File.separator+"member";
 		
 		//service.updateProfile(dto,pathname);
 		model.addAttribute("dto", dto);
@@ -228,6 +225,172 @@ public class profileController {
 		return ".ncha_bbs.main.profile_update";
 	}
 	
+	@RequestMapping("followerList")
+	public String followerList(
+			@RequestParam(value="page", defaultValue = "1") int current_page,
+			@RequestParam(defaultValue="") String keyword,
+			HttpServletRequest req,
+			Member dto1,
+			HttpSession session,
+			Model model
+			) throws Exception{
+		
+		if(req.getMethod().equalsIgnoreCase("GET")) {
+			keyword=URLDecoder.decode(keyword, "utf-8");
+		}
+		
+		int rows = 8;
+		int total_page=0;
+		int dataCount=0;
+		Map<String, Object> map = new HashMap<>();
+		
+		if(dto1.getUserId() == null || dto1.getUserId() == "") {
+			SessionInfo info=(SessionInfo)session.getAttribute("member");
+			dataCount = service.FollowerCount(info.getUserId());
+			map.put("userId", info.getUserId());
+		} else {
+			dataCount = service.FollowerCount(dto1.getUserId());
+			map.put("userId", dto1.getUserId());
+		}
+		
+		if(dataCount!=0) {
+			total_page=myUtil.pageCount(rows, dataCount);
+		}
+		if(total_page<current_page) {
+			current_page=total_page;
+		}
+		int offset=(current_page-1)*rows;
+		if(offset<0) offset=0;
+		map.put("offset", offset);
+		map.put("rows", rows);
+		map.put("keyword", keyword);
+		
+		
+		List<Member> list =service.listFollower(map);
+		
+		int listNum, n=0;
+		for(Member dto:list) {
+			listNum=dataCount-(offset+n);
+			dto.setListNum(listNum);
+			n++;
+		}
+		
+		String cp =req.getContextPath();
+		String listUrl= cp+"/ncha_bbs/main/followerList";
+		
+		if(keyword.length()!=0) {
+			listUrl+="?keyword="+URLEncoder.encode(keyword, "utf-8");
+		}
+		String paging=myUtil.paging(current_page, total_page, listUrl);
+		
+		model.addAttribute("list", list);
+		model.addAttribute("page", current_page);
+		model.addAttribute("dataCount", dataCount);
+		model.addAttribute("total_page", total_page);
+		model.addAttribute("paging", paging);
+		return ".ncha_bbs.main.followerList";
+	}
 	
+	@RequestMapping("followingList")
+	public String followingList(
+			@RequestParam(value="page", defaultValue = "1") int current_page,
+			@RequestParam(defaultValue="") String keyword,
+			HttpServletRequest req,
+			Member dto1,
+			HttpSession session,
+			Model model
+			) throws Exception{
+		
+		if(req.getMethod().equalsIgnoreCase("GET")) {
+			keyword=URLDecoder.decode(keyword, "utf-8");
+		}
+		
+		int rows = 10;
+		int total_page=0;
+		int dataCount=0;
+		
+		Map<String, Object> map = new HashMap<>();
+		
+		if(dto1.getUserId() == null || dto1.getUserId() == "") {
+			SessionInfo info=(SessionInfo)session.getAttribute("member");
+			dataCount = service.FollowingCount(info.getUserId());
+			map.put("userId", info.getUserId());
+		} else {
+			dataCount = service.FollowerCount(dto1.getUserId());
+			map.put("userId", dto1.getUserId());
+		}
+		
+		if(dataCount!=0) {
+			total_page=myUtil.pageCount(rows, dataCount);
+		}
+		if(total_page<current_page) {
+			current_page=total_page;
+		}
+		int offset=(current_page-1)*rows;
+		if(offset<0) offset=0;
+		map.put("offset", offset);
+		map.put("rows", rows);
+		map.put("keyword", keyword);
+		
+		List<Member> list =service.listFollowing(map);
+		
+		int listNum, n=0;
+		for(Member dto:list) {
+			listNum=dataCount-(offset+n);
+			dto.setListNum(listNum);
+			n++;
+		}
+		
+		String cp =req.getContextPath();
+		String listUrl= cp+"/ncha_bbs/main/followingList";
+		
+		if(keyword.length()!=0) {
+			listUrl+="?keyword="+URLEncoder.encode(keyword, "utf-8");
+		}
+		String paging=myUtil.paging(current_page, total_page, listUrl);
+		
+		model.addAttribute("list", list);
+		model.addAttribute("page", current_page);
+		model.addAttribute("dataCount", dataCount);
+		model.addAttribute("total_page", total_page);
+		model.addAttribute("paging", paging);
+		return ".ncha_bbs.main.followingList";
+	}
+	
+	@RequestMapping("deleteFollower")
+	public String delete1(
+			@RequestParam String userId1,
+			@RequestParam String userId2,
+			@RequestParam String page
+			) throws Exception {
+		try {
+			Map<String, Object> map = new HashMap<>();
+			map.put("userId1", userId1);
+			map.put("userId2", userId2);			
+			
+			service.deleteFollower(map);
+		} catch (Exception e) {
+		}
+		
+		return "redirect:/ncha_bbs/main/followerList?page="+page;
+	}
+	
+	@RequestMapping("deleteFollowing")
+	public String delete2(
+			@RequestParam String userId1,
+			@RequestParam String userId2,
+			@RequestParam String page
+			) throws Exception {
+		try {
+			Map<String, Object> map = new HashMap<>();
+			map.put("userId1", userId1);
+			map.put("userId2", userId2);			
+
+			service.deleteFollower(map);
+		} catch (Exception e) {
+		}
+		
+		return "redirect:/nscore/list?page="+page;
+	}
 	
 }
