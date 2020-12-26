@@ -213,4 +213,59 @@ public class MemberServiceImpl implements MemberService {
 		return dto;
 	}
 
+	@Override
+	public List<Member> listFollower(Map<String, Object> map) {
+		List<Member> list=null;
+		try {
+			list=dao.selectList("member.followerList", map);
+		
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
+
+	@Override
+	public List<Member> listFollowing(Map<String, Object> map) {
+		List<Member> list=null;
+		try {		
+			list=dao.selectList("member.followingList", map);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
+	
+	@Override
+	public int FollowerCount(String userId) {		
+		int result = 0;	
+		try {
+			result = dao.selectOne("member.followerCount",userId);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
+
+	@Override
+	public int FollowingCount(String userId) {
+		int result = 0 ;		
+		try {
+			result = dao.selectOne("member.followingCount",userId);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
+
+	@Override
+	public void deleteFollower(Map<String, Object> map) throws Exception {
+		try {
+			dao.deleteData("member.deleteFollower",map);	
+		} catch (Exception e) {
+			throw e;
+		}
+		
+	}
 }

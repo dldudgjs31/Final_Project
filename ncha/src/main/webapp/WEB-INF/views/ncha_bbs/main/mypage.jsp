@@ -198,7 +198,7 @@ function linkOk(){
     		
     		</div>
     	</div>
-    	<div class="profile-introduce">자기소개 !${dto.introduce}</div>
+    	<div class="profile-introduce">자기소개 !${dto.introduce}세션아이디${sessionScope.member.userId}dto아이디${dto.userId}</div>
     	<div class="profile-name">
     		<h1>${dto.userId}</h1>&nbsp;&nbsp;
     		<c:if test="${sessionScope.member.userId!= dto.userId}">
@@ -210,8 +210,8 @@ function linkOk(){
     		<span><a href="${pageContext.request.contextPath}/mypage/profileUpdate"><i class="fas fa-user-cog"></i>&nbsp;&nbsp;프로필 수정 </a></span>
     	</c:if>
     	</div>
-    	<div class="profile-follower"><strong>팔로워 </strong>&nbsp;&nbsp;&nbsp;${dto.followerCount }</div>
-    	<div class="profile-following"><strong>팔로잉 </strong>&nbsp;&nbsp;&nbsp;${dto.followingCount}</div>
+    	<div class="profile-follower"><a href="${pageContext.request.contextPath}/mypage/followerList"><strong>팔로워 </strong></a>&nbsp;&nbsp;&nbsp;${dto.followerCount }</div>
+    	<div class="profile-following"><a href="${pageContext.request.contextPath}/mypage/followingList"><strong>팔로잉 </strong></a>&nbsp;&nbsp;&nbsp;${dto.followingCount }</div>
     	<div class="profile-tab">
     		<div id="profile-tabbox" style="width: 10%; height: 90px; padding-top: 10px; " onclick="openTab('daily')">일상글</div>
     		<div id="profile-tabbox" style="width: 10%; height: 90px; padding-top: 10px;" onclick="openTab('used')">중고글</div>
@@ -224,7 +224,7 @@ function linkOk(){
 	 <c:if test="${sessionScope.member.userId==dto1.userId}">
 	    <a href="${articleUrl1}&dailyNum=${dto1.dailyNum}&mode=${mode}" class="post"> <!-- ${articleUrl1}&dailyNum=${dto1.dailyNum} -->
 	      <div class="post-image">
-	      	<img alt="" src="${pageContext.request.contextPath}//uploads/daily/${dto1.imageFilename}" width="180" height="180" border="0" onclick="linkOk();">
+	      	<img alt="" src="${pageContext.request.contextPath}/uploads/daily/${dto1.imageFilename}" width="180" height="180" border="0" ">
 	      </div>
 	      <span class="post-overlay">
 	        <p>
@@ -245,7 +245,7 @@ function linkOk(){
 	 <c:if test="${sessionScope.member.userId==dto2.userId}">	
 	    <a href="" class="post">
 	      <div class="post-image">
-	      	<img alt="" src="${pageContext.request.contextPath}//uploads/used/${dto2.imageFilename}" width="180" height="180" border="0">
+	      	<img alt="" src="${pageContext.request.contextPath}/uploads/used/${dto2.imageFilename}" width="180" height="180" border="0">
 	      </div>
 	      <span class="post-overlay">
 	        <p>
