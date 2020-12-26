@@ -20,4 +20,17 @@ public class CustomerImpl implements CustomerService{
 		}
 	}
 
+	@Override
+	public String readImage(int productNum) throws Exception {
+		String imageFilename = null;
+		try {
+			imageFilename= dao.selectOne("customer.listProduct", productNum); 
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
+		return imageFilename;
+	}
+	
+
 }

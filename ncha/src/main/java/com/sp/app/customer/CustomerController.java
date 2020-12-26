@@ -27,22 +27,24 @@ public class CustomerController {
 			Model model,
 			HttpSession session
 			) throws Exception{
-		System.out.println(dto1.getProductName()+"-------------------------------------------------------------"); 
-		System.out.println(dto1.getProductName()+"-------------------------------------------------------------"); 
 		SessionInfo info = (SessionInfo)session.getAttribute("member");
-		long memberIdx = info.getMemberIdx();
-		Member dto = service1.readMember(info.getUserId());
-		model.addAttribute("memberIdx", memberIdx);
-		model.addAttribute("mode", "order");
-		model.addAttribute("dto", dto);
-		model.addAttribute("dto1", dto1);
+		try {
+			long memberIdx = info.getMemberIdx();
+			Member dto = service1.readMember(info.getUserId());
+			dto1.setImageFilename(service2.readImage(dto1.getProductNum()));
+			model.addAttribute("memberIdx", memberIdx);
+			model.addAttribute("mode", "order");
+			model.addAttribute("dto", dto);
+			model.addAttribute("dto1", dto1);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		return".store.customer.order";
 	}
 	@PostMapping("order")
 	public String orderSubmit(Customer dto) throws Exception{
 		try {
-			System.out.println(dto.getPrice()+"-------------------------------------------------------------");
-			System.out.println(dto.getPrice()+"-------------------------------------------------------------");
 			service2.insertOrder(dto);
 		} catch (Exception e) {
 			e.printStackTrace();

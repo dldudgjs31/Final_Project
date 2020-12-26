@@ -25,7 +25,7 @@
 .slider-image{
 	background-repeat: no-repeat;
 	background-position: center;
-	background-size: cover;
+	background-size: contain;
 	height: 450px;
 }
 </style>
@@ -274,6 +274,7 @@ function buyOk(userId) {
 			          <input type="hidden" name="sellerId" value="${dto.sellerId}">
 			          <input type="hidden" name="productNum" value="${dto.productNum}">
 			          <input type="hidden" name="productName" value="${dto.productName}">
+			          <input type="hidden" name="discount_rate" value="${dto.discount_rate}">
 			          <input type="hidden" name="number_sales">
 			          <input type="hidden" name="total_sales" >
 			    		 </td>

@@ -18,7 +18,14 @@ public class Customer {
 	private int orderNum;
 	private int productNum;
 	private String productName;
+	private String imageFilename;
 	private int number_sales;
+	public String getImageFilename() {
+		return imageFilename;
+	}
+	public void setImageFilename(String imageFilename) {
+		this.imageFilename = imageFilename;
+	}
 	public String getProductName() {
 		return productName;
 	}

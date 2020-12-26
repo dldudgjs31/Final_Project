@@ -11,6 +11,13 @@ function orderOk(userId) {
     f.submit();
 }
 </script>
+<style>
+.image{
+	background-position: center;
+	background-size: contain;
+	background-repeat: no-repeat;
+}
+</style>
 <Br>
 
    <ol class="breadcrumb">
@@ -28,24 +35,23 @@ function orderOk(userId) {
 
     <!-- Project One -->
     <div class="row">
-      <div class="col-md-7">
-        <a href="#">
-          <img class="img-fluid rounded mb-3 mb-md-0" src="http://placehold.it/700x300" alt="">
-        </a>
+      <div class="col-md-5 image" style="background-image: url('${pageContext.request.contextPath}/uploads/product/${dto1.imageFilename}');">
       </div>
       <div class="col-md-5">
         <h3>${dto1.productName}</h3>
         <br>
         <p>옵션 선택 : </p>
         <p>수량 : ${dto1.number_sales}</p>
-        <p>총 주문금액 : ${dto1.total_sales } </p>
+        <p>정가 :<del><fmt:formatNumber type="currency" value="${dto1.price}" />원</del></p>
+        <p>가격 : <fmt:formatNumber  type="currency"  value="${dto1.price - dto1.discount_rate}"/>원</p>
+        <p>총 주문금액 : <fmt:formatNumber  type="currency"  value="${dto1.total_sales}"/>원 </p>
       </div>
     </div>
     <!-- /.row -->
 
     
     <hr>
-           <p>최종 결제 금액 :${dto1.total_sales} </p>
+           <p>최종 결제 금액 :<fmt:formatNumber  type="currency"  value="${dto1.total_sales}"/>원  </p>
     <hr>
     <h2 class="mt-4 mb-3">수령인 정보
     </h2>

@@ -12,6 +12,18 @@
 	SELECT * FROM dual
 </update>
 
+	 <select id="listProduct" parameterType="Integer" resultType="String">
+		SELECT imageFilename
+		FROM product_bbs b
+		JOIN seller m ON b.sellerId=m.sellerId
+		LEFT OUTER JOIN (
+			SELECT * FROM (
+				SELECT productNum, rank() over(partition by productNum order by main_imageFileNum) rank, imageFilename FROM product_image
+			) WHERE rank = 1
+		) i ON b.productNum = i.productNum
+		WHERE b.productNum = #{productNum}
+	 </select>
+
 <update id="updateStock" parameterType="Integer">
 
 </update>
