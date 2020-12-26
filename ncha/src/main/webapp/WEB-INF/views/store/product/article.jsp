@@ -25,7 +25,7 @@
 .slider-image{
 	background-repeat: no-repeat;
 	background-position: center;
-	background-size: cover;
+	background-size: contain;
 	height: 450px;
 }
 </style>
@@ -88,7 +88,7 @@ $(function(){
 		var totalBuyQty = parseInt($("#totalBuyQty").text());
 		var totalBuyAmt = parseInt($("#totalBuyAmt").text());
 		
-		var title=$(this).parent().parent().children().eq(0).text();
+		var title=$(".my-3").text();
 		var code=$(this).attr("data-code");
 		var price=parseInt($(this).attr("data-price"));
 		var qty=1;
@@ -98,12 +98,17 @@ $(function(){
 			// qty=$(t).children().children("input[name=quantity]").val();
 			qty=$(t+" input[name=quantity]").val();
 			if(! qty) qty=0;
-			
+			if(qty>=${dto.stock}){
+				alert("재고 초과");
+				return;
+			}
 			pty=parseInt(qty)+1;
 			
 			$(t+" input[name=quantity]").val(pty);
 			$(t+" .productPrice").text(pty*price);
-			
+			if(pty>=${dto.stock}){
+				return;
+			}
 			totalBuyQty=totalBuyQty+1;
 			totalBuyAmt=totalBuyAmt+price;
 			$("#totalBuyQty").text(totalBuyQty);
@@ -169,6 +174,9 @@ $(function(){
 		var totalBuyQty = parseInt($("#totalBuyQty").text());
 		var totalBuyAmt = parseInt($("#totalBuyAmt").text());
 
+		if(qty>=${dto.stock}){
+			return;
+		}
 		qty=qty+1;
 		productPrice=productPrice+price;
 		$(this).parent().children("input[name=quantity]").val(qty);
@@ -195,77 +203,59 @@ $(function(){
 		$(this).parent().children("input[name=quantity]").val(qty);
 		$(this).parent().next().children(".productPrice").text(productPrice);
 		
-		totalBuyQty=totalBuyQty-1;
-		totalBuyAmt=totalBuyAmt-price;
+		totalBuyQty=totalBuyQty
+		;
+		totalBuyAmt=totalBuyAmt;
 		$("#totalBuyQty").text(totalBuyQty);
 		$("#totalBuyAmt").text(totalBuyAmt);
 	});
 });
+$(function(){
+	$("body").on("click",".cancel",function(){
+		$("#totalBuyQty").text(0);
+		$("#totalBuyAmt").text(0);
+	});
+});
 
+function buyOk(userId) {
+	var f = document.buyForm;
+	
+	$("input[name=number_sales]").val($("#totalBuyQty").text());
+	$("input[name=total_sales]").val($("#totalBuyAmt").text());
+ 	f.action = "${pageContext.request.contextPath}/store/customer/main";
+
+    f.submit();
+}
 </script>
+<!-- Page Content -->
+<div class="container">
 
-    <div class="slick-items" style="height: 450px;">
+<Br><Br>
+  <!-- Portfolio Item Row -->
+  <div class="row">
+
+    <div class="col-md-8">
+        <div class="slick-items" style="height: 450px;">
 		<c:forEach var="vo" items="${list1}">
 			<c:if test="${vo.productNum == dto.productNum}">
 			      <div  class="slider-image" style="background-image: url('${pageContext.request.contextPath}/uploads/product/${vo.imageFilename}');"></div>
 			</c:if>  
 		</c:forEach>
     </div>
-    
-    
-    
-    
-    
+    </div>
 
-	<div>
-		<table class="table" >
-			<tr>
-				<td colspan="2" class="text-center">
-					${dto.productName}
-				</td>
-			</tr>
+    <div class="col-md-4">
+      <h3 class="my-3">${dto.productName}</h3>
+			<p>판매자 : ${dto.sellerId}</p>
+			<p>조회수 : ${dto.hitCount}</p>
+			<p>재고 : ${dto.stock}</p>
+			<p>정가 :<del><fmt:formatNumber type="currency" value="${dto.price}" />원</del></p>
+			<p>세일가 : <fmt:formatNumber  type="currency"  value="${dto.price - dto.discount_rate}"/>원</p>
+			<button type="button" class="buyAdd btn btn-primary" data-code="100" data-price="${dto.price-dto.discount_rate}">담기</button>
 	
-			<tr>
-				<td width="50%" >
-					판매자 : ${dto.sellerId}
-				</td>
-				<td width="50%" class="text-right" >
-					${dto.created_date } | 조회 ${dto.hitCount}
-				</td>
-			</tr>
-			<tr>
-				<td width="50%" >
-				<del>정가 : <fmt:formatNumber type="currency" value="${dto.price}" />원</del>
-				세일가 : <fmt:formatNumber  type="currency"  value="${dto.price - dto.discount_rate}"/>원
-				</td>
-				<td width="50%" class="text-right" >
-					남은 재고수량 : ${dto.stock}
-				</td>
-			</tr>
-			
-			<tr >
-				<td colspan="2" align="left" style="padding: 10px 5px;" valign="top" height="50">
-					
-					
-					 	<div style="clear: both;">
-		<div style="width: 400px; float: left;">
-			<table style="width: 100%; border-spacing: 0; border-collapse: collapse;">
-				<tr height="35" style="border-top: 1px solid #cccccc; border-bottom: 1px solid #cccccc;">
-					<td bgcolor="#eeeeee" style="text-align: center;">상품명</td>
-					<td width="150" bgcolor="#eeeeee" style="text-align: center;">금액</td>
-					<td width="100" bgcolor="#eeeeee" style="text-align: center;">구매</td>
-				</tr>
-				<tr height="35" style="border-bottom: 1px solid #cccccc;">
-					<td style="text-align: center;">${dto.productName}</td>
-					<td style="text-align: right; padding-right: 5px;"><fmt:formatNumber value="${dto.price-dto.discount_rate}"  type="currency"/></td>
-					<td style="text-align: center;"><span class="buyAdd" data-code="100" data-price="${dto.price-dto.discount_rate}">구매추가</span></td>
-				</tr>
-	
-			</table>
-		</div>
-		<div style="width: 580px; float: left; margin-left:20px; padding: 0 5px 5px; box-sizing: border-box;">
-		
-		    <form name="buyForm" method="post">
+			<button type="button" class="btn btn-primary">장바구니</button>
+			<hr>
+			<form name="buyForm" method="post">
 		    <table style="width: 100%; border-spacing: 0px; border-collapse: collapse; border: 1px solid #cccccc; background: #eeeeee;">
 		        <thead>
 			    	<tr height="40" style="border-bottom: 1px solid #cccccc;">
@@ -277,26 +267,58 @@ $(function(){
 		    	<tfoot>
 			    	<tr height="40" style="border-top: 1px solid #cccccc;">
 			    		<td align="right" colspan="3">
-			    		   <span>총수량 : </span><span id="totalBuyQty">0</span>개 | 
-			    		   <span style="font-weight: 700;">총 상품금액 : </span><span id="totalBuyAmt" style="font-weight: 900; color: #2eb1d3; font-size: 17px;">0</span>
+			    		   <span>총수량 : </span><span id="totalBuyQty" >0</span>개 | 
+			    		   <span style="font-weight: 700;">총 상품금액 : </span><span id="totalBuyAmt"  style="font-weight: 900; color: #2eb1d3; font-size: 17px;">0</span>
 			    		   <span style="padding-right: 10px; font-weight: 700; color: #2eb1d3;">원</span>
+					  <input type="hidden" name="price" value="${dto.price}">
+			          <input type="hidden" name="sellerId" value="${dto.sellerId}">
+			          <input type="hidden" name="productNum" value="${dto.productNum}">
+			          <input type="hidden" name="productName" value="${dto.productName}">
+			          <input type="hidden" name="discount_rate" value="${dto.discount_rate}">
+			          <input type="hidden" name="number_sales">
+			          <input type="hidden" name="total_sales" >
 			    		 </td>
+			    	</tr>
+			    	<tr height="40" style="border-top: 1px solid #cccccc;" >
+			    			<td align="center" colspan="3">
+			    			<button type="button" class="btn btn-primary" onclick="buyOk();">구매하기</button>
+			    			<button type="button" class="btn btn-danger cancel">초기화</button>
+			    			</td>
 			    	</tr>
 		    	</tfoot>
 		    </table>
+		    
 			</form>
+    </div>
+  </div>
+  <!-- /.row -->
+  <!-- Related Projects Row -->
+
+  <div class="row">
+<c:forEach var="vo" items="${list1}">
+<c:if test="${vo.productNum == dto.productNum}">
+    <div class="col-md-3 col-sm-6 mb-4">
+      <a href="#">
+            <img class="img-fluid" src="${pageContext.request.contextPath}/uploads/product/${vo.imageFilename}" alt="" style="width: 300px; height: 200px;">
+          </a>
+    </div>
+    </c:if> 
+    </c:forEach>
+
+
+  </div>
+  <!-- /.row -->
+
+    
+    
+    
+    
+    
+
+	<div>
+		<table class="table" >
+
 			
-		</div>
-	</div>
-					
-				</td>
-			</tr>
-			<tr>
-				<td colspan="2" align="left" style="padding-left: 5px;">
-					<button type="button" class="btn btn-primary">구매하기</button>
-					<button type="button" class="btn btn-primary">장바구니</button>
-				</td>
-			</tr>
 			<tr >
 				<td colspan="2" align="left" style="padding: 10px 5px;" valign="top" height="200">
 					${dto.detail}
@@ -391,7 +413,6 @@ function ajaxFun(url, method, dataType, query, fn) {
 	    }
 	});
 }
-
 
 //페이징 처리
 $(function(){

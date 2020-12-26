@@ -35,7 +35,7 @@ public class MemberController {
 	@RequestMapping(value="member", method=RequestMethod.GET)
 	public String memberForm(Model model) {
 		model.addAttribute("mode", "member");
-		return ".member.member";
+		return ".member.member2";
 	}
 
 	@RequestMapping(value="member", method=RequestMethod.POST)
@@ -53,16 +53,16 @@ public class MemberController {
 			// 기본키 중복에 의한 제약 조건 위반
 			model.addAttribute("mode", "member");
 			model.addAttribute("message", "아이디 중복으로 회원가입이 실패했습니다.");
-			return ".member.member";
+			return ".member.member2";
 		} catch (DataIntegrityViolationException e) {
 			// 데이터형식 오류, 참조키, NOT NULL 등의 제약조건 위반
 			model.addAttribute("mode", "member");
 			model.addAttribute("message", "제약 조건 위반으로 회원가입이 실패했습니다.");
-			return ".member.member";
+			return ".member.member2";
 		} catch (Exception e) {
 			model.addAttribute("mode", "member");
 			model.addAttribute("message", "아이디 중복으로 회원가입이 실패했습니다.");
-			return ".member.member";
+			return ".member.member2";
 		}
 		
 		StringBuilder sb=new StringBuilder();

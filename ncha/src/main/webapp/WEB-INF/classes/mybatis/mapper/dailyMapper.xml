@@ -29,8 +29,8 @@
  				AND d.categoryNum = #{categoryNum}
  			</if>
  			<if test="keyword != null and keyword!=''">
-				INSTR(content,#{keyword}) &gt;= 1
-			</if>
+				(INSTR(content,#{keyword}) &gt;= 1 or INSTR(m.userId,#{keyword}) &gt;= 1)
+			</if>	
  		</where>
 	</select>
 	
@@ -60,7 +60,7 @@
 	 				AND d.categoryNum = #{categoryNum}
 	 			</if>
 	 			<if test="keyword != null and keyword!=''">
-					INSTR(content,#{keyword}) &gt;= 1
+					(INSTR(content,#{keyword}) &gt;= 1 or INSTR(m.userId,#{keyword}) &gt;= 1)
 				</if>
  			</where>
 	</select>
@@ -72,8 +72,6 @@
 		WHERE dailyNum=#{dailyNum}
 		ORDER BY daily_imageFilenum ASC
 	</select>
-	
-	
 	
 	<!-- Article에서 사진 보여주는 애 -->
 	<select id="listArticleFile" parameterType="map" resultType="com.sp.app.daily.Daily">
@@ -119,7 +117,7 @@
  				AND d.categoryNum = #{categoryNum}
  			</if>
  			<if test="keyword != null and keyword!=''">
-				INSTR(content,#{keyword}) &gt;= 1
+				(INSTR(content,#{keyword}) &gt;= 1 or INSTR(m.userId,#{keyword}) &gt;= 1)
 			</if>
  		</where>
 		ORDER BY dailyNum ASC
@@ -138,7 +136,7 @@
  				AND d.categoryNum = #{categoryNum}
  			</if>
  			<if test="keyword != null and keyword!=''">
-				INSTR(content,#{keyword}) &gt;= 1
+				(INSTR(content,#{keyword}) &gt;= 1 or INSTR(m.userId,#{keyword}) &gt;= 1)
 			</if>
  		</where>
 		ORDER BY dailyNum DESC

@@ -20,6 +20,16 @@ public interface MemberService {
 	public int dataCount(Map<String, Object> map);
 	public List<Member> listMember(Map<String, Object> map);
 	
+	
 	public Member readProfile(String userId) throws Exception;
+	public List<Member> listFollower(Map<String, Object> map);
+	public List<Member> listFollowing(Map<String, Object> map);
+	public int FollowerCount(String userId);
+	public int FollowingCount(String userId);
+	public void deleteFollower(Map<String, Object> map) throws Exception;
+
+	//public void deleteFollower(String userId1) throws Exception;
+	//public void deleteFollowing(String userId2) throws Exception;
+	
 }
  

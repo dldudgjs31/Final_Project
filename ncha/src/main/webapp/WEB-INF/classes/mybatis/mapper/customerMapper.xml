@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="customer">
+
+<update id="insertOrder" parameterType="com.sp.app.customer.Customer">
+	INSERT ALL
+		INTO store_order_list (orderNum, memberIdx,total_sales, order_date)
+		VALUES(order_seq.NEXTVAL,#{memberIdx},#{total_sales},SYSDATE)
+		INTO product_order_detail (orderNum, sellerId,productNum, number_sales, price)
+		VALUES(order_seq.NEXTVAL,#{sellerId},#{productNum},#{number_sales},#{price})
+	SELECT * FROM dual
+</update>
+
+	 <select id="listProduct" parameterType="Integer" resultType="String">
+		SELECT imageFilename
+		FROM product_bbs b
+		JOIN seller m ON b.sellerId=m.sellerId
+		LEFT OUTER JOIN (
+			SELECT * FROM (
+				SELECT productNum, rank() over(partition by productNum order by main_imageFileNum) rank, imageFilename FROM product_image
+			) WHERE rank = 1
+		) i ON b.productNum = i.productNum
+		WHERE b.productNum = #{productNum}
+	 </select>
+
+<update id="updateStock" parameterType="Integer">
+
+</update>
+</mapper>

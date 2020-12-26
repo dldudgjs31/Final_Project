@@ -45,24 +45,60 @@
 	</select>
 	
 	<select id="readProfile" parameterType="String" resultType="com.sp.app.member.Member">
-		SELECT userId, introduce, profile_imagefilename
+		SELECT userId, introduce, profile_imageFilename
 		FROM member 	
 		WHERE userId = #{userId}  
 	</select>
 	
 	<select id="followerCount" parameterType="map" resultType="Integer">
 		SELECT COUNT(*) followerCount
-		FROM follower f 
-		JOIN member m ON f.userId1=m.userId
-		WHERE f.userId1=#{userId}
+		FROM follower
+		WHERE userId1=#{userId}
 	</select>
 	
 	<select id="followingCount" parameterType="map" resultType="Integer">
-		SELECT COUNT(*) followingCount
-		FROM follower f 
-		JOIN member m ON f.userId1=m.userId
+		SELECT COUNT(*) followerCount
+		FROM follower
 		WHERE userId2=#{userId}
 	</select>
+	
+	<select id="followerList" parameterType="map" resultType="com.sp.app.member.Member">
+		SELECT f.userId2, profile_imageFilename, m.userId, f.userId1
+		FROM member m
+		JOIN follower f ON f.userId2=m.userId
+		WHERE f.userId1=#{userId} 
+		OFFSET #{offset} ROWS FETCH FIRST #{rows} ROWS ONLY
+	</select>
+	
+	<select id="followingList" parameterType="map" resultType="com.sp.app.member.Member">
+		SELECT f.userId1, profile_imageFilename, m.userId, f.userId2
+		FROM member m
+		JOIN follower f ON f.userId1=m.userId
+		WHERE userId2=#{userId} 
+		OFFSET #{offset} ROWS FETCH FIRST #{rows} ROWS ONLY
+	</select>
+	
+	<!-- 삭제시 양쪽 다 지워짐 (한쪽만 팔로우 불가능) -->
+	<delete id="deleteFollower" parameterType="String">
+		DELETE FROM follower WHERE userId1=#{userId1} and userId2=#{userId2}
+	</delete>
+	
+	
+	
+<!-- 	
+	<select id="followerCount1" parameterType="map" resultType="com.sp.app.member.Member">
+		SELECT userId1,userId2,COUNT(*) followerCount
+		FROM follower
+		GROUP by userId1,userId2
+	</select>
+ -->	
+<!-- 
+	<select id="followingCount1" parameterType="map" resultType="com.sp.app.member.Member">
+		SELECT userId1,userId2,COUNT(*) followingCount
+		FROM follower
+		GROUP by userId1,userId2
+	</select>
+ -->	
 	
 	
     <!-- 회원정보 수정  --> 

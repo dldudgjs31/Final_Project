@@ -21,8 +21,11 @@
           <li class="nav-item">
             <a class="nav-link" href="${pageContext.request.contextPath}/event/list">이벤트</a>
           </li>
-
-    
+		<c:if test="${not empty sessionScope.member}">
+		  <li class="nav-item">
+            <a class="nav-link" href="${pageContext.request.contextPath}/store/customer/main">마이페이지(고객)</a>
+          </li>
+    	</c:if>
 		 <c:if test="${not empty sessionScope.seller || sessionScope.member.userId=='admin'}">
           <li class="nav-item">
             <a class="nav-link" href="${pageContext.request.contextPath}/store/created">판매글올리기</a>
