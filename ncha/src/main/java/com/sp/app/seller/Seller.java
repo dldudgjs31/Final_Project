@@ -3,6 +3,7 @@ package com.sp.app.seller;
 import org.springframework.web.multipart.MultipartFile;
 
 public class Seller {
+	private int listNum;
 	private String sellerId;
 	private String sellerName;
 	private String pwd;
@@ -16,6 +17,12 @@ public class Seller {
 	private MultipartFile uploadphoto;
 	private String profile_imageFilename;
 	
+	public int getListNum() {
+		return listNum;
+	}
+	public void setListNum(int listNum) {
+		this.listNum = listNum;
+	}
 	public String getSellerId() {
 		return sellerId;
 	}
