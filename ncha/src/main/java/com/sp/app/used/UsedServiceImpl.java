@@ -258,59 +258,90 @@ public class UsedServiceImpl implements UsedService {
 	
 	
 	//댓글 CRUD
-	
 	@Override
 	public void insertReply(Reply dto) throws Exception {
-		// TODO Auto-generated method stub
+		try {
+			dao.insertData("used.insertReply",dto);
 		
-	}
-
-	@Override
-	public void deleteReply(Map<String, Object> map) throws Exception {
-		// TODO Auto-generated method stub
-		
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
 	}
 
 	@Override
 	public void updateReply(Map<String, Object> map) throws Exception {
-		// TODO Auto-generated method stub
+		try {
+			dao.updateData("used.updateReply",map);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
 		
+	}
+	
+	@Override
+	public void deleteReply(Map<String, Object> map) throws Exception {
+		try {
+			dao.deleteData("used.deleteReply",map);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
 	}
 
 	@Override
 	public List<Reply> listReply(Map<String, Object> map) {
-		// TODO Auto-generated method stub
-		return null;
+		List<Reply> list = null;
+		
+		try {
+			list = dao.selectList("used.listReply", map);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return list;
 	}
 
 	
 	
-	// 댓글 관련
 	
-
+	// 댓글 관련
 	@Override
 	public int replyCount(Map<String, Object> map) {
-		// TODO Auto-generated method stub
-		return 0;
+		int result = 0;
+		try {
+			result = dao.selectOne("used.replyCount",map);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return result;
 	}
 
 	@Override
 	public void insertReplyLike(Map<String, Object> map) throws Exception {
-		// TODO Auto-generated method stub
-		
+		try {
+			dao.insertData("used.insertReplyLike",map);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
 	}
 
 	@Override
 	public Map<String, Object> replyLikecount(Map<String, Object> map) {
-		// TODO Auto-generated method stub
-		return null;
+		Map<String, Object> count = null;
+		try {
+			count = dao.selectOne("used.replyLikeCount", map);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return count;
 	}
 
 	
 	
 	
-	//대댓글 관련 
-	
+	//대댓글 관련 	
 	@Override
 	public int replyAnswerCount(int answer) {
 		// TODO Auto-generated method stub
