@@ -80,26 +80,22 @@ a:active, a:hover {
 </style>
 
 <script type="text/javascript">
-function followingList() {
-	var f=document.followingListForm;
-	f.submit();
+function searchProfile(userId) {
+	var url="${pageContext.request.contextPath}/mypage/searchProfile?userId="+userId;
+	if(confirm("팔로워 프로필로 이동하시겠습니까?")) {
+		location.href=url;
+	}
 }
+
 
 
 function deleteFollower(userId1,userId2) {
-	<c:if test="${sessionScope.member.userId == userId1}">
-	var url="${pageContext.request.contextPath}/mypage/deletefollower?userId1="+userId1+"&userId2="+userId2+"&page=${page}";
+	var url="${pageContext.request.contextPath}/mypage/deleteFollower?userId1="+userId1+"&userId2="+userId2+"&page=${page}";
 	if(confirm("팔로워를 삭제 하시겠습니까?")) {
 		location.href=url;
 	}
-	</c:if>
-	<c:if test="${sessionScope.member.userId != userId1}">
-		alert("권한이 없습니다!");
-	</c:if>
 }
 	
-
-
 </script>
 
 </head>
@@ -109,13 +105,13 @@ function deleteFollower(userId1,userId2) {
 <table style="width: 100%; margin: 0px auto;">
 <tr height="50">
 	<td align="center" colspan="2">
-	    <span style="font-size: 15pt; font-family: 맑은 고딕, 돋움; font-weight: bold;">팔로잉 리스트</span>
+	    <span style="font-size: 15pt; font-family: 맑은 고딕, 돋움; font-weight: bold;">팔로워 리스트</span>
 	</td>
 </tr>
 
 <tr height="35">
 	<td width="50%">
-		${dataCount}개(${page}/${total_page} 페이지)${sessionScope.member.userId}/${dto.userId1}//${dto.userId2}///${dto.userId}
+		${dataCount}개(${page}/${total_page} 페이지)
 	</td>
 </tr>
 </table>
@@ -140,11 +136,13 @@ function deleteFollower(userId1,userId2) {
    		</div>
    		
 	</td>
-	<td class="userId">${dto.userId2}</td>
-	
-	<td width="70">				    
-			   <button type="button" onclick="javascript:deleteFollower('${dto.userId1},${dto.userId2}')">삭제</button>
+	<td class="userId">
+		<a href="javascript:searchProfile('${dto.userId2}')">${dto.userId2}</a>
 	</td>
+	<td width="70">
+		<a href="javascript:deleteFollower('${dto.userId1}','${dto.userId2}')">삭제</a>
+	</td>
+
 </tr>
 </c:forEach>
 </table>

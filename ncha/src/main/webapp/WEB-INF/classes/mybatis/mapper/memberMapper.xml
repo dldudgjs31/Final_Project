@@ -82,6 +82,9 @@
 	<delete id="deleteFollower" parameterType="String">
 		DELETE FROM follower WHERE userId1=#{userId1} and userId2=#{userId2}
 	</delete>
+	
+	
+	
 <!-- 	
 	<select id="followerCount1" parameterType="map" resultType="com.sp.app.member.Member">
 		SELECT userId1,userId2,COUNT(*) followerCount

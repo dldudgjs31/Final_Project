@@ -27,6 +27,9 @@ public interface MemberService {
 	public int FollowerCount(String userId);
 	public int FollowingCount(String userId);
 	public void deleteFollower(Map<String, Object> map) throws Exception;
+
+	//public void deleteFollower(String userId1) throws Exception;
+	//public void deleteFollowing(String userId2) throws Exception;
 	
 }
  

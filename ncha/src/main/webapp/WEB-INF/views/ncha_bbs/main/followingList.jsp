@@ -79,24 +79,20 @@ a:active, a:hover {
 </style>
 
 <script type="text/javascript">
-function followingList() {
-	var f=document.followingListForm;
-	f.submit();
+function searchProfile(userId) {
+	var url="${pageContext.request.contextPath}/mypage/searchProfile?userId="+userId;
+	if(confirm("팔로우 프로필로 이동하시겠습니까?")) {
+		location.href=url;
+	}
 }
 
-function deleteFollowing(userId1,userId2) {
-	<c:if test="${sessionScope.member.userId == userId2}">
+function deleteFollowing(userId1, userId2) {
+	
 	var url="${pageContext.request.contextPath}/mypage/deleteFollowing?userId1="+userId1+"&userId2="+userId2+"&page=${page}";
 	if(confirm("팔로우를 삭제 하시겠습니까?")) {
 		location.href=url;
 	}
-	</c:if>
-	<c:if test="${sessionScope.member.userId != userId2}">
-	alert("권한이 없습니다!");
-	</c:if>
 }
-
-
 </script>
 
 </head>
@@ -136,10 +132,11 @@ function deleteFollowing(userId1,userId2) {
 			</c:if>
    		</div>
 	</td>
-	<td class="userId">${dto.userId1}</td>
-	
+	<td class="userId">
+		<a href="javascript:searchProfile('${dto.userId1}')">${dto.userId1}</a>
+	</td>
 	<td width="70">
-		<a href="javascript:deleteFollowing('${dto.userId1},${dto.userId2}')">삭제</a>
+		<a href="javascript:deleteFollowing('${dto.userId1}','${dto.userId2}')">삭제</a>
 	</td>
 </tr>
 </c:forEach>

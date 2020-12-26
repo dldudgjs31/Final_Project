@@ -217,6 +217,7 @@ function linkOk(){
     		<div id="profile-tabbox" style="width: 10%; height: 90px; padding-top: 10px;" onclick="openTab('used')">중고글</div>
     	</div>
     </div>
+    
 <form name="mypageForm" method="post">
 <div id="daily" class="tabs">
 	<div class="post-list">

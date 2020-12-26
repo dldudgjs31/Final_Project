@@ -367,14 +367,14 @@ public class profileController {
 			Map<String, Object> map = new HashMap<>();
 			map.put("userId1", userId1);
 			map.put("userId2", userId2);			
-			
+
 			service.deleteFollower(map);
 		} catch (Exception e) {
 		}
-		
-		return "redirect:/ncha_bbs/main/followerList?page="+page;
+
+		return "redirect:/mypage/followerList?page="+page;
 	}
-	
+
 	@RequestMapping("deleteFollowing")
 	public String delete2(
 			@RequestParam String userId1,
@@ -389,8 +389,132 @@ public class profileController {
 			service.deleteFollower(map);
 		} catch (Exception e) {
 		}
-		
-		return "redirect:/nscore/list?page="+page;
+
+		return "redirect:/mypage/followingList?page="+page;
 	}
 	
+	@RequestMapping("searchProfile")
+	public String searchProfile(
+			@RequestParam(value="page", defaultValue="1") int current_page1,
+			@RequestParam(value="page", defaultValue = "1") int current_page2,
+			@RequestParam String userId,
+			HttpServletRequest req,
+			HttpSession session,
+			Model model
+			) throws Exception{		
+	
+		Member dto=service.readProfile(userId);
+		dto.setUserId1(userId);
+		dto.setUserId2(userId);
+		model.addAttribute("dto", dto);
+		///// 여까지 프로필 정보 
+		
+		int rows = 7; 
+		int total_page1 = 0;
+		int dataCount1 = 0;
+	
+		 Map<String, Object>map = new HashMap<>();
+		 dataCount1 = service.dataCount(map);
+	 	 
+        if(dataCount1 != 0)
+            total_page1 = myUtil.pageCount(rows,  dataCount1) ;
+        
+        if(total_page1 < current_page1) 
+            current_page1 = total_page1;
+
+        int offset = (current_page1-1) * rows;
+		if(offset < 0) offset = 0;
+        map.put("offset", offset);
+        map.put("rows", rows);
+        
+        List<Daily> list1 = service1.listDaily(map);
+    
+        int listNum1, n = 0;
+        for(Daily dto1 : list1) {
+            listNum1 = dataCount1 - (offset + n);
+            dto1.setListNum(listNum1);
+            n++;
+        }
+        
+        String cp=req.getContextPath();
+
+        String listUrl1 = cp+"/daily/list";
+        String query1 = "";
+        String articleUrl1 = cp+"/daily/article?page=" + current_page1;
+        
+        
+        if(query1.length()!=0) {
+			listUrl1+="?"+query1;
+			articleUrl1+="&"+query1;
+		}
+        String paging1 = myUtil.paging(current_page1, total_page1, listUrl1);
+       
+        
+		model.addAttribute("mode", "mypage");
+		model.addAttribute("list1", list1);
+		model.addAttribute("page1", current_page1);
+		model.addAttribute("dataCount1", dataCount1);
+		model.addAttribute("total_page1", total_page1);
+		model.addAttribute("paging1", paging1);		
+		model.addAttribute("articleUrl1", articleUrl1);
+		/////// 여기까지    일상글 리스트 불러오기 
+	
+		
+	
+		int total_page2=0;
+		int dataCount2=0;
+		
+		Map<String, Object> map2 = new HashMap<String,Object>();
+	
+		dataCount2 = service.dataCount(map2); //데이터 갯수 가져옴
+		
+		if(dataCount2!=0) { 
+			total_page2=myUtil.pageCount(rows, dataCount2); //전체 페이지수 계산
+		}
+		
+		
+		if(total_page2<current_page2) {
+			current_page2=total_page2;
+		}
+		
+		int offset2=(current_page2-1)*rows;
+		if(offset2<0) offset2=0;
+		map.put("offset2", offset2);
+		map.put("rows", rows);
+		
+		List<Used> list2 =service2.listUsed_mypage(map2);
+		
+		int listNum2, n2=0;
+		for(Used dto2:list2) {
+			listNum2=dataCount2-(offset2+n2);
+			dto2.setListNum(listNum2);
+			n2++;
+		}
+		
+		String cp2 =req.getContextPath();
+		String query2 = "";
+		String listUrl2= cp2+"/used/list";
+		String articleUrl2=cp2+"/used/article?page="+current_page2;
+		
+		
+		
+		if(query2.length()!=0) { //검색조건이 있는 경우
+			listUrl2 += "?" + query2;
+			articleUrl2 += "&"+query2;
+		}
+		
+		String paging2 = myUtil.paging(current_page2, total_page2, listUrl2);
+		
+		
+		model.addAttribute("list2", list2);
+		model.addAttribute("page2", current_page2);
+		model.addAttribute("dataCount2", dataCount2);
+		model.addAttribute("total_page2", total_page2);
+		model.addAttribute("paging2", paging2);
+		model.addAttribute("articleUrl2",articleUrl2);
+		////////////////////여기가지가 중고글불러오기
+		
+//		return "redirect:/mypage/searchProfile";
+		return ".ncha_bbs.main.mypage";
+	}
 }
