@@ -475,7 +475,6 @@ public class profileController {
 	@RequestMapping("follow")
 	public String follow(
 			@RequestParam String userId,
-			@RequestParam String page,
 			HttpSession session
 			) throws Exception {
 		try {
@@ -484,7 +483,6 @@ public class profileController {
 			map.put("sessionId", info.getUserId());	
 			map.put("userId", userId);	
 			
-
 			service.insertFollow(map);
 		} catch (Exception e) {
 		}

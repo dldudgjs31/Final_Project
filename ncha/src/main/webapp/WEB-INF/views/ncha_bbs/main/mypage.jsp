@@ -191,7 +191,7 @@ function linkOk(){
 }
 
 function follow(userId){
-	var url="${pageContext.request.contextPath}/mypage/follow?userId="+userId";
+	var url="${pageContext.request.contextPath}/mypage/follow?userId="+userId;
 	if(confirm("팔로우 하시겠습니까?")) {
 		location.href=url;
 	}
@@ -210,6 +210,11 @@ function follow(userId){
     		<h1>${dto.userId}</h1>&nbsp;&nbsp;
     		<c:if test="${sessionScope.member.userId!= dto.userId}">
     			<a href="javascript:follow('${dto.userId}')"><i class="far fa-heart fa-3x"></i></a>
+    		</c:if>
+    		
+    		
+    		<c:if test="${sessionScope.member.userId = dto.userId}">
+    			<a href="javascript:follow('${dto.userId}')"><i class="fas fa-heart fa-3x"></i></a>
     		</c:if>
     	</div>
     	<div class="profile-setting">
@@ -238,7 +243,7 @@ function follow(userId){
 	 <c:if test="${dto.userId == dto1.userId}">
 	    <a href="${articleUrl1}&dailyNum=${dto1.dailyNum}&mode=${mode}" class="post"> <!-- ${articleUrl1}&dailyNum=${dto1.dailyNum} -->
 	      <div class="post-image">
-	      	<img alt="" src="${pageContext.request.contextPath}/uploads/daily/${dto1.imageFilename}" width="180" height="180" border="0" ">
+	      	<img alt="" src="${pageContext.request.contextPath}/uploads/daily/${dto1.imageFilename}" width="180" height="180" border="0" >
 	      </div>
 	      <span class="post-overlay">
 	        <p>
