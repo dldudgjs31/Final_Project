@@ -57,6 +57,23 @@ function updateBoard(num){
 	</c:if>
 }
 
+
+function cartOk(num) {
+	<c:if test="${not empty sessionScope.member.userId || sessionScope.member.userId=='admin'}">
+	console.log(num);
+	if(confirm("상품을 장바구니에 추가하시겠습니까 ?")) {
+		var q = "num=" +${dto.productNum} + "&${query}";
+		var quantity = $("#totalBuyQty").text();
+		var url="${pageContext.request.contextPath}/store/customer/cart?"+q+"&quantity="+quantity;
+		location.href=url;
+		alert("상품이 장바구니에 추가되었습니다.");
+	}
+	</c:if>
+	<c:if test="${empty sessionScope.member.userId && sessionScope.member.userId!='admin'}">
+		alert("장바구니를 추가하려면 로그인을 해야합니다");
+	</c:if>
+}
+
 $(document).ready(function () {
 
 
@@ -217,11 +234,17 @@ $(function(){
 	});
 });
 
-function buyOk(userId) {
+function buyOk() {
 	var f = document.buyForm;
 	
 	$("input[name=number_sales]").val($("#totalBuyQty").text());
 	$("input[name=total_sales]").val($("#totalBuyAmt").text());
+	console.log($("input[name=number_sales]").val($("#totalBuyQty").text()));
+	if($("#totalBuyQty").text()>${dto.stock}){
+		alert("재고보다 많은 수량은 구매할 수 없습니다.");
+		return;
+	}
+	
  	f.action = "${pageContext.request.contextPath}/store/customer/main";
 
     f.submit();
@@ -251,12 +274,12 @@ function buyOk(userId) {
 			<p>재고 : ${dto.stock}</p>
 			<p>정가 :<del><fmt:formatNumber type="currency" value="${dto.price}" />원</del></p>
 			<p>세일가 : <fmt:formatNumber  type="currency"  value="${dto.price - dto.discount_rate}"/>원</p>
-			<button type="button" class="buyAdd btn btn-primary" data-code="100" data-price="${dto.price-dto.discount_rate}">담기</button>
+			<button type="button" class="buyAdd btn btn-primary" data-code="100" data-price="${dto.price-dto.discount_rate}"><i class="fas fa-plus-square"></i>&nbsp;리스트 추가</button>
 	
-			<button type="button" class="btn btn-primary">장바구니</button>
-			<hr>
+			<button type="button" class="btn btn-primary" onclick="cartOk(${dto.productNum});"><i class="fas fa-cart-plus"></i></button>
+			<br><br>
 			<form name="buyForm" method="post">
-		    <table style="width: 100%; border-spacing: 0px; border-collapse: collapse; border: 1px solid #cccccc; background: #eeeeee;">
+		    <table class="table" style="width: 100%; border-spacing: 0px; border-collapse: collapse; ">
 		        <thead>
 			    	<tr height="40" style="border-bottom: 1px solid #cccccc;">
 			    		<td colspan="3"><span style="font-weight: 700; padding-left: 10px;">| 구매 리스트</span></td>
@@ -277,12 +300,14 @@ function buyOk(userId) {
 			          <input type="hidden" name="discount_rate" value="${dto.discount_rate}">
 			          <input type="hidden" name="number_sales">
 			          <input type="hidden" name="total_sales" >
+			          <input type="hidden" name="stock" value="${dto.stock}" >
 			    		 </td>
 			    	</tr>
 			    	<tr height="40" style="border-top: 1px solid #cccccc;" >
 			    			<td align="center" colspan="3">
 			    			<button type="button" class="btn btn-primary" onclick="buyOk();">구매하기</button>
 			    			<button type="button" class="btn btn-danger cancel">초기화</button>
+			    			
 			    			</td>
 			    	</tr>
 		    	</tfoot>

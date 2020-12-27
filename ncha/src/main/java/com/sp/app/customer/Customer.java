@@ -10,6 +10,8 @@ public class Customer {
 	private String zip;
 	
 	//주문 정보
+	private int quantity;
+	private String userId;
 	//샐러 정보
 	private String SellerId;
 	private int stock;
@@ -20,6 +22,19 @@ public class Customer {
 	private String productName;
 	private String imageFilename;
 	private int number_sales;
+	
+	public String getUserId() {
+		return userId;
+	}
+	public void setUserId(String userId) {
+		this.userId = userId;
+	}
+	public int getQuantity() {
+		return quantity;
+	}
+	public void setQuantity(int quantity) {
+		this.quantity = quantity;
+	}
 	public String getImageFilename() {
 		return imageFilename;
 	}

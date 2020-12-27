@@ -12,7 +12,12 @@
 	SELECT * FROM dual
 </update>
 
-	 <select id="listProduct" parameterType="Integer" resultType="String">
+<insert id="insertCart" parameterType="com.sp.app.customer.Customer">
+	INSERT INTO store_cart(productNum, quantity, userId, cartNum)
+	VALUES(#{productNum},#{quantity},#{userId} ,cart_seq.NEXTVAL)
+</insert>
+
+<select id="listProduct" parameterType="Integer" resultType="String">
 		SELECT imageFilename
 		FROM product_bbs b
 		JOIN seller m ON b.sellerId=m.sellerId
@@ -22,9 +27,21 @@
 			) WHERE rank = 1
 		) i ON b.productNum = i.productNum
 		WHERE b.productNum = #{productNum}
-	 </select>
+</select>
 
 <update id="updateStock" parameterType="Integer">
-
+	UPDATE product_bbs SET stock=#{stock} WHERE productNum=#{productNum}
 </update>
+
+<select id="readCart" parameterType="map" resultType="com.sp.app.customer.Customer">
+		SELECT productName, price, discount_rate, quantity,((price-discount_rate)*quantity) total_sales, imageFilename
+		FROM store_cart c
+		LEFT OUTER JOIN product_bbs b ON c.productNum=b.productNum
+		LEFT OUTER JOIN (
+			SELECT * FROM (
+				SELECT productNum, rank() over(partition by productNum order by main_imageFileNum) rank, imageFilename FROM product_image
+			) WHERE rank = 1
+		) i ON c.productNum= i.productNum
+		WHERE c.userId=#{userId}
+</select>
 </mapper>

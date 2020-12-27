@@ -74,7 +74,7 @@ function orderOk(userId) {
           <div class="control-group form-group">
             <div class="controls">
               <label>배송지 주소</label>
-              <input type="text" class="form-control" name="address" id="address" value="${dto.zip}${dto.addr1}${dto.addr2}" required data-validation-required-message="Please enter your email address.">
+              <input type="text" class="form-control" name="address" id="address" value="(${dto.zip}${dto.addr1}${dto.addr2}" required data-validation-required-message="Please enter your email address.">
             </div>
           </div>
           <div class="control-group form-group">
@@ -89,6 +89,7 @@ function orderOk(userId) {
           <input type="hidden" name="number_sales" value="${dto1.number_sales}">
           <input type="hidden" name="price" value="${dto1.price}">
           <input type="hidden" name="sellerId" value="${dto1.sellerId}">
+          <input type="hidden" name=stock value="${dto1.stock}">
           <!-- For success/fail messages -->
           <button type="submit" class="btn btn-primary" id="sendMessageButton" onclick="orderOk();">결제하기</button>
         </form>

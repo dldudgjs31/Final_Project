@@ -1,5 +1,8 @@
 package com.sp.app.customer;
 
+import java.util.List;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -31,6 +34,42 @@ public class CustomerImpl implements CustomerService{
 		}
 		return imageFilename;
 	}
+
+	@Override
+	public void insertCart(Customer dto) throws Exception {
+		try {
+			dao.insertData("customer.insertCart", dto);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
+	}
+
+	@Override
+	public void updateStock(Customer dto) throws Exception {
+		try {
+			dto.setStock(dto.getStock()-dto.getNumber_sales());
+			dao.updateData("customer.updateStock", dto);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;			
+		}
+		
+	}
+
+	@Override
+	public List<Customer> readCart(Map<String, Object> map) throws Exception {
+		List<Customer> list =null;
+		try {
+			list = dao.selectList("customer.readCart", map);
+		} catch (Exception e) {
+			
+		}
+		return list;
+	}
+
+
+	
 	
 
 }

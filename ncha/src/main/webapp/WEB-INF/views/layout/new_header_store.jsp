@@ -23,7 +23,7 @@
           </li>
 		<c:if test="${not empty sessionScope.member}">
 		  <li class="nav-item">
-            <a class="nav-link" href="${pageContext.request.contextPath}/store/customer/main">마이페이지(고객)</a>
+            <a class="nav-link" href="${pageContext.request.contextPath}/store/customer/mypage">마이페이지(고객)</a>
           </li>
     	</c:if>
 		 <c:if test="${not empty sessionScope.seller || sessionScope.member.userId=='admin'}">
