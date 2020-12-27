@@ -13,7 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -165,51 +164,6 @@ public class profileController {
 	}
 	
 	
-	@RequestMapping(value="pwd", method=RequestMethod.GET)
-	public String pwdForm(String dropout, Model model) {
-		
-		if(dropout==null) {
-			model.addAttribute("mode", "update");
-		} else {
-			model.addAttribute("mode", "dropout");
-		}
-		
-		return ".member.pwd";
-	}
-	
-	@RequestMapping(value="pwd", method=RequestMethod.POST)
-	public String pwdSubmit(
-			@RequestParam String userPwd,
-			@RequestParam String mode,
-			final RedirectAttributes reAttr,
-			Model model,
-			HttpSession session
-	     ) {
-		
-		SessionInfo info=(SessionInfo)session.getAttribute("member");
-		
-		Member dto=service.readMember(info.getUserId());
-		if(dto==null) {
-			session.invalidate();
-			return "redirect:/";
-		}
-		
-		if(! dto.getUserPwd().equals(userPwd)) {
-			if(mode.equals("update")) {
-				model.addAttribute("mode", "update");
-			} else {
-				model.addAttribute("mode", "dropout");
-			}
-			model.addAttribute("message", "패스워드가 일치하지 않습니다.");
-			return ".member.pwd";
-		}
-		
-		// 회원정보수정폼
-		model.addAttribute("dto", dto);
-		model.addAttribute("mode", "update");
-		return ".ncha_bbs.main.profile_update";
-	}
-	
 	@RequestMapping("profileUpdate")
 	public String profileUpdate(
 			Member dto,
@@ -229,8 +183,8 @@ public class profileController {
 	public String followerList(
 			@RequestParam(value="page", defaultValue = "1") int current_page,
 			@RequestParam(defaultValue="") String keyword,
-			HttpServletRequest req,
 			Member dto1,
+			HttpServletRequest req,
 			HttpSession session,
 			Model model
 			) throws Exception{
@@ -246,7 +200,7 @@ public class profileController {
 		
 		if(dto1.getUserId() == null || dto1.getUserId() == "") {
 			SessionInfo info=(SessionInfo)session.getAttribute("member");
-			dataCount = service.FollowerCount(info.getUserId());
+			dataCount = service.FollowingCount(info.getUserId());
 			map.put("userId", info.getUserId());
 		} else {
 			dataCount = service.FollowerCount(dto1.getUserId());
@@ -402,10 +356,10 @@ public class profileController {
 			HttpSession session,
 			Model model
 			) throws Exception{		
-	
+		SessionInfo info=(SessionInfo)session.getAttribute("member");
 		Member dto=service.readProfile(userId);
-		dto.setUserId1(userId);
-		dto.setUserId2(userId);
+		dto.setUserId1(info.getUserId());
+		dto.setUserId2(info.getUserId());
 		model.addAttribute("dto", dto);
 		///// 여까지 프로필 정보 
 		
@@ -516,5 +470,25 @@ public class profileController {
 		
 //		return "redirect:/mypage/searchProfile";
 		return ".ncha_bbs.main.mypage";
+	}
+	
+	@RequestMapping("follow")
+	public String follow(
+			@RequestParam String userId,
+			@RequestParam String page,
+			HttpSession session
+			) throws Exception {
+		try {
+			Map<String, Object> map = new HashMap<>();
+			SessionInfo info=(SessionInfo)session.getAttribute("member");
+			map.put("sessionId", info.getUserId());	
+			map.put("userId", userId);	
+			
+
+			service.insertFollow(map);
+		} catch (Exception e) {
+		}
+
+		return "redirect:/mypage/searchProfile?userId="+userId;
 	}
 }

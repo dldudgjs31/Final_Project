@@ -138,6 +138,10 @@ function deleteFollowing(userId1, userId2) {
 	<td width="70">
 		<a href="javascript:deleteFollowing('${dto.userId1}','${dto.userId2}')">삭제</a>
 	</td>
+	
+	<td>
+	${dto.introduce}세션아이디:${sessionScope.member.userId}, dto아이디:${dto.userId}, userId1:${dto.userId1}, userId2:${dto.userId2}
+	</td>
 </tr>
 </c:forEach>
 </table>

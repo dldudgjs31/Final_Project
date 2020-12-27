@@ -268,18 +268,16 @@ public class MemberServiceImpl implements MemberService {
 		}
 
 	}
+
+	@Override
+	public void insertFollow(Map<String, Object> map) throws Exception {
+		try {
+			dao.insertData("member.insertFollow",map);
+		} catch (Exception e) {
+			throw e;
+		}
+		
+	}
 	
-	/*
-	 * @Override public void deleteFollower(String userId1) throws Exception { try {
-	 * dao.deleteData("member.deleteFollower",userId1); } catch (Exception e) {
-	 * throw e; }
-	 * 
-	 * }
-	 * 
-	 * @Override public void deleteFollowing(String userId2) throws Exception { try
-	 * { dao.deleteData("member.deleteFollowing",userId2); } catch (Exception e) {
-	 * throw e; }
-	 * 
-	 * }
-	 */
+	
 }

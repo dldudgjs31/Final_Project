@@ -111,7 +111,7 @@ function deleteFollower(userId1,userId2) {
 
 <tr height="35">
 	<td width="50%">
-		${dataCount}개(${page}/${total_page} 페이지)
+		${dataCount}개(${page}/${total_page} 페이지) 
 	</td>
 </tr>
 </table>
@@ -121,6 +121,8 @@ function deleteFollower(userId1,userId2) {
 <tr bgcolor="#eeeeee" align="center">
 	<th width="180" height="45" >프로필사진</th>
 	<th width="100">아이디</th>	
+		
+	
 </tr>
 
 <c:forEach var="dto" items="${list}">
@@ -134,13 +136,17 @@ function deleteFollower(userId1,userId2) {
    				<div class="imgs" style="background-image:url('${pageContext.request.contextPath}/uploads/member/${dto.profile_imageFilename}'); border-bottom: 1px solid #cccccc;"></div>
 			</c:if>
    		</div>
-   		
 	</td>
+	
 	<td class="userId">
 		<a href="javascript:searchProfile('${dto.userId2}')">${dto.userId2}</a>
 	</td>
 	<td width="70">
 		<a href="javascript:deleteFollower('${dto.userId1}','${dto.userId2}')">삭제</a>
+	</td>
+	
+	<td>
+	${dto.introduce}세션아이디:${sessionScope.member.userId}, dto아이디:${dto.userId}, userId1:${dto.userId1}, userId2:${dto.userId2}
 	</td>
 
 </tr>

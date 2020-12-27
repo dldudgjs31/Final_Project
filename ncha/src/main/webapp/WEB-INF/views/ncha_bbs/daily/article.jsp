@@ -41,6 +41,12 @@
 </style>
 
 <script type="text/javascript">
+function searchProfile(userId) {
+	var url="${pageContext.request.contextPath}/mypage/searchProfile?userId="+userId;
+		location.href=url;
+	
+}
+
 function deleteDaily(dailyNum) {
 	<c:if test="${sessionScope.member.userId==dto.userId || sessionScope.member.userId=='admin' }">
 		if(confirm("게시물을 삭제 하시겠습니까 ?")) {
@@ -348,7 +354,7 @@ $(function(){
 <div class="body-container" style="width: 700px;">
 	<div class="profile-img">
    		<div class="imgs" style="background-image:url('${pageContext.request.contextPath}/uploads/member/${dto.profile_imageFilename}'); border-bottom: 1px solid #cccccc;">
-   		</div><span class="userId">&nbsp; ${dto.userId}</span>
+   		</div><a href="javascript:searchProfile('${dto.userId}')">${dto.userId}</a>
    	</div>
    	
 
@@ -418,7 +424,7 @@ $(function(){
 			
 			<c:if test="${mode=='mypage'}">
 			    <td align="right">
-			        <button type="button" class="btn" onclick="javascript:location.href='${pageContext.request.contextPath}/mypage/profile';">마이페이지</button>
+			       <a href="javascript:searchProfile('${dto.userId}')">마이페이지</a>
 			    </td>
 			</c:if>
 			<c:if test="${mode!='mypage'}">

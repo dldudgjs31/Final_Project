@@ -189,6 +189,13 @@ function linkOk(){
 	var f = document.mypageForm;
 	f.action="${pageContext.request.contextPath}/profile/myArticle";
 }
+
+function follow(userId){
+	var url="${pageContext.request.contextPath}/mypage/follow?userId="+userId";
+	if(confirm("팔로우 하시겠습니까?")) {
+		location.href=url;
+	}
+}
 </script>
 
 <div class="body-container" >
@@ -198,20 +205,26 @@ function linkOk(){
     		
     		</div>
     	</div>
-    	<div class="profile-introduce">자기소개 !${dto.introduce}세션아이디${sessionScope.member.userId}dto아이디${dto.userId}</div>
+    	<div class="profile-introduce">자기소개 !${dto.introduce}세션아이디:${sessionScope.member.userId}, dto아이디:${dto.userId}, userId1:${dto.userId1}, userId2:${dto.userId2}</div>
     	<div class="profile-name">
     		<h1>${dto.userId}</h1>&nbsp;&nbsp;
     		<c:if test="${sessionScope.member.userId!= dto.userId}">
-    			<span><button class="button">팔로우하기</button></span>
+    			<a href="javascript:follow('${dto.userId}')"><i class="far fa-heart fa-3x"></i></a>
     		</c:if>
     	</div>
     	<div class="profile-setting">
-    	<c:if test="${not empty sessionScope.member}">
+    	<c:if test="${sessionScope.member.userId == dto.userId}">
     		<span><a href="${pageContext.request.contextPath}/mypage/profileUpdate"><i class="fas fa-user-cog"></i>&nbsp;&nbsp;프로필 수정 </a></span>
     	</c:if>
     	</div>
+    <c:if test="${sessionScope.member.userId == dto.userId}">
     	<div class="profile-follower"><a href="${pageContext.request.contextPath}/mypage/followerList"><strong>팔로워 </strong></a>&nbsp;&nbsp;&nbsp;${dto.followerCount }</div>
     	<div class="profile-following"><a href="${pageContext.request.contextPath}/mypage/followingList"><strong>팔로잉 </strong></a>&nbsp;&nbsp;&nbsp;${dto.followingCount }</div>
+    </c:if>
+      <c:if test="${sessionScope.member.userId != dto.userId}">
+    	<div class="profile-follower"><strong>팔로워 </strong>&nbsp;&nbsp;&nbsp;${dto.followerCount }</div>
+    	<div class="profile-following"><strong>팔로잉 </strong>&nbsp;&nbsp;&nbsp;${dto.followingCount }</div>
+    </c:if>
     	<div class="profile-tab">
     		<div id="profile-tabbox" style="width: 10%; height: 90px; padding-top: 10px; " onclick="openTab('daily')">일상글</div>
     		<div id="profile-tabbox" style="width: 10%; height: 90px; padding-top: 10px;" onclick="openTab('used')">중고글</div>
@@ -222,7 +235,7 @@ function linkOk(){
 <div id="daily" class="tabs">
 	<div class="post-list">
 	<c:forEach var="dto1" items="${list1}">
-	 <c:if test="${sessionScope.member.userId==dto1.userId}">
+	 <c:if test="${dto.userId == dto1.userId}">
 	    <a href="${articleUrl1}&dailyNum=${dto1.dailyNum}&mode=${mode}" class="post"> <!-- ${articleUrl1}&dailyNum=${dto1.dailyNum} -->
 	      <div class="post-image">
 	      	<img alt="" src="${pageContext.request.contextPath}/uploads/daily/${dto1.imageFilename}" width="180" height="180" border="0" ">
@@ -243,7 +256,7 @@ function linkOk(){
 	 <div class="post-list">
 	
 	 <c:forEach var="dto2" items="${list2}">
-	 <c:if test="${sessionScope.member.userId==dto2.userId}">	
+	 <c:if test="${dto.userId == dto2.userId}">	
 	    <a href="" class="post">
 	      <div class="post-image">
 	      	<img alt="" src="${pageContext.request.contextPath}/uploads/used/${dto2.imageFilename}" width="180" height="180" border="0">

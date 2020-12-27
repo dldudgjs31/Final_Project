@@ -83,6 +83,10 @@
 		DELETE FROM follower WHERE userId1=#{userId1} and userId2=#{userId2}
 	</delete>
 	
+	<insert id="insertFollow" parameterType="com.sp.app.member.Member">
+		INSERT INTO follower (userId1,userId2) VALUES (#{userId},#{sessionId})
+	</insert>
+	
 	
 	
 <!-- 	
