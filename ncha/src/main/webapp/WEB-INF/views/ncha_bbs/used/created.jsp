@@ -93,7 +93,7 @@ function goArticle(usedNum,page){
 	</div>
 
 	<div>
-		<form name="usedForm" method="post" enctype="multipart/form-data" style="margin:0 auto; width: 100%;">	
+		<form name="usedForm" method="post" enctype="multipart/form-data" style="margin:0 auto; width: 100%;" align = "center">	
 		
 			<table style="width: 100%; margin: 20px auto 0px; border-spacing: 0px; border-collapse: collapse;">
 			<tr align="left" height="40" style="border-bottom: 1px solid #cccccc;"> 
