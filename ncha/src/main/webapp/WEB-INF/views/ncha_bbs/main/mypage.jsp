@@ -208,14 +208,10 @@ function follow(userId){
     	<div class="profile-introduce">자기소개 !${dto.introduce}세션아이디:${sessionScope.member.userId}, dto아이디:${dto.userId}, userId1:${dto.userId1}, userId2:${dto.userId2}</div>
     	<div class="profile-name">
     		<h1>${dto.userId}</h1>&nbsp;&nbsp;
-    		<c:if test="${sessionScope.member.userId!= dto.userId}">
+    	<c:if test="${sessionScope.member.userId!= dto.userId}">
     			<a href="javascript:follow('${dto.userId}')"><i class="far fa-heart fa-3x"></i></a>
-    		</c:if>
+    	</c:if> 
     		
-    		
-    		<c:if test="${sessionScope.member.userId = dto.userId}">
-    			<a href="javascript:follow('${dto.userId}')"><i class="fas fa-heart fa-3x"></i></a>
-    		</c:if>
     	</div>
     	<div class="profile-setting">
     	<c:if test="${sessionScope.member.userId == dto.userId}">

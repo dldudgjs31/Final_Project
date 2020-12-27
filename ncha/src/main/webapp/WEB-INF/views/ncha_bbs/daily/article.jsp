@@ -46,7 +46,6 @@ function searchProfile(userId) {
 		location.href=url;
 	
 }
-
 function deleteDaily(dailyNum) {
 	<c:if test="${sessionScope.member.userId==dto.userId || sessionScope.member.userId=='admin' }">
 		if(confirm("게시물을 삭제 하시겠습니까 ?")) {
@@ -71,7 +70,7 @@ function updateDaily(dailyNum) {
 	alert("게시글을 수정할 수 없습니다.");
 </c:if>
 }
-	
+
 
 
 // 댓글 및 답글, 좋아요처리

@@ -3,6 +3,211 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
+<style type="text/css">
+
+.imgLayout{
+	width: 190px;
+	height: 205px;
+	padding: 10px 5px 10px;
+	margin: 5px;
+	border: 1px solid #dad9ff;
+	cursor: pointer;
+}
+
+.subject {
+	width: 180px;
+	height: 25px;
+	line-height: 25px;
+	margin: 5px auto;
+	border-top: 1px solid #dad9ff;
+	display: inline-block;
+	white-space: nowrap;
+	overflow:hidden;
+	text-overflow: ellipsis;
+	cursor: pointer;
+}
+
+.body-container{
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	width: 70%;
+}
+.post-list {
+  display: grid;
+  width:99%;
+  grid-template-columns: repeat(3, minmax(100px, 293px));
+  grid-template-rowls: repeat(auto, minmax(100px, 293px));
+  justify-content: center;
+  gap: 28px;
+}
+
+.post {
+  cursor: pointer;
+  position: relative;
+  display: block; /*Es un ancla por eso le cambio el displya*/
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+}
+
+.post-image {
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.image{
+	width: 100%;
+	height: 100%;
+}
+.post-image img {
+  object-fit: cover;
+  width:100%;
+  height: 293px;
+}
+.post-overlay {
+  background-color: rgb(0, 0, 0, 0.4);
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  top: 0;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  text-align: center;
+}
+.post:hover .post-overlay {
+  display: flex;
+}
+.post-likes,
+.post-hitCount {
+  width: 80px;
+  margin: 5px;
+  font-weight: bold;
+  text-align: center;
+  display: inline-block;
+}
+
+.profile-title{
+	display: grid;
+	grid-template-columns: repeat(3, minmax(100px, 293px));
+	grid-template-rows: repeat(4,100px);
+	grid-template-areas:
+    "img name setting"
+    "img follower following"
+    "img intro intro"
+    "tab tab tab";
+}
+.profile-img{
+	grid-area:img;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+.imgs{
+	width: 200px; 
+	height: 200px; 
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: cover;
+	border-radius: 50%;
+	border: 1px solid silver;
+}
+.profile-introduce{
+	grid-area:intro;
+}
+.profile-name{
+	grid-area:name;
+	display: flex;
+	align-items: flex-end;
+	align-content: center;
+}
+.profile-setting{
+	grid-area:setting;
+	display: flex;
+	align-items: flex-end;
+	align-content: center;
+}
+.profile-follower{
+	grid-area:follower;
+	display: flex;
+	align-items: center;
+	align-content: center;	
+}
+.profile-following{
+	grid-area:following;
+	display: flex;
+	align-items: center;
+	align-content: center;	
+}
+.profile-tab{
+	grid-area:tab;
+	display: flex;
+	align-items: center;
+	justify-content:center;
+	border-top: 1px solid #ccc;
+	font-size : 15px;
+	color:silver;
+}
+.tabs{
+	display: flex;
+	justify-content: center;
+}
+#profile-tabbox{
+	width: 10%;
+	height: 90px; 
+	padding-top: 10px; 
+	margin:10px; 
+	text-align: center;
+}
+#profile-tabbox:hover{
+	border-top: 2px solid black;
+	color:black;
+}
+
+.button {
+  padding: 15px 25px;
+  font-size: 10px;
+  text-align: center;
+  cursor: pointer;
+  outline: none;
+  color: #fff;
+  background-color: #2196F3;
+  border: none;
+  border-radius: 15px;
+  box-shadow: 0 9px #999;
+}
+
+.button:hover {background-color: #0b7dda;}
+
+.button:active {
+  background-color: #0b7dda;
+  box-shadow: 0 5px #666;
+  transform: translateY(4px);
+}
+@media screen and (max-width: 768px) {
+	.body-container{
+		width:100%;
+	}
+	  .post-list {
+	    gap: 3px;
+	    grid-template-columns: repeat(3, 180px);
+	  }
+	  .post-image img {
+	  height: 180px;
+	  }
+	  .imgs{
+	  width: 150px;
+	  height: 150px;
+	  }
+}
+
+</style>
+
 <script type="text/javascript">
 function categoryList() {
 	var f1=document.categoryForm;
@@ -13,91 +218,161 @@ function searchKeyword(){
 	var f2 = document.keywordForm;
 	f2.submit();
 }
+
+function goArticle(usedNum){
+	location.href ="${articleUrl}&usedNum="+usedNum;
+}
 </script>
+<Br><Br>
 
-<div class="body-container" style="width: 700px;">
-	<div class="body-title">
-		<h3><i class="fas fa-chalkboard"></i> 중고글 게시판 </h3>
-	</div>
+<table style="width: 100%; margin: 10px auto; border-spacing: 0px;">
+				<tr height="40">
+					<td align="center">
+						<form name="keywordForm" action="${pageContext.request.contextPath}/used/list" method="post">
+							<input type="text" name="keyword" value="${keyword}" class="boxTF">
+							<button type="button" class="btn" onclick="searchKeyword();">검색</button>
+						</form>
+					</td>
+					<td align="center">
+						<form name="categoryForm" action="${pageContext.request.contextPath}/used/list" method="post">
+							<select class="selectField" id="categoryNum" name="categoryNum" onchange="categoryList();">
+								<option value="">::카테고리 모아보기::</option>
+								<option value="1" ${dto.categoryNum=="1"?"selected='selected'":""}>의류</option>
+								<option value="2" ${dto.categoryNum=="2"?"selected='selected'":""}>가구</option>
+								<option value="3" ${dto.categoryNum=="3"?"selected='selected'":""}>전자제품</option>
+								<option value="4" ${dto.categoryNum=="4"?"selected='selected'":""}>도서</option>
+								<option value="5" ${dto.categoryNum=="5"?"selected='selected'":""}>기타</option>
+							</select>
+						</form>	
+					</td>
+					<td align="left" width="100">
+						<button type="button" class="btn" onclick="javascript:location.href='${pageContext.request.contextPath}/used/list';">새로고침</button>
+					</td>
+					<td  align="left" width="150">
+						<button type="button" class="btn" onclick="">찜목록 보기</button>
+					</td>
+				</tr>
+</table>
 
-	<div>
-		<table style="width: 100%; margin: 20px auto 0px; border-spacing: 0px;">
-			<tr height="35">
-				<td align="left" width="50%">
-					${dataCount}개(${page}/${total_page} 페이지)
-				</td>
-				<td align="center">
-					<form name="categoryForm" action="${pageContext.request.contextPath}/used/list" method="post">
-						<select class="selectField" id="categoryNum" name="categoryNum" onchange="categoryList();">
-							<option value="">::카테고리 모아보기::</option>
-							<option value="1" ${dto.categoryNum=="1"?"selected='selected'":""}>의류</option>
-							<option value="2" ${dto.categoryNum=="2"?"selected='selected'":""}>가구</option>
-							<option value="3" ${dto.categoryNum=="3"?"selected='selected'":""}>전자제품</option>
-							<option value="4" ${dto.categoryNum=="4"?"selected='selected'":""}>도서</option>
-							<option value="5" ${dto.categoryNum=="5"?"selected='selected'":""}>기타</option>
-						</select>
-					</form>
-				</td>
-				<td align="right">
-					<button type="button" class="btn" onclick="javascript:location.href='${pageContext.request.contextPath}/used/list';">새로고침</button>
-				</td>
-			</tr>
-		</table>
-		
-		<table style="width: 100%; border-spacing: 0px; border-collapse: collapse;">
-			<tr align="center" bgcolor="#eeeeee" height="35" style="border-top: 1px solid #cccccc; border-bottom: 1px solid #cccccc;"> 
-				<th width="60" style="color: #787878;">번호</th>
-				<th width="60" style="color: #787878;">카테고리</th>
-				<th width="100" style="color: #787878;">판매상태</th>
-				<th style="color: #787878;">제목</th>
-				<th width="100" style="color: #787878;">작성자</th>
-				<th width="100" style="color: #787878;">작성일</th>
-				<th width="60" style="color: #787878;">조회수</th>
-				
-			</tr>
-		 <c:forEach var="dto" items="${list}">
-			<tr align="center" bgcolor="#ffffff" height="35" style="border-bottom: 1px solid #cccccc;"> 
-				<td>${dto.listNum}</td>
-				<td>${dto.categoryName}</td>
-				<c:if test="${dto.sold_check == 0}">
-					<td>구매가능</td>
-				</c:if>
-				<c:if test="${dto.sold_check == 1}">
-					<td>판매완료</td>
-				</c:if>
-				<td align="left" style="padding-left: 10px;">
-					<a href="${articleUrl}&usedNum=${dto.usedNum}">${dto.subject}</a>
-				</td>
-				<td>${dto.userName}</td>
-				<td>${dto.created_date}</td>
-				<td>${dto.hitCount}</td>
-				<td>
-			</tr>
-		 </c:forEach>
+<ol class="breadcrumb">
+      <li class="breadcrumb-item">카테고리</li>
+      <li class="breadcrumb-item active">${dto.categoryName}</li>
+</ol>
 
-		</table>
-
-		<table style="width: 100%; border-spacing: 0px;">
-			<tr height="35">
-				<td align="center">
-					${dataCount==0?"등록된 게시물이 없습니다.":paging}
-				</td>
-			</tr>
-		</table>
-
-		<table style="width: 100%; margin: 10px auto; border-spacing: 0px;">
-			<tr height="40">
-				<td align="center">
-					<form name="keywordForm" action="${pageContext.request.contextPath}/used/list" method="post">
-						<input type="text" name="keyword" value="${keyword}" class="boxTF">
-						<button type="button" class="btn" onclick="searchKeyword();">검색</button>
-					</form>
-				</td>
-				<td align="right" width="100">
-					<button type="button" class="btn" onclick="javascript:location.href='${pageContext.request.contextPath}/used/created';">글올리기</button>
-				</td>
-			</tr>
-		</table>
-	</div>
-
+ <div class="col-lg-9 mb-4">
+        <p class="text-right">  총 상품 수  : ${dataCount} &nbsp;&nbsp;&nbsp; (${page}/${total_page} 페이지)</p>
+      <div class="row">
+      
+      <c:forEach var="dto" items="${list}">
+      <div class="col-lg-4 col-sm-6 portfolio-item" style="margin-bottom: 10px;">
+        
+        <div class="card h-100">
+        
+        <!-- 판매완료되면 이미지 흑백, 제목에 줄그음 -->
+        <c:if test="${dto.sold_check == 0}">
+          <a href="${articleUrl}&usedNum=${dto.usedNum}" >
+          <img class="card-img-top" src="${pageContext.request.contextPath}/uploads/used/${dto.imageFilename}" alt="" style="height: 200px;">
+          </a>
+         </c:if>
+        
+        <c:if test="${dto.sold_check == 1}">
+          <a href="${articleUrl}&usedNum=${dto.usedNum}" >
+          <img class="card-img-top" src="${pageContext.request.contextPath}/uploads/used/${dto.imageFilename}" alt="" style="height: 200px; filter:grayscale(100%);">
+          </a>
+         </c:if>
+          
+          <div class="card-body" align="center">
+            <p class="card-text" onclick="">@ ${dto.userId}</p>
+           	
+           	<c:if test="${dto.sold_check == 0}">
+            <h4 class="card-title">
+              <a href="${articleUrl}&usedNum=${dto.usedNum}">${dto.subject}</a>
+            </h4>
+            </c:if>
+            
+            
+            <c:if test="${dto.sold_check == 1}">
+            <h4 class="card-title">
+              <del><a href="${articleUrl}&usedNum=${dto.usedNum}">${dto.subject}</a></del>
+            </h4>
+            </c:if>
+            
+            
+            <p class="card-text">판매가 : <fmt:formatNumber type="currency" value="${dto.price}" />원</p>
+          </div>
+          
+        </div>
+        
+      </div>
+      </c:forEach>
+    </div>
+    
+  <table style="width: 100%; margin: 0px auto; border-spacing: 0px;">
+				   <tr height="35">
+					<td align="center">
+					    ${dataCount==0 ? "등록된 게시물이 없습니다.":paging}
+					 </td>
+				   </tr>
+				   <tr height="35">
+					<td align="right" width="100">
+						<button type="button" class="btn" onclick="javascript:location.href='${pageContext.request.contextPath}/used/created';">글올리기</button>
+					</td>
+				   </tr>
+			</table>
 </div>
+<!--
+<div class="body-container" style="width: 900px;">
+	
+	<div>
+	
+	       
+			<table style="width: 100%; margin: 20px auto 0px; border-spacing: 0px;">
+				<tr height="35">
+					<td align="left" width="50%">
+						${dataCount}개 (${page}/${total_page} 페이지)
+					</td>
+					<td align="right">
+						&nbsp;
+					</td>
+				</tr>
+			</table>		
+       </div>
+       
+      <div>
+       	<div>
+			<aside class="post-list">
+				<c:forEach var="dto" items="${list}">			
+					@ ${dto.userName} <br>	
+				   <a href="${articleUrl}&usedNum=${dto.usedNum}" class="post">
+				      <div class="post-image">
+				      	<img alt="" src="${pageContext.request.contextPath}/uploads/used/${dto.imageFilename}" width="180" height="180" border="0">
+				      </div>
+				      <div class="post-overlay">
+				         <span class="post-hitCount">조회수 : ${dto.hitCount}</span>
+				         <span class="post-likes">좋아요 : ${dto.usedLikeCount}</span>
+				      </div>
+				  		<br>
+				    	카테고리 : ${dto.categoryName}
+				    	<br>
+				    	 ${dto.subject}
+				    	<br>
+				    	￦ ${dto.price} 	
+				    </a>				   
+				</c:forEach>
+			</aside>
+			<table style="width: 100%; margin: 0px auto; border-spacing: 0px;">
+				   <tr height="35">
+					<td align="center">
+					    ${dataCount==0 ? "등록된 게시물이 없습니다.":paging}
+					 </td>
+				   </tr>
+				   <tr height="35">
+					<td align="right" width="100">
+						<button type="button" class="btn" onclick="javascript:location.href='${pageContext.request.contextPath}/used/created';">글올리기</button>
+					</td>
+				   </tr>
+			</table>
+       		</div>
+       </div>
+</div> 
+-->

@@ -48,12 +48,25 @@
 		WHERE u.usedNum = #{usedNum}
 	</select>
 		
-	<!-- 리스트 -->
+	<!-- 리스트, 리스트에서 가격 제목 카테고리 좋아요수 조회수 사진출력해야함 -->
+	<!-- rank over : 중복 값들에 대해서 동일 순위로 표시하고, 중복 순위 다음 값에 대해서는 중복 개수만큼 떨어진 순위로 출력하도록 하는 함수
+		partition by절  : 그룹을 짓고 그 안에서 순위를 구하고 싶을때-->
 	<select id="listUsed" parameterType="map" resultType="com.sp.app.used.Used">
-		SELECT u.usedNum, u.userId, userName,c.categoryName, subject, sold_check, hitCount, TO_CHAR(created_date,'YYYY-MM-DD')created_date, u.categoryNum
+		SELECT u.usedNum, u.userId, userName, c.categoryName, subject, sold_check, hitCount, TO_CHAR(created_date,'YYYY-MM-DD')created_date,
+			imageFilename, u.price, usedLikeCount
 		FROM used_bbs u
 		JOIN member m ON u.userId = m.userId
 		JOIN used_category c ON c.categoryNum = u.categoryNum
+		JOIN (
+			SELECT * FROM(
+				SELECT usedNum, rank() over(partition by usedNum order by used_imageFileNum) rank, imageFilename
+				FROM used_image
+			) WHERE rank = 1
+		) i ON u.usedNum = i.usedNum
+		LEFT OUTER JOIN (
+			SELECT usedNum, COUNT(*) usedLikeCount FROM used_like
+			GROUP BY usedNum
+		) ul ON ul.usedNum = u.usedNum
 		<where>
 			<if test="categoryNum!=null and categoryNum!='' ">
 				u.categoryNum = #{categoryNum}
