@@ -183,9 +183,9 @@ public class profileController {
 	public String followerList(
 			@RequestParam(value="page", defaultValue = "1") int current_page,
 			@RequestParam(defaultValue="") String keyword,
-			Member dto1,
 			HttpServletRequest req,
 			HttpSession session,
+			Member dto1,
 			Model model
 			) throws Exception{
 		
@@ -200,7 +200,7 @@ public class profileController {
 		
 		if(dto1.getUserId() == null || dto1.getUserId() == "") {
 			SessionInfo info=(SessionInfo)session.getAttribute("member");
-			dataCount = service.FollowingCount(info.getUserId());
+			dataCount = service.FollowerCount(info.getUserId());
 			map.put("userId", info.getUserId());
 		} else {
 			dataCount = service.FollowerCount(dto1.getUserId());
@@ -270,7 +270,7 @@ public class profileController {
 			dataCount = service.FollowingCount(info.getUserId());
 			map.put("userId", info.getUserId());
 		} else {
-			dataCount = service.FollowerCount(dto1.getUserId());
+			dataCount = service.FollowingCount(dto1.getUserId());
 			map.put("userId", dto1.getUserId());
 		}
 		
@@ -489,4 +489,6 @@ public class profileController {
 
 		return "redirect:/mypage/searchProfile?userId="+userId;
 	}
+	
+	
 }
