@@ -56,6 +56,7 @@ a:active, a:hover {
     margin-bottom:10px;
     font-family: "맑은 고딕", 나눔고딕, 돋움, sans-serif;
 }
+
 </style>
 
 <script type="text/javascript">
@@ -70,13 +71,18 @@ function deleteMember(userId) {
 		location.href=url;
 	}
 }
-
+function authMember(userId, allow) {
+	var url="${pageContext.request.contextPath}/admin/list/authMember?userId="+userId+"&allow="+allow+"&page=${page}";
+	if(confirm("권한을 변경 하시겠습니까?")) {
+		location.href=url;
+	}
+}
 </script>
 
 </head>
 <body>
 
-<div style="width: 700px; margin: 30px auto 0px;">
+<div style="width: 800px; margin: 30px auto 0px;">
 <table style="width: 100%; margin: 0px auto;">
 <tr height="50">
 	<td align="center" colspan="2">
@@ -90,18 +96,18 @@ function deleteMember(userId) {
 	</td>
 </tr>
 </table>
-
 <form name="scoreListForm" method="post">
 <table style="width: 100%; margin: 0px auto; border-spacing: 1px; background: #cccccc;">
 <tr height="30" bgcolor="#eeeeee" align="center">
-	<th width="70">번호</th>
-	<th width="90">아이디</th>
-	<th width="90">이름</th>
-	<th width="200">생년월일</th>
-	<th width="200">전화번호</th>
-	<th width="100">이메일</th>
-	<th width="110">우편번호</th>
-	<th width="300">주소</th>
+	<th width="50">번호</th>
+	<th width="80">아이디</th>
+	<th width="80">이름</th>
+	<th width="120">생년월일</th>
+	<th width="120">전화번호</th>
+	<th width="160">이메일</th>
+	<th width="60">권한</th>
+	<th>변경</th>
+
 </tr>
 
 <c:forEach var="dto" items="${list}">
@@ -112,11 +118,21 @@ function deleteMember(userId) {
 	<td>${dto.birth}</td>
 	<td>${dto.tel}</td>
 	<td>${dto.email}</td>
-	<td>${dto.zip}</td>
-	<td>${dto.addr1}</td>
-	<td width="70">
-		<a href="javascript:deleteMember('${dto.userId}')">삭제</a>
-	</td>
+	<td> 
+	<c:choose>
+		 <c:when test="${dto.allow=='0'}">
+	        	<span>없음</span> 
+	     </c:when>
+	     <c:otherwise>
+	       	<span>있음</span> 
+	 	</c:otherwise>
+	</c:choose>
+	 
+	 </td>
+	<td>
+	  <a href="javascript:authMember('${dto.userId}', ${dto.allow})">권한변경</a> |
+	  <a href="javascript:deleteMember('${dto.userId}')">삭제</a>
+		</td>
 </tr>
 </c:forEach>
 </table>

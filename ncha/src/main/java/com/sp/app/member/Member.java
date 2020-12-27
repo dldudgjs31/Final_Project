@@ -15,7 +15,8 @@ public class Member {
 	private String zip;
 	private String addr1, addr2;
 	private String introduce;
-	
+	private int allow;
+
 	private MultipartFile uploadphoto;
 	private String profile_imageFilename; 
 	
@@ -26,6 +27,12 @@ public class Member {
 	private int followerCount;
 	private int followingCount;
 	
+	public int getAllow() {
+		return allow;
+	}
+	public void setAllow(int allow) {
+		this.allow = allow;
+	}
 	public String getUserId1() {
 		return userId1;
 	}

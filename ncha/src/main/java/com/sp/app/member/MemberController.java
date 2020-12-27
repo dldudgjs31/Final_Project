@@ -118,6 +118,8 @@ public class MemberController {
 		info.setMemberIdx(dto.getMemberIdx());
 		info.setUserId(dto.getUserId());
 		info.setUserName(dto.getUserName());
+		info.setAllow(dto.getAllow());
+
 		
 		session.setMaxInactiveInterval(30*60); // 세션유지시간 30분, 기본:30분
 		
@@ -263,7 +265,7 @@ public class MemberController {
 			Model model
 			) throws Exception{
 		
-		int rows = 10;
+		int rows = 20;
 		int total_page=0;
 		int dataCount=0;
 		

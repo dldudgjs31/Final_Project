@@ -2,8 +2,10 @@ package com.sp.app.seller;
 
 import java.io.File;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +20,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.sp.app.common.MyUtil;
+import com.sp.app.member.Member;
+
 
 
 @Controller("seller.sellerController")
@@ -26,7 +31,9 @@ public class SellerController {
    @Autowired
    private SellerService service;
    
-   
+	@Autowired
+	private MyUtil myUtil;
+	
    @RequestMapping(value="member", method=RequestMethod.GET)
    public String memberForm(Model model) {
       model.addAttribute("mode", "seller");
@@ -104,6 +111,7 @@ public class SellerController {
       SessionInfo info=new SessionInfo();
       info.setSellerId(dto.getSellerId());
       info.setSellerName(dto.getSellerName());
+      info.setAllow(dto.getAllow());
       
       session.setMaxInactiveInterval(30*60); // 세션유지시간 30분, 기본:30분
       
@@ -241,5 +249,57 @@ public class SellerController {
       model.put("passed", p);
       return model;
    }
+   
+   @RequestMapping("list")
+	public String list(
+			@RequestParam(value="page", defaultValue = "1") int current_page,
+			HttpServletRequest req,
+			Model model
+			) throws Exception{
+		
+		int rows = 20;
+		int total_page=0;
+		int dataCount=0;
+		
+		Map<String, Object> map = new HashMap<>();
+		
+		dataCount = service.dataCount(map);
+		if(dataCount!=0) {
+			total_page=myUtil.pageCount(rows, dataCount);
+		}
+		if(total_page<current_page) {
+			current_page=total_page;
+		}
+		int offset=(current_page-1)*rows;
+		if(offset<0) offset=0;
+		map.put("offset", offset);
+		map.put("rows", rows);
+		
+		List<Seller> list =service.listSeller(map);
+		
+		int listNum, n=0;
+		for(Seller dto:list) {
+			listNum=dataCount-(offset+n);
+			dto.setListNum(listNum);
+			n++;
+		}
+		
+		String cp =req.getContextPath();
+		String query = "";
+		String listUrl= cp+"/admin/list/seller";
+		
+		if(query.length()!=0) {
+			listUrl+="?"+query;
+		}
+		String paging=myUtil.paging(current_page, total_page, listUrl);
+		
+		model.addAttribute("list", list);
+		model.addAttribute("page", current_page);
+		model.addAttribute("dataCount", total_page);
+		model.addAttribute("paging", paging);
+		return ".admin.list.seller";
+	}
+   
+   
    
 }

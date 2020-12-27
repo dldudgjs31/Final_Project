@@ -134,14 +134,25 @@ public class SellerServiceImpl implements SellerService {
 
 	@Override
 	public int dataCount(Map<String, Object> map) {
-		// TODO Auto-generated method stub
-		return 0;
+		int result=0;
+		try {
+			result=dao.selectOne("list.dataCountSeller", map);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return result;
 	}
 
 	@Override
 	public List<Seller> listSeller(Map<String, Object> map) {
-		// TODO Auto-generated method stub
-		return null;
+		List<Seller> list=null;
+		
+		try {
+			list=dao.selectList("list.listSeller", map);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return list;
 	}
 
 }

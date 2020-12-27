@@ -125,9 +125,6 @@ public class ListController {
 			return ".admin.list.seller";
 		}
 
-		
-		
-
 		  @RequestMapping("deleteSeller")
 		   public String deleteSeller(
 		         @RequestParam String sellerId,
@@ -139,6 +136,44 @@ public class ListController {
 		         throw e;
 		      }
 		      return "redirect:/admin/list/seller?page="+page;
+		   }
+		  
+		  @RequestMapping("authSeller")
+		   public String authSeller(
+		         @RequestParam String sellerId,
+		         @RequestParam int allow,		         
+		         @RequestParam String page
+		         ) throws Exception{
+		      try {
+		    	  Map<String, Object> map = new HashMap<String, Object>();
+		    	  map.put("sellerId", sellerId);
+		    	  allow = allow==0?1:0;
+		    	  map.put("allow", allow);
+		    	  
+		          service.updateSeller(map);
+		      } catch (Exception e) {
+		         throw e;
+		      }
+		      return "redirect:/admin/list/seller?page="+page;
+		   }
+		  
+		  @RequestMapping("authMember")
+		   public String authMember(
+		         @RequestParam String userId,
+		         @RequestParam int allow,		         
+		         @RequestParam String page
+		         ) throws Exception{
+		      try {
+		    	  Map<String, Object> map = new HashMap<String, Object>();
+		    	  map.put("userId", userId);
+		    	  allow = allow==0?1:0;
+		    	  map.put("allow", allow);
+		    	  
+		          service.updateSeller(map);
+		      } catch (Exception e) {
+		         throw e;
+		      }
+		      return "redirect:/admin/list/member?page="+page;
 		   }
 }
 

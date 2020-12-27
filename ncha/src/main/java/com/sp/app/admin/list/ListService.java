@@ -11,12 +11,14 @@ public interface ListService {
 	public List<Member> listMember(Map<String, Object> map);
 	public List<Member> listMember();
 	public Member readMember(String userId);
+	public void updateMember(Map<String, Object> map) throws Exception;
 	public void deleteMember(String userId) throws Exception;
 
 	public int dataCountSeller(Map<String, Object> map);
 	public List<Seller> listSeller(Map<String, Object> map);
 	public List<Seller> listSeller();
 	public Seller readSeller(String sellerId);
+	public void updateSeller(Map<String, Object> map) throws Exception;
 	public void deleteSeller(String sellerId) throws Exception;
 
 }

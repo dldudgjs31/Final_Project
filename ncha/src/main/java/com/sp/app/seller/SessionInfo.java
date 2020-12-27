@@ -4,7 +4,14 @@ package com.sp.app.seller;
 public class SessionInfo {
 	private String sellerId;
 	private String sellerName;
+	private int allow;
 	
+	public int getAllow() {
+		return allow;
+	}
+	public void setAllow(int allow) {
+		this.allow = allow;
+	}
 	public String getSellerName() {
 		return sellerName;
 	}

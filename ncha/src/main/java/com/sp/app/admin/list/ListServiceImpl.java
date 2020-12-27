@@ -124,5 +124,23 @@ public class ListServiceImpl implements ListService {
 		
 	}
 
-	
+	@Override
+	public void updateSeller(Map<String, Object> map) throws Exception {
+		
+		try {
+			dao.updateData("list.updateSeller", map);	
+		} catch (Exception e) {
+			throw e;
+		}
+	}
+
+	@Override
+	public void updateMember(Map<String, Object> map) throws Exception {
+		try {
+			dao.updateData("list.updateMember", map);	
+		} catch (Exception e) {
+			throw e;
+		}		
+	}
+
 }

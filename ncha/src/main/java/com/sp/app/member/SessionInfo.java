@@ -7,7 +7,14 @@ public class SessionInfo {
 	private String userName;
 	private int memberLevel;
 
+	private int allow;
 	
+	public int getAllow() {
+		return allow;
+	}
+	public void setAllow(int allow) {
+		this.allow = allow;
+	}
 
 	public long getMemberIdx() {
 		return memberIdx;

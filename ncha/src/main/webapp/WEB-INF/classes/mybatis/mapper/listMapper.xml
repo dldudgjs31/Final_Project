@@ -10,11 +10,15 @@
 	
 	<select id="listMember" parameterType="map" resultType="com.sp.app.member.Member">
 		SELECT userId, userName, 
-		TO_CHAR(birth, 'YYYY-MM-DD') birth, email, tel, zip, addr1
+		TO_CHAR(birth, 'YYYY-MM-DD') birth, email, tel, allow
 		FROM member 
 		OFFSET #{offset} ROWS FETCH FIRST #{rows} ROWS ONLY
 	</select>
-   
+	
+   <update id="updateMember" parameterType="map">
+		UPDATE member SET allow = #{allow} WHERE userId=#{userId}
+	</update>
+	
 	<delete id="deleteMember" parameterType="String">
     	DELETE FROM member WHERE userId=#{userId}
     </delete>
@@ -29,11 +33,13 @@
 		FROM seller
 		OFFSET #{offset} ROWS FETCH FIRST #{rows} ROWS ONLY
 	</select>
+	
+	<update id="updateSeller" parameterType="map">
+		UPDATE seller SET allow = #{allow} WHERE sellerId=#{sellerId}
+	</update>
    
 	<delete id="deleteSeller" parameterType="String">
     	DELETE FROM seller WHERE sellerId=#{sellerId}
-    </delete>
- 
-	
+    </delete>	
     
 </mapper>
