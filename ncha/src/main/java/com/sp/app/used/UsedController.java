@@ -1,6 +1,7 @@
 package com.sp.app.used;
 
 import java.io.File;
+import java.math.BigDecimal;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.util.HashMap;
@@ -91,7 +92,7 @@ public class UsedController {
 		String articleUrl=cp+"/used/article?page="+current_page;
 		
 		if(keyword.length()!=0) {
-			query="categoryNum="+categoryNum+"&keyword="+URLEncoder.encode(keyword, "utf-8");
+			query += "&categoryNum="+categoryNum+"&keyword="+URLEncoder.encode(keyword, "utf-8");
 		}
 		
 		
@@ -191,7 +192,7 @@ public class UsedController {
 		
 		//파일
 		List<Used> imageList = service.imageList(usedNum);
-		int likeCount = service.usedLikeCount(usedNum);
+		int usedLikeCount = service.usedLikeCount(usedNum);
 		
 		model.addAttribute("dto",dto);
 		model.addAttribute("preReadDto",preReadDto);
@@ -199,7 +200,7 @@ public class UsedController {
 		model.addAttribute("imageList",imageList);
 		model.addAttribute("page",page);
 		model.addAttribute("query",query);
-		model.addAttribute("likeCount",likeCount);
+		model.addAttribute("usedLikeCount",usedLikeCount);
 		
 		
 		return ".ncha_bbs.used.article";
@@ -308,31 +309,162 @@ public class UsedController {
 	}
 	
 	//중고게시글 좋아요 추가 : AJAX-JSON
-	@RequestMapping(value="insertUsedLike",method =RequestMethod.POST)
+	@RequestMapping(value="insertUsedLike",method=RequestMethod.POST)
 	@ResponseBody
 	public Map<String, Object> insertUsedLike(
 			@RequestParam int usedNum,
 			HttpSession session){
 		
+	
 		String state = "true";
 		int usedLikeCount = 0;
 		SessionInfo info = (SessionInfo)session.getAttribute("member");
-		
+	
 		Map<String, Object> paramMap = new HashMap<>();
 		paramMap.put("usedNum",usedNum);
 		paramMap.put("userId", info.getUserId());
-		System.out.println(usedNum+" "+info.getUserId());
+		
 		try {
 			service.insertUsedLike(paramMap);
 		} catch (Exception e) {
 			state="false";
 		}
 		
+		System.out.println(usedLikeCount);
 		usedLikeCount = service.usedLikeCount(usedNum);
 		
 		Map<String, Object> model = new HashMap<>();
 		model.put("state", state);
 		model.put("usedLikeCount", usedLikeCount);
+		
+		return model;
+	}
+	
+	//댓글 CRUD
+	//AJAX-JSON : 댓글 및 답글 등록
+	@RequestMapping(value="insertReply" , method=RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> insertReply(
+			Reply reply,
+			HttpSession session ){
+	
+		SessionInfo info = (SessionInfo)session.getAttribute("member");
+		String state = "true";
+		
+		try {
+			reply.setUserId(info.getUserId());
+			service.insertReply(reply);
+		} catch (Exception e) {
+			state = "false";
+		}
+		
+		Map<String, Object> model = new HashMap<>();
+		model.put("state", state);
+		return model;
+	}
+	
+	//AJAX-JSON : 댓글 및 답글 삭제
+	@RequestMapping(value="deleteReply", method = RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> deleteReply(
+			@RequestParam Map<String, Object> paramMap){
+		String state = "true";
+		try {
+			service.deleteReply(paramMap);
+		} catch (Exception e) {
+			state = "false";
+		}
+		
+		Map<String,Object> model = new HashMap<>();
+		model.put("state",state);
+		
+		return model;
+	}
+	
+	@RequestMapping(value="listReply")
+	public String listReply(
+			@RequestParam int usedNum,
+			@RequestParam(value ="page", defaultValue = "1")int current_page,
+			Model model
+			) throws Exception {
+		
+		int rows = 5;
+		int total_page = 0;
+		int replyCount = 0;
+
+		Map<String, Object>map = new HashMap<>();
+		map.put("usedNum", usedNum);
+		
+		replyCount = service.replyCount(map);
+		total_page = myUtil.pageCount(rows, replyCount);
+		if(current_page > total_page) {
+			current_page = total_page;
+		}
+		
+		int offset = (current_page-1) * rows;
+		if(offset < 0) offset = 0; //현재페이지가 0일때
+		map.put("offset",offset);
+		map.put("rows",rows);
+		
+		List<Reply>listReply = service.listReply(map);
+		
+		for(Reply reply : listReply) {
+			reply.setContent(reply.getContent().replaceAll("\n", "<br>"));
+		}
+		
+		String paging = myUtil.pagingMethod(current_page, total_page,"listPage");
+		
+		model.addAttribute("listReply",listReply);
+		model.addAttribute("page",current_page);
+		model.addAttribute("replyCount",replyCount);
+		model.addAttribute("total_page",total_page);
+		model.addAttribute("paging",paging);
+		
+		return "ncha_bbs/used/listReply";
+	}
+	
+	//댓글 좋아요
+	@RequestMapping(value="insertReplyLike", method = RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> insertReplyLike(
+		@RequestParam Map<String, Object>map,
+		HttpSession session){
+		
+		String state= "true";
+		SessionInfo info = (SessionInfo)session.getAttribute("member");
+		
+		try {
+			map.put("userId",info.getUserId());
+			service.insertReplyLike(map);
+		} catch (Exception e) {
+			state = "false";
+		}
+		
+		Map<String, Object> count = service.replyLikecount(map);
+		
+		//마이바티스의 resultType이  map인경우, int는 BigDecimal로 넘어옴
+		int likeCount = ((BigDecimal)count.get("LIKECOUNT")).intValue();
+		
+		Map<String, Object> model = new HashMap<>();
+		model.put("likeCount",likeCount);
+		model.put("state",state);
+		
+		return model;
+	}
+	
+	@RequestMapping(value = "countReplyLike", method = RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> countReplyLike(
+			@RequestParam Map<String, Object> map,
+			HttpSession session
+			){
+		
+		Map<String, Object> count = service.replyLikecount(map);
+		
+		int likeCount = ((BigDecimal)count.get("LIKECOUNT")).intValue();
+		
+		Map<String, Object> model = new HashMap<>();
+		model.put("likeCount", likeCount);
 		
 		return model;
 	}

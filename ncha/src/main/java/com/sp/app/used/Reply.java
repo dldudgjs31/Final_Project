@@ -14,6 +14,7 @@ public class Reply {
 	//카운트
 	private int answerCount; // 댓글
 	private int likeCount;   // 좋아요
+	
 	public int getUsed_reviewNum() {
 		return used_reviewNum;
 	}

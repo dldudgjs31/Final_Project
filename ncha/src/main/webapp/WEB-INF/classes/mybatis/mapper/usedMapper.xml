@@ -3,10 +3,13 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="used">
 	
+	<!-- 시퀀스 -->
 	<select id="used_seq" resultType="Integer">
 		SELECT used_seq.NEXTVAL FROM dual
 	</select>
+
 	
+	<!-- 게시글 CRUD -->
 	<!-- 글삽입 -->
 	<insert id="insertUsed" parameterType="com.sp.app.used.Used">
 		INSERT INTO used_bbs(usedNum, userId, subject, content, hitCount, created_date, price, productCondition, dealingMode, location, sold_check, categoryNum)
@@ -14,47 +17,37 @@
 				#{price}, #{productCondition}, #{dealingMode}, #{location}, 0, #{categoryNum})
 	</insert>
 	
-	<!-- 데이터개수  -->
-	<select id="dataCount" parameterType="map" resultType="Integer">
-		SELECT NVL(COUNT(*), 0)
-		FROM used_bbs u
-		JOIN member m ON u.userId=m.userId
-		<where>
-			<if test="categoryNum != null and categoryNum!=''">
-				u.categoryNum = #{categoryNum}
-			</if>
-			<if test="keyword != null and keyword!=''">
-				AND INSTR(content, #{keyword}) &gt;= 1 
-			</if>
-		</where>
-	</select>
-	
 	<!-- 글수정 -->
 	<update id="updateUsed" parameterType="com.sp.app.used.Used">
-		UPDATE used_bbs u SET subject=#{subject}, content=#{content}, categoryNum = #{categoryNum},sold_check=#{sold_check}, 
-		price=#{price}, productCondition=#{productCondition}, dealingMode=#{dealingMode}, location=#{location}, usedNum=#{usedNum}
-		WHERE usedNum = #{usedNum}
+		UPDATE used_bbs u SET subject=#{subject}, content=#{content}, categoryNum=#{categoryNum}, sold_check=#{sold_check}, 
+		price=#{price}, productCondition=#{productCondition}, dealingMode=#{dealingMode}, location=#{location}
+		WHERE usedNum = #{usedNum} 
 	</update>
-	
 	
 	<!-- 글 삭제 -->
 	<delete id="deleteUsed" parameterType="Integer">
-		DELETE FROM used_bbs WHERE usedNum = #{usedNum}
+		DELETE FROM used_bbs WHERE usedNum = #{usedNum} 
 	</delete>
 	
-	
-	<!-- 글 수정할때, 파일 수정할경우 선택한 파일지움 -->
-	<delete id="deleteimage" parameterType="map">
-		DELETE FROM used_image WHERE ${field} = #{used_imageFileNum}
-	</delete>
-	
-	
-	<!-- 모든 이미지 삭제 -->
-	<delete id="deleteAllImage" parameterType="map">
-		DELETE FROM used_image WHERE ${field} = #{usedNum}
-	</delete>
-	
-	
+	<!-- 글읽기 -->
+	<select id="readUsed" parameterType="Integer" resultType="com.sp.app.used.Used">
+		SELECT u.usedNum, u.userId, userName, price, productCondition, dealingMode, location,
+			subject,content,TO_CHAR(created_date,'YYYY-MM-DD') created_date, sold_check, u.categoryNum, 
+			c.categoryName, hitCount, NVL(fileCount,0) fileCount, NVL(usedLikeCount, 0) usedLikeCount
+		FROM used_bbs u
+		JOIN member m ON u.userId = m.userId
+		JOIN used_category c ON c.categoryNum = u.categoryNum
+		LEFT OUTER JOIN(
+			SELECT usedNum, COUNT(*) fileCount FROM used_image
+			GROUP BY usedNum
+		) f ON u.usedNum = f.usedNum
+		LEFT OUTER JOIN(
+			SELECT usedNum, COUNT(*) usedLikeCount FROM used_like
+			GROUP BY usedNum
+		) l ON u.usedNum = l.usedNum
+		WHERE u.usedNum = #{usedNum}
+	</select>
+		
 	<!-- 리스트 -->
 	<select id="listUsed" parameterType="map" resultType="com.sp.app.used.Used">
 		SELECT u.usedNum, u.userId, userName,c.categoryName, subject, sold_check, hitCount, TO_CHAR(created_date,'YYYY-MM-DD')created_date, u.categoryNum
@@ -70,6 +63,25 @@
 			</if>
 		</where>
 		ORDER BY u.usedNum DESC
+		OFFSET #{offset} ROWS FETCH FIRST #{rows} ROWS ONLY
+	</select>
+	
+	
+	
+	<!-- 게시글 관련 -->
+	<!-- 데이터개수  -->
+	<select id="dataCount" parameterType="map" resultType="Integer">
+		SELECT NVL(COUNT(*), 0)
+		FROM used_bbs u
+		JOIN member m ON u.userId=m.userId
+		<where>
+			<if test="categoryNum != null and categoryNum!=''">
+				u.categoryNum = #{categoryNum}
+			</if>
+			<if test="keyword != null and keyword!=''">
+				AND INSTR(content, #{keyword}) &gt;= 1 
+			</if>
+		</where>
 	</select>
 	
 	<!-- 조회수 증가 -->
@@ -108,20 +120,31 @@
 		FETCH FIRST 1 ROWS ONLY
     </select>
 	
-	<select id="readUsed" parameterType="Integer" resultType="com.sp.app.used.Used">
-		SELECT u.usedNum, u.userId, userName, price, productCondition, dealingMode, location,
-			subject,content,TO_CHAR(created_date,'YYYY-MM-DD') created_date, sold_check, u.categoryNum, c.categoryName, hitCount, NVL(fileCount,0) fileCount
-		FROM used_bbs u
-		JOIN member m ON u.userId = m.userId
-		JOIN used_category c ON c.categoryNum = u.categoryNum
-		LEFT OUTER JOIN(
-			SELECT usedNum, COUNT(*) fileCount FROM used_image
-			GROUP BY usedNum
-		) f ON u.usedNum = f.usedNum
-		WHERE u.usedNum = #{usedNum}
+	<!-- 중고글 좋아요 추가 및 카운트 -->
+	<insert id="insertUsedLike" parameterType="map">
+		INSERT INTO used_like(usedNum,userId) VALUES (#{usedNum},#{userId})
+	</insert>
+	
+	<select id="usedLikeCount" parameterType="Integer" resultType="Integer">
+		SELECT COUNT(*) FROM used_like WHERE usedNum = #{usedNum}
 	</select>
 	
-	<!-- 이미지 관련 -->
+	
+	
+	
+	<!-- 이미지 CRUD -->
+	<!-- 글 수정할때, 파일 수정할경우 선택한 파일지움 -->
+	<delete id="deleteimage" parameterType="map">
+		DELETE FROM used_image WHERE ${field} = #{used_imageFileNum}
+	</delete>
+	
+	
+	<!-- 모든 이미지 삭제 -->
+	<delete id="deleteAllImage" parameterType="map">
+		DELETE FROM used_image WHERE ${field} = #{usedNum}
+	</delete>
+	
+	<!-- 이미지 삽입 -->
 	<insert id="insertImage" parameterType="com.sp.app.used.Used">
 		INSERT INTO used_image(used_imageFileNum, imageFilename, usedNum) VALUES
 				(usedfile_seq.NEXTVAL, #{imageFilename}, #{usedNum})
@@ -134,11 +157,15 @@
 		WHERE used_imageFileNum = #{used_imageFileNum}
 	</select>
 	
+	<!-- 이미지 리스트 -->
 	<select id="imageList" parameterType="Integer" resultType="com.sp.app.used.Used">
 		SELECT used_imageFileNum, imageFilename, usedNum
 		FROM used_image
 		WHERE usedNum=#{usedNum}    
 	</select>
+	
+	
+	
 	
 	<!-- 마이페이지  -->
 	<select id="listUsed_mypage" parameterType="map" resultType="com.sp.app.used.Used">
@@ -163,12 +190,75 @@
 	</select>
 	
 	
-	<!-- 중고글 좋아요 추가 및 카운트 -->
-	<insert id="insertUsedLike" parameterType="map">
-		INSERT INTO used_like(usedNum,userId) VALUES (#{usedNum},#{userId})
+	
+	
+	<!-- 댓글 CRUD 구현 -->
+	<!-- 댓글 등록 -->
+	<insert id="insertReply" parameterType="com.sp.app.used.Reply">
+		INSERT INTO used_reply(used_reviewNum, created_date, content,usedNum, userId, answer) 
+		VALUES (usedReview_seq.NEXTVAL,SYSDATE,#{content}, #{usedNum}, #{userId}, #{answer})
 	</insert>
 	
-	<select id="usedLikeCount" parameterType="Integer" resultType="Integer">
-		SELECT COUNT(*) FROM used_like WHERE usedNum = #{usedNum}
+	<!-- 댓글 수정. 댓글번호가 같고, 아이디가 같을때 수정! 대댓이면 대댓의 부모값도 같아야하게 만듦 -->
+	<update id="updateReply" parameterType="map">
+		UPDATE used_list SET content=#{content} 
+		WHERE used_reviewNum = #{used_reviewNum} 
+			<if test="mode=='reply'">
+				OR answer=#{used_reviewNum}
+			</if>
+	</update>
+	
+	<!-- 댓글 삭제 -->
+	<delete id="deleteReply" parameterType="map">
+		DELETE FROM used_reply 
+		WHERE used_reviewNum = #{used_reviewNum}
+		<if test="mode=='reply'">
+			OR answer = #{used_reviewNum}
+		</if>
+	</delete>
+	
+	
+	<!-- 댓글관련 -->
+	<!-- 댓글 갯수 -->
+	<select id="replyCount" parameterType="map" resultType="Integer">
+		SELECT NVL(COUNT(*), 0) FROM used_reply
+		WHERE usedNum = #{usedNum} AND answer = 0
+ 	</select>
+	
+	<!-- 댓글 리스트, 대댓글 갯수 -->
+	<select id="listReply" parameterType="map" resultType="com.sp.app.used.Reply">
+		SELECT r.used_reviewNum, r.userId ,userName, r.usedNum, r.content, r.created_date,
+		NVL(answerCount,0) answerCount,
+		NVL(likeCount,0) likeCount
+		FROM used_reply r
+		JOIN member m ON r.userId = m.userId
+		LEFT OUTER JOIN(
+			SELECT answer, COUNT(*) answerCount
+			FROM used_reply 
+			WHERE answer!=0 
+			GROUP BY answer
+		) a ON r.used_reviewNum = a.answer
+		LEFT OUTER JOIN (
+			SELECT usedReplyNum, COUNT(*) likeCount
+			FROM usedReplyLike  
+			GROUP BY usedReplyNum
+		) ON usedReplyNum = r.used_reviewNum
+		WHERE usedNum = #{usedNum} AND r.answer = 0
+		ORDER BY r.used_reviewNum DESC
+		OFFSET #{offset} ROWS FETCH FIRST #{rows} ROWS ONLY
+	</select>
+	
+	<!-- 댓글 좋아요 추가 -->
+	<insert id="insertReplyLike" parameterType="map">
+		INSERT INTO usedReplyLike(usedReplyNum, userId)
+			VALUES (#{used_reviewNum},#{userId})
+	</insert>
+	
+	<!-- 댓글 좋아요 카운트 -->
+	<!-- DECODE(컬럼,조건1,결과1...) -->
+	<select id="replyLikeCount" parameterType="map" resultType="map">
+		SELECT COUNT(*) likeCount
+		FROM usedReplyLike 
+		WHERE usedReplyNum = #{used_reviewNum}
 	</select>
 </mapper>

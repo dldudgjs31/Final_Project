@@ -71,7 +71,7 @@ function ajaxJSON(url, method, query, fn){
 	});
 }
 
-function ajaxHTMl(url, method, query, selector){
+function ajaxHTML(url, method, query, selector){
 	$.ajax({
 		type: method,
 		url : url,
@@ -116,109 +116,224 @@ $(function(){
 	});
 });
 
+
+//댓글 페이징처리
+$(function(){
+	listPage(1);
+});
+
+function listPage(page){
+	var url = "${pageContext.request.contextPath}/used/listReply";
+	var query = "usedNum=${dto.usedNum}&page="+page;
+	var selector = "#listReply";
+	
+	ajaxHTML(url,"get",query,selector);
+}
+
+//댓글 등록
+$(function(){
+	$(".btnSendReply").click(function(){
+		var usedNum = "${dto.usedNum}";
+		var $tb = $(this).closest("table");
+		var content =$tb.find("textarea").val().trim();
+		if(! content){
+			$tb.find("textarea").focus();
+			return false;
+		}
+		content = encodeURIComponent(content);
+		
+		var url = "${pageContext.request.contextPath}/used/insertReply";
+		var query = "usedNum="+usedNum+"&content="+content+"&answer=0";
+		
+		var fn = function(data){
+			$tb.find("textarea").val("");
+			
+			var state = data.state;
+			if(state==="true"){
+				listPage(1);
+			} else if(state==="false"){
+				alert("댓글을 추가하지 못했습니다.");
+			}
+		};
+		
+		ajaxJSON(url,"post",query,fn);
+	});
+});
+
+//댓글 삭제
+$(function(){
+	$("body").on("click",".deleteReply",function(){
+		if(! confirm("댓글을 삭제하시겠습니까?")){
+			return false;
+		}
+		
+		var used_reviewNum = $(this).attr("data-used_reviewNum");
+		var page = $(this).attr("data-page");
+		
+		var url = "${pageContext.request.contextPath}/used/deleteReply";
+		var query="used_reviewNum="+used_reviewNum+"&mode=reply";
+		
+		var fn = function(data){
+			listPage(page);
+		};
+		
+		ajaxJSON(url,"post",query,fn);
+	});
+});
+
+//댓글 좋아요 등록
+$(function(){
+	$("body").on("click",".btnSendReplyLike",function(){
+		var used_reviewNum= $(this).attr("data-used_reviewNum");
+		var replyLike = $(this).attr("data-replyLike");
+	
+		var msg = "댓글을 좋아요 하시겠습니까?";
+		if(replyLike === 1){
+			msg = "댓글을 좋아요 하시겠습니까?";
+		}
+		if(! confirm(msg)){
+			return false;
+		}
+		
+		var url = "${pageContext.request.contextPath}/used/insertReplyLike";
+		var query = "used_reviewNum="+used_reviewNum+"&replyLike="+replyLike;
+		
+		var fn = function(data){
+			var state = data.state;
+			if(state==="true"){
+				var likeCount = data.likeCount;
+				$("#usedReplyLikeCount").text(likeCount);
+			}else if(state==="false"){
+				alert("좋아요는 한번만 가능합니다.");
+			}
+		};
+		ajaxJSON(url,"post",query,fn);
+	});
+});
 </script>
 
 <div class="body-container" style="width: 700px;">
-
-	<table style="width: 100%; margin: 20px auto 0px; border-spacing: 0px; border-collapse: collapse;">
-		<tr height="35" style="border-bottom: 1px solid #cccccc;">
-		    <td width="50%" align="center" style="padding-left: 50px;">
-		      ${dto.subject}
-		    </td>
-		    <td width="50%" align="right" style="padding-right: 5px;">
-		        ${dto.created_date} | 조회 ${dto.hitCount}
-		    </td>
-		</tr>
-	</table>
 	
-	<div id="slick-items" style="padding:10px 10px;">
-		<c:forEach var="vo" items="${imageList}">
-			<c:if test="${vo.usedNum == dto.usedNum}">
-        		<div  class="slider-image" style="background-image: url('${pageContext.request.contextPath}/uploads/used/${vo.imageFilename}');"></div>
-			</c:if>  
-		</c:forEach>
-    </div>
-    
-	<table style="width: 100%; margin: 20px auto 0px; border-spacing: 0px; border-collapse: collapse;">	
-		<tr style="border-bottom: 1px solid #cccccc;">
-			<td align="center" class="btnSendUsedLike">
-				<img alt="좋아요버튼" src="${pageContext.request.contextPath}/resources/images/heart.png" style="height: 25px; width: 25px">
-				<span id="usedLikeCount">${dto.usedLikeCount}</span>
-			</td>
-		</tr>
-		<tr style="border-bottom: 1px solid #cccccc;">
-		  <td colspan="2" align="left" style="padding-left: 5px;">
-		     카테고리 :${dto.categoryName}  
-		  </td>
-		</tr>
-		<tr style="border-bottom: 1px solid #cccccc;">
-		  <td colspan="2" align="left" style="padding-left: 5px;">
-		     가격 : ￦ ${dto.price}  
-		  </td>
-		</tr>
-		<tr style="border-bottom: 1px solid #cccccc;">
-		  <td colspan="2" align="left" style="padding-left: 5px;">
-		     상품상태 : ${dto.productCondition}  
-		  </td>
-		</tr>
-		<tr style="border-bottom: 1px solid #cccccc;">
-		 <td colspan="2" align="left" style="padding-left: 5px;">
-		     결제방법 : ${dto.dealingMode}  
-		  </td>
-		</tr>
-		<tr style="border-bottom: 1px solid #cccccc;">
-		  <td colspan="2" align="left" style="padding-left: 5px;">
-		     거래지역 : ${dto.location}  
-		  </td>
-		</tr>
+	<div>
+		<table style="width: 100%; margin: 20px auto 0px; border-spacing: 0px; border-collapse: collapse;">
+			<tr height="35" style="border-bottom: 1px solid #cccccc;">
+			    <td width="50%" align="center" style="padding-left: 50px;">
+			      ${dto.subject}
+			    </td>
+			    <td width="50%" align="right" style="padding-right: 5px;">
+			        ${dto.created_date} | 조회 ${dto.hitCount}
+			    </td>
+			</tr>
+		</table>
 		
-		<tr height="100" style="border-bottom: 1px solid #cccccc;">
-		  <td colspan="2" align="left" style="padding: 10px 5px;" valign="top" >
-		      ${dto.content}
-		   </td>
-		</tr>
-		
-		
-		<tr height="30" style="border-bottom: 1px solid #cccccc;">
-		    <td colspan="2" align="left" style="padding-left: 5px;">
-		       이전글 :
-		        <c:if test="${not empty preReadDto}">
-		            <a href="${pageContext.request.contextPath}/used/article?${query}&usedNum=${preReadDto.usedNum}">${preReadDto.subject}</a>
+		<div id="slick-items" style="padding:10px 10px;">
+			<c:forEach var="vo" items="${imageList}">
+				<c:if test="${vo.usedNum == dto.usedNum}">
+	        		<div  class="slider-image" style="background-image: url('${pageContext.request.contextPath}/uploads/used/${vo.imageFilename}');"></div>
+				</c:if>  
+			</c:forEach>
+	    </div>
+	    
+		<table style="width: 100%; margin: 20px auto 0px; border-spacing: 0px; border-collapse: collapse;">	
+			<tr style="border-bottom: 1px solid #cccccc;">
+				<td align="center" class="btnSendUsedLike">
+					<img alt="좋아요버튼" src="${pageContext.request.contextPath}/resources/images/heart.png" style="height: 25px; width: 25px">
+					<span id="usedLikeCount">${usedLikeCount}</span>
+				</td>
+			</tr>
+			<tr style="border-bottom: 1px solid #cccccc;">
+			  <td colspan="2" align="left" style="padding-left: 5px;">
+			     카테고리 :${dto.categoryName}  
+			  </td>
+			</tr>
+			<tr style="border-bottom: 1px solid #cccccc;">
+			  <td colspan="2" align="left" style="padding-left: 5px;">
+			     가격 : ￦ ${dto.price}  
+			  </td>
+			</tr>
+			<tr style="border-bottom: 1px solid #cccccc;">
+			  <td colspan="2" align="left" style="padding-left: 5px;">
+			     상품상태 : ${dto.productCondition}  
+			  </td>
+			</tr>
+			<tr style="border-bottom: 1px solid #cccccc;">
+			 <td colspan="2" align="left" style="padding-left: 5px;">
+			     결제방법 : ${dto.dealingMode}  
+			  </td>
+			</tr>
+			<tr style="border-bottom: 1px solid #cccccc;">
+			  <td colspan="2" align="left" style="padding-left: 5px;">
+			     거래지역 : ${dto.location}  
+			  </td>
+			</tr>
+			
+			<tr height="100" style="border-bottom: 1px solid #cccccc;">
+			  <td colspan="2" align="left" style="padding: 10px 5px;" valign="top" >
+			      ${dto.content}
+			   </td>
+			</tr>
+			
+			
+			<tr height="30" style="border-bottom: 1px solid #cccccc;">
+			    <td colspan="2" align="left" style="padding-left: 5px;">
+			       이전글 :
+			        <c:if test="${not empty preReadDto}">
+			            <a href="${pageContext.request.contextPath}/used/article?${query}&usedNum=${preReadDto.usedNum}">${preReadDto.subject}</a>
+			        </c:if>
+			    </td>
+			</tr>
+			
+			<tr height="30" style="border-bottom: 1px solid #cccccc;">
+			    <td colspan="2" align="left" style="padding-left: 5px;">
+			       다음글 :
+			        <c:if test="${not empty nextReadDto}">
+			            <a href="${pageContext.request.contextPath}/used/article?${query}&usedNum=${nextReadDto.usedNum}">${nextReadDto.subject}</a>
+			        </c:if>
+			     </td>
+			</tr>
+		</table>
+	
+	
+		<table style="width: 100%; margin: 0px auto 20px; border-spacing: 0px;">
+			<tr height="45">
+		    <td width="300" align="left">
+		        <c:if test="${sessionScope.member.userId==dto.userId}">
+		            <button type="button" class="btn" onclick="updateForm('${dto.usedNum}','${page}');">수정</button>
+		        </c:if>
+		        <c:if test="${sessionScope.member.userId==dto.userId || sessionScope.member.userId=='admin'}">
+		            <button type="button" class="btn" onclick="deleteBoard('${dto.usedNum}','${page}');">삭제</button>
 		        </c:if>
 		    </td>
-		</tr>
 		
-		<tr height="30" style="border-bottom: 1px solid #cccccc;">
-		    <td colspan="2" align="left" style="padding-left: 5px;">
-		       다음글 :
-		        <c:if test="${not empty nextReadDto}">
-		            <a href="${pageContext.request.contextPath}/used/article?${query}&usedNum=${nextReadDto.usedNum}">${nextReadDto.subject}</a>
-		        </c:if>
-		     </td>
-		</tr>
-</table>
-
-
-<table style="width: 100%; margin: 0px auto 20px; border-spacing: 0px;">
-	<tr height="45">
-    <td width="300" align="left">
-        <c:if test="${sessionScope.member.userId==dto.userId}">
-            <button type="button" class="btn" onclick="updateForm('${dto.usedNum}','${page}');">수정</button>
-        </c:if>
-        <c:if test="${sessionScope.member.userId==dto.userId || sessionScope.member.userId=='admin'}">
-            <button type="button" class="btn" onclick="deleteBoard('${dto.usedNum}','${page}');">삭제</button>
-        </c:if>
-    </td>
-
-    <td align="right">
-        <button type="button" class="btn" onclick="goList(${page});">리스트</button>
-    </td>
-	</tr>
-</table>
+		    <td align="right">
+		        <button type="button" class="btn" onclick="goList('${page}');">리스트</button>
+		    </td>
+			</tr>
+		</table>
+	</div>
+	
+	<div>
+		<table style='width: 100%; margin: 15px auto 0px; border-spacing: 0px;'>
+			<tr height='30'> 
+				 <td align='left' >
+				 	<span style='font-weight: bold;' >댓글쓰기</span><span> - 타인을 비방하거나 개인정보를 유출하는 글의 게시를 삼가 주세요.</span>
+				 </td>
+			</tr>
+			<tr>
+			   	<td style='padding:5px 5px 0px;'>
+					<textarea class='boxTA' style='width:99%; height: 70px;'></textarea>
+			    </td>
+			</tr>
+			<tr>
+			   <td align='right'>
+			        <button type='button' class='btn btnSendReply' style='padding:10px 20px;'>댓글 등록</button>
+			    </td>
+			 </tr>
+		 </table>
+ 		<div id="listReply"></div>
+ 	</div>
+ 	
 </div>
-
-
-
 
 <script type="text/javascript">
 
