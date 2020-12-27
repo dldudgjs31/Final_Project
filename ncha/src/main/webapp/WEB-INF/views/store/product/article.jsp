@@ -64,6 +64,10 @@ function cartOk(num) {
 	if(confirm("상품을 장바구니에 추가하시겠습니까 ?")) {
 		var q = "num=" +${dto.productNum} + "&${query}";
 		var quantity = $("#totalBuyQty").text();
+		if(quantity==0){
+			alert("수량을 선택해주세요.");
+			return;
+		}
 		var url="${pageContext.request.contextPath}/store/customer/cart?"+q+"&quantity="+quantity;
 		location.href=url;
 		alert("상품이 장바구니에 추가되었습니다.");
@@ -115,7 +119,12 @@ $(function(){
 			// qty=$(t).children().children("input[name=quantity]").val();
 			qty=$(t+" input[name=quantity]").val();
 			if(! qty) qty=0;
-			if(qty>=${dto.stock}){
+			if(qty>${dto.stock}){
+				qty=qty-1;
+				$(t+" input[name=quantity]").val(qty);
+				$(t+" .productPrice").text(qty*price);
+				$("#totalBuyQty").text(qty);
+				$("#totalBuyAmt").text(qty*price);
 				alert("재고 초과");
 				return;
 			}
@@ -191,7 +200,7 @@ $(function(){
 		var totalBuyQty = parseInt($("#totalBuyQty").text());
 		var totalBuyAmt = parseInt($("#totalBuyAmt").text());
 
-		if(qty>=${dto.stock}){
+		if(qty>${dto.stock}){
 			return;
 		}
 		qty=qty+1;
@@ -220,21 +229,29 @@ $(function(){
 		$(this).parent().children("input[name=quantity]").val(qty);
 		$(this).parent().next().children(".productPrice").text(productPrice);
 		
-		totalBuyQty=totalBuyQty
-		;
-		totalBuyAmt=totalBuyAmt;
+		totalBuyQty=totalBuyQty-1;
+		totalBuyAmt=totalBuyAmt-price;
 		$("#totalBuyQty").text(totalBuyQty);
 		$("#totalBuyAmt").text(totalBuyAmt);
 	});
 });
 $(function(){
 	$("body").on("click",".cancel",function(){
+		var code=$(".buyCancel").attr("data-code");
+		var price=parseInt($(".buyCancel").attr("data-price"));
+		var t="#buyTr"+code;
+		var qty=$(t+" input[name=quantity]").val();
+		if(! qty) qty=0;
+		
+		$(t).remove();
+		
 		$("#totalBuyQty").text(0);
 		$("#totalBuyAmt").text(0);
 	});
 });
 
 function buyOk() {
+	<c:if test="${not empty sessionScope.member.userId || sessionScope.member.userId=='admin'}">
 	var f = document.buyForm;
 	
 	$("input[name=number_sales]").val($("#totalBuyQty").text());
@@ -244,10 +261,21 @@ function buyOk() {
 		alert("재고보다 많은 수량은 구매할 수 없습니다.");
 		return;
 	}
+	if($("#totalBuyQty").text()==0){
+		alert("수량을 선택해주세요.");
+		return;		
+	}
 	
  	f.action = "${pageContext.request.contextPath}/store/customer/main";
 
     f.submit();
+	</c:if>
+
+	<c:if test="${empty sessionScope.member.userId && sessionScope.member.userId!='admin'}">
+		alert("구매를 하려면 로그인을 해야합니다");
+		return;
+	</c:if>
+    
 }
 </script>
 <!-- Page Content -->
@@ -276,15 +304,10 @@ function buyOk() {
 			<p>세일가 : <fmt:formatNumber  type="currency"  value="${dto.price - dto.discount_rate}"/>원</p>
 			<button type="button" class="buyAdd btn btn-primary" data-code="100" data-price="${dto.price-dto.discount_rate}"><i class="fas fa-plus-square"></i>&nbsp;리스트 추가</button>
 	
-			<button type="button" class="btn btn-primary" onclick="cartOk(${dto.productNum});"><i class="fas fa-cart-plus"></i></button>
-			<br><br>
+			<button type="button" class="btn btn-primary" onclick="cartOk(${dto.productNum});"><i class="fas fa-cart-plus"></i></button><Br>
+			<small class="text-danger"><Br>${message}</small>
 			<form name="buyForm" method="post">
 		    <table class="table" style="width: 100%; border-spacing: 0px; border-collapse: collapse; ">
-		        <thead>
-			    	<tr height="40" style="border-bottom: 1px solid #cccccc;">
-			    		<td colspan="3"><span style="font-weight: 700; padding-left: 10px;">| 구매 리스트</span></td>
-			    	</tr>
-		    	</thead>
 		    	<tbody id="buyList">
 		    	</tbody>
 		    	<tfoot>

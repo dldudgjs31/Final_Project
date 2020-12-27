@@ -34,7 +34,7 @@
 </update>
 
 <select id="readCart" parameterType="map" resultType="com.sp.app.customer.Customer">
-		SELECT productName, price, discount_rate, quantity,((price-discount_rate)*quantity) total_sales, imageFilename
+		SELECT productName, price, discount_rate, quantity,((price-discount_rate)*quantity) total_sales, imageFilename, cartNum
 		FROM store_cart c
 		LEFT OUTER JOIN product_bbs b ON c.productNum=b.productNum
 		LEFT OUTER JOIN (
@@ -43,5 +43,19 @@
 			) WHERE rank = 1
 		) i ON c.productNum= i.productNum
 		WHERE c.userId=#{userId}
+		ORDER BY c.cartnum ASC
+</select>
+
+<delete id="deleteCart" parameterType="Integer">
+	DELETE FROM store_cart WHERE cartNum = #{cartNum}
+</delete>
+
+<select id="readStock" parameterType="Integer" resultType="Integer">
+	SELECT stock FROM product_bbs WHERE productNum = #{productNum}
+</select>
+<select id="readCartQuantity" parameterType="com.sp.app.customer.Customer" resultType="Integer">
+	SELECT sum(quantity) sum 
+	FROM store_cart 
+	WHERE productNum = #{productNum} AND userId = #{userId}
 </select>
 </mapper>

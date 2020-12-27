@@ -12,6 +12,8 @@ public class Customer {
 	//주문 정보
 	private int quantity;
 	private String userId;
+	private int cartNum;
+
 	//샐러 정보
 	private String SellerId;
 	private int stock;
@@ -22,7 +24,12 @@ public class Customer {
 	private String productName;
 	private String imageFilename;
 	private int number_sales;
-	
+	public int getCartNum() {
+		return cartNum;
+	}
+	public void setCartNum(int cartNum) {
+		this.cartNum = cartNum;
+	}
 	public String getUserId() {
 		return userId;
 	}

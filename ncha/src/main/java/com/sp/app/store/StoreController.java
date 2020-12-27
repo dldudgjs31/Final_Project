@@ -45,7 +45,7 @@ public class StoreController {
 			@RequestParam(defaultValue = "all") String condition, @RequestParam(defaultValue = "") String keyword,
 			HttpServletRequest req, Model model) throws Exception {
 
-		int rows = 10;
+		int rows = 9;
 		int total_page = 0;
 		int dataCount = 0;
 
@@ -145,8 +145,10 @@ public class StoreController {
 			@RequestParam String page,
 			@RequestParam(defaultValue = "all") String condition, 
 			@RequestParam(defaultValue = "") String keyword,
+			@RequestParam(defaultValue = "") String message,
 			Model model) throws Exception {
 		keyword = URLDecoder.decode(keyword, "utf-8");
+		message = URLDecoder.decode(message, "utf-8");
 
 		String query = "page=" + page;
 		if (keyword.length() != 0) {
@@ -170,6 +172,9 @@ public class StoreController {
 		Store preReadDto = service.preReadProduct(map);
 		Store nextReadDto = service.nextReadProduct(map);
 
+		if(message.length()!=0) {
+			model.addAttribute("message", message);			
+		}
 		model.addAttribute("dto", dto);
 		model.addAttribute("list1", list1);
 		model.addAttribute("listFile", listFile);

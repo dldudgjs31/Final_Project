@@ -1,6 +1,7 @@
 package com.sp.app.customer;
 
 import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -68,7 +69,7 @@ public class CustomerController {
 	@RequestMapping("cart")
 	public String cart(Customer dto, @RequestParam String page, @RequestParam int quantity, @RequestParam int num,
 			@RequestParam(defaultValue = "all") String condition, @RequestParam(defaultValue = "") String keyword,
-			HttpSession session) throws Exception {
+			HttpSession session, Model model) throws Exception {
 		SessionInfo info = (SessionInfo) session.getAttribute("member");
 
 		keyword = URLDecoder.decode(keyword, "utf-8");
@@ -82,6 +83,11 @@ public class CustomerController {
 			dto.setProductNum(num);
 			dto.setUserId(info.getUserId());
 			dto.setQuantity(quantity);
+			int stock =service2.readStock(num);
+			int total_quantity = service2.readCartQuantity(dto);
+			if(total_quantity+quantity>stock) {
+				return "redirect:/store/article?page=" + page + "&num=" + num+"&message="+URLEncoder.encode("재고량보다 많은 수량은 담을 수 없습니다.","utf-8");
+			}
 			service2.insertCart(dto);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -108,5 +114,39 @@ public class CustomerController {
 		
 		model.addAttribute("list",list);
 		return".store.customer.cart";
+	}
+	@GetMapping("cart/delete")
+	public String cartDelete(
+			@RequestParam int num,
+			HttpSession session
+			) throws Exception{
+		
+		try {
+			service2.deleteCart(num);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return"redirect:/store/customer/cartlist";
+	}
+	@GetMapping("cart/order")
+	public String cartOrder(
+			HttpSession session,
+			Customer dto,
+			Model model
+			) throws Exception{
+		
+		SessionInfo info  = (SessionInfo)session.getAttribute("member");
+		
+		Map<String, Object> map = new HashMap<>();
+		map.put("userId", info.getUserId());
+		List<Customer> list =null;
+		try {
+			list=service2.readCart(map);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		model.addAttribute("list",list);
+		return"redirect:/store/customer/cartlist";
 	}
 }

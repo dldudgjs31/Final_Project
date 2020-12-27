@@ -63,9 +63,45 @@ public class CustomerImpl implements CustomerService{
 		try {
 			list = dao.selectList("customer.readCart", map);
 		} catch (Exception e) {
-			
+			e.printStackTrace();
+			throw e;				
 		}
 		return list;
+	}
+
+	@Override
+	public void deleteCart(int cartNum) throws Exception {
+		try {
+			dao.deleteData("customer.deleteCart",cartNum);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;				
+		}
+		
+	}
+
+	@Override
+	public int readStock(int productNum) throws Exception {
+		int stock=0;
+		try {
+			stock = dao.selectOne("customer.readStock", productNum);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
+		return stock;
+	}
+
+	@Override
+	public int readCartQuantity(Customer dto) throws Exception {
+		int quantity=0;
+		try {
+			quantity=dao.selectOne("customer.readCartQuantity", dto);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
+		return quantity;
 	}
 
 
