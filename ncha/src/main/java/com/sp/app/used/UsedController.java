@@ -381,6 +381,7 @@ public class UsedController {
 		return model;
 	}
 	
+	//댓글 리스트 :AJAX-TEXT
 	@RequestMapping(value="listReply")
 	public String listReply(
 			@RequestParam int usedNum,
@@ -465,6 +466,37 @@ public class UsedController {
 		
 		Map<String, Object> model = new HashMap<>();
 		model.put("likeCount", likeCount);
+		
+		return model;
+	}
+	
+	
+	//대댓글 리스트
+	@RequestMapping(value = "listReplyAnswer")
+	public String listReplyAnswer(
+			@RequestParam int answer,
+			Model model) throws Exception{
+
+		List<Reply> listReplyAnswer = service.listReplyAnswer(answer);
+		for(Reply dto : listReplyAnswer) {
+			dto.setContent(dto.getContent().replaceAll("/n","<br>"));
+		}
+		
+		model.addAttribute("listReplyAnswer", listReplyAnswer);
+		return "ncha_bbs/used/listReplyAnswer";
+	}
+	
+	//대댓글 카운트 : AJAX-JSON
+	@RequestMapping(value = "replyAnswerCount")
+	@ResponseBody
+	public Map<String, Object> replyAnswerCount(
+			@RequestParam(value="answer")int answer 
+			) {
+		
+		int count = service.replyAnswerCount(answer);
+		
+		Map<String, Object> model = new HashMap<>();
+		model.put("count",count);
 		
 		return model;
 	}

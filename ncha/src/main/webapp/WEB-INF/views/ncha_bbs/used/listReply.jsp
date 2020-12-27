@@ -57,7 +57,7 @@
 		                 </div>
 		            </div>
 		             <div style='padding: 0px 13px 10px 10px; text-align: right;'>
-		                <button type='button' class='btn btnSendReplyAnswer' data-replyNum='${vo.used_reviewNum}'>답글 등록</button>
+		                <button type='button' class='btn btnSendReplyAnswer' data-used_reviewNum='${vo.used_reviewNum}'>답글 등록</button>
 		            </div>
 		        
 		        </td>

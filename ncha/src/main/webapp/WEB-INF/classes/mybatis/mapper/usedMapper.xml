@@ -255,10 +255,26 @@
 	</insert>
 	
 	<!-- 댓글 좋아요 카운트 -->
-	<!-- DECODE(컬럼,조건1,결과1...) -->
 	<select id="replyLikeCount" parameterType="map" resultType="map">
 		SELECT COUNT(*) likeCount
 		FROM usedReplyLike 
 		WHERE usedReplyNum = #{used_reviewNum}
+	</select>
+	
+	<!-- 대댓글 카운트 -->
+	<select id="replyAnswerCount" parameterType="Integer" resultType="Integer">
+		SELECT NVL(COUNT(*),0) replyAnswerCount
+		
+		FROM used_reply
+		WHERE answer!=0 AND used_reviewNum = #{answer}
+	</select>
+	
+	<!-- 대댓글 리스트 -->
+	<select id="listReplyAnswer" parameterType="Integer" resultType="com.sp.app.used.Reply">
+		SELECT r.used_reviewNum, usedNum, r.userId, userName, content, created_date, answer
+		FROM used_reply r
+		JOIN member m ON r.userId = m.userId
+		WHERE answer = #{answer}
+		ORDER BY used_reviewNum DESC
 	</select>
 </mapper>

@@ -344,13 +344,23 @@ public class UsedServiceImpl implements UsedService {
 	//대댓글 관련 	
 	@Override
 	public int replyAnswerCount(int answer) {
-		// TODO Auto-generated method stub
-		return 0;
+		int result = 0;
+		try {
+			result = dao.selectOne("used.replyAnswerCount",answer);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return result;
 	}
 
 	@Override
 	public List<Reply> listReplyAnswer(int answer) {
-		// TODO Auto-generated method stub
-		return null;
+		List<Reply> list = null;
+		try {
+			list = dao.selectList("used.listReplyAnswer", answer);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return list;
 	}
 }

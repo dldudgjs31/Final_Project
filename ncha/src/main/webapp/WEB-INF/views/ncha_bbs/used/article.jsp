@@ -210,6 +210,113 @@ $(function(){
 		ajaxJSON(url,"post",query,fn);
 	});
 });
+
+//대댓글
+//대댓글 리스트
+function listReplyAnswer(answer){
+	var url = "${pageContext.request.contextPath}/used/listReplyAnswer";
+	var query = "answer="+answer;
+	var selector = "#listReplyAnswer"+answer;
+	
+	ajaxHTML(url,"get", query,selector);
+}
+
+//대댓글 개수
+function replyAnswerCount(answer){
+	var url = "${pageContext.request.contextPath}/used/replyAnswerCount";
+	var query = "answer="+answer;
+	
+	var fn = function(data){
+		var count = data.count;
+		var vid = "#answerCount"+answer;
+		$(vid).html(count);
+	};
+	ajaxJSON(url,"post",query,fn);
+}
+
+//대댓글 버튼(대댓글 등록폼 및 대댓글 리스트)
+$(function(){
+	$("body").on("click",".btnReplyAnswerLayout",function(){
+		var $trReplyAnswer = $(this).closest("tr").next();
+		
+		var isVisible = $trReplyAnswer.is(':visible');
+		var used_reviewNum = $(this).attr("data-used_reviewNum");
+		
+		if(isVisible){
+			$trReplyAnswer.hide();
+		}else{
+			$trReplyAnswer.show();
+			
+			//답글리스트
+			listReplyAnswer(used_reviewNum);
+			
+			//답글 개수
+			replyAnswerCount(used_reviewNum);
+		}
+	});
+});
+
+//대댓글 등록
+//trim 문자열 공백제거 
+$(function(){
+	$("body").on("click",".btnSendReplyAnswer", function(){
+		var usedNum = "${dto.usedNum}";
+		var used_reviewNum = $(this).attr("data-used_reviewNum");
+		var $td = $(this).closest("td");
+		
+		var content = $td.find("textarea").val().trim();
+		if(!content){
+			$td.find("textarea").focus();
+			return false;
+		}
+		content = encodeURIComponent(content);
+		
+		var url = "${pageContext.request.contextPath}/used/insertReply";
+		var query = "usedNum="+usedNum+"&content="+content+"&answer="+used_reviewNum;
+		
+		var fn = function(data){
+			$td.find("textarea").val("");
+			
+			var state = data.state;
+			if(state==="true"){
+				//답글리스트
+				listReplyAnswer(used_reviewNum);
+				
+				//답글 개수
+				replyAnswerCount(used_reviewNum);
+			}
+		};
+		
+		ajaxJSON(url,"post",query,fn);
+	});
+});
+
+
+//대댓글 삭제
+$(function(){
+	$("body").on("click",".deleteReplyAnswer", function(){
+		if(!confirm("댓글을 삭제하시겠습니까?")){
+			return;
+		}
+		
+		var used_reviewNum = $(this).attr("data-used_reviewNum");
+		var answer = $(this).attr("data-answer");
+		
+		var url = "${pageContext.request.contextPath}/used/deleteReply";
+		var query = "used_reviewNum="+used_reviewNum+"&mode=answer";
+		
+		var fn = function(data){
+			//답글리스트
+			listReplyAnswer(answer);
+			
+			//답글 개수
+			replyAnswerCount(answer);
+		};
+		ajaxJSON(url,"post",query,fn);
+	});
+});
+
+
 </script>
 
 <div class="body-container" style="width: 700px;">
