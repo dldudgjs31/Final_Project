@@ -224,6 +224,11 @@ function searchList2() {
 	f2.submit();
 }
 
+function searchList3() {
+	var f3=document.SearchFormFollow;
+	
+	f3.submit();
+}
 function goArticle(dailyNum){
 	location.href ="${articleUrl}&dailyNum="+dailyNum;
 }
@@ -239,7 +244,7 @@ function goArticle(dailyNum){
 					<td align="center">
 						<form name="searchFormKeyword" action="${pageContext.request.contextPath}/daily/list" method="post">
 							<input type="text" name="keyword" value="${keyword}" class="boxTF">
-							<button type="button" class="btn" onclick="searchList2();">검색</button>
+							<button type="button" class="btn" onclick="searchList2();">검색 :${sessionId}</button>
 						</form>
 					</td>
 					<td align="center">
@@ -257,8 +262,12 @@ function goArticle(dailyNum){
 					<td align="left" width="100">
 						<button type="button" class="btn" onclick="javascript:location.href='${pageContext.request.contextPath}/daily/list';">새로고침</button>
 					</td>
+					
 					<td  align="left" width="150">
-						<button type="button" class="btn" onclick="">주변 일상글</button>
+						<form name="SearchFormFollow" method="post">
+							<input type="hidden" name="sessionId" value="${sessionScope.member.userId}"> 
+							<button type="button" class="btn" onclick="searchList3();">주변 일상글</button>
+						</form>
 					</td>
 				</tr>
 </table>
@@ -271,24 +280,22 @@ function goArticle(dailyNum){
  <div class="col-lg-9 mb-4">
         <p class="text-right">  총 게시글 수  : ${dataCount} &nbsp;&nbsp;&nbsp; (${page}/${total_page} 페이지)</p>
       <div class="row">
-      
+    
       <c:forEach var="dto" items="${list}">
       <div class="col-lg-4 col-sm-6 portfolio-item" style="margin-bottom: 10px;">   
         <div class="card h-100">         
-          <a href="${articleUrl}&dailyNum=${dto.dailyNum}" >
-	          		<img class="card-img-top" src="${pageContext.request.contextPath}/uploads/daily/${dto.imageFilename}" alt=""  style="height: 200px;">   	
+          <a href="${articleUrl}&dailyNum=${dto.dailyNum}">       	
+	          		<img class="card-img-top" src="${pageContext.request.contextPath}/uploads/daily/${dto.imageFilename}" alt=""  style="height: 200px;">   		          		
 	          <span class="post-overlay">		       
 			          <span class="post-likes">${dto.dailyLikeCount }</span>
 			          <span class="post-comments">${dto.replyCount }</span>			      
 			  </span>
           </a>              
-          <div class="card-body" align="center">
-            
+          <div class="card-body" align="center">       
             <div class="profile-img card-text">
    			<div class="imgs" style="background-image:url('${pageContext.request.contextPath}/uploads/member/${dto.profile_imageFilename}'); border-bottom: 1px solid #cccccc;" >
    			</div><a href="javascript:searchProfile('${dto.userId}')">${dto.userId}</a>
    			</div>
-   			
             <h4 class="card-title">
               <a href="${articleUrl}&dailyNum=${dto.dailyNum}">${dto.subject}</a>
             </h4>

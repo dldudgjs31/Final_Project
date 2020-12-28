@@ -24,6 +24,9 @@
 		SELECT NVL(COUNT(*), 0)
 		FROM daily_bbs d
 		JOIN member m ON d.userId = m.userId
+		<if test="sessionId != null and sessionId !=''">	
+        	JOIN follower f ON d.userId = f.userId1         
+		</if>
 		<where>
  			<if test="categoryNum!=null and categoryNum!=''">
  				AND d.categoryNum = #{categoryNum}
@@ -31,6 +34,9 @@
  			<if test="keyword != null and keyword!=''">
 				(INSTR(content,#{keyword}) &gt;= 1 or INSTR(m.userId,#{keyword}) &gt;= 1)
 			</if>	
+			<if test="sessionId != null and sessionId !=''">
+					userId2 = #{sessionId}
+			</if>
  		</where>
 	</select>
 	
@@ -55,6 +61,9 @@
 			SELECT dailyNum, COUNT(*) dailyLikeCount FROM daily_like
 			GROUP BY dailyNum
 		) bc ON d.dailyNum = bc.dailyNum
+		<if test="sessionId != null and sessionId !=''">	
+        	JOIN follower f ON d.userId = f.userId1         
+		</if>
 			<where>
 	 			<if test="categoryNum!=null and categoryNum!=''">
 	 				AND d.categoryNum = #{categoryNum}
@@ -62,8 +71,11 @@
 	 			<if test="keyword != null and keyword!=''">
 					(INSTR(content,#{keyword}) &gt;= 1 or INSTR(m.userId,#{keyword}) &gt;= 1)
 				</if>
+				<if test="sessionId != null and sessionId !=''">
+					userId2 = #{sessionId}
+				</if>
  			</where>
- 			ORDER BY d.dailyNum DESC
+ 			ORDER BY dailyNum DESC
 	</select>
 	
 		<!-- 첨부된 파일 보여주는 애 -->
@@ -113,12 +125,18 @@
 		FROM daily_bbs d
 		JOIN daily_category c ON d.categoryNum = c.categoryNum
 		WHERE dailyNum &gt; #{dailyNum}
+		<if test="sessionId != null and sessionId !=''">	
+        	JOIN follower f ON d.userId = f.userId1         
+		</if>
 		<where>
  			<if test="categoryNum!=null and categoryNum!=''">
  				AND d.categoryNum = #{categoryNum}
  			</if>
  			<if test="keyword != null and keyword!=''">
 				(INSTR(content,#{keyword}) &gt;= 1 or INSTR(m.userId,#{keyword}) &gt;= 1)
+			</if>
+			<if test="sessionId != null and sessionId !=''">
+					userId2 = #{sessionId}
 			</if>
  		</where>
 		ORDER BY dailyNum ASC
@@ -132,12 +150,18 @@
 		FROM daily_bbs d
 		JOIN daily_category c ON d.categoryNum = c.categoryNum
 		WHERE dailyNum &lt; #{dailyNum}
+		<if test="sessionId != null and sessionId !=''">	
+        	JOIN follower f ON d.userId = f.userId1         
+		</if>
 		<where>
  			<if test="categoryNum!=null and categoryNum!=''">
  				AND d.categoryNum = #{categoryNum}
  			</if>
  			<if test="keyword != null and keyword!=''">
 				(INSTR(content,#{keyword}) &gt;= 1 or INSTR(m.userId,#{keyword}) &gt;= 1)
+			</if>
+				<if test="sessionId != null and sessionId !=''">
+					userId2 = #{sessionId}
 			</if>
  		</where>
 		ORDER BY dailyNum DESC
