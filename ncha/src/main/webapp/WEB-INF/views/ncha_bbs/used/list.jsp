@@ -254,7 +254,7 @@ function goArticle(usedNum){
 						<button type="button" class="btn" onclick="javascript:location.href='${pageContext.request.contextPath}/used/list';">새로고침</button>
 					</td>
 					<td  align="left" width="150">
-						<button type="button" class="btn" onclick="javascript:location.href='${pageContext.request.contextPath}/used/keepList';">찜목록 보기</button>
+							<button type="button" class="btn" onclick="javascript:location.href='${pageContext.request.contextPath}/used/keepList';">찜목록 보기</button>
 					</td>
 				</tr>
 </table>
@@ -287,7 +287,7 @@ function goArticle(usedNum){
          </c:if>
           
           <div class="card-body" align="center">
-            <p class="card-text" oncli>@ ${dto.userId}</p>
+            <p class="card-text" onclick="">@ ${dto.userId}</p>
            	
            	<c:if test="${dto.sold_check == 0}">
             <h4 class="card-title">

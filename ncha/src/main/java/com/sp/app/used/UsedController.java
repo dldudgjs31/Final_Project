@@ -541,58 +541,23 @@ public class UsedController {
 	
 	@RequestMapping("keepList")
 	public String keepList(
-			@RequestParam(value="page", defaultValue = "1") int current_page,
+			Used dto,
 			HttpServletRequest req,
 			HttpSession session,
 			Model model) throws Exception {
-		
-		int rows = 12;
-		int total_page=0;
-		int dataCount=0;
-		
+				
 		SessionInfo info = (SessionInfo)session.getAttribute("member");
 		Map<String, Object> map = new HashMap<>();
 		map.put("userId",info.getUserId());
 		
-		dataCount = service.usedKeepCount(map); //데이터 갯수 가져옴
-		
-		if(dataCount!=0) { 
-			total_page=myUtil.pageCount(rows, dataCount); //전체 페이지수 계산
-		}
-		
-		if(total_page<current_page) {
-			current_page=total_page;
-		}
-		
-		int offset=(current_page-1)*rows;
-		if(offset<0) offset=0;
-		map.put("offset", offset);
-		map.put("rows", rows);
+		int dataCount = service.usedKeepCount(map); //데이터 갯수 가져옴
 		
 		List<Used> list =service.keepList(map);
 		
-		int listNum, n=0;
-		for(Used dto:list) {
-			listNum=dataCount-(offset+n);
-			dto.setListNum(listNum);
-			n++;
-		}
-		
-		String cp =req.getContextPath();
-	
-		String listUrl= cp+"/used/keepList";
-		String articleUrl=cp+"/used/article?page="+current_page;
-		
-		String paging = myUtil.paging(current_page, total_page, listUrl);
-		
-		
 		model.addAttribute("list", list);
-		model.addAttribute("page", current_page);
-		model.addAttribute("dataCount", dataCount);
-		model.addAttribute("total_page", total_page);
-		model.addAttribute("paging", paging);
-		model.addAttribute("articleUrl",articleUrl);
-		
+		model.addAttribute("keepCount", dataCount);
+		model.addAttribute("userId",info.getUserId());
+
 		return ".ncha_bbs.used.keepList";
 	}
 	

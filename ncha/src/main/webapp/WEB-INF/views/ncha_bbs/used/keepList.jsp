@@ -221,7 +221,10 @@ function goArticle(usedNum){
 </ol>
 
  <div class="col-lg-9 mb-4">
-        <p class="text-right">  찜한 상품 수  : ${keepCount} &nbsp;&nbsp;&nbsp; (${page}/${total_page} 페이지)</p>
+      <span>
+      <p class="text-left">찜한 상품 수  : ${keepCount}</p>
+      <button type="button" class="btn" onclick="javascript:location.href='${pageContext.request.contextPath}/used/list';">이전으로</button>
+      </span>
       <div class="row">
       
       <c:forEach var="dto" items="${list}">
@@ -243,21 +246,20 @@ function goArticle(usedNum){
          </c:if>
           
           <div class="card-body" align="center">
-            <p class="card-text" >@ ${dto.userId}</p>
-           	
+          
+         	<p class="card-text" onclick="">@ ${dto.userId}</p>
+         	
            	<c:if test="${dto.sold_check == 0}">
             <h4 class="card-title">
               <a href="${articleUrl}&usedNum=${dto.usedNum}">${dto.subject}</a>
             </h4>
             </c:if>
             
-            
             <c:if test="${dto.sold_check == 1}">
             <h4 class="card-title">
               <del><a href="${articleUrl}&usedNum=${dto.usedNum}">${dto.subject}</a></del>
             </h4>
             </c:if>
-            
             
             <p class="card-text">판매가 : <fmt:formatNumber type="currency" value="${dto.price}" />원</p>
           </div>
@@ -274,10 +276,5 @@ function goArticle(usedNum){
 			${keepCount==0 ? "찜목록이 비었습니다.":paging}
 		</td>
 	</tr>
-	<tr height="35">
-		<td align="right" width="100">
-			<button type="button" class="btn" onclick="javascript:location.href='${pageContext.request.contextPath}/used/list';">이전으로</button>
-		</td>
-	</tr>
-</table>
+ </table>
 </div>
