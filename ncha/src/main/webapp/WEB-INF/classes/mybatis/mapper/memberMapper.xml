@@ -87,7 +87,11 @@
 		INSERT INTO follower (userId1,userId2) VALUES (#{userId},#{sessionId})
 	</insert>
 	
-	
+	<select id="followCheckCount" parameterType="map" resultType="Integer">
+		SELECT COUNT(*) checkF
+		FROM follower
+		WHERE userId1=#{userId} and userId2=#{sessionId}
+	</select>
 	
 <!-- 	
 	<select id="followerCount1" parameterType="map" resultType="com.sp.app.member.Member">

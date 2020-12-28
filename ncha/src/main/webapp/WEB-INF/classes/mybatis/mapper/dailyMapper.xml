@@ -37,7 +37,7 @@
 	<!-- 리스트에서 제목, 사진 맨 앞에꺼 출력하는 애 -->
 	<select id="listDaily" parameterType="map" resultType="com.sp.app.daily.Daily">
 		SELECT d.dailyNum, d.userId, userName, subject, hitCount, categoryName,d.categoryNum,
-			       created_date, imageFilename, NVL(replyCount, 0) replyCount,dailyLikeCount
+			       created_date, imageFilename, NVL(replyCount, 0) replyCount,dailyLikeCount,profile_imageFilename
 			FROM daily_bbs d
 			JOIN member m ON d.userId=m.userId
 			JOIN daily_category c ON d.categoryNum=c.categoryNum
@@ -63,6 +63,7 @@
 					(INSTR(content,#{keyword}) &gt;= 1 or INSTR(m.userId,#{keyword}) &gt;= 1)
 				</if>
  			</where>
+ 			ORDER BY d.dailyNum DESC
 	</select>
 	
 		<!-- 첨부된 파일 보여주는 애 -->

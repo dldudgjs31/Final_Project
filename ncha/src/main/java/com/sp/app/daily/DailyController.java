@@ -46,7 +46,7 @@ public class DailyController {
 			HttpServletRequest req,
 			Model model
 			) throws Exception{
-		int rows = 3; 
+		int rows = 10; 
 		int total_page = 0;
 		int dataCount = 0;
 		

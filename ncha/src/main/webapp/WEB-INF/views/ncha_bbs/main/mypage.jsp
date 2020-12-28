@@ -196,6 +196,13 @@ function follow(userId){
 		location.href=url;
 	}
 }
+
+function deleteF(userId){
+	var url="${pageContext.request.contextPath}/mypage/deleteFollow?userId="+userId;
+	if(confirm("팔로우를 취소 하시겠습니까?")) {
+		location.href=url;
+	}
+}
 </script>
 
 <div class="body-container" >
@@ -205,12 +212,25 @@ function follow(userId){
     		
     		</div>
     	</div>
-    	<div class="profile-introduce">자기소개 !${dto.introduce}세션아이디:${sessionScope.member.userId}, dto아이디:${dto.userId}, userId1:${dto.userId1}, userId2:${dto.userId2}</div>
+    	<div class="profile-introduce">자기소개 !${dto.introduce}세션아이디:${sessionScope.member.userId}, userId:${dto.userId}, userId1:${dto.userId1}, userId2:${dto.userId2}, check:${check}</div>
     	<div class="profile-name">
     		<h1>${dto.userId}</h1>&nbsp;&nbsp;
-    	<c:if test="${sessionScope.member.userId!= dto.userId}">
+    		
+    			<c:if test="${check==0}">
+    				<a href="javascript:follow('${dto.userId}')"><i class="far fa-heart fa-3x"></i></a>
+    			</c:if>
+    			<c:if test="${check==1}">
+    				<a href="javascript:deleteF('${dto.userId}')"><i class="fas fa-heart fa-3x"></i></a>
+    			</c:if>
+    		
+<%--     	<c:choose>
+    		<c:when test="${sessionScope.member.userId!= dto.userId || (check == 0 || check == 'null')}">
     			<a href="javascript:follow('${dto.userId}')"><i class="far fa-heart fa-3x"></i></a>
-    	</c:if> 
+    		</c:when> 
+    		<c:when test="${sessionScope.member.userId!= dto.userId || check == 1}">
+    			<a href="javascript:follow('${dto.userId}')"><i class="fas fa-heart fa-3x"></i></a>
+    		</c:when>
+    	</c:choose> --%>
     		
     	</div>
     	<div class="profile-setting">
