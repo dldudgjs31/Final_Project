@@ -169,7 +169,7 @@ public class ListController {
 		    	  allow = allow==0?1:0;
 		    	  map.put("allow", allow);
 		    	  
-		          service.updateSeller(map);
+		          service.updateMember(map);
 		      } catch (Exception e) {
 		         throw e;
 		      }
