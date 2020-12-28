@@ -46,11 +46,12 @@ public class UsedController {
 	public String list(
 			@RequestParam(value="page", defaultValue = "1") int current_page,
 			@RequestParam(defaultValue = "") String categoryNum, //카테고리분류
+			@RequestParam(defaultValue = "all") String condition, //검색 조건
 			@RequestParam(defaultValue = "") String keyword,     //내용 검색
 			HttpServletRequest req,
 			Model model) throws Exception{
 		
-		int rows = 10;
+		int rows = 12;
 		int total_page=0;
 		int dataCount=0;
 		
@@ -60,7 +61,10 @@ public class UsedController {
 		//전체 페이지 수
 		Map<String, Object> map = new HashMap<String,Object>();
 		map.put("categoryNum", categoryNum);
+		map.put("condition", condition);
 		map.put("keyword", keyword);
+		
+		
 		dataCount = service.dataCount(map); //데이터 갯수 가져옴
 		
 		if(dataCount!=0) { 
@@ -92,7 +96,7 @@ public class UsedController {
 		String articleUrl=cp+"/used/article?page="+current_page;
 		
 		if(keyword.length()!=0) {
-			query += "&categoryNum="+categoryNum+"&keyword="+URLEncoder.encode(keyword, "utf-8");
+			query = "condition="+condition+"&categoryNum="+categoryNum+"&keyword="+URLEncoder.encode(keyword, "utf-8");
 		}
 		
 		
@@ -112,6 +116,7 @@ public class UsedController {
 		model.addAttribute("articleUrl",articleUrl);
 		
 		model.addAttribute("categoryNum", categoryNum);
+		model.addAttribute("condition", condition);
 		model.addAttribute("keyword", keyword);
 		
 		
@@ -159,6 +164,7 @@ public class UsedController {
 	public String article(
 			@RequestParam int usedNum,
 			@RequestParam String page,
+			@RequestParam(defaultValue = "all") String condition,
 			@RequestParam(defaultValue="") String categoryNum,
 			@RequestParam(defaultValue="") String keyword,
 			Model model) throws Exception{
@@ -168,13 +174,13 @@ public class UsedController {
 		//검색
 		String query="page="+page;
 		if(categoryNum.length()!=0 || keyword.length()!=0) {
-			query+="&categoryNum="+categoryNum+"&keyword="+
+			query+="&condition"+condition+"&categoryNum="+categoryNum+"&keyword="+
 					URLEncoder.encode(keyword,"utf-8");
 		}
 	
 		service.updateHitCount(usedNum);
-		Used dto = service.readUsed(usedNum);
 		
+		Used dto = service.readUsed(usedNum);
 		if(dto==null) {
 			return "redirect:/used/list?"+query;
 		}
@@ -185,6 +191,7 @@ public class UsedController {
 		Map<String,Object>map = new HashMap<String, Object>();
 		map.put("usedNum",usedNum);
 		map.put("categoryNum", categoryNum);
+		map.put("condition",condition);
 		map.put("keyword", keyword);
 
 		Used preReadDto = service.preReadDto(map);
@@ -286,21 +293,23 @@ public class UsedController {
 	public String deleteSubmit(
 			@RequestParam int usedNum,
 			@RequestParam String page,
-			@RequestParam (defaultValue = "") String categoryNum,
-			@RequestParam (defaultValue = "") String keyword,
+			@RequestParam(defaultValue = "") String categoryNum,
+			@RequestParam(defaultValue = "all") String condition,
+			@RequestParam(defaultValue = "") String keyword,
 			HttpSession session ) throws Exception{
 		
+		SessionInfo info = (SessionInfo)session.getAttribute("member"); 
 		keyword = URLDecoder.decode(keyword,"utf-8");
 		
 		String query = "page="+page;
 		if(keyword.length()!=0) {
-			query+="&categoryNum="+categoryNum+"&keyword="+keyword;
+			query+="&condition="+condition+"&categoryNum="+categoryNum+"&keyword="+URLEncoder.encode(keyword,"UTF-8");
 		}
 		
 		try {
 			String root = session.getServletContext().getRealPath("/");
 			String pathname = root+"uploads"+File.separator+"used";
-			service.deleteUsed(usedNum, pathname);
+			service.deleteUsed(usedNum, pathname,info.getUserId());
 		
 		} catch (Exception e) {
 		}
@@ -367,6 +376,7 @@ public class UsedController {
 	@RequestMapping(value="deleteReply", method = RequestMethod.POST)
 	@ResponseBody
 	public Map<String, Object> deleteReply(
+			
 			@RequestParam Map<String, Object> paramMap){
 		String state = "true";
 		try {
@@ -500,4 +510,90 @@ public class UsedController {
 		
 		return model;
 	}
+	
+	@RequestMapping(value="insertKeepList",method=RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> insertKeepList(
+			@RequestParam int usedNum,
+			HttpSession session){
+		
+	
+		String state = "true";
+
+		SessionInfo info = (SessionInfo)session.getAttribute("member");
+	
+		Map<String, Object> paramMap = new HashMap<>();
+		paramMap.put("usedNum",usedNum);
+		paramMap.put("userId", info.getUserId());
+		
+		try {
+			service.insertKeepList(paramMap);
+		} catch (Exception e) {
+			state="false";
+		}
+	
+		Map<String, Object> model = new HashMap<>();
+		model.put("state", state);
+	
+		return model;
+	}
+	
+	
+	@RequestMapping("keepList")
+	public String keepList(
+			@RequestParam(value="page", defaultValue = "1") int current_page,
+			HttpServletRequest req,
+			HttpSession session,
+			Model model) throws Exception {
+		
+		int rows = 12;
+		int total_page=0;
+		int dataCount=0;
+		
+		SessionInfo info = (SessionInfo)session.getAttribute("member");
+		Map<String, Object> map = new HashMap<>();
+		map.put("userId",info.getUserId());
+		
+		dataCount = service.usedKeepCount(map); //데이터 갯수 가져옴
+		
+		if(dataCount!=0) { 
+			total_page=myUtil.pageCount(rows, dataCount); //전체 페이지수 계산
+		}
+		
+		if(total_page<current_page) {
+			current_page=total_page;
+		}
+		
+		int offset=(current_page-1)*rows;
+		if(offset<0) offset=0;
+		map.put("offset", offset);
+		map.put("rows", rows);
+		
+		List<Used> list =service.keepList(map);
+		
+		int listNum, n=0;
+		for(Used dto:list) {
+			listNum=dataCount-(offset+n);
+			dto.setListNum(listNum);
+			n++;
+		}
+		
+		String cp =req.getContextPath();
+	
+		String listUrl= cp+"/used/keepList";
+		String articleUrl=cp+"/used/article?page="+current_page;
+		
+		String paging = myUtil.paging(current_page, total_page, listUrl);
+		
+		
+		model.addAttribute("list", list);
+		model.addAttribute("page", current_page);
+		model.addAttribute("dataCount", dataCount);
+		model.addAttribute("total_page", total_page);
+		model.addAttribute("paging", paging);
+		model.addAttribute("articleUrl",articleUrl);
+		
+		return ".ncha_bbs.used.keepList";
+	}
+	
 }

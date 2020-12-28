@@ -116,6 +116,29 @@ $(function(){
 	});
 });
 
+//중고글 찜목록추가
+$(function(){
+	$(".btnSendUsedKeep").click(function(){
+		if(! confirm("해당 물품을 찜하시겠습니까?")){
+			return false;
+		}
+		
+		var url = "${pageContext.request.contextPath}/used/insertKeepList";
+		var usedNum = "${dto.usedNum}";
+		var query = "usedNum="+usedNum;
+		
+		var fn = function(data){
+			var state=data.state;
+			if(state==="true"){
+				alert("찜목록에 추가하였습니다.");
+			}else if(state==="false"){
+				alert("이미 찜하였습니다.");
+			}
+		};
+		ajaxJSON(url,"post",query,fn);
+	});
+});
+
 
 //댓글 페이징처리
 $(function(){
@@ -347,7 +370,11 @@ $(function(){
 					<img alt="좋아요버튼" src="${pageContext.request.contextPath}/resources/images/heart.png" style="height: 25px; width: 25px">
 					<span id="usedLikeCount">${usedLikeCount}</span>
 				</td>
+				<td align = "center" class="btnSendUsedKeep">
+					<img alt="찜버튼" src="${pageContext.request.contextPath}/resources/images/icon-plus.png" style="height: 25px; width: 25px">
+				</td>
 			</tr>
+
 			<tr style="border-bottom: 1px solid #cccccc;">
 			  <td colspan="2" align="left" style="padding-left: 5px;">
 			     카테고리 :${dto.categoryName}  

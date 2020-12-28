@@ -8,6 +8,23 @@
 		SELECT used_seq.NEXTVAL FROM dual
 	</select>
 
+	<!-- 검색 조건 -->
+	<!-- INSTR(문자열, 검색할 문자, 시작지점, n번째 검색단어) 함수는 찾는 문자의 위치를 반환 -->
+	<sql id="where-list">
+		<choose>
+			<when test="condition=='all'">
+				(INSTR(subject,#{keyword}) &gt; 0
+					OR INSTR(content,#{keyword}) &gt; 0)
+			</when>
+			<when test="condition=='subject'">
+				INSTR(subject,#{keyword}) &gt; 0
+			</when>
+			<when test="condition=='content'">
+				INSTR(content,#{keyword}) &gt; 0
+			</when>
+		</choose>
+	</sql>
+	
 	
 	<!-- 게시글 CRUD -->
 	<!-- 글삽입 -->
@@ -68,11 +85,11 @@
 			GROUP BY usedNum
 		) ul ON ul.usedNum = u.usedNum
 		<where>
-			<if test="categoryNum!=null and categoryNum!='' ">
-				u.categoryNum = #{categoryNum}
+			<if test="keyword != null and keyword!=''">
+				<include refid="where-list"></include>
 			</if>
-			<if test="keyword != null and keyword !='' ">
-				AND INSTR(content, #{keyword}) &gt;= 1 
+			<if test="categoryNum != null and categoryNum!=''">
+				AND u.categoryNum = #{categoryNum}
 			</if>
 		</where>
 		ORDER BY u.usedNum DESC
@@ -88,11 +105,11 @@
 		FROM used_bbs u
 		JOIN member m ON u.userId=m.userId
 		<where>
-			<if test="categoryNum != null and categoryNum!=''">
-				u.categoryNum = #{categoryNum}
-			</if>
 			<if test="keyword != null and keyword!=''">
-				AND INSTR(content, #{keyword}) &gt;= 1 
+				<include refid="where-list"></include>
+			</if>
+			<if test="categoryNum != null and categoryNum!=''">
+				AND u.categoryNum = #{categoryNum}
 			</if>
 		</where>
 	</select>
@@ -108,11 +125,11 @@
 		SELECT usedNum, subject
 		FROM used_bbs 
 		WHERE usedNum &gt; #{usedNum}
-		<if test="categoryNum!=null and categoryNum!=''">
-			AND categoryNum = #{categoryNum}
+		<if test="keyword != null and keyword!=''">
+			AND <include refid="where-list"></include>
 		</if>
-		<if test="keyword != null and keyword !=''">
-			AND INSTR(content, #{keyword}) &gt;= 1 
+		<if test="categoryNum != null and categoryNum!=''">
+			AND u.categoryNum = #{categoryNum}
 		</if>
 		ORDER BY usedNum ASC
 		FETCH FIRST 1 ROWS ONLY
@@ -123,11 +140,11 @@
 		SELECT usedNum, subject
 		FROM used_bbs 
 		WHERE usedNum &lt; #{usedNum}
-		<if test="categoryNum!=null and categoryNum!=''">
-			AND categoryNum = #{categoryNum}
+		<if test="keyword != null and keyword!=''">
+			AND <include refid="where-list"></include>
 		</if>
-		<if test="keyword != null and keyword !=''">
-			AND INSTR(content, #{keyword}) &gt;= 1 
+		<if test="categoryNum != null and categoryNum!=''">
+			AND u.categoryNum = #{categoryNum}
 		</if>
 		ORDER BY usedNum DESC
 		FETCH FIRST 1 ROWS ONLY
@@ -289,5 +306,39 @@
 		JOIN member m ON r.userId = m.userId
 		WHERE answer = #{answer}
 		ORDER BY used_reviewNum DESC
+	</select>
+	
+	
+	
+	
+	<!-- 찜목록 기능 -->
+	<!-- 찜목록테이블에 데이터 삽입 -->
+	<insert id="insertKeepList" parameterType="map">
+		INSERT INTO used_keeplist(usedNum, userId) VALUES (#{usedNum}, #{userId})
+	</insert>
+	
+	<!-- 찜목록 개수 가져오기 -->
+	<select id="usedKeepCount" parameterType="map" resultType="Integer">
+		SELECT COUNT(*) FROM used_keeplist WHERE userId = #{userId}
+	</select>
+	
+	<!-- 찜목록 리스트 불러오기 -->
+	<select id="keepList" parameterType="map" resultType="com.sp.app.used.Used">
+		SELECT u.usedNum, k.userId, subject, sold_check, hitCount, TO_CHAR(created_date,'YYYY-MM-DD')created_date,
+			imageFilename, u.price, NVL(keepCount,0)
+		FROM used_bbs u
+		JOIN (
+			SELECT * FROM(
+				SELECT usedNum, rank() over(partition by usedNum order by used_imageFileNum) rank, imageFilename
+				FROM used_image
+			) WHERE rank = 1
+		) i ON u.usedNum = i.usedNum
+		LEFT OUTER JOIN (
+			SELECT userId, COUNT(*) keepCount FROM used_keeplist
+			GROUP BY userId
+		) k ON k.userId = u.userId
+		WHERE k.userId = #{userId}
+		ORDER BY usedNum DESC
+		OFFSET #{offset} ROWS FETCH FIRST #{rows} ROWS ONLY
 	</select>
 </mapper>
