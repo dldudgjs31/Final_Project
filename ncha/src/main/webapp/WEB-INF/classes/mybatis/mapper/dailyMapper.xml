@@ -15,8 +15,8 @@
 	
 	<!-- 일상글 넣어주는애 -->
 	<insert id="insertDaily" parameterType="com.sp.app.daily.Daily">
-		INSERT INTO daily_bbs(dailyNum, userId, content, subject, storeURL, usedURL, created_date, hitCount, categoryNum) 
-			VALUES (#{dailyNum}, #{userId}, #{content}, #{subject}, #{storeURL,jdbcType=VARCHAR}, #{usedURL,jdbcType=VARCHAR}, SYSDATE, 0, #{categoryNum})
+		INSERT INTO daily_bbs(dailyNum, userId, content, subject, usedUrl, storeUrl, created_date, hitCount, categoryNum) 
+			VALUES (#{dailyNum}, #{userId}, #{content}, #{subject}, #{usedUrl,jdbcType=VARCHAR},  #{storeUrl,jdbcType=VARCHAR}, SYSDATE, 0, #{categoryNum})
 	</insert>
 	
 	<!-- 게시글 카운터 -->
@@ -39,7 +39,7 @@
 			</if>
  		</where>
 	</select>
-	
+		
 	<!-- 리스트에서 제목, 사진 맨 앞에꺼 출력하는 애 -->
 	<select id="listDaily" parameterType="map" resultType="com.sp.app.daily.Daily">
 		SELECT d.dailyNum, d.userId, userName, subject, hitCount, categoryName,d.categoryNum,
@@ -85,7 +85,7 @@
 		WHERE dailyNum=#{dailyNum}
 		ORDER BY daily_imageFilenum ASC
 	</select>
-	
+		
 	<!-- Article에서 사진 보여주는 애 -->
 	<select id="listArticleFile" parameterType="map" resultType="com.sp.app.daily.Daily">
 		SELECT dailyNum, imageFilename,daily_imageFilenum
@@ -96,7 +96,7 @@
 	<!-- Article에서 글읽어오는애 -->
 	 <select id="readDaily" parameterType="Integer" resultType="com.sp.app.daily.Daily">
 		SELECT d.dailyNum, d.userId, userName, subject, content, created_date, hitCount,profile_imageFilename,
-		 categoryName,d.categoryNum,   NVL(dailyLikeCount, 0) dailyLikeCount
+		categoryName,d.categoryNum,   NVL(dailyLikeCount, 0) dailyLikeCount, d.usedUrl, d.storeUrl
 		FROM daily_bbs d
 		JOIN member m ON d.userId = m.userId 
 		JOIN daily_category c ON d.categoryNum = c.categoryNum
@@ -106,7 +106,7 @@
 		) bc ON d.dailyNum = bc.dailyNum
 		WHERE d.dailyNum = #{dailyNum}
 	</select>
-	
+		
 	<!-- 업데이트( 제목, 내용 수정 ) -->
 	<update id="updateDaily" parameterType="com.sp.app.daily.Daily">
 		UPDATE daily_bbs d SET subject=#{subject}, content=#{content}, dailyNum=#{dailyNum}

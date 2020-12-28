@@ -11,8 +11,8 @@ public class Daily {
 	private String userId;
 	private String content;
 	private String subject;
-	private String storeURL;
-	private String usedURL;
+	private String storeUrl;
+	private String usedUrl;
 	private String created_date;
 	private int hitCount;
 	private int categoryNum; // 카테고리 번호
@@ -109,17 +109,19 @@ public class Daily {
 	public void setSubject(String subject) {
 		this.subject = subject;
 	}
-	public String getStoreURL() {
-		return storeURL;
+	
+	
+	public String getStoreUrl() {
+		return storeUrl;
 	}
-	public void setStoreURL(String storeURL) {
-		this.storeURL = storeURL;
+	public void setStoreUrl(String storeUrl) {
+		this.storeUrl = storeUrl;
 	}
-	public String getUsedURL() {
-		return usedURL;
+	public String getUsedUrl() {
+		return usedUrl;
 	}
-	public void setUsedURL(String usedURL) {
-		this.usedURL = usedURL;
+	public void setUsedUrl(String usedUrl) {
+		this.usedUrl = usedUrl;
 	}
 	public String getCreated_date() {
 		return created_date;

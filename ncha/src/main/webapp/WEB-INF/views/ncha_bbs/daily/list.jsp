@@ -285,7 +285,7 @@ function goArticle(dailyNum){
       <div class="col-lg-4 col-sm-6 portfolio-item" style="margin-bottom: 10px;">   
         <div class="card h-100">         
           <a href="${articleUrl}&dailyNum=${dto.dailyNum}">       	
-	          		<img class="card-img-top" src="${pageContext.request.contextPath}/uploads/daily/${dto.imageFilename}" alt=""  style="height: 200px;">   		          		
+	          <img class="card-img-top" src="${pageContext.request.contextPath}/uploads/daily/${dto.imageFilename}" alt=""  style="height: 200px;">   		          		
 	          <span class="post-overlay">		       
 			          <span class="post-likes">${dto.dailyLikeCount }</span>
 			          <span class="post-comments">${dto.replyCount }</span>			      
