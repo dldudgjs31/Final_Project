@@ -222,6 +222,13 @@ function searchKeyword(){
 function goArticle(usedNum){
 	location.href ="${articleUrl}&usedNum="+usedNum;
 }
+
+function searchProfile(userId) {
+	var url="${pageContext.request.contextPath}/mypage/searchProfile?userId="+userId;
+		location.href=url;
+	
+}
+
 </script>
 <Br><Br>
 
@@ -254,14 +261,23 @@ function goArticle(usedNum){
 						<button type="button" class="btn" onclick="javascript:location.href='${pageContext.request.contextPath}/used/list';">새로고침</button>
 					</td>
 					<td  align="left" width="150">
+					    <c:if test="${not empty sessionScope.member}">
 							<button type="button" class="btn" onclick="javascript:location.href='${pageContext.request.contextPath}/used/keepList';">찜목록 보기</button>
+						</c:if>
 					</td>
 				</tr>
 </table>
 
 <ol class="breadcrumb">
       <li class="breadcrumb-item">카테고리</li>
-      <li class="breadcrumb-item active">${dto.categoryName}</li>
+      <li class="breadcrumb-item active">
+      	<c:if test="${categoryNum==''}">전체</c:if>
+      	<c:if test="${categoryNum=='1'}">의류</c:if>
+      	<c:if test="${categoryNum=='2'}">가구</c:if>
+      	<c:if test="${categoryNum=='3'}">전자제품</c:if>
+      	<c:if test="${categoryNum=='4'}">도서</c:if>
+      	<c:if test="${categoryNum=='5'}">기타</c:if>
+      </li>
 </ol>
 
  <div class="col-lg-9 mb-4">
@@ -287,7 +303,7 @@ function goArticle(usedNum){
          </c:if>
           
           <div class="card-body" align="center">
-            <p class="card-text" onclick="">@ ${dto.userId}</p>
+            <p class="card-text" onclick="javascript:searchProfile('${dto.userId}')">@${dto.userId}</p>
            	
            	<c:if test="${dto.sold_check == 0}">
             <h4 class="card-title">
@@ -301,8 +317,7 @@ function goArticle(usedNum){
               <del><a href="${articleUrl}&usedNum=${dto.usedNum}">${dto.subject}</a></del>
             </h4>
             </c:if>
-            
-            
+           
             <p class="card-text">판매가 <br><fmt:formatNumber type="currency" value="${dto.price}" />원</p>
           </div>
           
@@ -313,71 +328,16 @@ function goArticle(usedNum){
     </div>
     
   <table style="width: 100%; margin: 0px auto; border-spacing: 0px;">
-				   <tr height="35">
-					<td align="center">
-					    ${dataCount==0 ? "등록된 게시물이 없습니다.":paging}
-					 </td>
-				   </tr>
-				   <tr height="35">
-					<td align="right" width="100">
-						<button type="button" class="btn" onclick="javascript:location.href='${pageContext.request.contextPath}/used/created';">글올리기</button>
-					</td>
-				   </tr>
-			</table>
+		<tr height="35">
+			<td align="center">
+				${dataCount==0 ? "등록된 게시물이 없습니다.":paging}
+			</td>
+		</tr>
+		<tr height="35">
+			<td align="right" width="100">
+				<button type="button" class="btn" onclick="javascript:location.href='${pageContext.request.contextPath}/used/created';">글올리기</button>
+			</td>
+		</tr>
+	</table>
 </div>
-<!--
-<div class="body-container" style="width: 900px;">
-	
-	<div>
-	
-	       
-			<table style="width: 100%; margin: 20px auto 0px; border-spacing: 0px;">
-				<tr height="35">
-					<td align="left" width="50%">
-						${dataCount}개 (${page}/${total_page} 페이지)
-					</td>
-					<td align="right">
-						&nbsp;
-					</td>
-				</tr>
-			</table>		
-       </div>
-       
-      <div>
-       	<div>
-			<aside class="post-list">
-				<c:forEach var="dto" items="${list}">			
-					@ ${dto.userName} <br>	
-				   <a href="${articleUrl}&usedNum=${dto.usedNum}" class="post">
-				      <div class="post-image">
-				      	<img alt="" src="${pageContext.request.contextPath}/uploads/used/${dto.imageFilename}" width="180" height="180" border="0">
-				      </div>
-				      <div class="post-overlay">
-				         <span class="post-hitCount">조회수 : ${dto.hitCount}</span>
-				         <span class="post-likes">좋아요 : ${dto.usedLikeCount}</span>
-				      </div>
-				  		<br>
-				    	카테고리 : ${dto.categoryName}
-				    	<br>
-				    	 ${dto.subject}
-				    	<br>
-				    	￦ ${dto.price} 	
-				    </a>				   
-				</c:forEach>
-			</aside>
-			<table style="width: 100%; margin: 0px auto; border-spacing: 0px;">
-				   <tr height="35">
-					<td align="center">
-					    ${dataCount==0 ? "등록된 게시물이 없습니다.":paging}
-					 </td>
-				   </tr>
-				   <tr height="35">
-					<td align="right" width="100">
-						<button type="button" class="btn" onclick="javascript:location.href='${pageContext.request.contextPath}/used/created';">글올리기</button>
-					</td>
-				   </tr>
-			</table>
-       		</div>
-       </div>
-</div> 
--->
+

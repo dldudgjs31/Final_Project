@@ -338,4 +338,27 @@
       	WHERE k.userId = #{userId}
       	ORDER BY u.usedNum DESC
 	</select>
+	
+<!-- 
+SELECT u.usedNum, k.userId, subject, sold_check, hitCount, TO_CHAR(created_date,'YYYY-MM-DD')created_date,
+			imageFilename, u.price, NVL(keepCount,0)
+FROM used_bbs u
+JOIN (
+	SELECT * FROM(
+		SELECT usedNum, rank() over(partition by usedNum order by used_imageFileNum) rank, imageFilename
+		FROM used_image
+		) WHERE rank = 1
+	) i ON u.usedNum = i.usedNum
+LEFT OUTER JOIN (
+	SELECT usedNum, COUNT(*) keepCount FROM used_keeplist
+	GROUP BY usedNum
+) k ON k.usedNum = u.usedNum
+WHERE u.userId = #{userId}
+ORDER BY usedNum DESC
+ -->
+	
+	<delete id="deleteKeep" parameterType="map">
+		DELETE FROM used_keeplist
+		WHERE usedNum = #{usedNum}
+	</delete>
 </mapper>
