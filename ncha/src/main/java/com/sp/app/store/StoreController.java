@@ -130,6 +130,7 @@ public class StoreController {
 		try {
 			dto.setSellerId(info.getSellerId());
 			service.insertProduct(dto, pathname);
+			service.insertOption(dto);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

@@ -65,17 +65,18 @@ function updateBoard(num){
 
 function cartOk(num) {
 	<c:if test="${not empty sessionScope.member.userId || sessionScope.member.userId=='admin'}">
-	console.log(num);
+
 	if(confirm("상품을 장바구니에 추가하시겠습니까 ?")) {
 		var q = "num=" +${dto.productNum} + "&${query}";
 		var quantity = $("#totalBuyQty").text();
+		alert(quantity);
 		if(quantity==0){
 			alert("수량을 선택해주세요.");
 			return;
 		}
 		var url="${pageContext.request.contextPath}/store/customer/cart?"+q+"&quantity="+quantity;
+		alert(url);
 		location.href=url;
-		alert("상품이 장바구니에 추가되었습니다.");
 	}
 	</c:if>
 	<c:if test="${empty sessionScope.member.userId && sessionScope.member.userId!='admin'}">

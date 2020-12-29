@@ -21,8 +21,22 @@ public class Store {
 	private int main_imageFileNum;
 	private String imageFilename;
 	private List<MultipartFile> upload;
+	private List<String> optionDetail;
+	private List<Integer> option_stock;
 	
 	
+	public List<String> getOptionDetail() {
+		return optionDetail;
+	}
+	public void setOptionDetail(List<String> optionDetail) {
+		this.optionDetail = optionDetail;
+	}
+	public List<Integer> getOption_stock() {
+		return option_stock;
+	}
+	public void setOption_stock(List<Integer> option_stock) {
+		this.option_stock = option_stock;
+	}
 	public List<MultipartFile> getUpload() {
 		return upload;
 	}

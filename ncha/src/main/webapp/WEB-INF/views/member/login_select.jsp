@@ -207,12 +207,11 @@ function sendLogin1() {
 
 <div class="body-container">
 
-	 		<br><br><br> 		
 <div class="login-wrap">
 	<div class="login-html">
 		 <div style="text-align: center;">
     		<P><img alt="로고" src="${pageContext.request.contextPath}/resources/img/Nlogo.png" width="250px"></P>
-    		<br><br><br>
+    		<br>
         </div>
 		<input id="tab-1" type="radio" name="tab" class="sign-in" checked><label for="tab-1" class="tab">일반회원 로그인</label>
 		<input id="tab-2" type="radio" name="tab" class="sign-up"><label for="tab-2" class="tab">판매회원 로그인</label>
@@ -233,9 +232,8 @@ function sendLogin1() {
 				</div>
 				<br>
 				<div class="group">
-					<input type="submit" class="button" value="로&nbsp;&nbsp;그&nbsp;&nbsp;인"  onclick="sendLogin();">
+					<input type="submit" class="button" value="로&nbsp;&nbsp;그&nbsp;&nbsp;인"  onclick="sendLogin();" style="font-family: 'Jua', sans-serif; font-size: 20px;">
 				</div>
-				<div class="hr"></div>
 				<div class="foot-lnk">
 					<span style="color: white;">${message}</span>
 				</div>
@@ -259,9 +257,8 @@ function sendLogin1() {
 				</div>
 				<br>
 				<div class="group">
-					<input type="submit" class="button" value="로그인"  onclick="sendLogin1();">
+					<input type="submit" class="button" value="로그인"  onclick="sendLogin1();" style="font-family: 'Jua', sans-serif; font-size: 20px;">
 				</div>
-				<div class="hr"></div>
 				<div class="foot-lnk">
 					<span style="color: white;">${message}</span>
 				</div>

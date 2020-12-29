@@ -7,7 +7,7 @@ public interface StoreService {
 	//글등록
 	public void insertProduct(Store dto, String pathname) throws Exception;
 	public void insertFile(Store dto) throws Exception;
-
+	public void insertOption(Store dto) throws Exception;
 	
 	// 글리스트
 	public List<Store> listProduct(Map<String, Object> map);

@@ -11,7 +11,12 @@
 		INSERT INTO product_bbs(productNum, productName, created_date,hitCount,price, detail,  stock, discount_rate,sellerId,categoryNum)
 		VALUES(#{productNum}, #{productName}, SYSDATE,0,#{price},#{detail}, #{stock},#{discount_rate}, #{sellerId},#{categoryNum})
 	</insert>
-
+	
+	<insert id="insertOption" parameterType="map">
+		INSERT INTO product_option(optionNum, optionDetail, option_stock, productNum)
+		VALUES(option_seq.NEXTVAL,#{optionDetail},#{option_stock},#{productNum})
+	</insert>
+	
 	 <select id="dataCount" parameterType="map" resultType="Integer">
 	 	SELECT NVL(COUNT(*),0) 
 	 	FROM product_bbs b

@@ -1,5 +1,6 @@
 package com.sp.app.store;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -23,6 +24,7 @@ public class StoreServiceImpl implements StoreService {
 			int seq = dao.selectOne("store.seq");
 			dto.setProductNum(seq);
 			dao.insertData("store.insertProduct", dto);
+
 			
 			if(! dto.getUpload().isEmpty()) {
 				for(MultipartFile mf : dto.getUpload()) {
@@ -35,13 +37,29 @@ public class StoreServiceImpl implements StoreService {
 				}
 			}
 			
+	
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw e;			
 		}
 		
 	}
-
+	
+	@Override
+	public void insertOption(Store dto) throws Exception {
+		try {
+				Map<String, Object> map = new HashMap<>();
+				map.put("productNum",dto.getProductNum());
+				for(int i =0; i < dto.getOption_stock().size();i++) {
+					map.put("optionDetail", dto.getOptionDetail().get(i));
+					map.put("option_stock", dto.getOption_stock().get(i));
+					dao.insertData("store.insertOption", map);
+				}
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
+	}
 	@Override
 	public List<Store> listProduct(Map<String, Object> map) {
 		List<Store> list = null;
@@ -169,5 +187,7 @@ public class StoreServiceImpl implements StoreService {
 		}
 		return listFile;
 	}
+
+
 
 }

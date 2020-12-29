@@ -244,6 +244,14 @@ $(function(){
     		
     		
 	});
+	//옵션 리스트 삭제 버튼
+	$("body").on("click",".optiondelete",function(){
+		if($("#optionbody").children().length==1){
+			alert("옵션은 1개이상 작성해야합니다.");
+			return;
+		}
+		$(this).parent().parent().remove();
+	});
 	
 });
 </script>
@@ -295,9 +303,13 @@ $(function(){
 				  </tbody>
 				  <tbody id="optionbody">
 				  	<tr>
-				  		<td> 제품 옵션 &nbsp; <button type="button" class="btn btn-primary optionbtn"><i class="fas fa-plus-circle"></i></button> </td>
+				  		<td> 제품 옵션 &nbsp; 
+				  			<button type="button" class="btn btn-primary optionbtn"><i class="fas fa-plus-circle"></i></button> 
+				  			<button type="button" class="btn btn-danger optiondelete"><i class="fas fa-minus-circle"></i></button> 
+				  		
+				  		</td>
 				  		<td class="row">
-				  			&nbsp;옵션명 :&nbsp; <input type="text" name="optionDetail" maxlength="100"  multiple="multiple" class="form-control option"  style="width: 26%;"  value="">&nbsp;
+				  			&nbsp;옵션명 :&nbsp; <input type="text" name="optionDetail" maxlength="100"class="form-control option"  style="width: 26%;"  value="">&nbsp;
 				  			재고 :&nbsp; <input type="number" name="option_stock" maxlength="100" class="form-control optionstock"  style="width: 10%;"  value="">
 				  			
 				  		</td>

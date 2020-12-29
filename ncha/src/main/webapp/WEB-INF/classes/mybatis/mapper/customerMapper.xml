@@ -54,7 +54,7 @@
 	SELECT stock FROM product_bbs WHERE productNum = #{productNum}
 </select>
 <select id="readCartQuantity" parameterType="com.sp.app.customer.Customer" resultType="Integer">
-	SELECT sum(quantity) sum 
+	SELECT NVL(sum(quantity), 0) sum 
 	FROM store_cart 
 	WHERE productNum = #{productNum} AND userId = #{userId}
 </select>

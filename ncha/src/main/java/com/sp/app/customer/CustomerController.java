@@ -67,11 +67,12 @@ public class CustomerController {
 	}
 
 	@RequestMapping("cart")
-	public String cart(Customer dto, @RequestParam String page, @RequestParam int quantity, @RequestParam int num,
+	public String cart(@RequestParam String page, @RequestParam int quantity, @RequestParam int num,
 			@RequestParam(defaultValue = "all") String condition, @RequestParam(defaultValue = "") String keyword,
 			HttpSession session, Model model) throws Exception {
-		SessionInfo info = (SessionInfo) session.getAttribute("member");
+		SessionInfo info = (SessionInfo)session.getAttribute("member");
 
+		
 		keyword = URLDecoder.decode(keyword, "utf-8");
 		/*
 		 * String query = "page="+page+"&num"+num;
@@ -79,21 +80,27 @@ public class CustomerController {
 		 * if(keyword.length()!=0) { query
 		 * +="&condition="+condition+"&keyword="+URLEncoder.encode(keyword,"utf-8"); }
 		 */
-		try {
+		
+		//try {
+			Customer dto=new Customer();
 			dto.setProductNum(num);
 			dto.setUserId(info.getUserId());
 			dto.setQuantity(quantity);
 			int stock =service2.readStock(num);
 			int total_quantity = service2.readCartQuantity(dto);
+			
+			System.out.println(stock+":"+total_quantity+":"+quantity);
+			
 			if(total_quantity+quantity>stock) {
 				return "redirect:/store/article?page=" + page + "&num=" + num+"&message="+URLEncoder.encode("재고량보다 많은 수량은 담을 수 없습니다.","utf-8");
 			}
 			service2.insertCart(dto);
-		} catch (Exception e) {
-			e.printStackTrace();
-			return "redirect:/store/article?page=" + page + "&num=" + num;
-		}
+		//} catch (Exception e) {
+		//	e.printStackTrace();
+		//}
 		return "redirect:/store/article?page=" + page + "&num=" + num;
+
+
 	}
 	@RequestMapping("cartlist")
 	public String cartPage(
