@@ -30,6 +30,9 @@ public class Used {
 	
 	private int replyCount;    // 중고글 댓글 좋아요
 	private int usedLikeCount; // 중고글 좋아요
+	
+	private int keeplistCount; //나의 찜목록 갯수
+	
 	public int getListNum() {
 		return listNum;
 	}
@@ -159,5 +162,10 @@ public class Used {
 	public void setUpload(List<MultipartFile> upload) {
 		this.upload = upload;
 	}
-	
+	public int getKeeplistCount() {
+		return keeplistCount;
+	}
+	public void setKeeplistCount(int keeplistCount) {
+		this.keeplistCount = keeplistCount;
+	}
 }

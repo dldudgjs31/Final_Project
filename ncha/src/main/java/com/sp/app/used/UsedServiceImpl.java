@@ -139,8 +139,12 @@ public class UsedServiceImpl implements UsedService {
 	}
 
 	@Override
-	public void deleteUsed(int usedNum, String pathname) throws Exception {
+	public void deleteUsed(int usedNum, String pathname, String userId) throws Exception {
 		try {
+			Used useddto = readUsed(usedNum);
+			if(useddto == null || (!userId.equals("admin") && ! userId.equals(useddto.getUserId())))
+				return;
+			
 			//서버에 파일 지우기
 			List<Used> listFile = imageList(usedNum);
 			if(listFile != null) {
@@ -253,10 +257,8 @@ public class UsedServiceImpl implements UsedService {
 		}
 		return result;
 	}
-
 	
-	
-	
+			
 	//댓글 CRUD
 	@Override
 	public void insertReply(Reply dto) throws Exception {
@@ -358,6 +360,41 @@ public class UsedServiceImpl implements UsedService {
 		List<Reply> list = null;
 		try {
 			list = dao.selectList("used.listReplyAnswer", answer);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
+
+	
+	//중고글 찜기능 관련
+	@Override
+	public void insertKeepList(Map<String, Object> map) throws Exception {
+		try {
+			dao.insertData("used.insertKeepList", map);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
+	}
+
+	@Override
+	public int usedKeepCount(Map<String, Object> map) {
+		int count = 0;
+		try {
+			count = dao.selectOne("used.usedKeepCount",map);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return count;
+	}
+	
+	
+	@Override
+	public List<Used> keepList(Map<String, Object> map) {
+		List<Used> list = null;
+		try {
+			list = dao.selectList("used.keepList", map);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

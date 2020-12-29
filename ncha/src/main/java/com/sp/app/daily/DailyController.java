@@ -154,15 +154,13 @@ public class DailyController {
 			@RequestParam(defaultValue="") String keyword,
 			Model model
 			) throws Exception{
-	
 		
 		String query="page="+page;
 		if(categoryNum.length()!=0 || keyword.length()!=0) {
 			query+="&categoryNum="+categoryNum+"&keyword="+
 					URLEncoder.encode(keyword,"utf-8");
 		}
-		
-		
+			
 		service.updateHitCount(dailyNum);
 		Daily dto = service.readDaily(dailyNum);
 		
