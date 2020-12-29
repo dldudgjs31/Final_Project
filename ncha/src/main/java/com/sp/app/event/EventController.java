@@ -123,7 +123,7 @@ public class EventController {
 			e.printStackTrace();
 		}
 		
-		return "redirect:/store/event/list";
+		return "redirect:/event/list";
 	}
 	
 	@RequestMapping(value="article", method=RequestMethod.GET)
@@ -143,7 +143,7 @@ public class EventController {
 
 		Event dto = service.readEvent(eventNum);
 		if (dto == null)
-			return "redirect:/store/event/list?"+query;
+			return "redirect:/event/list?"+query;
 		
 		dto.setContent(dto.getContent().replaceAll("\n", "<br>"));
 		
@@ -177,11 +177,11 @@ public class EventController {
 		
 		Event dto = service.readEvent(eventNum);
 		if (dto == null)
-			return "redirect:/store/event/list?page="+page;
+			return "redirect:/event/list?page="+page;
 
 		// 글을 등록한 사람만 수정 가능
 		if(! dto.getSellerId().equals(info.getSellerId())) {
-			return "redirect:/store/event/list?page="+page;
+			return "redirect:/event/list?page="+page;
 		}
 		
 		model.addAttribute("dto", dto);
@@ -204,7 +204,7 @@ public class EventController {
 		} catch (Exception e) {
 		}
 		
-		return "redirect:/store/event/article?eventNum="+dto.getEventNum()+"&page="+page;
+		return "redirect:/event/article?eventNum="+dto.getEventNum()+"&page="+page;
 	}
 	
 	@RequestMapping(value="delete", method=RequestMethod.GET)
@@ -231,6 +231,6 @@ public class EventController {
 		} catch (Exception e) {
 		}
 		
-		return "redirect:/store/event/list?"+query;
+		return "redirect:/event/list?"+query;
 	}
 }

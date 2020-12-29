@@ -33,7 +33,7 @@ function updateEvent() {
 
 <div class="body-container" style="width: 700px;">
     <div class="body-title">
-        <h3><i class="far fa-image"></i> 이벤트 게시판 </h3>
+        <h3><i class="far fa-image"></i>진행중인 이벤트</h3>
     </div>
     
     <div>
@@ -60,7 +60,11 @@ function updateEvent() {
 			      ${dto.content}
 			   </td>
 			</tr>
-			
+			<tr height="35" style="border-bottom: 1px solid #cccccc;">
+				<td colspan="2" align="left" style="padding-left: 5px;">
+				진행 기간 : <span style="font-style: italic;"> ${dto.start_date}~ ${dto.end_date} </span>  
+				</td>
+			</tr>
 			<tr height="35" style="border-bottom: 1px solid #cccccc;">
 			    <td colspan="2" align="left" style="padding-left: 5px;">
 			       이전글 :

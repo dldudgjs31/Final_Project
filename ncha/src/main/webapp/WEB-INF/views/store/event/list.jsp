@@ -2,125 +2,111 @@
 <%@ page trimDirectiveWhitespaces="true" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-
-<style type="text/css">
-.imgLayout{
-	width: 190px;
-	height: 205px;
-	padding: 10px 5px 10px;
-	margin: 5px;
-	border: 1px solid #DAD9FF;
-	cursor: pointer;
-}
-.subject {
-     width:180px;
-     height:25px;
-     line-height:25px;
-     margin:5px auto;
-     border-top: 1px solid #DAD9FF;
-     display: inline-block;
-     white-space:nowrap;
-     overflow:hidden;
-     text-overflow:ellipsis;
-     cursor: pointer;
-}
-</style>
-
+<link href="${pageContext.request.contextPath}/resources/css/shop-homepage.css" rel="stylesheet">
 <script type="text/javascript">
 function searchList() {
-		var f=document.searchForm;
-		f.submit();
+	var f=document.searchForm;
+	f.submit();
 }
 
-function article(eventNum) {
-	var url="${articleUrl}&eventNum="+eventNum;
-	location.href=url;
-}
+$(document).ready(function() {
+    $('#list').click(function(event){event.preventDefault();$('#products .item').addClass('list-group-item');});
+    $('#grid').click(function(event){event.preventDefault();$('#products .item').removeClass('list-group-item');$('#products .item').addClass('grid-group-item');});
+});
 </script>
-
-<div class="body-container" style="width: 630px;">
-    <div class="body-title">
-        <h3><i class="far fa-image"></i> 이벤트게시판 </h3>
+<style type="text/css">
+.list-group-item{
+	color : black !important;
+}
+</style>
+  <!-- Page Content -->
+    <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+      <ol class="carousel-indicators">
+ 	  <c:forEach var="dto" items="${list}">
+        <li data-target="#carouselExampleIndicators" data-slide-to="${listNum}" class="active"></li>
+       </c:forEach>
+      </ol>
+   
+      <div class="carousel-inner" role="listbox">
+       	  <c:forEach var="dto" items="${list}">
+      <div class="carousel-item active" style="background-image: url('${pageContext.request.contextPath}/uploads/event/${dto.imageFilename}')"></div>
+       </c:forEach>
+       </div>
+     
+      <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="sr-only">Previous</span>
+      </a>
+      <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="sr-only">Next</span>
+      </a>
     </div>
-    
-    <div>
-		<table style="width: 100%; margin: 20px auto 0px; border-spacing: 0px;">
-		   <tr height="35">
-		      <td align="left" width="50%">
-		          ${dataCount}개(${page}/${total_page} 페이지)
-		      </td>
-		      <td align="right">
-		          &nbsp;
-		      </td>
-		   </tr>
-		</table>
-		
-		<table style="width: 100%; margin: 0px auto; border-spacing: 0px;">
-<c:forEach var="dto" items="${list}" varStatus="status">
-                 <c:if test="${status.index==0}">
-                       <tr>
-                 </c:if>
-                 <c:if test="${status.index!=0 && status.index%3==0}">
-                        <c:out value="</tr><tr>" escapeXml="false"/>
-                 </c:if>
-			     <td width="210" align="center">
-			        <div class="imgLayout">
-			             <img src="${pageContext.request.contextPath}/uploads/event/${dto.imageFilename}" width="180"
-			                   height="180" border="0" onclick="javascript:article('${dto.eventNum}');">
-			             <span class="subject" onclick="javascript:article('${dto.eventNum}');" >
-			                   ${dto.subject}
-			             </span>
-			         </div>
-			     </td>
-</c:forEach>
+    <!-- Page Heading/Breadcrumbs -->
+<Br><Br>
 
-<c:set var="n" value="${list.size()}"/>
-<c:if test="${n>0&&n%3!=0}">
-		        <c:forEach var="i" begin="${n%3+1}" end="3" step="1">
-			         <td width="210">
-			             <div class="imgLayout">&nbsp;</div>
-			         </td>
-		        </c:forEach>
-</c:if>
-	
-<c:if test="${n!=0 }">
-		       <c:out value="</tr>" escapeXml="false"/>
-</c:if>
-		</table>           
-		 
-		<table style="width: 100%; margin: 0px auto; border-spacing: 0px;">
-		   <tr height="35">
-			<td align="center">
-			    ${dataCount==0?"등록된 게시물이 없습니다.":paging}
-			 </td>
-		   </tr>
-		</table>
-		
-		<table style="width: 100%; margin: 10px auto; border-spacing: 0px;">
-		   <tr height="40">
-		      <td align="left" width="100">
-		          <button type="button" class="btn" onclick="javascript:location.href='${pageContext.request.contextPath}/event/list';">새로고침</button>
-		      </td>
-		      <td align="center">
-		          <form name="searchForm" action="${pageContext.request.contextPath}/event/list" method="post">
-		              <select name="condition" class="selectField">
-		                  <option value="all" ${condition=="all"?"selected='selected'":""}>모두</option>
-		                  <option value="subject" ${condition=="subject"?"selected='selected'":""}>제목</option>
-		                  <option value="content" ${condition=="content"?"selected='selected'":""}>내용</option>
-		                  <option value="userName" ${condition=="userName"?"selected='selected'":""}>작성자</option>
-		                  <option value="created" ${condition=="created"?"selected='selected'":""}>등록일</option>
-		            </select>
-		            <input type="text" name="keyword" value="${keyword}" class="boxTF">
-		            <button type="button" class="btn" onclick="searchList()">검색</button>
-		        </form>
-		      </td>
-		       <c:if test="${sessionScope.member.userId=='admin'||not empty sessionScope.seller}">
-		      <td align="right" width="100">
-		          <button type="button" class="btn" onclick="javascript:location.href='${pageContext.request.contextPath}/event/created';">등록하기</button>
-		      </td>
-		      </c:if>
-		   </tr>
-		</table>
+          <ol class="breadcrumb">
+      <li class="breadcrumb-item">이벤트</li>
+      <li class="breadcrumb-item active">진행중 이벤트</li>
+    </ol>
+    <!-- Content Row -->
+    <div class="row">
+      <!-- Sidebar Column -->
+      <div class="col-lg-3 mb-4">
+        <div class="list-group">
+          <a href="index.html" class="list-group-item">진행중 이벤트</a>
+          <a href="index.html" class="list-group-item">종료된 이벤트</a>
+          <a href="about.html" class="list-group-item">전체 이벤트</a>
+        </div>
+      </div>
+      <!-- Content Column -->
+
+
+      <div class="col-lg-9 mb-4">
+        <p class="text-right"> (${page}/${total_page} 페이지)</p>
+        	<table  class="table" style="width: 100%; margin: 10px auto; border-spacing: 0px;">
+				<tr height="40">
+					<td align="left"> 
+						<button type="button" class="btn" onclick="javascript:location.href='${pageContext.request.contextPath}/event/list';">새로고침</button>
+					</td>
+					<c:if
+					test="${sessionScope.member.userId=='admin'||sessionScope.seller.allow=='1'}">
+					<td align="right">
+						<button type="button" class="btn"
+							onclick="javascript:location.href='${pageContext.request.contextPath}/event/created';">글올리기</button>
+					</td>
+				</c:if>
+				</tr>
+			</table>
+            <div class="row">
+      <c:forEach var="dto" items="${list}">
+      <div class="col-lg-4 col-sm-6 portfolio-item" style="margin-bottom: 10px;">
+        <div class="card h-100">
+          <a href="${articleUrl}&eventNum=${dto.eventNum}"><img class="card-img-top" src="${pageContext.request.contextPath}/uploads/event/${dto.imageFilename}" alt="" style="height: 200px;"></a>
+          <div class="card-body">
+            <p class="card-text">${dto.sellerId}</p>
+            <h4 class="card-title">
+              <a  href="${articleUrl}&eventNum=${dto.eventNum}">${dto.subject}</a>
+            </h4>
+            
+            <p class="card-text">진행 기간 <br>
+              <span style="font-style: italic;"> ${dto.start_date}~ ${dto.end_date} </span>   </p>
+          </div>
+        </div>
+      </div>
+      </c:forEach>
     </div>
+  <p class="text-center">${dataCount==0?"등록된 게시물이 없습니다.":paging}</p>
+        
+
+      </div>
+    </div>
+
+
+<div class="body-container" >
+	<div class="body-title">
+	</div>
+
 
 </div>
+

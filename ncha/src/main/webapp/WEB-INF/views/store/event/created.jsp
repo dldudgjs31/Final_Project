@@ -38,7 +38,7 @@
 
 <div class="body-container" style="width: 700px;">
     <div class="body-title">
-        <h3><i class="far fa-image"></i> 이벤트게시판 </h3>
+        <h3><i class="far fa-image"></i> 이벤트신청하기 </h3>
     </div>
     
     <div>
@@ -52,9 +52,9 @@
 			  </tr>
 			
 			  <tr align="left" height="40" style="border-bottom: 1px solid #cccccc;"> 
-			      <td width="100" bgcolor="#eeeeee" style="text-align: center;">주최</td>
+			      <td width="100" bgcolor="#eeeeee" style="text-align: center;">작성자</td>
 			      <td style="padding-left:10px;"> 
-			          ${sessionScope.seller.sellerId}
+			          ${sessionScope.seller.sellerId} 
 			      </td>
 			  </tr>
 			
@@ -80,7 +80,7 @@
 			  </tr>
 			  
 			  <tr align="left" height="40" style="border-bottom: 1px solid #cccccc;">
-			      <td width="100" bgcolor="#eeeeee" style="text-align: center;">이미지</td>
+			      <td width="100" bgcolor="#eeeeee" style="text-align: center;">메인 이미지</td>
 			      <td style="padding-left:10px;"> 
 			          <input type="file" name="upload" class="boxTF" size="53"
 			                     accept="image/*" 
