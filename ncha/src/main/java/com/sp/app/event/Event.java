@@ -9,7 +9,14 @@ public class Event {
 	private String content;
 	private String start_date;
 	private String end_date;
+	private int allow;
 	
+	public int getAllow() {
+		return allow;
+	}
+	public void setAllow(int allow) {
+		this.allow = allow;
+	}
 	private String imageFilename;
 	private MultipartFile upload;
 

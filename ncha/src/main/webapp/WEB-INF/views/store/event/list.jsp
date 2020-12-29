@@ -22,18 +22,21 @@ $(document).ready(function() {
 	color : black !important;
 }
 </style>
+
   <!-- Page Content -->
     <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
       <ol class="carousel-indicators">
-	 	  <c:forEach var="dto" items="${list}" varStatus="status">
-	        <li data-target="#carouselExampleIndicators" data-slide-to="${status.index}" ${status.index==0?"class='active'":"" }></li>
-	       </c:forEach>
+      	 	  <c:forEach var="dto" items="${list}" varStatus="status">
+		        	<li data-target="#carouselExampleIndicators" data-slide-to="${status.index}" ${status.index==0?"class='active'":"" }></li>
+	       	</c:forEach>
       </ol>
    
       <div class="carousel-inner" role="listbox">
-       	  <c:forEach var="dto" items="${list}" varStatus="status">
-      		<div class="carousel-item ${status.index==0?'active':'' }" style="background-image: url('${pageContext.request.contextPath}/uploads/event/${dto.imageFilename}')"></div>
-       	</c:forEach>
+      
+      	  <c:forEach var="dto" items="${list}" varStatus="status">
+     		<div class="carousel-item ${status.index==0?'active':'' }" style="background-image: url('${pageContext.request.contextPath}/uploads/event/${dto.imageFilename}')"></div>
+      	</c:forEach>
+
       </div>
      
       <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
@@ -81,6 +84,8 @@ $(document).ready(function() {
 				</c:if>
 				</tr>
 			</table>
+			
+			
             <div class="row">
       <c:forEach var="dto" items="${list}">
       <div class="col-lg-4 col-sm-6 portfolio-item" style="margin-bottom: 10px;">

@@ -30,8 +30,9 @@
 		FROM event e
 		JOIN seller s ON e.sellerId= s.sellerId
 		<where>
+		    e.allow = 1
 			<if test="keyword!=null and keyword!='' ">
-				<include refid="where-list"/>
+				AND <include refid="where-list"/>
 			</if>
 		</where>		
 	</select>
@@ -43,8 +44,9 @@
 		FROM event e
 		JOIN seller s ON e.sellerId=s.sellerId
 		<where>
+		    e.allow = 1
 			<if test="keyword != null and keyword != ''">
-				<include refid="where-list"/>
+				AND <include refid="where-list"/>
 			</if>
 		</where>
 		ORDER BY eventNum DESC
