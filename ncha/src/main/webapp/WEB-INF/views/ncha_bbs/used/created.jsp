@@ -3,9 +3,20 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
-
-
+<script type="text/javascript" src="${pageContext.request.contextPath}/resources/se/js/HuskyEZCreator.js" charset="utf-8"></script>
 <style type="text/css">
+#preImage{
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: contain;
+	border: 1px solid silver;
+	border-radius: 20px;
+	margin: 10px;
+}
+#main_img{
+	width: 100%;
+	display: flex;
+}
 .imgs_wrap img{
 	height:100px;
 	width: 80px;
@@ -47,7 +58,6 @@ function handleImgFileSelect(e){
 	});
 }
 
-
 function sendOk(){
 	var f = document.usedForm;
 	
@@ -63,9 +73,23 @@ function sendOk(){
 		alert("내용을 입력하세요.");
 		f.content.focus();
 		return;
-	}
 	
-	
+	 var mode="${mode}";
+     if(mode=="created"||mode=="update" && f.upload.value!="") {
+ 		if(! /(\.gif|\.jpg|\.png|\.jpeg)$/i.test(f.upload.value)) {
+ 			alert('1개 이상의 이미지 파일을 선택해주세요.');
+ 			f.upload.focus();
+ 			return;
+ 		}
+ 	}
+	     
+     str = f.categoryNum.value;
+     if(!str) {
+         alert("카테고리를 설정하세요! ");
+         f.categoryNum.focus();
+         return;
+     }
+     
 	f.action="${pageContext.request.contextPath}/used/${mode}";
 	f.submit();
 }
@@ -88,14 +112,14 @@ function goArticle(usedNum,page){
 
 
 <div class = "body-containter" style="width:700px;">
-	<div class="body-title">
+	<div class="row body-title">
 		<h3><i class="fas fa-chalkboard"></i>중고거래 글쓰기</h3>
 	</div>
 
 	<div>
 		<form name="usedForm" method="post" enctype="multipart/form-data" style="margin:0 auto; width: 100%;" align = "center">	
 		
-			<table style="width: 100%; margin: 20px auto 0px; border-spacing: 0px; border-collapse: collapse;">
+			<table class="table text-center">
 			<tr align="left" height="40" style="border-bottom: 1px solid #cccccc;"> 
 				<td width="100" bgcolor="#eeeeee" style="text-align: center;">작성자</td>
 				<td style="padding-left:10px;">
