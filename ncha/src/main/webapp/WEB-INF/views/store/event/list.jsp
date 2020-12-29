@@ -23,7 +23,7 @@ $(document).ready(function() {
     <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
       <ol class="carousel-indicators">
  	  <c:forEach var="dto" items="${list}">
-        <li data-target="#carouselExampleIndicators" data-slide-to="${listNum}" class="active"></li>
+        <li data-target="#carouselExampleIndicators" data-slide-to="${dto.listNum}"></li>
        </c:forEach>
       </ol>
    

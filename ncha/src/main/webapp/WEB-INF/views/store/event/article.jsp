@@ -2,43 +2,84 @@
 <%@ page trimDirectiveWhitespaces="true" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-
+<link href="${pageContext.request.contextPath}/resources/css/shop-homepage.css" rel="stylesheet">
 <script type="text/javascript">
 function deleteEvent() {
-<c:if test="${sessionScope.seller.sellerId=='admin' || sessionScope.seller.sellerId==dto.sellerId}">
-	var q = "eventNum=${dto.eventNum}&${query}";
-    var url = "${pageContext.request.contextPath}/event/delete?" + q;
+	<c:if test="${sessionScope.seller.sellerId=='admin' || sessionScope.seller.sellerId==dto.sellerId}">
+		var q = "eventNum=${dto.eventNum}&${query}";
+	    var url = "${pageContext.request.contextPath}/event/delete?" + q;
 
-    if(confirm("위 자료를 삭제 하시 겠습니까 ? "))
-  	  location.href=url;
-</c:if>    
-<c:if test="${sessionScope.seller.sellerId!='admin' && sessionScope.seller.sellerId!=dto.sellerId}">
-  alert("게시물을 삭제할 수  없습니다.");
-</c:if>
-}
+	    if(confirm("위 자료를 삭제 하시 겠습니까 ? "))
+	  	  location.href=url;
+	</c:if>    
+	<c:if test="${sessionScope.seller.sellerId!='admin' && sessionScope.seller.sellerId!=dto.sellerId}">
+	  alert("게시물을 삭제할 수  없습니다.");
+	</c:if>
+	}
 
-function updateEvent() {
-<c:if test="${sessionScope.seller.sellerId==dto.sellerId}">
-	var q = "eventNum=${dto.eventNum}&page=${page}";
-    var url = "${pageContext.request.contextPath}/event/update?" + q;
+	function updateEvent() {
+	<c:if test="${sessionScope.seller.sellerId==dto.sellerId}">
+		var q = "eventNum=${dto.eventNum}&page=${page}";
+	    var url = "${pageContext.request.contextPath}/event/update?" + q;
 
-    location.href=url;
-</c:if>
+	    location.href=url;
+	</c:if>
 
-<c:if test="${sessionScope.seller.sellerId!=dto.sellerId}">
-   alert("게시물을 수정할 수  없습니다.");
-</c:if>
-}
+	<c:if test="${sessionScope.seller.sellerId!=dto.sellerId}">
+	   alert("게시물을 수정할 수  없습니다.");
+	</c:if>
+	}
 </script>
-
-<div class="body-container" style="width: 700px;">
-    <div class="body-title">
-        <h3><i class="far fa-image"></i>진행중인 이벤트</h3>
+<style type="text/css">
+.list-group-item{
+	color : black !important;
+}
+</style>
+  <!-- Page Content -->
+    <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+      <ol class="carousel-indicators">
+ 	  <c:forEach var="dto" items="${list}">
+        <li data-target="#carouselExampleIndicators" data-slide-to="${listNum}" class="active"></li>
+       </c:forEach>
+      </ol>
+   
+      <div class="carousel-inner" role="listbox">
+       	  <c:forEach var="dto" items="${list}">
+      <div class="carousel-item active" style="background-image: url('${pageContext.request.contextPath}/uploads/event/${dto.imageFilename}')"></div>
+       </c:forEach>
+       </div>
+     
+      <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="sr-only">Previous</span>
+      </a>
+      <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="sr-only">Next</span>
+      </a>
     </div>
-    
+    <!-- Page Heading/Breadcrumbs -->
+<Br><Br>
+
+          <ol class="breadcrumb">
+      <li class="breadcrumb-item">이벤트</li>
+      <li class="breadcrumb-item active">진행중 이벤트</li>
+    </ol>
+    <!-- Content Row -->
+    <div class="row">
+      <!-- Sidebar Column -->
+      <div class="col-lg-3 mb-4">
+        <div class="list-group">
+          <a href="index.html" class="list-group-item">진행중 이벤트</a>
+          <a href="index.html" class="list-group-item">종료된 이벤트</a>
+          <a href="about.html" class="list-group-item">전체 이벤트</a>
+        </div>
+      </div>
+      <!-- Content Column -->
+	
     <div>
-			<table style="width: 100%; margin: 20px auto 0px; border-spacing: 0px; border-collapse: collapse;">
-			<tr height="35" style="border-top: 1px solid #cccccc; border-bottom: 1px solid #cccccc;">
+			<table class="table" style="width: 100%; max-width:800px;  margin: 10px auto; border-spacing: 0px;">
+			<tr class="card-body" height="35" style="border-top: 1px solid #cccccc; border-bottom: 1px solid #cccccc;">
 			    <td colspan="2" align="center">
 				   ${dto.subject}
 			    </td>
@@ -86,7 +127,7 @@ function updateEvent() {
 			
 			<table style="width: 100%; margin: 0px auto 20px; border-spacing: 0px;">
 			<tr height="45">
-			    <td width="300" align="left">
+			    <td align="left">
 			       <c:if test="${sessionScope.seller.sellerId==dto.sellerId}">				    
 			          <button type="button" class="btn" onclick="updateEvent();">수정</button>
 			       </c:if>
@@ -102,4 +143,10 @@ function updateEvent() {
 			</table>
     </div>
     
+<div class="body-container" >
+	<div class="body-title">
+	</div>
+
+
 </div>
+
