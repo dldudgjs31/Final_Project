@@ -206,6 +206,7 @@ public class MemberServiceImpl implements MemberService {
 			dto=dao.selectOne("member.readProfile", userId);
 			dto.setFollowerCount(dao.selectOne("member.followerCount",userId));
 			dto.setFollowingCount(dao.selectOne("member.followingCount",userId));
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw e;
@@ -277,6 +278,17 @@ public class MemberServiceImpl implements MemberService {
 			throw e;
 		}
 		
+	}
+
+	@Override
+	public int followCheck(Map<String, Object> map) throws Exception {
+		int result = 0;
+		try {
+			result = dao.selectOne("member.followCheckCount",map);
+		} catch (Exception e) {
+			throw e;
+		}
+		return result;
 	}
 	
 	

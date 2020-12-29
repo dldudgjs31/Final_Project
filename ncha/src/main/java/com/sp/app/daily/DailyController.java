@@ -43,10 +43,11 @@ public class DailyController {
 			@RequestParam(value="page", defaultValue="1") int current_page,
 			@RequestParam(defaultValue="") String categoryNum,
 			@RequestParam(defaultValue="") String keyword,
+			@RequestParam(defaultValue="") String sessionId,
 			HttpServletRequest req,
 			Model model
 			) throws Exception{
-		int rows = 3; 
+		int rows = 10; 
 		int total_page = 0;
 		int dataCount = 0;
 		
@@ -58,6 +59,7 @@ public class DailyController {
 		 
 		 map.put("categoryNum", categoryNum);
 		 map.put("keyword", keyword);
+		 map.put("sessionId", sessionId);
 		 
 		 dataCount = service.dataCount(map);
         if(dataCount != 0)
@@ -86,9 +88,9 @@ public class DailyController {
         String query = "";
         String articleUrl = cp+"/daily/article?page=" + current_page;
         
-        if(categoryNum.length()!=0 || keyword.length()!=0) {
+        if(categoryNum.length()!=0 || keyword.length()!=0 || sessionId.length()!=0) {
 			query = "categoryNum="+categoryNum+"&keyword="+
-					URLEncoder.encode(keyword,"utf-8");
+					URLEncoder.encode(keyword,"utf-8")+"&sessionId="+sessionId;
 		}
         
         if(query.length()!=0) {
@@ -97,9 +99,9 @@ public class DailyController {
 		}
         String paging = myUtil.paging(current_page, total_page, listUrl);
 		
-      
-		model.addAttribute("mode","mode");
+        model.addAttribute("mode","mode");  
         model.addAttribute("keyword",keyword);
+        model.addAttribute("sessionId", sessionId);
         model.addAttribute("categoryNum", categoryNum);
 		model.addAttribute("list", list);
 		model.addAttribute("page", current_page);
@@ -152,15 +154,13 @@ public class DailyController {
 			@RequestParam(defaultValue="") String keyword,
 			Model model
 			) throws Exception{
-	
 		
 		String query="page="+page;
 		if(categoryNum.length()!=0 || keyword.length()!=0) {
 			query+="&categoryNum="+categoryNum+"&keyword="+
 					URLEncoder.encode(keyword,"utf-8");
 		}
-		
-		
+			
 		service.updateHitCount(dailyNum);
 		Daily dto = service.readDaily(dailyNum);
 		

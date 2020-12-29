@@ -22,6 +22,8 @@ import com.sp.app.common.FileManager;
 import com.sp.app.common.MyUtil;
 import com.sp.app.seller.SessionInfo;
 
+import oracle.jdbc.proxy.annotation.Post;
+
 @Controller("store.storeController")
 @RequestMapping("/store/*")
 public class StoreController {
@@ -134,6 +136,8 @@ public class StoreController {
 		model.addAttribute("pathname",pathname);
 		return "redirect:/store/list";
 	}
+	
+	
 	/**
 	 * 스토어 상품 글보기
 	 * @return
@@ -195,7 +199,8 @@ public class StoreController {
 			)throws Exception{
 		SessionInfo info =(SessionInfo)session.getAttribute("seller");
 		Store dto = service.readProduct(num);
-		
+		List<Store> listFile = service.listFile(num);
+		List<Store> list1 = service.readProductFile(num);
 		if(dto==null) {
 			return "redirect:/store/list?page="+page;
 		}
@@ -203,6 +208,8 @@ public class StoreController {
 		if(!info.getSellerId().equals(dto.getSellerId())){
 			return "redirect:/store/list?page="+page;
 		}
+		model.addAttribute("list1", list1);
+		model.addAttribute("listFile", listFile);
 		model.addAttribute("dto",dto);
 		model.addAttribute("mode","update");
 		model.addAttribute("page",page);

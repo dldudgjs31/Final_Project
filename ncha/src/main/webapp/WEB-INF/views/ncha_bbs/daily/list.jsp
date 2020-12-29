@@ -3,8 +3,11 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
-
 <style type="text/css">
+
+
+
+
 .imgLayout{
 	width: 190px;
 	height: 205px;
@@ -84,7 +87,7 @@
   display: flex;
 }
 .post-likes,
-.post-comments {
+.post-hitCount {
   width: 80px;
   margin: 5px;
   font-weight: bold;
@@ -109,8 +112,8 @@
 	align-items: center;
 }
 .imgs{
-	width: 200px; 
-	height: 200px; 
+	width: 30px; 
+	height: 30px; 
 	background-repeat: no-repeat;
 	background-position: center;
 	background-size: cover;
@@ -207,8 +210,8 @@
 }
 
 </style>
-<script type="text/javascript">
 
+<script type="text/javascript">
 function searchList1() {
 	var f1=document.searchFormList;
 
@@ -221,84 +224,92 @@ function searchList2() {
 	f2.submit();
 }
 
-
+function searchList3() {
+	var f3=document.SearchFormFollow;
+	
+	f3.submit();
+}
+function goArticle(dailyNum){
+	location.href ="${articleUrl}&dailyNum="+dailyNum;
+}
 </script>
+<Br><Br>
 
-<div class="body-container" style="width: 900px;">
-    <div>
-        일상글 리스트입니다.
-        
-       <br><br> 
-       <div>
-	       	<table style="width: 100%; margin: 10px auto; border-spacing: 0px;">
+<table style="width: 100%; margin: 10px auto; border-spacing: 0px;">
 				<tr height="40">
 					<td align="right" width="100">
 						<button type="button" class="btn" onclick="javascript:location.href='${pageContext.request.contextPath}/daily/created';">글올리기</button>
 					</td>
+				
 					<td align="center">
-							<form name="searchFormKeyword" action="${pageContext.request.contextPath}/daily/list" method="post">
-								<input type="text" name="keyword" value="${keyword}" class="boxTF">
-								<button type="button" class="btn" onclick="searchList2();">검색</button>
-							</form>
+						<form name="searchFormKeyword" action="${pageContext.request.contextPath}/daily/list" method="post">
+							<input type="text" name="keyword" value="${keyword}" class="boxTF">
+							<button type="button" class="btn" onclick="searchList2();">검색 :${sessionId}</button>
+						</form>
 					</td>
 					<td align="center">
 						<form name="searchFormList" action="${pageContext.request.contextPath}/daily/list" method="post">
-													
 							<select class="selectField" id="categoryNum" name="categoryNum" onchange="searchList1();">
-							<option value="">::카테고리 모아보기::</option>
-							<option value="1" ${dto.categoryNum=="1"?"selected='selected'":""}>의류</option>
-							<option value="2" ${dto.categoryNum=="2"?"selected='selected'":""}>가구</option>
-							<option value="3" ${dto.categoryNum=="3"?"selected='selected'":""}>전자제품</option>
-							<option value="4" ${dto.categoryNum=="4"?"selected='selected'":""}>도서</option>
-							<option value="5" ${dto.categoryNum=="5"?"selected='selected'":""}>기타</option>
-						</select>
-						</form>
+								<option value="">::카테고리 모아보기::</option>
+								<option value="1" ${dto.categoryNum=="1"?"selected='selected'":""}>의류</option>
+								<option value="2" ${dto.categoryNum=="2"?"selected='selected'":""}>가구</option>
+								<option value="3" ${dto.categoryNum=="3"?"selected='selected'":""}>전자제품</option>
+								<option value="4" ${dto.categoryNum=="4"?"selected='selected'":""}>도서</option>
+								<option value="5" ${dto.categoryNum=="5"?"selected='selected'":""}>기타</option>
+							</select>
+						</form>	
 					</td>
 					<td align="left" width="100">
 						<button type="button" class="btn" onclick="javascript:location.href='${pageContext.request.contextPath}/daily/list';">새로고침</button>
 					</td>
+					
 					<td  align="left" width="150">
-						<button type="button" class="btn" onclick="">관심 일상 보기</button>
+						<form name="SearchFormFollow" method="post">
+							<input type="hidden" name="sessionId" value="${sessionScope.member.userId}"> 
+							<button type="button" class="btn" onclick="searchList3();">주변 일상글</button>
+						</form>
 					</td>
 				</tr>
-				</table>
-			   	<table style="width: 100%; margin: 20px auto 0px; border-spacing: 0px;">
-					<tr height="35">
-						<td align="left" width="50%">
-							${dataCount}개 (${page}/${total_page} 페이지)
-						</td>
-						<td align="right">
-							&nbsp;
-						</td>
-					</tr>
-				</table>		
-       </div>
-       
-       <div>
-       		<div>
-			<div class="post-list">
-			<c:forEach var="dto" items="${list}">
-			    <a href="${articleUrl}&dailyNum=${dto.dailyNum}" class="post">
-			      <div class="post-image">
-			      	<img alt="" src="${pageContext.request.contextPath}//uploads/daily/${dto.imageFilename}" width="180" height="180" border="0">
-			      </div>
-			      <span class="post-overlay">
-			        <p>
+</table>
+
+<ol class="breadcrumb">
+      <li class="breadcrumb-item">카테고리</li>
+      <li class="breadcrumb-item active">${dto.categoryName}</li>
+</ol>
+
+ <div class="col-lg-9 mb-4">
+        <p class="text-right">  총 게시글 수  : ${dataCount} &nbsp;&nbsp;&nbsp; (${page}/${total_page} 페이지)</p>
+      <div class="row">
+    
+      <c:forEach var="dto" items="${list}">
+      <div class="col-lg-4 col-sm-6 portfolio-item" style="margin-bottom: 10px;">   
+        <div class="card h-100">         
+          <a href="${articleUrl}&dailyNum=${dto.dailyNum}">       	
+	          <img class="card-img-top" src="${pageContext.request.contextPath}/uploads/daily/${dto.imageFilename}" alt=""  style="height: 200px;">   		          		
+	          <span class="post-overlay">		       
 			          <span class="post-likes">${dto.dailyLikeCount }</span>
-			          <span class="post-comments">${dto.replyCount }</span>
-			        </p>
-			      </span>
-			    </a>
-			</c:forEach>
-			</div>
-			<table style="width: 100%; margin: 0px auto; border-spacing: 0px;">
+			          <span class="post-comments">${dto.replyCount }</span>			      
+			  </span>
+          </a>              
+          <div class="card-body" align="center">       
+            <div class="profile-img card-text">
+   			<div class="imgs" style="background-image:url('${pageContext.request.contextPath}/uploads/member/${dto.profile_imageFilename}'); border-bottom: 1px solid #cccccc;" >
+   			</div><a href="javascript:searchProfile('${dto.userId}')">${dto.userId}</a>
+   			</div>
+            <h4 class="card-title">
+              <a href="${articleUrl}&dailyNum=${dto.dailyNum}">${dto.subject}</a>
+            </h4>
+          </div>
+        </div>
+      </div>
+      </c:forEach>
+    </div>
+      
+    <table style="width: 100%; margin: 0px auto; border-spacing: 0px;">
 				   <tr height="35">
 					<td align="center">
 					    ${dataCount==0 ? "등록된 게시물이 없습니다.":paging}
 					 </td>
 				   </tr>
-			</table>
-       		</div>
-       </div>
-    </div>
+	</table>
 </div>

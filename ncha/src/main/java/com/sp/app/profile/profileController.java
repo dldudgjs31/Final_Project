@@ -347,6 +347,24 @@ public class profileController {
 		return "redirect:/mypage/followingList?page="+page;
 	}
 	
+	@RequestMapping("deleteFollow")
+	public String delete3(
+			@RequestParam String userId,
+			HttpSession session
+			) throws Exception {
+		try {
+			SessionInfo info=(SessionInfo)session.getAttribute("member");
+			Map<String, Object> map = new HashMap<>();
+			map.put("userId1", userId);
+			map.put("userId2", info.getUserId());			
+
+			service.deleteFollower(map);
+		} catch (Exception e) {
+		}
+
+		return "redirect:/mypage/searchProfile?userId="+userId;
+	}
+	
 	@RequestMapping("searchProfile")
 	public String searchProfile(
 			@RequestParam(value="page", defaultValue="1") int current_page1,
@@ -357,10 +375,18 @@ public class profileController {
 			Model model
 			) throws Exception{		
 		SessionInfo info=(SessionInfo)session.getAttribute("member");
-		Member dto=service.readProfile(userId);
+		Map<String, Object> map1 = new HashMap<>();
+		map1.put("userId", userId);
+		map1.put("sessionId", info.getUserId());		
+		int check =0 ;
+		check=service.followCheck(map1);
+		
+		Member dto=service.readProfile(userId);		
+		
 		dto.setUserId1(info.getUserId());
 		dto.setUserId2(info.getUserId());
 		model.addAttribute("dto", dto);
+		model.addAttribute("check", check);
 		///// 여까지 프로필 정보 
 		
 		int rows = 7; 

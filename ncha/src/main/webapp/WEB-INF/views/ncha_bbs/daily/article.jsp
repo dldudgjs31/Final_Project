@@ -20,6 +20,7 @@
 .profile-img{
 	grid-area:img;
 	display: flex;
+	
 	justify-content: center;
 	align-items: left;
 }
@@ -357,7 +358,7 @@ $(function(){
    	</div>
    	
 
-    <div class="slick-items" style="height: 450px;">
+     <div class="slick-items" style="height: 450px;">
 		<c:forEach var="vo" items="${list1}">
 			<c:if test="${vo.dailyNum == dto.dailyNum}">
 			      <div  class="slider-image">
@@ -365,7 +366,7 @@ $(function(){
 			      </div>
 			</c:if>  
 		</c:forEach>
-    </div>
+     </div>
      <div>
 			<table style="width: 100%; margin: 20px auto 0px; border-spacing: 0px; border-collapse: collapse;">
 			<tr height="35" style=" border-bottom: 1px solid #cccccc;">
@@ -379,13 +380,19 @@ $(function(){
 			      ${dto.content}
 			   </td>
 			</tr>
+			
+			<tr style="border-bottom: 1px solid #cccccc;">
+			  <td colspan="2" align="left" style="padding: 10px 5px;" valign="top" height="200">
+			    스토어 링크 : <a href="${pageContext.request.contextPath}/store/article?${query}&num=${dto.storeUrl}">${dto.storeUrl}</a>&nbsp;&nbsp;&nbsp; 중고글 링크 : <a href="${pageContext.request.contextPath}/used/article?${query}&usedNum=${dto.usedUrl}">${dto.usedUrl}</a>
+			   </td>
+			</tr>
+			
 			<tr>
 			    <td width="50%" align="right" style="padding-right: 5px;">
 			        ${dto.created_date} | 조회 ${dto.hitCount} | 카테고리 : ${dto.categoryName}
 			    </td>
 			</tr>
-			
-			
+
 			<tr height="35" style="border-bottom: 1px solid #cccccc;">
 			    <td colspan="2" align="left" style="padding-left: 5px;">
 			       이전글 :

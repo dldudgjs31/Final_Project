@@ -172,16 +172,16 @@ function sendOk() {
 			  </tr>
 			  
 			   <tr align="left" style="border-bottom: 1px solid #cccccc;"> 
-			      <td width="100" bgcolor="#eeeeee" style="text-align: center; padding-top:5px;" valign="top">중&nbsp;고&nbsp;U&nbsp;R&nbsp;L</td>
+			      <td width="100" bgcolor="#eeeeee" style="text-align: center; padding-top:5px;" valign="top">중&nbsp;고&nbsp;글&nbsp;번&nbsp;호</td>
 			      <td valign="top" style="padding:5px 0px 5px 10px;"> 
-			      		<input type="text" name="usedURL" maxlength="200" class="boxTF" style="width: 95%;" value="${dto.usedURL}">
+			      		<input type="text" name="usedUrl" maxlength="200" class="boxTF" style="width: 95%;" value="${dto.usedUrl}">
 			      </td>
 			  </tr>
 			  
-			    <tr align="left" style="border-bottom: 1px solid #cccccc;"> 
-			      <td width="100" bgcolor="#eeeeee" style="text-align: center; padding-top:5px;" valign="top">스&nbsp;토&nbsp;어&nbsp;U&nbsp;R&nbsp;L</td>
+			  <tr align="left" style="border-bottom: 1px solid #cccccc;"> 
+			      <td width="100" bgcolor="#eeeeee" style="text-align: center; padding-top:5px;" valign="top">스&nbsp;토&nbsp;어&nbsp;글&nbsp;번&nbsp;호</td>
 			      <td valign="top" style="padding:5px 0px 5px 10px;"> 
-			      		<input type="text" name="storeURL" maxlength="200" class="boxTF" style="width: 95%;" value="${dto.storeURL}">
+			      		<input type="text" name="storeUrl" maxlength="200" class="boxTF" style="width: 95%;" value="${dto.storeUrl}">
 			      </td>
 			  </tr>
 			  

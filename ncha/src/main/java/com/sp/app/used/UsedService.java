@@ -9,7 +9,7 @@ public interface UsedService {
 	public void insertUsed(Used dto, String pathname) throws Exception; //중고글 작성
 	public Used readUsed(int num); //중고글보기
 	public void updateUsed(Used dto, String pathname) throws Exception; // 글 수정
-	public void deleteUsed(int num, String pathname) throws Exception;  // 글 삭제
+	public void deleteUsed(int num, String pathname,String userId) throws Exception;  // 글 삭제
 	
 	//게시글 관련
 	public int dataCount(Map<String, Object> map); // 데이터 개수
@@ -44,4 +44,9 @@ public interface UsedService {
 	
 	//마이페이지 관련
 	public List<Used> listUsed_mypage(Map<String, Object> map);
+	
+	//찜기능 관련
+	public void insertKeepList(Map<String, Object> map) throws Exception; //찜목록 추가
+	public int usedKeepCount(Map<String, Object> map);
+	public List<Used> keepList(Map<String, Object> map);
 }

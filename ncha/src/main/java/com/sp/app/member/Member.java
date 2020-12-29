@@ -27,6 +27,10 @@ public class Member {
 	private int followerCount;
 	private int followingCount;
 	
+	
+	
+	
+	
 	public int getAllow() {
 		return allow;
 	}
