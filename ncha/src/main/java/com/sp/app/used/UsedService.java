@@ -49,4 +49,5 @@ public interface UsedService {
 	public void insertKeepList(Map<String, Object> map) throws Exception; //찜목록 추가
 	public int usedKeepCount(Map<String, Object> map);
 	public List<Used> keepList(Map<String, Object> map);
+	public void deleteKeep(Map<String, Object>map) throws Exception;
 }

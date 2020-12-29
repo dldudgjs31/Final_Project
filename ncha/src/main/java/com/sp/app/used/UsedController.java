@@ -541,7 +541,6 @@ public class UsedController {
 	
 	@RequestMapping("keepList")
 	public String keepList(
-			Used dto,
 			HttpServletRequest req,
 			HttpSession session,
 			Model model) throws Exception {
@@ -549,7 +548,7 @@ public class UsedController {
 		SessionInfo info = (SessionInfo)session.getAttribute("member");
 		Map<String, Object> map = new HashMap<>();
 		map.put("userId",info.getUserId());
-		
+				
 		int dataCount = service.usedKeepCount(map); //데이터 갯수 가져옴
 		
 		List<Used> list =service.keepList(map);
@@ -561,4 +560,22 @@ public class UsedController {
 		return ".ncha_bbs.used.keepList";
 	}
 	
+	
+	//AJAX-JSON : 찜삭제
+		@RequestMapping(value="deleteKeep")
+		public String deleteKeep(
+				@RequestParam String usedNum){
+			
+			Map<String, Object> map = new HashMap<String, Object>();
+			
+			map.put("usedNum",usedNum);
+			
+			try {
+				service.deleteKeep(map);
+			} catch (Exception e) {
+			}
+			
+			
+			return "redirect:/used/keepList";
+		}
 }

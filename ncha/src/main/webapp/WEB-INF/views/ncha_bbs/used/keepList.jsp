@@ -211,7 +211,21 @@
 <script type="text/javascript">
 
 function goArticle(usedNum){
-	location.href ="${articleUrl}&usedNum="+usedNum;
+	location.href ="${pageContext.request.contextPath}/used/article?usedNum="+usedNum;
+}
+
+
+function deleteKeep(usedNum){
+	var url="${pageContext.request.contextPath}/used/deleteKeep?usedNum="+usedNum;
+	if(confirm("찜을 삭제 하시겠습니까?")) {
+		location.href=url;
+	}
+}
+
+function searchProfile(userId) {
+	var url="${pageContext.request.contextPath}/mypage/searchProfile?userId="+userId;
+		location.href=url;
+	
 }
 </script>
 <Br><Br>
@@ -234,34 +248,36 @@ function goArticle(usedNum){
         
         <!-- 판매완료되면 이미지 흑백, 제목에 줄그음 -->
         <c:if test="${dto.sold_check == 0}">
-          <a href="${articleUrl}&usedNum=${dto.usedNum}" >
+          <a href="${pageContext.request.contextPath}/used/article?usedNum=${dto.usedNum}&page=1" >
           <img class="card-img-top" src="${pageContext.request.contextPath}/uploads/used/${dto.imageFilename}" alt="" style="height: 200px;">
           </a>
          </c:if>
         
         <c:if test="${dto.sold_check == 1}">
-          <a href="${articleUrl}&usedNum=${dto.usedNum}" >
+          <a href="${pageContext.request.contextPath}/used/article?usedNum=${dto.usedNum}&page=1">
           <img class="card-img-top" src="${pageContext.request.contextPath}/uploads/used/${dto.imageFilename}" alt="" style="height: 200px; filter:grayscale(100%);">
           </a>
          </c:if>
           
           <div class="card-body" align="center">
           
-         	<p class="card-text" onclick="">@ ${dto.userId}</p>
+         	<p class="card-text" onclick="javascript:searchProfile('${dto.userId}')">@${dto.userId}</p>
          	
            	<c:if test="${dto.sold_check == 0}">
             <h4 class="card-title">
-              <a href="${articleUrl}&usedNum=${dto.usedNum}">${dto.subject}</a>
+              <a href="${pageContext.request.contextPath}/used/article?usedNum=${dto.usedNum}&page=1">${dto.subject}</a>
+              <br><button type="button" class="btn" onclick="deleteKeep('${dto.usedNum}');">삭제</button>
             </h4>
             </c:if>
             
             <c:if test="${dto.sold_check == 1}">
             <h4 class="card-title">
-              <del><a href="${articleUrl}&usedNum=${dto.usedNum}">${dto.subject}</a></del>
+              <del><a href="${pageContext.request.contextPath}/used/article?usedNum=${dto.usedNum}&page=1">${dto.subject}</a></del>
+              <br><button type="button" class="btn" onclick="deleteKeep('${dto.usedNum}');">삭제</button>
             </h4>
             </c:if>
             
-            <p class="card-text">판매가 : <fmt:formatNumber type="currency" value="${dto.price}" />원</p>
+            <p class="card-text">판매가 <br><fmt:formatNumber type="currency" value="${dto.price}" />원</p>
           </div>
           
         </div>
@@ -273,7 +289,9 @@ function goArticle(usedNum){
   <table style="width: 100%; margin: 0px auto; border-spacing: 0px;">
 	<tr height="35">
 		<td align="center">
-			${keepCount==0 ? "찜목록이 비었습니다.":paging}
+		<c:if test="${keepCount==0}">
+			찜목록이 비었습니다.
+		</c:if>
 		</td>
 	</tr>
  </table>

@@ -400,4 +400,14 @@ public class UsedServiceImpl implements UsedService {
 		}
 		return list;
 	}
+
+	@Override
+	public void deleteKeep(Map<String, Object> map) throws Exception {
+		try {
+			dao.deleteData("used.deleteKeep",map);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
+	}
 }
