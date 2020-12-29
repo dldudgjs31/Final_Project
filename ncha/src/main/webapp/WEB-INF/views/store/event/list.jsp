@@ -9,10 +9,13 @@ function searchList() {
 	f.submit();
 }
 
+
 $(document).ready(function() {
     $('#list').click(function(event){event.preventDefault();$('#products .item').addClass('list-group-item');});
     $('#grid').click(function(event){event.preventDefault();$('#products .item').removeClass('list-group-item');$('#products .item').addClass('grid-group-item');});
 });
+
+
 </script>
 <style type="text/css">
 .list-group-item{
@@ -22,16 +25,16 @@ $(document).ready(function() {
   <!-- Page Content -->
     <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
       <ol class="carousel-indicators">
- 	  <c:forEach var="dto" items="${list}">
-        <li data-target="#carouselExampleIndicators" data-slide-to="${dto.listNum}"></li>
-       </c:forEach>
+	 	  <c:forEach var="dto" items="${list}" varStatus="status">
+	        <li data-target="#carouselExampleIndicators" data-slide-to="${status.index}" ${status.index==0?"class='active'":"" }></li>
+	       </c:forEach>
       </ol>
    
       <div class="carousel-inner" role="listbox">
-       	  <c:forEach var="dto" items="${list}">
-      <div class="carousel-item active" style="background-image: url('${pageContext.request.contextPath}/uploads/event/${dto.imageFilename}')"></div>
-       </c:forEach>
-       </div>
+       	  <c:forEach var="dto" items="${list}" varStatus="status">
+      		<div class="carousel-item ${status.index==0?'active':'' }" style="background-image: url('${pageContext.request.contextPath}/uploads/event/${dto.imageFilename}')"></div>
+       	</c:forEach>
+      </div>
      
       <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
         <span class="carousel-control-prev-icon" aria-hidden="true"></span>
