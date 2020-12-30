@@ -18,6 +18,7 @@ public class StoreServiceImpl implements StoreService {
 	@Autowired
 	private FileManager fileManager;
 	
+	// 상품 DB 등록
 	@Override
 	public void insertProduct(Store dto, String pathname) throws Exception {
 		try {
@@ -45,6 +46,7 @@ public class StoreServiceImpl implements StoreService {
 		
 	}
 	
+	// 상품 옵션 등록
 	@Override
 	public void insertOption(Store dto) throws Exception {
 		try {
@@ -60,6 +62,8 @@ public class StoreServiceImpl implements StoreService {
 			throw e;
 		}
 	}
+	
+	
 	@Override
 	public List<Store> listProduct(Map<String, Object> map) {
 		List<Store> list = null;
@@ -186,6 +190,16 @@ public class StoreServiceImpl implements StoreService {
 			// TODO: handle exception
 		}
 		return listFile;
+	}
+
+	@Override
+	public List<Store> readOption(int productNum) throws Exception {
+		List<Store> optionList = null;
+		try {
+			optionList = dao.selectList("store.listOption",productNum);
+		} catch (Exception e) {
+		}
+		return optionList;
 	}
 
 

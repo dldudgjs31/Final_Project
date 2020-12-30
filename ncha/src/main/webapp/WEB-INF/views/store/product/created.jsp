@@ -225,12 +225,14 @@ $(function(){
     		$(".option").each(function(){
     			if(! $(this).val()) {
     				b=true;
+    				alert("옵션을 입력해주세요.");
     				return;
     			}
     		});
     		$(".optionstock").each(function(){
     			if(! $(this).val()) {
     				b=true;
+    				alert("재고을 입력해주세요.");
     				return;
     			}
     		});
@@ -278,7 +280,7 @@ $(function(){
 
 <br>
 <div class="row body-title">
-          <h3><i class="fas fa-store"></i>  ${mode=='update'?'판매글 수정하기':'판매글 올리기'} </h3>
+          <h3 style="font-family: 'Jua', sans-serif;"><i class="fas fa-store"></i>  ${mode=='update'?'판매글 수정하기':'판매글 올리기'} </h3>
     </div>
     
     <div class="row alert alert-info">
@@ -296,12 +298,13 @@ $(function(){
 				  <tbody id="boardBody1">
 				  	<tr>
 				  		<td>제품 이미지</td>
-				  		<td> 
-				  			<input type="file" id="image" name="upload"  multiple="multiple"  class="form-control mainimg" onchange="preWatchphoto(event);" multiple size="53" style="width: 50%;multiple">
+				  		<td>
+				  			<input type="file" id="image" name="upload"  multiple="multiple"  class="form-control  mainimg" onchange="preWatchphoto(event);" multiple size="53" style="width: 50%;multiple">
 				  		</td>
 				  	</tr>
 				  </tbody>
 				  <tbody id="optionbody">
+				  <c:if test="${mode == 'created'}">
 				  	<tr>
 				  		<td> 제품 옵션 &nbsp; 
 				  			<button type="button" class="btn btn-primary optionbtn"><i class="fas fa-plus-circle"></i></button> 
@@ -309,11 +312,26 @@ $(function(){
 				  		
 				  		</td>
 				  		<td class="row">
-				  			&nbsp;옵션명 :&nbsp; <input type="text" name="optionDetail" maxlength="100"class="form-control option"  style="width: 26%;"  value="">&nbsp;
-				  			재고 :&nbsp; <input type="number" name="option_stock" maxlength="100" class="form-control optionstock"  style="width: 10%;"  value="">
+				  			&nbsp;옵션명 :&nbsp; <input type="text" name="optionDetail" maxlength="100"class="form-control option"  style="width: 26%;"  value="${option.optionDetail}">&nbsp;
+				  			재고 :&nbsp; <input type="number" name="option_stock" maxlength="100" class="form-control optionstock"  style="width: 10%;"  value="${option.option_stock}">
 				  			
 				  		</td>
 				  	</tr>
+				  </c:if>	
+				  <c:forEach var="dto1" items="${optionList}">
+				  	<tr>
+				  		<td> 제품 옵션 &nbsp; 
+				  			<button type="button" class="btn btn-primary optionbtn"><i class="fas fa-plus-circle"></i></button> 
+				  			<button type="button" class="btn btn-danger optiondelete"><i class="fas fa-minus-circle"></i></button> 
+				  		
+				  		</td>
+				  		<td class="row">
+				  			&nbsp;옵션명 :&nbsp; <input type="text" name="optionDetail" maxlength="100"class="form-control option"  style="width: 26%;"  value="${dto1.optionDetail}">&nbsp;
+				  			재고 :&nbsp; <input type="number" name="option_stock" maxlength="100" class="form-control optionstock"  style="width: 10%;"  value="${dto1.option_stock}">
+				  			
+				  		</td>
+				  	</tr>
+				  </c:forEach>
 				  </tbody>
 				  <tr>
 				  	<td>상품명</td>
@@ -366,9 +384,9 @@ $(function(){
 						<input type="hidden" name="page" value="${page}">
 						 <input type="hidden" name="imageFilename" value="${dto.imageFilename}">
 					</c:if>
-			        <button type="submit" class="btn btn-primary">${mode=='update'?'수정완료':'등록하기'}</button>
-			        <button type="reset" class="btn btn-primary">다시입력</button>
-			        <button type="button" class="btn btn-danger" onclick="javascript:location.href='${pageContext.request.contextPath}/store/list';">${mode=='update'?'수정취소':'등록취소'}</button>
+			        <button type="submit" class="btn btn-primary" style="font-family: 'Jua', sans-serif;">${mode=='update'?'수정완료':'등록하기'}</button>
+			        <button type="reset" class="btn btn-primary" style="font-family: 'Jua', sans-serif;">다시입력</button>
+			        <button type="button" class="btn btn-danger" style="font-family: 'Jua', sans-serif;" onclick="javascript:location.href='${pageContext.request.contextPath}/store/list';">${mode=='update'?'수정취소':'등록취소'}</button>
 
 			      </td>
 			    </tr>
