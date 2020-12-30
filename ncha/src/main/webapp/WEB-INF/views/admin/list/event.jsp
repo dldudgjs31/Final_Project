@@ -66,7 +66,7 @@ function searchList() {
 }
 
 function deleteEvent(eventNum) {
-	var url="${pageContext.request.contextPath}/admin/list/deleteMember?eventNum="+eventNum+"&page=${page}";
+	var url="${pageContext.request.contextPath}/admin/list/deleteEvent?eventNum="+eventNum+"&page=${page}";
 	if(confirm("자료를 삭제 하시겠습니까?")) {
 		location.href=url;
 	}
