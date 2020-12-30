@@ -22,32 +22,6 @@ $(document).ready(function() {
 	color : black !important;
 }
 </style>
-
-  <!-- Page Content -->
-    <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
-      <ol class="carousel-indicators">
-      	 	  <c:forEach var="dto" items="${list}" varStatus="status">
-		        	<li data-target="#carouselExampleIndicators" data-slide-to="${status.index}" ${status.index==0?"class='active'":"" }></li>
-	       	</c:forEach>
-      </ol>
-   
-      <div class="carousel-inner" role="listbox">
-      
-      	  <c:forEach var="dto" items="${list}" varStatus="status">
-     		<div class="carousel-item ${status.index==0?'active':'' }" style="background-image: url('${pageContext.request.contextPath}/uploads/event/${dto.imageFilename}')"></div>
-      	</c:forEach>
-
-      </div>
-     
-      <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
-        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-        <span class="sr-only">Previous</span>
-      </a>
-      <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
-        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-        <span class="sr-only">Next</span>
-      </a>
-    </div>
     <!-- Page Heading/Breadcrumbs -->
 <Br><Br>
 

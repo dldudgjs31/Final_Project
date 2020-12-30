@@ -37,6 +37,7 @@
 		</where>		
 	</select>
 	
+	<!-- 예정된 이벤트는 전체 이벤트에 노출X -->
 	<select id="listEvent" parameterType="map" resultType="com.sp.app.event.Event">
 		SELECT eventNum, e.sellerId, subject, imageFilename, 
 		       TO_CHAR(start_date,'yyyy-mm-dd')as start_date,
@@ -44,7 +45,7 @@
 		FROM event e
 		JOIN seller s ON e.sellerId=s.sellerId
 		<where>
-		   e.allow = 1 
+		   ( start_date &gt; SYSDATE AND e.allow = 1 ) 
 			<if test="keyword != null and keyword != ''">
 				AND <include refid="where-list"/> 
 			</if>
@@ -53,6 +54,7 @@
 		OFFSET #{offset} ROWS FETCH FIRST #{rows} ROWS ONLY
 	</select>
 	
+	<!-- 진행중인 이벤트 리스트 -->
 	<select id="listEvent_proceed" parameterType="map" resultType="com.sp.app.event.Event">
 		SELECT eventNum, e.sellerId, subject, imageFilename, 
 		       TO_CHAR(start_date,'yyyy-mm-dd')as start_date,
@@ -70,6 +72,7 @@
 		OFFSET #{offset} ROWS FETCH FIRST #{rows} ROWS ONLY
 	</select>
 	
+	<!-- 종료된 이벤트리스트 -->
 	<select id="listEvent_end" parameterType="map" resultType="com.sp.app.event.Event">
 		SELECT eventNum, e.sellerId, subject, imageFilename, 
 		       TO_CHAR(start_date,'yyyy-mm-dd')as start_date,
