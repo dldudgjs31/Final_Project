@@ -44,9 +44,42 @@
 		FROM event e
 		JOIN seller s ON e.sellerId=s.sellerId
 		<where>
-		    e.allow = 1
+		   e.allow = 1 
 			<if test="keyword != null and keyword != ''">
-				AND <include refid="where-list"/>
+				AND <include refid="where-list"/> 
+			</if>
+		</where>
+		ORDER BY eventNum DESC
+		OFFSET #{offset} ROWS FETCH FIRST #{rows} ROWS ONLY
+	</select>
+	
+	<select id="listEvent_proceed" parameterType="map" resultType="com.sp.app.event.Event">
+		SELECT eventNum, e.sellerId, subject, imageFilename, 
+		       TO_CHAR(start_date,'yyyy-mm-dd')as start_date,
+		       TO_CHAR(end_date,'yyyy-mm-dd')as end_date
+		FROM event e
+		JOIN seller s ON e.sellerId=s.sellerId
+		<where>
+		    ( start_date &lt;= SYSDATE AND end_date &gt;= SYSDATE AND e.allow = 1 ) 
+			
+			<if test="keyword != null and keyword != ''">
+				AND <include refid="where-list"/> 
+			</if>
+		</where>
+		ORDER BY eventNum DESC
+		OFFSET #{offset} ROWS FETCH FIRST #{rows} ROWS ONLY
+	</select>
+	
+	<select id="listEvent_end" parameterType="map" resultType="com.sp.app.event.Event">
+		SELECT eventNum, e.sellerId, subject, imageFilename, 
+		       TO_CHAR(start_date,'yyyy-mm-dd')as start_date,
+		       TO_CHAR(end_date,'yyyy-mm-dd')as end_date
+		FROM event e
+		JOIN seller s ON e.sellerId=s.sellerId
+		<where>
+		   ( end_date &lt; SYSDATE AND e.allow = 1 ) 
+			<if test="keyword != null and keyword != ''">
+				AND <include refid="where-list"/> 
 			</if>
 		</where>
 		ORDER BY eventNum DESC

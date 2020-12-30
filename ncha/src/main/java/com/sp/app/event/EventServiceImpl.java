@@ -136,4 +136,28 @@ public class EventServiceImpl implements EventService {
 			throw e;
 		}
 	}
+
+	@Override
+	public List<Event> proceedListEvent(Map<String, Object> map) {
+		List<Event> list = null;
+		try {
+			list = dao.selectList("event.listEvent_proceed", map);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return list;
+	}
+
+	@Override
+	public List<Event> endListEvent(Map<String, Object> map) {
+		List<Event> list = null;
+		try {
+			list = dao.selectList("event.listEvent_end", map);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return list;
+	}
 }

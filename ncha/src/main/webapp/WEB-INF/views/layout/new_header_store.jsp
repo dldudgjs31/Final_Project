@@ -19,7 +19,7 @@
             <a class="nav-link" href="${pageContext.request.contextPath}/store/list">N차_스토어</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="${pageContext.request.contextPath}/event/list">이벤트</a>
+            <a class="nav-link" href="${pageContext.request.contextPath}/event/proceedList">이벤트</a>
           </li>
 		<c:if test="${not empty sessionScope.member}">
 		  <li class="nav-item">

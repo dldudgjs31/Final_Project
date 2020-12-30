@@ -53,7 +53,7 @@ $(document).ready(function() {
 
           <ol class="breadcrumb">
       <li class="breadcrumb-item">이벤트</li>
-      <li class="breadcrumb-item active">전체 이벤트</li>
+      <li class="breadcrumb-item active">진행중 이벤트</li>
     </ol>
     <!-- Content Row -->
     <div class="row">

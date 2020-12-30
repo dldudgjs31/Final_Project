@@ -108,7 +108,7 @@
 	<ul class="navbar_menu">
 		<li><a href="${pageContext.request.contextPath}/store/main">HOME</a></li>
 		<li><a href="${pageContext.request.contextPath}/store/list">N차_스토어</a></li>
-		<li><a href="${pageContext.request.contextPath}/event/list">이벤트</a></li>
+		<li><a href="${pageContext.request.contextPath}/event/proceedList">이벤트</a></li>
 		<li><a href="${pageContext.request.contextPath}/store/write">판매글올리기</a></li>
 		<li><a href="${pageContext.request.contextPath}/">고객센터</a></li>
 		<li><a href="${pageContext.request.contextPath}/">중고거래</a></li>

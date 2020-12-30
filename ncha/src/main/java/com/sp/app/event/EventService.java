@@ -8,6 +8,8 @@ public interface EventService {
 	
 	public int dataCount(Map<String, Object> map);
 	public List<Event> listEvent(Map<String, Object> map);
+	public List<Event> proceedListEvent(Map<String, Object> map);
+	public List<Event> endListEvent(Map<String, Object> map);
 	
 	public Event readEvent(int eventNum);
 	public Event preReadEvent(Map<String, Object> map);
