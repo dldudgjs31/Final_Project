@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.sp.app.common.MyUtil;
+import com.sp.app.event.Event;
 import com.sp.app.member.Member;
 import com.sp.app.seller.Seller;
 
@@ -175,5 +176,79 @@ public class ListController {
 		      }
 		      return "redirect:/admin/list/member?page="+page;
 		   }
+		  
+		  @RequestMapping("authEvent")
+		   public String authEvent(
+		         @RequestParam int eventNum,
+		         @RequestParam int allow,		         
+		         @RequestParam String page
+		         ) throws Exception{
+		      try {
+		    	  Map<String, Object> map = new HashMap<String, Object>();
+		    	  map.put("eventNum", eventNum);
+		    	  allow = allow==0?1:0;
+		    	  map.put("allow", allow);
+		    	  
+		          service.updateEvent(map);
+		      } catch (Exception e) {
+		         throw e;
+		      }
+		      return "redirect:/admin/list/event?page="+page;
+		   }
+		  
+		  @RequestMapping("deleteEvent")
+		   public String deleteEvent(
+		         @RequestParam int eventNum,
+		         @RequestParam String page
+		         ) throws Exception{
+		      try {
+		         service.deleteEvent(eventNum);
+		      } catch (Exception e) {
+		         throw e;
+		      }
+		      return "redirect:/admin/list/event?page="+page;
+		   }
+		  
+		  @RequestMapping("event")
+			public String listEvent(@RequestParam(value = "page", defaultValue = "1") int current_page,
+					HttpServletRequest req, Model model) throws Exception {
+				int rows = 10;
+				int dataCount, total_page;
+
+				Map<String, Object> map = new HashMap<>();
+				dataCount = service.dataCountEvent(map);
+				total_page = myUtil.pageCount(rows, dataCount);
+				if (current_page > total_page) {
+					current_page = total_page;
+				}
+
+				int offset = (current_page - 1) * rows;
+				if (offset < 0)
+					offset = 0;
+				map.put("offset", offset);
+				map.put("rows", rows);
+
+				List<Event> list = service.listEvent(map);
+				int listNum, n=0;
+				for(Event dto:list) {
+					listNum=dataCount-(offset+n);
+					dto.setListNum(listNum);
+					n++;
+				}
+				
+				String cp = req.getContextPath();
+				String listUrl = cp + "/admin/list/event";
+
+			
+				String paging = myUtil.paging(current_page, total_page, listUrl);
+
+				model.addAttribute("list", list);
+				model.addAttribute("dataCount", dataCount);
+				model.addAttribute("page", current_page);
+				model.addAttribute("total_page", total_page);
+				model.addAttribute("paging", paging);
+
+				return ".admin.list.event";
+			}
 }
 

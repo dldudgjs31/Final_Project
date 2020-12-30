@@ -101,7 +101,7 @@ function authEvent(eventNum, allow) {
 <tr height="30" bgcolor="#eeeeee" align="center">
 	<th width="50">번호</th>
 	<th width="80">신청자</th>
-	<th width="80">제목</th>
+	<th width="220">제목</th>
 	<th width="120">시작일자</th>
 	<th width="120">종료일자</th>
 	<th width="60">권한</th>

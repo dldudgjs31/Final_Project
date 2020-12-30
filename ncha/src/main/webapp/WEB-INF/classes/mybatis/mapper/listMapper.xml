@@ -42,4 +42,24 @@
     	DELETE FROM seller WHERE sellerId=#{sellerId}
     </delete>	
     
+    <select id="dataCountEvent" parameterType="map" resultType="Integer">
+		SELECT NVL(COUNT(*), 0)
+		FROM event
+	</select>
+	
+	<select id="listEvent" parameterType="map" resultType="com.sp.app.event.Event">
+		SELECT eventNum, sellerId, subject,
+		 TO_CHAR(start_date,'yyyy-mm-dd')as start_date,
+		 TO_CHAR(end_date,'yyyy-mm-dd')as end_date, allow
+		FROM event 
+		OFFSET #{offset} ROWS FETCH FIRST #{rows} ROWS ONLY
+	</select>
+	
+   <update id="updateEvent" parameterType="map">
+		UPDATE event SET allow=#{allow} WHERE eventNum=#{eventNum}
+	</update>
+	
+	<delete id="deleteEvent" parameterType="Integer">
+    	DELETE FROM event WHERE eventNum=#{eventNum}
+    </delete>
 </mapper>

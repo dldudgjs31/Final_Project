@@ -3,6 +3,7 @@ package com.sp.app.admin.list;
 import java.util.List;
 import java.util.Map;
 
+import com.sp.app.event.Event;
 import com.sp.app.member.Member;
 import com.sp.app.seller.Seller;
 
@@ -21,4 +22,12 @@ public interface ListService {
 	public void updateSeller(Map<String, Object> map) throws Exception;
 	public void deleteSeller(String sellerId) throws Exception;
 
+	public int dataCountEvent(Map<String, Object> map);
+	public List<Event> listEvent(Map<String, Object> map);
+	public List<Event> listEvent();
+	public Seller readEvent(Integer eventNum);
+	public void updateEvent(Map<String, Object> map) throws Exception;
+	public void deleteEvent(Integer eventNum) throws Exception;
+
+	
 }

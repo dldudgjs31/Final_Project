@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.sp.app.common.dao.CommonDAO;
+import com.sp.app.event.Event;
 import com.sp.app.member.Member;
 import com.sp.app.seller.Seller;
 
@@ -138,6 +139,69 @@ public class ListServiceImpl implements ListService {
 	public void updateMember(Map<String, Object> map) throws Exception {
 		try {
 			dao.updateData("list.updateMember", map);	
+		} catch (Exception e) {
+			throw e;
+		}		
+	}
+
+	@Override
+	public int dataCountEvent(Map<String, Object> map) {
+		int result=0;
+		try {
+			result=dao.selectOne("list.dataCountEvent", map);
+		} catch (Exception e) {
+		}
+		
+		return result;
+	}
+
+	@Override
+	public List<Event> listEvent(Map<String, Object> map) {
+		List<Event> list=null;
+		try {
+			list=dao.selectList("list.listEvent", map);	
+		} catch (Exception e) {
+		}
+		
+		return list;
+	}
+
+	@Override
+	public List<Event> listEvent() {
+		List<Event> list=null;
+		try {
+			list=dao.selectList("list.listAllEvent");	
+		} catch (Exception e) {
+		}
+		
+		return list;
+	}
+
+	@Override
+	public Seller readEvent(Integer eventNum) {
+		Seller dto =null;
+		try {
+			dto=dao.selectOne("list.readEvent", eventNum);
+		} catch (Exception e) {
+			System.out.println(e.toString());
+		}
+		
+		return dto;
+	}
+
+	@Override
+	public void updateEvent(Map<String, Object> map) throws Exception {
+		try {
+			dao.updateData("list.updateEvent", map);	
+		} catch (Exception e) {
+			throw e;
+		}	
+	}
+
+	@Override
+	public void deleteEvent(Integer eventNum) throws Exception {
+		try {
+			dao.deleteData("list.deleteEvent", eventNum);	
 		} catch (Exception e) {
 			throw e;
 		}		
