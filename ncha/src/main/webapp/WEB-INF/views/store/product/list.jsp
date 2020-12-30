@@ -71,11 +71,11 @@ $(document).ready(function() {
       <!-- Sidebar Column -->
       <div class="col-lg-3 mb-4">
         <div class="list-group">
-          <a href="index.html" class="list-group-item">전체</a>
-          <a href="index.html" class="list-group-item">의류</a>
-          <a href="about.html" class="list-group-item">전자제품</a>
-          <a href="services.html" class="list-group-item">가구인테리어</a>
-          <a href="contact.html" class="list-group-item">생필품</a>
+          <a href="${pageContext.request.contextPath}/store/list" class="list-group-item">전체</a>
+          <a href="${pageContext.request.contextPath}/store/list?categoryNum=1" class="list-group-item">의류</a>
+          <a href="${pageContext.request.contextPath}/store/list?categoryNum=2" class="list-group-item">전자제품</a>
+          <a href="${pageContext.request.contextPath}/store/list?categoryNum=3" class="list-group-item">가구인테리어</a>
+          <a href="${pageContext.request.contextPath}/store/list?categoryNum=4" class="list-group-item">생필품</a>
         </div>
       </div>
       <!-- Content Column -->
@@ -86,7 +86,7 @@ $(document).ready(function() {
         	<table  class="table" style="width: 100%; margin: 10px auto; border-spacing: 0px;">
 				<tr height="40">
 					<td> 
-						<button type="button" class="btn" onclick="javascript:location.href='${pageContext.request.contextPath}/store/list';">새로고침</button>
+						<button type="button" class="btn btn-secondary" style="font-family: 'Jua', sans-serif;" onclick="javascript:location.href='${pageContext.request.contextPath}/store/list';">새로고침</button>
 					</td>
 					<td >
 						<form name="searchForm" action="${pageContext.request.contextPath}/store/list" method="post">
@@ -100,12 +100,15 @@ $(document).ready(function() {
 							</select>
 							&nbsp;
 							<input type="text" name="keyword" value="${keyword}" class="form-control col-md-6">
+							<input type="hidden" name="categoryNum" value="${categoryNum}"> 
 							<button type="button" class="btn" onclick="searchList()"><i class="fas fa-search"></i></button>
 						</div>
 						</form>
 					</td>
 					<td >
-						<button type="button" class="btn" onclick="javascript:location.href='${pageContext.request.contextPath}/store/created';">글올리기</button>
+					<c:if test="${not empty sessionScope.seller}">
+						<button type="button" class="btn btn-secondary" style="font-family: 'Jua', sans-serif;" onclick="javascript:location.href='${pageContext.request.contextPath}/store/created';">글올리기</button>
+					</c:if>
 					</td>
 				</tr>
 			</table>

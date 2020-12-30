@@ -2,7 +2,7 @@
 
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="store">
-
+	<!-- 상품 넘버 sequence-->
 	<select id="seq" resultType="Integer">
 		SELECT product_seq.NEXTVAL FROM dual
 	</select>
@@ -25,6 +25,9 @@
 	 		<if test="keyword!=null and keyword!=''">
 	 			<include refid="where-list"/>
 	 		</if>
+	 		<if test="categoryNum!=null and categoryNum!=''">
+ 				AND b.categoryNum = #{categoryNum}
+ 			</if>
 	 	</where>	
 	 </select>
 	 
@@ -64,6 +67,9 @@
 	 		<if test="keyword!=null and keyword!=''">
 	 			<include refid="where-list"/>
 	 		</if>
+	 		<if test="categoryNum!=null and categoryNum!=''">
+ 				AND b.categoryNum = #{categoryNum}
+ 			</if>
 	 	</where>
 		ORDER BY productNum DESC
 		OFFSET #{offset} ROWS FETCH FIRST #{rows} ROWS ONLY
@@ -89,6 +95,9 @@
 	 		<if test="keyword!=null and keyword!=''">
 	 			<include refid="where-list"/>
 	 		</if>
+	 		<if test="categoryNum!=null and categoryNum!=''">
+ 				AND b.categoryNum = #{categoryNum}
+ 			</if>
 	 		AND (productNum &gt; #{num})
 	 	</where>
 	 	ORDER BY productNum ASC
@@ -103,6 +112,9 @@
 	 		<if test="keyword!=null and keyword!=''">
 	 			<include refid="where-list"/>
 	 		</if>
+	 		<if test="categoryNum!=null and categoryNum!=''">
+ 				AND b.categoryNum = #{categoryNum}
+ 			</if>
 	 		AND (productNum &lt; #{num})
 	 	</where>
 	 	ORDER BY productNum DESC
@@ -141,4 +153,9 @@
 		ORDER BY main_imageFileNum ASC
 	</select>
 	
+	<select id="listOption" parameterType="Integer" resultType="com.sp.app.store.Store">
+		SELECT optionDetail, option_stock
+		FROM product_option
+		WHERE productNum = #{productNum}
+	</select>
 </mapper>

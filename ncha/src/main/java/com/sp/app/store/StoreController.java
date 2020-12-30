@@ -43,8 +43,11 @@ public class StoreController {
 	 */
 	
 	@RequestMapping("list")
-	public String list(@RequestParam(value = "page", defaultValue = "1") int current_page,
-			@RequestParam(defaultValue = "all") String condition, @RequestParam(defaultValue = "") String keyword,
+	public String list(
+			@RequestParam(value = "page", defaultValue = "1") int current_page,
+			@RequestParam(defaultValue = "all") String condition, 
+			@RequestParam(defaultValue = "") String keyword,
+			@RequestParam(defaultValue = "") String categoryNum,
 			HttpServletRequest req, Model model) throws Exception {
 
 		int rows = 9;
@@ -57,6 +60,7 @@ public class StoreController {
 		Map<String, Object> map = new HashMap<>();
 		map.put("condition", condition);
 		map.put("keyword", keyword);
+		map.put("categoryNum", categoryNum);
 
 		dataCount = service.dataCount(map);
 		if (dataCount != 0) {
@@ -85,8 +89,8 @@ public class StoreController {
 		String query = "";
 		String listUrl = cp + "/store/list";
 		String articleUrl = cp + "/store/article?page=" + current_page;
-		if (keyword.length() != 0) {
-			query = "condition=" + condition + "&keyword" + URLEncoder.encode(keyword, "utf-8");
+		if (categoryNum.length()!=0||keyword.length() != 0) {
+			query = "condition=" + condition+"&categoryNum="+categoryNum + "&keyword" + URLEncoder.encode(keyword, "utf-8");
 		}
 
 		if (query.length() != 0) {
@@ -102,6 +106,7 @@ public class StoreController {
 		model.addAttribute("dataCount", dataCount);
 		model.addAttribute("paging", paging);
 		model.addAttribute("condition", condition);
+		model.addAttribute("categoryNum", categoryNum); 
 		model.addAttribute("keyword", keyword);
 		return ".store.product.list";
 	}
@@ -149,6 +154,7 @@ public class StoreController {
 			@RequestParam int num,
 			@RequestParam String page,
 			@RequestParam(defaultValue = "all") String condition, 
+			@RequestParam(defaultValue="") String categoryNum,
 			@RequestParam(defaultValue = "") String keyword,
 			@RequestParam(defaultValue = "") String message,
 			Model model) throws Exception {
@@ -156,8 +162,8 @@ public class StoreController {
 		message = URLDecoder.decode(message, "utf-8");
 
 		String query = "page=" + page;
-		if (keyword.length() != 0) {
-			query += "&condition=" + condition + "&keyword=" + URLEncoder.encode(keyword, "utf-8");
+		if (categoryNum.length()!=0 ||keyword.length() != 0) {
+			query += "&categoryNum="+categoryNum+"&condition=" + condition + "&keyword=" + URLEncoder.encode(keyword, "utf-8");
 		}
 		service.updateHitCount(num);
 
@@ -172,6 +178,7 @@ public class StoreController {
 		Map<String, Object> map = new HashMap<>();
 		map.put("num", num);
 		map.put("condition", condition);
+		map.put("categoryNum", categoryNum);
 		map.put("keyword", keyword);
 
 		Store preReadDto = service.preReadProduct(map);
@@ -202,6 +209,12 @@ public class StoreController {
 		Store dto = service.readProduct(num);
 		List<Store> listFile = service.listFile(num);
 		List<Store> list1 = service.readProductFile(num);
+		List<Store> optionList = service.readOption(num);
+		System.out.println(list1.get(0)+"----------------------------------------------------------");
+		System.out.println(list1.get(1)+"----------------------------------------------------------");
+		System.out.println(optionList.get(0)+"----------------------------------------------------------");
+		System.out.println(optionList.get(1)+"----------------------------------------------------------");
+		
 		if(dto==null) {
 			return "redirect:/store/list?page="+page;
 		}
@@ -211,6 +224,7 @@ public class StoreController {
 		}
 		model.addAttribute("list1", list1);
 		model.addAttribute("listFile", listFile);
+		model.addAttribute("optionList", optionList);
 		model.addAttribute("dto",dto);
 		model.addAttribute("mode","update");
 		model.addAttribute("page",page);

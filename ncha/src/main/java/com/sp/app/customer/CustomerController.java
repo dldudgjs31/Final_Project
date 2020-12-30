@@ -156,4 +156,14 @@ public class CustomerController {
 		model.addAttribute("list",list);
 		return"redirect:/store/customer/cartlist";
 	}
+	
+	@RequestMapping("review")
+	public String mypageReview(
+			HttpSession session
+			) throws Exception{
+		SessionInfo info =(SessionInfo)session.getAttribute("member");
+		
+		
+		return ".store.customer.review";
+	}
 }
