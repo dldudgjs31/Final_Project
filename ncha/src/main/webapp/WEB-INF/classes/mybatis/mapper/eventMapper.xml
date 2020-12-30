@@ -45,7 +45,7 @@
 		FROM event e
 		JOIN seller s ON e.sellerId=s.sellerId
 		<where>
-		   ( start_date &gt; SYSDATE AND e.allow = 1 ) 
+		   ( start_date &lt; SYSDATE AND e.allow = 1 ) 
 			<if test="keyword != null and keyword != ''">
 				AND <include refid="where-list"/> 
 			</if>
