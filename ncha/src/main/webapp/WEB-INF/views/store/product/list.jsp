@@ -64,7 +64,7 @@ $(document).ready(function() {
 
           <ol class="breadcrumb">
       <li class="breadcrumb-item">카테고리</li>
-      <li class="breadcrumb-item active">의류</li>
+      <li class="breadcrumb-item active">${categoryName}</li>
     </ol>
     <!-- Content Row -->
     <div class="row">

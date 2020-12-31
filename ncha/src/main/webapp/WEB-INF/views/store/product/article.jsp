@@ -33,6 +33,16 @@
 .menu-title, .collapsed{
 	color : black !important;
 }
+.btn {
+font-family: 'Jua', sans-serif;
+}
+.img-fluid{
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: contain;
+	border: 1px solid silver;
+	border-radius: 20px;	
+}
 </style>
 
 <script type="text/javascript">
@@ -69,12 +79,15 @@ function cartOk(num) {
 	if(confirm("상품을 장바구니에 추가하시겠습니까 ?")) {
 		var q = "num=" +${dto.productNum} + "&${query}";
 		var quantity = $("#totalBuyQty").text();
-		alert(quantity);
+		var optionDetail = $("select option:selected").text();
+		var options = optionDetail.split("[");
+		var option = options[0];
+		var optionNum = $('input[name=optionNum]').val();
 		if(quantity==0){
 			alert("수량을 선택해주세요.");
 			return;
 		}
-		var url="${pageContext.request.contextPath}/store/customer/cart?"+q+"&quantity="+quantity;
+		var url="${pageContext.request.contextPath}/store/customer/cart?"+q+"&quantity="+quantity+"&order_option="+option+"&optionNum="+optionNum;
 		alert(url);
 		location.href=url;
 	}
@@ -114,12 +127,24 @@ $(function(){
 	$(".buyAdd").click(function(){
 		var totalBuyQty = parseInt($("#totalBuyQty").text());
 		var totalBuyAmt = parseInt($("#totalBuyAmt").text());
+		var buyOption = parseInt($("select option:selected").val())
 		
+		var optionDetail = $("select option:selected").text();
+		var options = optionDetail.split("[");
+
+		var option = "[옵션 : "+options[0]+"]";
+		var optionNum = parseInt($("select option:selected").val());
 		var title=$(".my-3").text();
 		var code=$(this).attr("data-code");
 		var price=parseInt($(this).attr("data-price"));
 		var qty=1;
 		
+		
+		$('input[name=optionNum]').attr('value',optionNum);
+		$('input[name=order_option]').attr('value',options[0]);
+		
+		
+	    
 		var t="#buyTr"+code;
 		if($(t).length) { // 해당 코드가 존재하면
 			// qty=$(t).children().children("input[name=quantity]").val();
@@ -154,6 +179,9 @@ $(function(){
 		var vprice = "<span class='productPrice'>"+price+"</span>원 <span class='buyCancel' data-code='"+code+"' data-price='"+price+"'>×</span>";
 	    $tr=$("<tr height='40' style='border-bottom: 1px solid #cccccc;' id='buyTr"+code+"'>");
 	    $td=$("<td>", {width:"200", style:"text-align: center;", html:title});
+	    $opt = $("<p>",{html:option});
+	    $td.append($opt);
+	    
 	    $tr.append($td);
 	    $td=$("<td width='180' style='text-align: right;'>");
 	    $input=$("<input>", {type:"text", name:"quantity", class:"boxTF", style:"width: 30%;", value:qty, readonly:"readonly"});
@@ -169,7 +197,8 @@ $(function(){
 	    $tr.append($td);
 	    
 	    $("#buyList").append($tr);
-		
+
+	    
 		totalBuyQty=totalBuyQty+1;
 		totalBuyAmt=totalBuyAmt+price;
 		$("#totalBuyQty").text(totalBuyQty);
@@ -291,7 +320,7 @@ function buyOk() {
   <!-- Portfolio Item Row -->
   <div class="row">
 
-    <div class="col-md-8">
+    <div class="col-md-7">
         <div class="slick-items" style="height: 450px;">
 		<c:forEach var="vo" items="${list1}">
 			<c:if test="${vo.productNum == dto.productNum}">
@@ -301,13 +330,20 @@ function buyOk() {
     </div>
     </div>
 
-    <div class="col-md-4">
+    <div class="col-md-5">
       <h3 class="my-3">${dto.productName}</h3>
 			<p>판매자 : ${dto.sellerId}</p>
 			<p>조회수 : ${dto.hitCount}</p>
 			<p>재고 : ${dto.stock}</p>
 			<p>정가 :<del><fmt:formatNumber type="currency" value="${dto.price}" />원</del></p>
 			<p>세일가 : <fmt:formatNumber  type="currency"  value="${dto.price - dto.discount_rate}"/>원</p>
+            <select class="custom-select" id="single_select">
+            	<c:forEach var="option" items="${optionList}">
+                <option value="${option.optionNum}">${option.opt_detail} [재고 : ${option.opt_stock}]</option>
+            	</c:forEach>
+            </select>
+            <br> <br>
+			
 			<button type="button" class="buyAdd btn btn-primary" data-code="100" data-price="${dto.price-dto.discount_rate}"><i class="fas fa-plus-square"></i>&nbsp;리스트 추가</button>
 	
 			<button type="button" class="btn btn-primary" onclick="cartOk(${dto.productNum});"><i class="fas fa-cart-plus"></i></button><Br>
@@ -329,6 +365,8 @@ function buyOk() {
 			          <input type="hidden" name="discount_rate" value="${dto.discount_rate}">
 			          <input type="hidden" name="number_sales">
 			          <input type="hidden" name="total_sales" >
+			          <input type="hidden" name="optionNum" >
+			          <input type="hidden" name="order_option" >
 			          <input type="hidden" name="stock" value="${dto.stock}" >
 			    		 </td>
 			    	</tr>
@@ -352,9 +390,8 @@ function buyOk() {
 <c:forEach var="vo" items="${list1}">
 <c:if test="${vo.productNum == dto.productNum}">
     <div class="col-md-3 col-sm-6 mb-4">
-      <a href="#">
-            <img class="img-fluid" src="${pageContext.request.contextPath}/uploads/product/${vo.imageFilename}" alt="" style="width: 300px; height: 200px;" >
-          </a>
+    	<div class="img-fluid" style="width:300px; height: 200px; background-image: url('${pageContext.request.contextPath}/uploads/product/${vo.imageFilename}');"></div>
+            <%-- <img class="img-fluid" src="${pageContext.request.contextPath}/uploads/product/${vo.imageFilename}" alt="" style="width: 300px; height: 200px;" > --%>
     </div>
     </c:if> 
     </c:forEach>
@@ -367,31 +404,27 @@ function buyOk() {
  <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
   <div class="panel panel-default">
     <div class="panel-heading" role="tab" id="headingOne">
-      <h4 class="panel-title">
+      <h4 class="panel-title text-center">
         <a class="menu-title" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
           	제품 상세 정보
         </a>
       </h4>
+          	<hr>
     </div>
     <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
       <div class="panel-body">
-    		<table class="table" >
-			<tr>
-				<td colspan="2" align="left" style="padding: 10px 5px;" valign="top" height="200">
 					${dto.detail}
-				</td>
-			</tr>
-			</table>
       </div>
     </div>
   </div>
   <div class="panel panel-default">
     <div class="panel-heading" role="tab" id="headingTwo">
-      <h4 class="panel-title">
+      <h4 class="panel-title text-center">
         <a class="collapsed menu-title" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
           	고객 리뷰
         </a>
       </h4>
+      <hr>
     </div>
     <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
       <div class="panel-body">
@@ -475,11 +508,12 @@ function buyOk() {
   </div>
   <div class="panel panel-default">
     <div class="panel-heading" role="tab" id="headingThree">
-      <h4 class="panel-title">
+      <h4 class="panel-title text-center">
         <a class="collapsed menu-title" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
           Q&A
         </a>
       </h4>
+      <hr>
     </div>
     <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
       <div class="panel-body">
@@ -531,8 +565,10 @@ function buyOk() {
 		<table style="width: 100%; margin: 0px auto 20px; border-spacing: 0px;">
 			<tr height="45">
 				<td width="300" align="left">
+				<c:if test="${sessionScope.seller.sellerId == dto.sellerId}">
 					<button type="button" class="btn btn-primary" onclick="updateBoard('${dto.productNum}');">수정</button>
 					<button type="button" class="btn btn-danger"onclick="deleteBoard('${dto.productNum}');">삭제</button>
+				</c:if>
 				</td>
 
 				<td align="right">

@@ -7,14 +7,14 @@
 	INSERT ALL
 		INTO store_order_list (orderNum, memberIdx,total_sales, order_date)
 		VALUES(order_seq.NEXTVAL,#{memberIdx},#{total_sales},SYSDATE)
-		INTO product_order_detail (orderNum, sellerId,productNum, number_sales, price)
-		VALUES(order_seq.NEXTVAL,#{sellerId},#{productNum},#{number_sales},#{price})
+		INTO product_order_detail (orderNum, sellerId,productNum, number_sales, price , order_option, deliveryDetail,optionNum)
+		VALUES(order_seq.NEXTVAL,#{sellerId},#{productNum},#{number_sales},#{price},#{order_option},#{deliveryDetail},#{optionNum})
 	SELECT * FROM dual
 </update>
 
 <insert id="insertCart" parameterType="com.sp.app.customer.Customer">
-	INSERT INTO store_cart(productNum, quantity, userId, cartNum)
-	VALUES(#{productNum},#{quantity},#{userId} ,cart_seq.NEXTVAL)
+	INSERT INTO store_cart(productNum, quantity, userId, cartNum, order_option, optionNum)
+	VALUES(#{productNum},#{quantity},#{userId} ,cart_seq.NEXTVAL, #{order_option},#{optionNum})
 </insert>
 
 <select id="listProduct" parameterType="Integer" resultType="String">
@@ -33,8 +33,16 @@
 	UPDATE product_bbs SET stock=#{stock} WHERE productNum=#{productNum}
 </update>
 
+<update id="updateStockOption" parameterType="com.sp.app.customer.Customer">
+	UPDATE product_option SET option_stock=#{option_stock} WHERE optionNum =#{optionNum} 
+</update>
+
+<select id="readStockOption" parameterType="Integer" resultType="Integer">
+	SELECT option_stock FROM product_option WHERE optionNum = #{optionNum}
+</select>
+
 <select id="readCart" parameterType="map" resultType="com.sp.app.customer.Customer">
-		SELECT productName, price, discount_rate, quantity,((price-discount_rate)*quantity) total_sales, imageFilename, cartNum
+		SELECT b.productNum, b.sellerId, productName, price, discount_rate, quantity,((price-discount_rate)*quantity) total_sales, imageFilename, cartNum, optionNum, order_option, b.stock
 		FROM store_cart c
 		LEFT OUTER JOIN product_bbs b ON c.productNum=b.productNum
 		LEFT OUTER JOIN (
@@ -48,6 +56,10 @@
 
 <delete id="deleteCart" parameterType="Integer">
 	DELETE FROM store_cart WHERE cartNum = #{cartNum}
+</delete>
+
+<delete id="deleteAllCart" parameterType="String">
+	DELETE FROM store_cart WHERE userId =#{userId}
 </delete>
 
 <select id="readStock" parameterType="Integer" resultType="Integer">

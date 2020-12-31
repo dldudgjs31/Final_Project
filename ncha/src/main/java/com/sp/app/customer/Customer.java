@@ -13,7 +13,11 @@ public class Customer {
 	private int quantity;
 	private String userId;
 	private int cartNum;
-
+	private String order_option;
+	private int optionNum;
+	private String deliveryDetail;
+	private int option_stock;
+	
 	//샐러 정보
 	private String SellerId;
 	private int stock;
@@ -24,6 +28,32 @@ public class Customer {
 	private String productName;
 	private String imageFilename;
 	private int number_sales;
+	
+	
+	public int getOption_stock() {
+		return option_stock;
+	}
+	public void setOption_stock(int option_stock) {
+		this.option_stock = option_stock;
+	}
+	public String getDeliveryDetail() {
+		return deliveryDetail;
+	}
+	public void setDeliveryDetail(String deliveryDetail) {
+		this.deliveryDetail = deliveryDetail;
+	}
+	public int getOptionNum() {
+		return optionNum;
+	}
+	public void setOptionNum(int optionNum) {
+		this.optionNum = optionNum;
+	}
+	public String getOrder_option() {
+		return order_option;
+	}
+	public void setOrder_option(String order_option) {
+		this.order_option = order_option;
+	}
 	public int getCartNum() {
 		return cartNum;
 	}

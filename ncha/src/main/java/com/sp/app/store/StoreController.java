@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.sp.app.common.FileManager;
 import com.sp.app.common.MyUtil;
@@ -61,7 +62,11 @@ public class StoreController {
 		map.put("condition", condition);
 		map.put("keyword", keyword);
 		map.put("categoryNum", categoryNum);
-
+		String categoryName="";
+		categoryName = service.readCategoryName(categoryNum);
+		if(categoryName == "") {
+			categoryName = "전체 상품";
+		}
 		dataCount = service.dataCount(map);
 		if (dataCount != 0) {
 			total_page = myUtil.pageCount(rows, dataCount);
@@ -74,9 +79,8 @@ public class StoreController {
 			offset = 0;
 		map.put("offset", offset);
 		map.put("rows", rows);
-
+		
 		List<Store> list = service.listProduct(map);
-
 		int listNum=0; 
 		int n = 0;
 		for (Store dto : list) {
@@ -99,6 +103,7 @@ public class StoreController {
 		}
 		String paging = myUtil.paging(current_page, total_page, listUrl);
 
+		model.addAttribute("categoryName", categoryName);
 		model.addAttribute("list", list);
 		model.addAttribute("articleUrl", articleUrl);
 		model.addAttribute("page", current_page);
@@ -174,6 +179,8 @@ public class StoreController {
 		
 		List<Store> list1 = service.readProductFile(num);
 		List<Store> listFile = service.listFile(num);
+		List<Store> optionList = service.readOption(num);
+		
 		
 		Map<String, Object> map = new HashMap<>();
 		map.put("num", num);
@@ -190,6 +197,7 @@ public class StoreController {
 		model.addAttribute("dto", dto);
 		model.addAttribute("list1", list1);
 		model.addAttribute("listFile", listFile);
+		model.addAttribute("optionList", optionList);
 		model.addAttribute("preReadDto", preReadDto);
 		model.addAttribute("nextReadDto", nextReadDto);
 		model.addAttribute("page", page);
@@ -210,10 +218,6 @@ public class StoreController {
 		List<Store> listFile = service.listFile(num);
 		List<Store> list1 = service.readProductFile(num);
 		List<Store> optionList = service.readOption(num);
-		System.out.println(list1.get(0)+"----------------------------------------------------------");
-		System.out.println(list1.get(1)+"----------------------------------------------------------");
-		System.out.println(optionList.get(0)+"----------------------------------------------------------");
-		System.out.println(optionList.get(1)+"----------------------------------------------------------");
 		
 		if(dto==null) {
 			return "redirect:/store/list?page="+page;
@@ -241,13 +245,24 @@ public class StoreController {
 		
 		try {
 			service.updateProduct(dto);
+			service.deleteAllOption(dto.getProductNum());
+			service.insertOption(dto);
 		} catch (Exception e) {
-			// TODO: handle exception
+			e.printStackTrace();
 		}
 		
 		return "redirect:/store/list?page=" + page;
 	}
-	
+	/**
+	 * 글지우기
+	 * @param page
+	 * @param num
+	 * @param condition
+	 * @param keyword
+	 * @param session
+	 * @return
+	 * @throws Exception
+	 */
 	@RequestMapping("delete")
 	public String delete(
 			@RequestParam String page,
@@ -267,4 +282,28 @@ public class StoreController {
 		return "redirect:/store/list?"+query;
 	}
 	
+	//글 수정시 이미지 삭제
+	@RequestMapping("deleteFile")
+	@ResponseBody
+	public void deleteImage(
+			@RequestParam int main_imageFileNum
+			)throws Exception {
+		try {
+			service.deleteImage(main_imageFileNum);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	@RequestMapping("deleteOption")
+	@ResponseBody
+	public void deleteOption(
+			@RequestParam int optionNum
+			)throws Exception{
+		try {
+			service.deleteOption(optionNum);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 }

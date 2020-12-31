@@ -21,6 +21,13 @@
 	width: 100%;
 	display: flex;
 }
+#updateImage {
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: contain;
+	border: 1px solid silver;
+	border-radius: 20px;
+}
 </style>
 
 <script type="text/javascript">
@@ -44,7 +51,7 @@
 
         return true;
     }
-    
+    //업로드한 이미지 미리보기
     function preWatchphoto(event){
     	for (var image of event.target.files) {
     			var reader = new FileReader();
@@ -53,20 +60,27 @@
     				img.setAttribute("style","width:200px;height:200px;background-image:url('"+event.target.result+"')");
     				img.setAttribute("id","preImage");
     				//img.setAttribute("src",event.target.result);
+    				var $button = $("<button>",{class:"btn btn-danger ImageDelete"});
+    				$icon = $("<i>",{class:"fas fa-minus-circle"})
+    				$button.append($icon);
+    				$(img).append($button);
     				document.querySelector("div#main_img").appendChild(img);
     			}
     			reader.readAsDataURL(image);
     		}
     }
 
-      <c:if test="${mode=='update'}">
-      function deleteFile(main_imageFileNum) {
-    		var url="${pageContext.request.contextPath}/store/deleteFile";
-    		$.post(url, {main_imageFileNum:main_imageFileNum}, function(data){
-    			$("#"+main_imageFileNum).remove();
-    		}, "json");
-      }
-    </c:if>
+  //업로드한 이미지 삭제
+    $(function(){
+    	$("body").on("click",".ImageDelete",function(){	
+    		var imageIndex = $(this).parent().index();
+    		if(!confirm("이미지를 삭제하시겠습니까?")){
+    			return;
+    		}
+    		$(this).parent().remove();
+    		$("#boardBody1").children().eq(imageIndex).remove();
+    	});
+    }); 
     
 $(function(){
     	
@@ -92,96 +106,8 @@ $(function(){
     	});
 });
 
-</script>
 
 
-<script type="text/javascript">
-function ajaxFun(url, method, dataType, query, fn) {
-	   $.ajax({
-	      type:method,
-	      url:url,
-	      data:query,
-	      dataType:dataType,
-	      success:function(data){
-	         fn(data);
-	      },
-	      error:function(e) {
-	         console.log(e.responseText);
-	      }
-	   });
-	}
-
-	$(function(){
-	   $("#btnCreateTableDialog").click(function(){
-	      $("#dialog-createObject").dialog({
-	         modal:true,
-	         height: 300,
-	         width : 700,
-	         title: "상품 옵션 설정",
-	         buttons : {
-	            "등록하기": function(){
-	               createOption();
-	            },
-	            "닫 기": function(){
-	               $(this).dialog("close");   
-	            }
-	         },
-	         close : function(event, ui){
-	            $("#tableName").val("");
-	            $("#seqCreate").prop("checked",true);
-	         }
-	      });
-	   });
-	   function createOption(){
-	      var optionDetail=$("#optionDetail").val().trim();
-	      if(! optionDetail){
-	         $("#optionDetail").focus();
-	         return false;
-	      }
-	   
-	      
-	      var option_stock=$("#option_stock").val();
-	      if(option_stock == 0 || option_stock < 0){
-		         $("#option_stock").focus();
-		         return false;
-	      }
-	      
-	      var url = "${pageContext.request.contextPath}/store/customer/option";
-	      var query = "optionDetail="+optionDetail+"&option_stock="+option_stock;
-	      
-	      //실행후 넘어오는 데이터
-	      var fn = function(data){
-	         
-	            alert("테이블(시퀀스)이 작성되었습니다.");
-	      }
-	      ajaxFun(url,"post","json",query,fn);
-	   }
-	});
-
-	$(function(){
-	   $(".btnObjectDelete").click(function(){
-	      var objectName = $(this).attr("data-objectName");
-	      var $tr = $(this).closest("tr");
-	      var objectType = $tr.find("td").eq(1).text();
-	      
-	      if(! confirm("객체를 삭제하시겠습니까??")){
-	    	  return false;
-	      }
-	      var url = "${pageContext.request.contextPath}/bm/drop";
-	      var query = "objectName="+objectName+"&objectType="+objectType;
-	      var fn = function(data) {
-	    	  var state = data.state;
-	    	  if(state=="true"){
-	    		  alert("객체가 삭제되었습니다.");
-	    		  $tr.remove();
-	    	  }else{
-	    		  alert("객체 삭제가 실패했습니다.");
-	    	  }
-	      };
-	      	ajaxFun(url,"post","json",query,fn);
-	      
-	   });
-	});
 $(function(){
 	$("body").on("click",".optionAdd",function(){
 		var optionDetail =  $("#optionDetail").val();
@@ -253,29 +179,46 @@ $(function(){
 			return;
 		}
 		$(this).parent().parent().remove();
+		
+		
+		
 	});
 	
 });
-</script>
-       <div id="dialog-createObject" style="display: none;height: 300px;">
-       <table class="table">
-       <thead>
-       		<tr>
-	       		<th width="40%"><small>옵션</small></th>
-	       		<th width="40%"><small>재고</small></th>
-	       		<th width="20%"><small>등록하기</small></th>
-       		</tr>
-       </thead>
-       <tr>
-       		<td width="40%"><input class="form-control" type="text" id="optionDetail"   placeholder="등록할  옵션을 입력하세요"></td>
-       		<td width="40%"><input class="form-control" type="number" id="option_stock" placeholder="재고량을 입력하세요."></td>
-       		<td width="20%"><button class="btn btn-primary optionAdd"><small>등록하기</small></button></td>
-       </tr>
-       <tbody id="optionlist">
 
-       </tbody>
-       </table>
-   </div>
+
+
+<c:if test="${mode == 'update'}">
+function deleteOption(optionNum) {
+			var url="${pageContext.request.contextPath}/store/deleteOption";
+			$.post(url, {optionNum:optionNum}, function(data){
+			}, "json");
+	}		
+</c:if>
+//수정시 이미지 삭제
+$(function(){
+	$("body").on("click",".imagedelete",function(){
+		$(this).parent().parent().remove();
+	});
+}); 
+function deleteFile(main_imageFileNum) {
+		var url="${pageContext.request.contextPath}/store/deleteFile";
+		$.post(url, {main_imageFileNum:main_imageFileNum}, function(data){
+		}, "json");
+}
+
+//재고 합산 
+$(function(){
+	$("body").on("blur",".optionstock",function(){
+		var stock=0;
+		for(var i=0;i<$("#optionbody").children().length; i++){
+			stock = stock + parseInt($("#optionbody").children().eq(i).children().eq(1).children().eq(1).val());
+		}
+		
+		$("input[name=stock]").val(stock);
+	});
+}); 
+</script>
 
 
 <br>
@@ -296,13 +239,29 @@ $(function(){
 			<form name="boardForm" method="post" onsubmit="return submitContents(this);" enctype="multipart/form-data">
 			  <table class="table text-center">
 				  <tbody id="boardBody1">
+				  <c:if test="${mode == 'created'}">
 				  	<tr>
-				  		<td>제품 이미지</td>
+				  		<td>제품 이미지
+				  		</td>
 				  		<td>
 				  			<input type="file" id="image" name="upload"  multiple="multiple"  class="form-control  mainimg" onchange="preWatchphoto(event);" multiple size="53" style="width: 50%;multiple">
 				  		</td>
 				  	</tr>
+				  	</c:if>
 				  </tbody>
+				  
+				  	 <c:if test="${mode == 'update'}">
+				  	<c:forEach var="dto2" items="${listFile}">
+				  	<tr>
+				  		<td>제품 이미지
+				  		</td>
+				  		<td style="display: flex; align-items: center;" >
+				  		<div id="updateImage" style="width: 100px; height: 100px; background-image: url('${pageContext.request.contextPath}/uploads/product/${dto2.imageFilename}');"></div>
+				  			${dto2.imageFilename}
+				  		</td>
+				  	</tr>
+				  	</c:forEach>
+				  	</c:if>
 				  <tbody id="optionbody">
 				  <c:if test="${mode == 'created'}">
 				  	<tr>
@@ -317,21 +276,23 @@ $(function(){
 				  			
 				  		</td>
 				  	</tr>
-				  </c:if>	
+				  </c:if>
+				   <c:if test="${mode == 'update'}">	
 				  <c:forEach var="dto1" items="${optionList}">
 				  	<tr>
 				  		<td> 제품 옵션 &nbsp; 
 				  			<button type="button" class="btn btn-primary optionbtn"><i class="fas fa-plus-circle"></i></button> 
-				  			<button type="button" class="btn btn-danger optiondelete"><i class="fas fa-minus-circle"></i></button> 
+				  			<button type="button" class="btn btn-danger optiondelete" onclick="deleteOption('${dto1.optionNum}')"><i class="fas fa-minus-circle"></i></button> 
 				  		
 				  		</td>
 				  		<td class="row">
-				  			&nbsp;옵션명 :&nbsp; <input type="text" name="optionDetail" maxlength="100"class="form-control option"  style="width: 26%;"  value="${dto1.optionDetail}">&nbsp;
-				  			재고 :&nbsp; <input type="number" name="option_stock" maxlength="100" class="form-control optionstock"  style="width: 10%;"  value="${dto1.option_stock}">
+				  			&nbsp;옵션명 :&nbsp; <input type="text" name="optionDetail" maxlength="100"class="form-control option"  style="width: 26%;"  value="${dto1.opt_detail}">&nbsp;
+				  			재고 :&nbsp; <input type="number" name="option_stock" maxlength="100" class="form-control optionstock"  style="width: 10%;"  value="${dto1.opt_stock}">
 				  			
 				  		</td>
 				  	</tr>
 				  </c:forEach>
+				  </c:if>
 				  </tbody>
 				  <tr>
 				  	<td>상품명</td>
@@ -354,7 +315,7 @@ $(function(){
 				  <tr>
 				  	<td>상품 재고</td>
 				  	<td>
-				  		<input type="number" name="stock" maxlength="100" class="form-control" style="width: 50%;" value="${dto.stock}">
+				  		<input type="text" name="stock" maxlength="100" class="form-control" style="width: 50%;" value="${dto.stock}" readonly="readonly">
 				  	</td>
 				  </tr>
 				  <tr >
@@ -382,7 +343,6 @@ $(function(){
 			      	<c:if test="${mode=='update'}">
 						<input type="hidden" name="productNum" value="${dto.productNum}">
 						<input type="hidden" name="page" value="${page}">
-						 <input type="hidden" name="imageFilename" value="${dto.imageFilename}">
 					</c:if>
 			        <button type="submit" class="btn btn-primary" style="font-family: 'Jua', sans-serif;">${mode=='update'?'수정완료':'등록하기'}</button>
 			        <button type="reset" class="btn btn-primary" style="font-family: 'Jua', sans-serif;">다시입력</button>

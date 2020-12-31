@@ -15,16 +15,46 @@ public class Store {
 	private int stock;
 	private String sellerId;
 	private int categoryNum;
+	private String categoryName;
 	private int discount_rate;
 	private String saveFilename;
 	private String originalFilename;
 	private int main_imageFileNum;
 	private String imageFilename;
+	private int optionNum;
+	
+	private String opt_detail;
+	private String opt_stock;
+	
+	public String getOpt_detail() {
+		return opt_detail;
+	}
+	public void setOpt_detail(String opt_detail) {
+		this.opt_detail = opt_detail;
+	}
+	public String getOpt_stock() {
+		return opt_stock;
+	}
+	public void setOpt_stock(String opt_stock) {
+		this.opt_stock = opt_stock;
+	}
 	private List<MultipartFile> upload;
 	private List<String> optionDetail;
 	private List<Integer> option_stock;
 	
 	
+	public String getCategoryName() {
+		return categoryName;
+	}
+	public void setCategoryName(String categoryName) {
+		this.categoryName = categoryName;
+	}
+	public int getOptionNum() {
+		return optionNum;
+	}
+	public void setOptionNum(int optionNum) {
+		this.optionNum = optionNum;
+	}
 	public List<String> getOptionDetail() {
 		return optionDetail;
 	}

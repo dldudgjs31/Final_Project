@@ -6,13 +6,30 @@
 <script type="text/javascript">
 function orderOk(userId) {
 	var f = document.orderForm;
- 	f.action = "${pageContext.request.contextPath}/store/customer/${mode}";
+ 	f.action = "${pageContext.request.contextPath}/store/customer/cart/order";
 
     f.submit();
 }
+
+$(function(){
+	$("body").on("click", ".cancel",function(){
+		$(this).parent().parent().remove();
+		location.href="${pageContext.request.contextPath}/store/customer/cart/order";
+	});
+});
+
+function deleteCart(num) {
+	var url="${pageContext.request.contextPath}/store/customer/deleteCart";
+	$.post(url, {num:num}, function(data){
+	}, "json");
+}
+
 </script>
 <style>
+
 .image{
+	height:50px;
+	width:100%;
 	background-position: center;
 	background-size: contain;
 	background-repeat: no-repeat;
@@ -34,29 +51,50 @@ function orderOk(userId) {
 
 
     <!-- Project One -->
-    <div class="row">
-      <div class="col-md-5 image" style="background-image: url('${pageContext.request.contextPath}/uploads/product/${dto1.imageFilename}');">
-      </div>
-      <div class="col-md-5">
-        <h3>${dto1.productName}</h3>
-        <br>
-        <p>옵션 선택 : ${dto1.order_option}</p>
-        <p>수량 : ${dto1.number_sales}</p>
-        <p>정가 :<del><fmt:formatNumber type="currency" value="${dto1.price}" />원</del></p>
-        <p>가격 : <fmt:formatNumber  type="currency"  value="${dto1.price - dto1.discount_rate}"/>원</p>
-        <p>총 주문금액 : <fmt:formatNumber  type="currency"  value="${dto1.total_sales}"/>원 </p>
-      </div>
-    </div>
+    <small><table class="table table-hover text-center">
+    	<thead>
+    	<tr>
+    		<th>상품 이미지</th>
+    		<th>상품명</th>
+    		<th>상품 옵션</th>
+    		<th>개수</th>
+    		<th>개당 가격</th>
+    		<th>총 가격</th>
+    		<th>삭제</th>
+    	</tr>
+    	</thead>
+    	<tbody>
+    	    <c:set var="total_sum" value="0"/>
+    	      <c:forEach var="dto1" items="${list}">
+    	<tr>
+    		<td>      
+    			<div class="image" style="background-image: url('${pageContext.request.contextPath}/uploads/product/${dto1.imageFilename}');"></div>
+    			<input class="cartNum" type="hidden" value="${dto1.cartNum}">
+    		</td>
+    		<td>${dto1.productName}</td>
+    		<td>${dto1.order_option}</td>
+    		<td> ${dto1.quantity}</td>
+    		<td><del><fmt:formatNumber type="currency" value="${dto1.price}" />원</del><br>
+    		<fmt:formatNumber  type="currency"  value="${dto1.price - dto1.discount_rate}"/>원</td>
+    		<td><fmt:formatNumber  type="currency"  value="${dto1.total_sales}"/>원</td>
+    		<td><button class="btn btn-danger cancel" type="submit" onclick="deleteCart('${dto1.cartNum}')"><small>삭제</small></button></td>
+    	</tr>
+    	       <c:set var="total_sum" value="${total_sum + dto1.total_sales}"/>
+    	      </c:forEach>
+    	      
+
+    	</tbody>
+    </table></small>
     <!-- /.row -->
 
     
     <hr>
-           <p>최종 결제 금액 :<fmt:formatNumber  type="currency"  value="${dto1.total_sales}"/>원  </p>
+		<p class="text-center">결제 총 금액 : <fmt:formatNumber  type="currency"  value="${total_sum}"/>원 </p>
     <hr>
     <h2 class="mt-4 mb-3">수령인 정보
     </h2>
         <div class="row">
-      <div class="col-lg-8 mb-4">
+      <div class="col-lg-12 mb-4">
         <form name="orderForm" id="contactForm" method="post" novalidate>
           <div class="control-group form-group">
             <div class="controls">
@@ -83,15 +121,6 @@ function orderOk(userId) {
               <textarea rows="5" cols="100" name="deliveryDetail" class="form-control" id="message" required data-validation-required-message="Please enter your message" maxlength="999" style="resize:none"></textarea>
             </div>
           </div>
-          <input type="hidden" name="productNum" value="${dto1.productNum}">
-          <input type="hidden" name="memberIdx" value="${memberIdx}">
-          <input type="hidden" name="total_sales" value="${dto1.total_sales}">
-          <input type="hidden" name="number_sales" value="${dto1.number_sales}">
-          <input type="hidden" name="price" value="${dto1.price}">
-          <input type="hidden" name="sellerId" value="${dto1.sellerId}">
-          <input type="hidden" name="stock" value="${dto1.stock}">
-          <input type="hidden" name="order_option" value="${dto1.order_option}">
-          <input type="hidden" name="optionNum" value="${dto1.optionNum}">
           <!-- For success/fail messages -->
           <button type="submit" class="btn btn-primary" id="sendMessageButton" onclick="orderOk();">결제하기</button>
         </form>

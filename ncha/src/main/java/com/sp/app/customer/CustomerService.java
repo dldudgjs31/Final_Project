@@ -9,6 +9,8 @@ public interface CustomerService {
 	public void insertOrder(Customer dto) throws Exception;
 	public String readImage(int productNum)throws Exception;
 	public void updateStock(Customer dto) throws Exception;
+	public void updateStockOption(Customer dto) throws Exception;
+	public int readStockOption(int OptionNum) throws Exception;
 	
 	//장바구니 관련
 	public void insertCart(Customer dto) throws Exception;
@@ -16,6 +18,7 @@ public interface CustomerService {
 	public void deleteCart(int cartNum) throws Exception;
 	public int readStock(int productNum) throws Exception;
 	public int readCartQuantity(Customer dto) throws Exception;
+	public void deleteAllCart(String userId) throws Exception;
 }
 
 

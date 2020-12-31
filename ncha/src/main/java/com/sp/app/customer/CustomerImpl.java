@@ -104,6 +104,41 @@ public class CustomerImpl implements CustomerService{
 		return quantity;
 	}
 
+	@Override
+	public void updateStockOption(Customer dto) throws Exception {
+		int stock =0;
+		try {
+			stock = readStockOption(dto.getOptionNum());
+			dto.setOption_stock(stock-dto.getNumber_sales()); 
+			dao.updateData("customer.updateStockOption", dto);
+		} catch (Exception e) {
+		}
+		
+	}
+
+	@Override
+	public int readStockOption(int OptionNum) throws Exception {
+		int stock = 0;
+		try {
+			stock = dao.selectOne("customer.readStockOption", OptionNum);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
+		return stock;
+	}
+
+	@Override
+	public void deleteAllCart(String userId) throws Exception {
+		try {
+			dao.deleteData("customer.deleteAllCart", userId);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
+		
+	}
+
 
 	
 	

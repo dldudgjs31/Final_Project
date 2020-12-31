@@ -187,7 +187,6 @@ public class StoreServiceImpl implements StoreService {
 		try {
 			listFile = dao.selectList("store.listFile", productNum);
 		} catch (Exception e) {
-			// TODO: handle exception
 		}
 		return listFile;
 	}
@@ -200,6 +199,53 @@ public class StoreServiceImpl implements StoreService {
 		} catch (Exception e) {
 		}
 		return optionList;
+	}
+
+	@Override
+	public void deleteImage(int main_imageFileNum) throws Exception {
+		try {
+			dao.deleteData("store.deleteImage", main_imageFileNum);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	@Override
+	public void deleteOption(int optionNum) throws Exception {
+		try {
+			dao.deleteData("store.deleteOption", optionNum);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	@Override
+	public void deleteAllOption(int productNum) throws Exception {
+		try {
+			dao.deleteData("store.deleteAllOption", productNum);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	@Override
+	public void deleteAllImage(int productNum) throws Exception {
+		try {
+			dao.deleteData("store.deleteAllImage", productNum);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	@Override
+	public String readCategoryName(String categoryNum) throws Exception {
+		String categoryName="";
+		try {
+			categoryName =dao.selectOne("store.readCategoryName", Integer.parseInt(categoryNum));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return categoryName;
 	}
 
 

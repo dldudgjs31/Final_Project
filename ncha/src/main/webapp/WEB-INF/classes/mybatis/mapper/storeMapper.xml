@@ -126,6 +126,7 @@
 			WHERE productNum=#{productNum}
 	</update>	
 	 
+
 	 <delete id="deleteProduct" parameterType="Integer">
 		DELETE FROM product_bbs WHERE productNum= #{num}
 	</delete>
@@ -154,8 +155,27 @@
 	</select>
 	
 	<select id="listOption" parameterType="Integer" resultType="com.sp.app.store.Store">
-		SELECT optionDetail, option_stock
+		SELECT optionDetail opt_detail, option_stock opt_stock , optionNum
 		FROM product_option
 		WHERE productNum = #{productNum}
+	</select>
+	
+	<delete id="deleteImage" parameterType="Integer">
+		DELETE FROM product_image WHERE main_imageFileNum = #{main_imageFileNum}
+	</delete>
+	
+	<delete id="deleteOption" parameterType="Integer">
+		DELETE FROM product_option WHERE optionNum = #{optionNum}
+	</delete>
+	
+	<delete id="deleteAllOption" parameterType="Integer">
+		DELETE FROM product_option WHERE productNum=#{productNum}
+	</delete>
+	
+	<delete id="deleteAllImage" parameterType="Integer">
+		DELETE FROM product_image WHERE productNum=#{productNum}
+	</delete>
+	<select id="readCategoryName" parameterType="Integer" resultType="String">
+	 	SELECT categoryName FROM product_category WHERE categoryNum = #{categoryNum}
 	</select>
 </mapper>

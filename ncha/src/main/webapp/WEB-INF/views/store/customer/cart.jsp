@@ -57,11 +57,12 @@ $(function(){
 	 <h2 class="mt-4 mb-3">장바구니
       <small>선택한 상품</small>
     </h2>
-    	<thead>
     <small><table class="table table-hover text-center">
+    	<thead>
     	<tr>
-    		<th>제품 이미지</th>
-    		<th>제품명</th>
+    		<th>상품 이미지</th>
+    		<th>상품명</th>
+    		<th>상품 옵션</th>
     		<th>개수</th>
     		<th>개당 가격</th>
     		<th>총 가격</th>
@@ -77,6 +78,7 @@ $(function(){
     			<input class="cartNum" type="hidden" value="${dto1.cartNum}">
     		</td>
     		<td>${dto1.productName}</td>
+    		<td>${dto1.order_option}</td>
     		<td> ${dto1.quantity}</td>
     		<td><del><fmt:formatNumber type="currency" value="${dto1.price}" />원</del><br>
     		<fmt:formatNumber  type="currency"  value="${dto1.price - dto1.discount_rate}"/>원</td>
