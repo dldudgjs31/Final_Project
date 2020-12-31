@@ -91,7 +91,7 @@ public class DailyServiceImpl implements DailyService{
 	public List<Daily> readDailyFile(int dailyNum) throws Exception {
 		List<Daily> list1 = null;
 		try {
-			list1 = dao.selectList("daily.listArticleFile",dailyNum);
+			list1 = dao.selectList("daily.listFile",dailyNum);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

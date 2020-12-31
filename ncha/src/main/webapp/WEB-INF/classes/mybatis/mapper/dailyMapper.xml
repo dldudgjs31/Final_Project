@@ -89,7 +89,7 @@
 	<!-- Article에서 사진 보여주는 애 -->
 	<select id="listArticleFile" parameterType="map" resultType="com.sp.app.daily.Daily">
 		SELECT dailyNum, imageFilename,daily_imageFilenum
-			FROM daily_image	
+			FROM daily_image
 			ORDER BY daily_imageFilenum ASC
 	</select>
 	<!-- daily_usedNum -->

@@ -226,11 +226,13 @@ public class DailyController {
 		}
 		
 		Map<String, Object> map=new HashMap<String, Object>();
+		List<Daily> list1 = service.readDailyFile(dailyNum);	//파일 여러개 불러오는거
 		map.put("userId", info.getUserId());
 		List<Used> list = service.listUsed(map);
 
 		
 		List<Daily> listFile=service.listFile(dailyNum);
+		model.addAttribute("list1", list1);  
 		model.addAttribute("list", list);
 		model.addAttribute("dailyNum",dailyNum);
 		model.addAttribute("mode", "update");
@@ -244,20 +246,19 @@ public class DailyController {
 	@RequestMapping(value="update", method=RequestMethod.POST)
 	public String updateSubmit(
 			Model model,
-			int dailyNum,
+			@RequestParam(defaultValue="") int dailyNum,
 			Daily dto,
 			@RequestParam String page,
 			HttpSession session) throws Exception {
 
 		SessionInfo info=(SessionInfo)session.getAttribute("member");
-		System.out.println(dto.getDaily_imageFilenum());
+		
 		
 		try {
 			String root = session.getServletContext().getRealPath("/");
 			String pathname = root + File.separator + "uploads" + File.separator + "daily";		
 			
-			//List<Daily> list1 = service.readDailyFile(dailyNum);	//파일 여러개 불러오는거
-			//model.addAttribute("list1", list1);  수정할때 원래 올렸던 사진 나오게 ㅊ ㅓ리하다가 자러감 
+			
 			
 			dto.setUserId(info.getUserId());
 			service.updateDaily(dto, pathname);

@@ -36,7 +36,7 @@
           </li>
           
           <li class="nav-item">
-            <a class="nav-link" href="${pageContext.request.contextPath}/">주문내역관리</a>
+            <a class="nav-link" href="${pageContext.request.contextPath}/admin/chart/analysis">주문내역관리</a>
           </li>
            <li class="nav-item">
             <a class="nav-link" href="${pageContext.request.contextPath}/">N차_신상</a>
