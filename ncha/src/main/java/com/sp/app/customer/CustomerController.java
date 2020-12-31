@@ -214,12 +214,12 @@ public class CustomerController {
 				//선택 상품 재고 수량 - 구매수량 
 				//전체 수량 업데이트
 				dto.setSellerId(list.get(i).getSellerId());
-				dto.setProductNum(list.get(i).getProductNum());
+				dto.setProductName(list.get(i).getProductName());
+				dto.setCategoryName(list.get(i).getCategoryName());
 				dto.setNumber_sales(list.get(i).getQuantity());
 				dto.setPrice(list.get(i).getPrice()-list.get(i).getDiscount_rate());
 				dto.setTotal_sales(list.get(i).getTotal_sales());
 				dto.setOrder_option(list.get(i).getOrder_option());
-				dto.setOptionNum(list.get(i).getOptionNum());
 				dto.setNumber_sales(list.get(i).getQuantity());
 				dto.setStock(list.get(i).getStock());
 				service2.insertOrder(dto);

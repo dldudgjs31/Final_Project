@@ -17,6 +17,8 @@ public class Customer {
 	private int optionNum;
 	private String deliveryDetail;
 	private int option_stock;
+	private String categoryName;
+	
 	
 	//샐러 정보
 	private String SellerId;
@@ -30,6 +32,12 @@ public class Customer {
 	private int number_sales;
 	
 	
+	public String getCategoryName() {
+		return categoryName;
+	}
+	public void setCategoryName(String categoryName) {
+		this.categoryName = categoryName;
+	}
 	public int getOption_stock() {
 		return option_stock;
 	}

@@ -374,6 +374,7 @@ function buyOk() {
 			          <input type="hidden" name="number_sales">
 			          <input type="hidden" name="total_sales" >
 			          <input type="hidden" name="optionNum" >
+			          <input type="hidden" name="categoryName" value="${dto.categoryName}" >
 			          <input type="hidden" name="order_option" >
 			          <input type="hidden" name="stock" value="${dto.stock}" >
 			    		 </td>
