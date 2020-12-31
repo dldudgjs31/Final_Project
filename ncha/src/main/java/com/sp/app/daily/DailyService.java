@@ -3,9 +3,11 @@ package com.sp.app.daily;
 import java.util.List;
 import java.util.Map;
 
+
 public interface DailyService {
 	//글등록
 	public void insertDaily(Daily dto, String pathname) throws Exception;
+	//public void insertDaily(Daily dto, String pathname, String daily_usedNum) throws Exception;
 	
 	//글리스트
 	public int dataCount(Map<String, Object>map);
@@ -42,9 +44,13 @@ public interface DailyService {
 	
 	public List<Reply> listReplyAnswer(int answer);
 	public int replyAnswerCount(int answer);
-	
+
 	public void insertReplyLike(Map<String, Object> map) throws Exception;
 	public Map<String, Object> replyLikeCount(Map<String, Object> map);
 	
+	//중고글 번호
+	public List<Used> listUsed(Map<String, Object> map);
+	
+
 	
 }

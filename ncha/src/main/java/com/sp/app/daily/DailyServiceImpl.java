@@ -10,6 +10,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.sp.app.common.FileManager;
 import com.sp.app.common.dao.CommonDAO;
+
 @Service("daily.dailyService")
 public class DailyServiceImpl implements DailyService{
 	@Autowired
@@ -25,7 +26,6 @@ public class DailyServiceImpl implements DailyService{
 			
 			dto.setDailyNum(seq);
 			dao.insertData("daily.insertDaily",dto);
-			
 			// 파일 업로드
 			if(! dto.getUpload().isEmpty()) {
 				for(MultipartFile mf:dto.getUpload()) {
@@ -37,10 +37,15 @@ public class DailyServiceImpl implements DailyService{
 					insertFile(dto);
 				}
 			}
+			//중고글리스트 테이블에 dailyNum, daily_usedNum추가
+			/*
+			 * if(dto.getDaily_usedNum() != 0) { insertUsedNum(dto); }
+			 */
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
+	
 
 	@Override
 	public int dataCount(Map<String, Object> map) {
@@ -348,12 +353,16 @@ public class DailyServiceImpl implements DailyService{
 		return countMap;
 	}
 
-	
-
-
-	
-
-
+	@Override
+	public List<Used> listUsed(Map<String, Object> map) {
+		List<Used> list=null;
+		try {
+			list=dao.selectList("daily.listUsed", map);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
 
 	
 }

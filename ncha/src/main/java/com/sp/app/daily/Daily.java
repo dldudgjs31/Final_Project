@@ -19,6 +19,8 @@ public class Daily {
 	private String categoryName;
 	private int replyCount;
 	
+	private int daily_usedNum;
+	
 	
 	private int answer;
 	private int answerCount;
@@ -31,9 +33,17 @@ public class Daily {
 	private int daily_imageFilenum;
 	private String profile_imageFilename;
 	
+
+
 	
 	
 	
+	int getDaily_usedNum() {
+		return daily_usedNum;
+	}
+	void setDaily_usedNum(int daily_usedNum) {
+		this.daily_usedNum = daily_usedNum;
+	}
 	public int getReplyCount() {
 		return replyCount;
 	}

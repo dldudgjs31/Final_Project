@@ -10,11 +10,41 @@
 .profile_photo img{
 	height: 200px;
 	width: 200px;
-
+.body-container{
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	width: 70%;
 }
 
+
+.Ulist .usedUrl:hover{
+color:red;
+border: 1px solid #777;
+	cursor:pointer;
+}
+
+.Ulist .usedList{
+	display: none;
+}
 </style>
+
 <script type="text/javascript">
+$(function(){
+	$(".usedUrl").click(function(){
+		var isHidden = $(this).next().is(":hidden");
+		if(isHidden){
+			//$(".usedList").hide();
+			$(this).next().show();			//.next()두번쓰면 다음다음꺼 나옴
+		} else{
+			$(this).next().hide();				
+		}
+		
+	});
+});
+
+
 $(function(){
 	
 	$("form input[name=upload]").change(function(){
@@ -89,9 +119,8 @@ $(function(){
 
 <script type="text/javascript">
 
-
 function sendOk() {
-    var f = document.dailyForm;
+	var f = document.dailyForm;
 
 	var str = f.subject.value;
     if(!str) {
@@ -114,12 +143,43 @@ function sendOk() {
         f.categoryNum.focus();
         return;
     }
-
+    
+    var mode="${mode}";
+    if(mode=="created"){
+    var count = $("input:checkbox[name=usedUrl]:checked").length
+    if(count > 1){
+	   alert("중고글은 1개 이상 체크 할 수 없습니다!")
+	   return;
+  	  }
+    var check = $('.mainImage .mainImage2 input:first').val();
+    if(check == null || check == ""){
+    	alert("1개 이상의 이미지를 선택해주세요!(created)")
+    	return;
+    	}
+    } else if(mode=="update") {
+	   var count = $("input:checkbox[name=usedUrl]:checked").length
+	   console.log(count);
+	    if(count > 1){
+		   alert("중고글은 1개 이상 체크 할 수 없습니다!")
+		   return;
+	   	}   
+	   var check = $('.mainImage .mainImage2 input:first').val();
+	   var check2 = $('.saveImage .saveImage2 :first').html();
+	   console.log(check2);
+	   console.log(check);
+	   if(check == null || check == "" && check2 == null || check2 =="" ){
+		  alert("1개 이상의 이미지를 선택해주세요!(update)")
+		  	return;
+	   }
+    }
+   
+   
     
 	f.action="${pageContext.request.contextPath}/daily/${mode}";
 
     f.submit();
 }
+
 </script>
 
 <div class="body-container" style="width: 700px;">
@@ -148,7 +208,7 @@ function sendOk() {
 				 </div>	 
 			 </div>
 			 </div>
-			<table style="width: 100%; margin: 20px auto 0px; border-spacing: 0px; border-collapse: collapse;"> 
+			<table  class="created" style="width: 100%; margin: 20px auto 0px; border-spacing: 0px; border-collapse: collapse;"> 
 			  <tbody id="tb">
 			  <tr align="left" height="40" style="border-top: 1px solid #cccccc; border-bottom: 1px solid #cccccc;"> 
 			      <td width="100" bgcolor="#eeeeee" style="text-align: center;">제&nbsp;&nbsp;&nbsp;&nbsp;목</td>
@@ -169,22 +229,20 @@ function sendOk() {
 			      <td valign="top" style="padding:5px 0px 5px 10px;"> 
 			        <textarea name="content" rows="12" class="boxTA" style="width: 95%;">${dto.content}</textarea>
 			      </td>
-			  </tr>
-			  
-			   <tr align="left" style="border-bottom: 1px solid #cccccc;"> 
-			      <td width="100" bgcolor="#eeeeee" style="text-align: center; padding-top:5px;" valign="top">중&nbsp;고&nbsp;글&nbsp;번&nbsp;호</td>
-			      <td valign="top" style="padding:5px 0px 5px 10px;"> 
-			      		<input type="text" name="usedUrl" maxlength="200" class="boxTF" style="width: 95%;" value="${dto.usedUrl}">
+			  </tr> 
+			   
+			  <tr align="center" style="border-bottom: 1px solid #cccccc;">
+			  	  <td width="100" bgcolor="#eeeeee" style="text-align: center; padding-top:5px;" valign="top" class="usedUrl">내 중고글 목록(클릭)
+			  	  </td>
+			  	  <td class="usedList" style="display: none;">
+		      		 <c:forEach var="vo" items="${list}">
+				  		 <img alt="" src="${pageContext.request.contextPath}/uploads/used/${vo.imageFilename}" width="150" height="150" border="0">
+				  		 <input type="checkbox" name="usedUrl" value="${vo.usedNum}">
+ 	     				${vo.usedNum}
+		     		  </c:forEach>
 			      </td>
 			  </tr>
-			  
-			  <tr align="left" style="border-bottom: 1px solid #cccccc;"> 
-			      <td width="100" bgcolor="#eeeeee" style="text-align: center; padding-top:5px;" valign="top">스&nbsp;토&nbsp;어&nbsp;글&nbsp;번&nbsp;호</td>
-			      <td valign="top" style="padding:5px 0px 5px 10px;"> 
-			      		<input type="text" name="storeUrl" maxlength="200" class="boxTF" style="width: 95%;" value="${dto.storeUrl}">
-			      </td>
-			  </tr>
-			  
+	  
 			  <tr align="left" height="40" style="border-top: 1px solid #cccccc; border-bottom: 1px solid #cccccc;"> 
 					<td width="100" bgcolor="#eeeeee" style="text-align: center;">카테고리</td>
 					<td style="padding-left:10px;">
@@ -199,9 +257,9 @@ function sendOk() {
 					</td>
 			  </tr>
 				
-			  <tr align="left" height="40" style="border-bottom: 1px solid #cccccc;">
+			  <tr align="left" height="40" style="border-bottom: 1px solid #cccccc;" class="mainImage">
 			      <td width="100" bgcolor="#eeeeee" style="text-align: center;">메&nbsp;&nbsp;&nbsp;&nbsp;인</td>
-			      <td style="padding-left:10px;"> 
+			      <td style="padding-left:10px;" class="mainImage2"> 
 			          <input type="file" id="image" name="upload" class="boxTF" onchange="preWatchphoto(event);" multiple size="53" style="width: 95%; height: 25px; multiple">
 			      </td>
 			  	</tr>
@@ -209,9 +267,9 @@ function sendOk() {
               </tbody>  
 				<c:if test="${mode=='update'}">
 				   <c:forEach var="vo" items="${listFile}">
-						  <tr id="${vo.daily_imageFilenum}" height="40" style="border-bottom: 1px solid #cccccc;"> 
+						  <tr id="${vo.daily_imageFilenum}" height="40" style="border-bottom: 1px solid #cccccc;" class="saveImage"> 
 						      <td width="100" bgcolor="#eeeeee" style="text-align: center;">첨부된파일</td>
-						      <td style="padding-left:10px;"> 
+						      <td style="padding-left:10px;" class="saveImage2"> 
 								<a href="javascript:deleteFile('${vo.daily_imageFilenum}');"><i class="far fa-trash-alt"></i></a> 
 								${vo.imageFilename}
 						      </td>
@@ -233,7 +291,11 @@ function sendOk() {
 			        </c:if>
 			      </td>
 			    </tr>
-			</table>
+			</table>		
 		</form>
+	
     </div>
 </div>
+
+
+

@@ -183,7 +183,7 @@ $(function(){
 				alert("댓글을 추가 하지 못했습니다.");
 			}
 		};
-		
+	
 		ajaxJSON(url, "post", query, fn);
 	});
 });
@@ -383,7 +383,9 @@ $(function(){
 			
 			<tr style="border-bottom: 1px solid #cccccc;">
 			  <td colspan="2" align="left" style="padding: 10px 5px;" valign="top" height="200">
-			    스토어 링크 : <a href="${pageContext.request.contextPath}/store/article?${query}&num=${dto.storeUrl}">${dto.storeUrl}</a>&nbsp;&nbsp;&nbsp; 중고글 링크 : <a href="${pageContext.request.contextPath}/used/article?${query}&usedNum=${dto.usedUrl}">${dto.usedUrl}</a>
+			    
+			 	  	중고글 링크 : <a href="${pageContext.request.contextPath}/used/article?page=1&usedNum=${dto.usedUrl}">${dto.usedUrl}</a>
+			   
 			   </td>
 			</tr>
 			
@@ -463,7 +465,12 @@ $(function(){
 		 </table>
     		
     </div>
-		 <div id="listReply"></div>
+		 <div id="listReply">
+		 
+		 
+		 
+		 
+		 </div>
 </div>
 <script type="text/javascript">
 
