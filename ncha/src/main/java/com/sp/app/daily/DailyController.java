@@ -22,6 +22,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.sp.app.common.FileManager;
 import com.sp.app.common.MyUtil;
 import com.sp.app.member.SessionInfo;
+
+
 /**
  * 일상글 관련 컨트롤러
  * 주요 기능 : 글쓰기 글보기 글 리스트 
@@ -111,17 +113,18 @@ public class DailyController {
 		model.addAttribute("articleUrl", articleUrl);
 	return ".ncha_bbs.daily.list";
 	}
+	
 	@RequestMapping(value="created", method=RequestMethod.GET)
 	public String writeForm(
 			HttpSession session,
-			Model model) throws Exception{
+			Model model
+			) throws Exception{
 		
 		SessionInfo info=(SessionInfo)session.getAttribute("member");
-		
-		if(info.getUserId()!=null) {
-			
-		}
-		
+		Map<String, Object> map=new HashMap<String, Object>();
+		map.put("userId", info.getUserId());
+		List<Used> list = service.listUsed(map);
+		model.addAttribute("list", list);
 		model.addAttribute("mode","created");
 		return ".ncha_bbs.daily.created";
 	}
@@ -129,6 +132,8 @@ public class DailyController {
 	@RequestMapping(value="created", method=RequestMethod.POST)
 	public String createdSubmit(
 			Daily dto,
+			@RequestParam (defaultValue="") String userId,
+			@RequestParam (defaultValue="0") int daily_usedNum,
 			HttpSession session,
 			Model model
 			) throws Exception {
@@ -136,15 +141,19 @@ public class DailyController {
 		String root = session.getServletContext().getRealPath("/");
 		String pathname=root+"uploads"+File.separator+"daily";
 		
+		
 		try {
 			dto.setUserId(info.getUserId());
 			service.insertDaily(dto, pathname);
+			
+
 		} catch (Exception e) {
 		}
-		model.addAttribute("pathname","pathname");
+		
+		
 		return "redirect:/daily/list";
 	}
-	
+		
 	@RequestMapping("article")
 	public String article(
 			 String mode,
@@ -160,7 +169,8 @@ public class DailyController {
 			query+="&categoryNum="+categoryNum+"&keyword="+
 					URLEncoder.encode(keyword,"utf-8");
 		}
-			
+	
+		
 		service.updateHitCount(dailyNum);
 		Daily dto = service.readDaily(dailyNum);
 		
@@ -183,6 +193,9 @@ public class DailyController {
         
 		// 파일
 		List<Daily> listFile=service.listFile(dailyNum);	
+		
+		
+		
 		
 		model.addAttribute("mode", mode);
 		model.addAttribute("list1", list1);
@@ -211,9 +224,14 @@ public class DailyController {
 		if(! info.getUserId().equals(dto.getUserId())) {
 			return "redirect:/daily/list?page="+page;
 		}
+		
+		Map<String, Object> map=new HashMap<String, Object>();
+		map.put("userId", info.getUserId());
+		List<Used> list = service.listUsed(map);
 
 		
 		List<Daily> listFile=service.listFile(dailyNum);
+		model.addAttribute("list", list);
 		model.addAttribute("dailyNum",dailyNum);
 		model.addAttribute("mode", "update");
 		model.addAttribute("page", page);
@@ -280,8 +298,8 @@ public class DailyController {
 			@RequestParam String page,
 			@RequestParam(defaultValue="") String categoryNum,
 			@RequestParam(defaultValue="") String keyword,
-			HttpSession session) throws Exception {
-		SessionInfo info=(SessionInfo)session.getAttribute("member");
+			HttpSession session
+			) throws Exception {
 		
 		keyword = URLDecoder.decode(keyword, "utf-8");
 		String query="page="+page;
@@ -289,9 +307,11 @@ public class DailyController {
 			query+="&categoryNum="+categoryNum+"&keyword="+URLEncoder.encode(keyword, "UTF-8");
 		}
 		
-		if(! info.getUserId().equals("admin")) {
-			return "redirect:/daily/list?"+query;
-		}
+		/*
+		 * SessionInfo info=(SessionInfo)session.getAttribute("member");
+		 * if(! info.getUserId().equals("admin")) { return
+		 * "redirect:/daily/list?"+query; }
+		 */
 		
 		try {
 			String root = session.getServletContext().getRealPath("/");

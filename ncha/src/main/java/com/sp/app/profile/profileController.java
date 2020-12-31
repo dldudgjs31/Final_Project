@@ -112,7 +112,7 @@ public class profileController {
 		
 		Map<String, Object> map2 = new HashMap<String,Object>();
 	
-		dataCount2 = service.dataCount(map2); //데이터 갯수 가져옴
+		dataCount2 = service2.dataCount(map2); //데이터 갯수 가져옴
 		
 		if(dataCount2!=0) { 
 			total_page2=myUtil.pageCount(rows, dataCount2); //전체 페이지수 계산

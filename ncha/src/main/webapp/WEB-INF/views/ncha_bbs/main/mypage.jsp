@@ -222,16 +222,6 @@ function deleteF(userId){
     			<c:if test="${check==1}">
     				<a href="javascript:deleteF('${dto.userId}')"><i class="fas fa-heart fa-3x"></i></a>
     			</c:if>
-    		
-<%--     	<c:choose>
-    		<c:when test="${sessionScope.member.userId!= dto.userId || (check == 0 || check == 'null')}">
-    			<a href="javascript:follow('${dto.userId}')"><i class="far fa-heart fa-3x"></i></a>
-    		</c:when> 
-    		<c:when test="${sessionScope.member.userId!= dto.userId || check == 1}">
-    			<a href="javascript:follow('${dto.userId}')"><i class="fas fa-heart fa-3x"></i></a>
-    		</c:when>
-    	</c:choose> --%>
-    		
     	</div>
     	<div class="profile-setting">
     	<c:if test="${sessionScope.member.userId == dto.userId}">
@@ -275,11 +265,10 @@ function deleteF(userId){
 </form>
 <div id="used" class="tabs" style="display:none;">
 	 <div class="post-list">
-	
 	 <c:forEach var="dto2" items="${list2}">
 	 <c:if test="${dto.userId == dto2.userId}">	
 	    <a href="" class="post">
-	      <div class="post-image">
+	      <div class="post-image" value="${dto2.usedNum}">
 	      	<img alt="" src="${pageContext.request.contextPath}/uploads/used/${dto2.imageFilename}" width="180" height="180" border="0">
 	      </div>
 	      <span class="post-overlay">

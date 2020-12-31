@@ -92,11 +92,11 @@
 			FROM daily_image	
 			ORDER BY daily_imageFilenum ASC
 	</select>
-	
+	<!-- daily_usedNum -->
 	<!-- Article에서 글읽어오는애 -->
 	 <select id="readDaily" parameterType="Integer" resultType="com.sp.app.daily.Daily">
 		SELECT d.dailyNum, d.userId, userName, subject, content, created_date, hitCount,profile_imageFilename,
-		categoryName,d.categoryNum,   NVL(dailyLikeCount, 0) dailyLikeCount, d.usedUrl, d.storeUrl
+		categoryName, d.categoryNum, NVL(dailyLikeCount, 0) dailyLikeCount, usedUrl
 		FROM daily_bbs d
 		JOIN member m ON d.userId = m.userId 
 		JOIN daily_category c ON d.categoryNum = c.categoryNum
@@ -272,5 +272,29 @@
 			   COUNT(DECODE(replyLike, 0, 1)) disLikeCount
 		FROM dailyReplyLike WHERE daily_replyNum = #{daily_replyNum}
 	</select>
+	
+	
+	
+	<!-- usedList -->
+	<select id="listUsed" parameterType="map" resultType="com.sp.app.daily.Used">
+		SELECT u.usedNum, u.userId, userName, subject, sold_check, imageFilename, u.price
+		FROM used_bbs u
+		JOIN member m ON u.userId = m.userId	
+		JOIN (
+			SELECT * FROM(
+				SELECT usedNum, rank() over(partition by usedNum order by used_imageFileNum) rank, imageFilename
+				FROM used_image
+			) WHERE rank = 1
+		) i ON u.usedNum = i.usedNum	
+		WHERE u.userId = #{userId}
+		ORDER BY u.usedNum DESC
+	</select>
+	
+	<!-- URL넘겨줄때 번호 받아오는애 -->
+	<insert id="insertUsedNum" parameterType="com.sp.app.daily.Daily">
+		INSERT INTO daily_usedList (daily_usedNum, dailyNum) VALUES (#{daily_usedNum},#{dailyNum})
+	</insert>
+	
+	
 	
 </mapper>
