@@ -339,7 +339,15 @@ function buyOk() {
 			<p>세일가 : <fmt:formatNumber  type="currency"  value="${dto.price - dto.discount_rate}"/>원</p>
             <select class="custom-select" id="single_select">
             	<c:forEach var="option" items="${optionList}">
-                <option value="${option.optionNum}">${option.opt_detail} [재고 : ${option.opt_stock}]</option>
+            		<c:choose>
+            			<c:when test="${option.opt_stock==0}">
+			                <option value="${option.optionNum}" disabled>${option.opt_detail} [재고 : 품절]</option>
+            			</c:when>
+            			
+            			<c:otherwise>
+			                <option value="${option.optionNum}">${option.opt_detail} [재고 : ${option.opt_stock}]</option>
+            			</c:otherwise>
+            		</c:choose>
             	</c:forEach>
             </select>
             <br> <br>

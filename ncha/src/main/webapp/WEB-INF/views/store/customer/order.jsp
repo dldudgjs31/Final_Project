@@ -87,7 +87,7 @@ function orderOk(userId) {
           <input type="hidden" name="memberIdx" value="${memberIdx}">
           <input type="hidden" name="total_sales" value="${dto1.total_sales}">
           <input type="hidden" name="number_sales" value="${dto1.number_sales}">
-          <input type="hidden" name="price" value="${dto1.price}">
+          <input type="hidden" name="price" value="${dto1.price-dto1.discount_rate}">
           <input type="hidden" name="sellerId" value="${dto1.sellerId}">
           <input type="hidden" name="stock" value="${dto1.stock}">
           <input type="hidden" name="order_option" value="${dto1.order_option}">

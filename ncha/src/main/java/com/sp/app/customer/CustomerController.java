@@ -60,8 +60,11 @@ public class CustomerController {
 			e.printStackTrace();
 			return ".store.customer.order";
 		}
-
-		return ".store.main.main";
+		String message = dto.getUserName()+"님의 주문 결제가 완료되었습니다. 이용해주셔서 감사합니다.";
+		String title = "주문 완료";
+		model.addAttribute("message", message);
+		model.addAttribute("title", title);
+		return ".member.complete";
 	}
 
 	@GetMapping("mypage")
@@ -210,11 +213,11 @@ public class CustomerController {
 				//선택 상품 재고 업데이트
 				//선택 상품 재고 수량 - 구매수량 
 				//전체 수량 업데이트
-				dto.setTotal_sales(list.get(i).getTotal_sales());
 				dto.setSellerId(list.get(i).getSellerId());
 				dto.setProductNum(list.get(i).getProductNum());
 				dto.setNumber_sales(list.get(i).getQuantity());
 				dto.setPrice(list.get(i).getPrice()-list.get(i).getDiscount_rate());
+				dto.setTotal_sales(list.get(i).getTotal_sales());
 				dto.setOrder_option(list.get(i).getOrder_option());
 				dto.setOptionNum(list.get(i).getOptionNum());
 				dto.setNumber_sales(list.get(i).getQuantity());
