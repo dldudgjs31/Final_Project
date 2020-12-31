@@ -241,15 +241,15 @@ function goArticle(dailyNum){
 						<button type="button" class="btn" onclick="javascript:location.href='${pageContext.request.contextPath}/daily/created';">글올리기</button>
 					</td>
 				
-					<td align="center">
+					<td align="center" width="150">
 						<form name="searchFormKeyword" action="${pageContext.request.contextPath}/daily/list" method="post">
-							<input type="text" name="keyword" value="${keyword}" class="boxTF">
-							<button type="button" class="btn" onclick="searchList2();">검색 :${sessionId}</button>
+							<input type="text" name="keyword" value="${keyword}" class="boxTF ">
+							<button type="button" class="btn" onclick="searchList2();">검색 </button>
 						</form>
 					</td>
-					<td align="center">
+					<td align="center" width="150">
 						<form name="searchFormList" action="${pageContext.request.contextPath}/daily/list" method="post">
-							<select class="selectField" id="categoryNum" name="categoryNum" onchange="searchList1();">
+							<select class="selectField form-control" id="categoryNum" name="categoryNum" onchange="searchList1();">
 								<option value="">::카테고리 모아보기::</option>
 								<option value="1" ${dto.categoryNum=="1"?"selected='selected'":""}>의류</option>
 								<option value="2" ${dto.categoryNum=="2"?"selected='selected'":""}>가구</option>
@@ -294,10 +294,10 @@ function goArticle(dailyNum){
           <div class="card-body" align="center">       
             <div class="profile-img card-text">
    			<div class="imgs" style="background-image:url('${pageContext.request.contextPath}/uploads/member/${dto.profile_imageFilename}'); border-bottom: 1px solid #cccccc;" >
-   			</div><a href="javascript:searchProfile('${dto.userId}')">${dto.userId}</a>
+   			</div><a href="javascript:searchProfile('${dto.userId}')" style="color: black !important;">${dto.userId}</a>
    			</div>
             <h4 class="card-title">
-              <a href="${articleUrl}&dailyNum=${dto.dailyNum}">${dto.subject}</a>
+              <a href="${articleUrl}&dailyNum=${dto.dailyNum}" style="color: #8C8C8C !important;">${dto.subject}</a>
             </h4>
           </div>
         </div>

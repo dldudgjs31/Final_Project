@@ -217,10 +217,10 @@ function deleteF(userId){
     		<h1>${dto.userId}</h1>&nbsp;&nbsp;
     		
     			<c:if test="${check==0}">
-    				<a href="javascript:follow('${dto.userId}')"><i class="far fa-heart fa-3x"></i></a>
+    				<a href="javascript:follow('${dto.userId}')" style="color: #FF0000 !important;"><i class="far fa-heart fa-3x"></i></a>
     			</c:if>
     			<c:if test="${check==1}">
-    				<a href="javascript:deleteF('${dto.userId}')"><i class="fas fa-heart fa-3x"></i></a>
+    				<a href="javascript:deleteF('${dto.userId}')" style="color: #FF0000 !important;"><i class="fas fa-heart fa-3x"></i></a>
     			</c:if>
     	</div>
     	<div class="profile-setting">
@@ -229,8 +229,8 @@ function deleteF(userId){
     	</c:if>
     	</div>
     <c:if test="${sessionScope.member.userId == dto.userId}">
-    	<div class="profile-follower"><a href="${pageContext.request.contextPath}/mypage/followerList"><strong>팔로워 </strong></a>&nbsp;&nbsp;&nbsp;${dto.followerCount }</div>
-    	<div class="profile-following"><a href="${pageContext.request.contextPath}/mypage/followingList"><strong>팔로잉 </strong></a>&nbsp;&nbsp;&nbsp;${dto.followingCount }</div>
+    	<div class="profile-follower"><a href="${pageContext.request.contextPath}/mypage/followerList" style="color: #4C4C4C !important;"><strong>팔로워 </strong></a>&nbsp;&nbsp;&nbsp;${dto.followerCount }</div>
+    	<div class="profile-following"><a href="${pageContext.request.contextPath}/mypage/followingList" style="color: #4C4C4C !important;"><strong>팔로잉 </strong></a>&nbsp;&nbsp;&nbsp;${dto.followingCount }</div>
     </c:if>
       <c:if test="${sessionScope.member.userId != dto.userId}">
     	<div class="profile-follower"><strong>팔로워 </strong>&nbsp;&nbsp;&nbsp;${dto.followerCount }</div>
@@ -253,8 +253,8 @@ function deleteF(userId){
 	      </div>
 	      <span class="post-overlay">
 	        <p>
-	          <span class="post-likes">${dto1.dailyLikeCount }</span>
-	          <span class="post-comments">${dto1.replyCount }</span>
+	          <span class="post-likes"><span class="glyphicon glyphicon-heart"></span>좋아요: ${dto1.dailyLikeCount }</span>
+	          <span class="post-comments"><span class="glyphicon glyphicon-option-horizontal"></span>댓글: ${dto1.replyCount }</span>
 	        </p>
 	      </span>
 	    </a>

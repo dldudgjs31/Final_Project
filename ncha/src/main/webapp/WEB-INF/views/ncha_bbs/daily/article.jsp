@@ -354,10 +354,9 @@ $(function(){
 <div class="body-container" style="width: 700px;">
 	<div class="profile-img">
    		<div class="imgs" style="background-image:url('${pageContext.request.contextPath}/uploads/member/${dto.profile_imageFilename}'); border-bottom: 1px solid #cccccc;">
-   		</div><a href="javascript:searchProfile('${dto.userId}')">${dto.userId}</a>
+   		</div><a href="javascript:searchProfile('${dto.userId}')" style="color: black !important;">${dto.userId}</a>
    	</div>
    	
-
      <div class="slick-items" style="height: 450px;">
 		<c:forEach var="vo" items="${list1}">
 			<c:if test="${vo.dailyNum == dto.dailyNum}">
@@ -368,7 +367,7 @@ $(function(){
 		</c:forEach>
      </div>
      <div>
-			<table style="width: 100%; margin: 20px auto 0px; border-spacing: 0px; border-collapse: collapse;">
+			<table class="table-condensed" style="width: 100%; margin: 20px auto 0px; border-spacing: 0px; border-collapse: collapse;">
 			<tr height="35" style=" border-bottom: 1px solid #cccccc;">
 			    <td colspan="2" align="center">
 				   ${dto.subject}
@@ -399,7 +398,7 @@ $(function(){
 			    <td colspan="2" align="left" style="padding-left: 5px;">
 			       이전글 :
 			         <c:if test="${not empty preReadDto}">
-			              <a href="${pageContext.request.contextPath}/daily/article?${query}&dailyNum=${preReadDto.dailyNum}">${preReadDto.subject}</a>
+			              <a href="${pageContext.request.contextPath}/daily/article?${query}&dailyNum=${preReadDto.dailyNum}" style="color: #8C8C8C !important;">${preReadDto.subject}</a>
 			        </c:if>
 			    </td>
 			</tr>
@@ -408,13 +407,13 @@ $(function(){
 			    <td colspan="2" align="left" style="padding-left: 5px;">
 			       다음글 :
 			         <c:if test="${not empty nextReadDto}">
-			              <a href="${pageContext.request.contextPath}/daily/article?${query}&dailyNum=${nextReadDto.dailyNum}">${nextReadDto.subject}</a>
+			              <a href="${pageContext.request.contextPath}/daily/article?${query}&dailyNum=${nextReadDto.dailyNum}" style="color: #8C8C8C !important;">${nextReadDto.subject}</a>
 			        </c:if>
 			    </td>
 			</tr>
 			</table>
 			
-			<table style="width: 100%; margin: 0px auto 20px; border-spacing: 0px;">
+			<table style="width: 100%; margin: 0px auto 20px; border-spacing: 0px;" class="table-condensed">
 			<tr height="45">
 			    <td width="300" align="left">
 			       <c:if test="${sessionScope.member.userId==dto.userId}">				    
@@ -446,7 +445,7 @@ $(function(){
     </div>
     
     <div>
-   		 <table style='width: 100%; margin: 15px auto 0px; border-spacing: 0px;'>
+   		 <table style='width: 100%; margin: 15px auto 0px; border-spacing: 0px;' class="table-condensed">
 			<tr height='30'> 
 				 <td align='left' >
 				 	<span style='font-weight: bold;' >댓글쓰기</span><span> - 타인을 비방하거나 개인정보를 유출하는 글의 게시를 삼가 주세요.</span>
@@ -454,7 +453,7 @@ $(function(){
 			</tr>
 			<tr>
 			   	<td style='padding:5px 5px 0px;'>
-					<textarea class='boxTA' style='width:99%; height: 70px;'></textarea>
+					<textarea class='boxTA form-control' style='width:99%; height: 70px;'></textarea>
 			    </td>
 			</tr>
 			<tr>

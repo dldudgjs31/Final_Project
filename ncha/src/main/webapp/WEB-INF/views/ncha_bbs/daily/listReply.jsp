@@ -17,7 +17,7 @@
 	
 	<tbody id='listReplyBody'>
 	<c:forEach var="vo" items="${listReply}">
-	    <tr height='35' style='background: #eeeeee;'>
+	    <tr height='35' style='background: #F6F6F6;'>
 	       <td width='50%' style='padding:5px 5px; border:1px solid #cccccc; border-right:none;'>
 	           <span><b>${vo.userId}</b></span>
 	        </td>
@@ -53,7 +53,7 @@
 	            <div style='clear: both; padding: 10px 10px;'>
 	                <div style='float: left; width: 5%;'>└</div>
 	                <div style='float: left; width:95%'>
-	                    <textarea cols='72' rows='12' class='boxTA' style='width:98%; height: 70px;'></textarea>
+	                    <textarea cols='72' rows='12' class='boxTA form-control' style='width:98%; height: 70px;'></textarea>
 	                 </div>
 	            </div>
 	             <div style='padding: 0px 13px 10px 10px; text-align: right;'>
