@@ -164,7 +164,7 @@ function sendOk() {
 		   return;
 	   	}   
 	   var check = $('.mainImage .mainImage2 input:first').val();
-	   var check2 = $('.saveImage .saveImage2 :first').html();
+	   var check2 = $('.saveImage .saveImage2 .imgs:first').html();
 	   console.log(check2);
 	   console.log(check);
 	   if(check == null || check == "" && check2 == null || check2 =="" ){
@@ -191,20 +191,10 @@ function sendOk() {
 		<form name="dailyForm" method="post" enctype="multipart/form-data">
    		 
 			<div style="height: 450px;">
-			<div style="margin-bottom: 20px; margin-top: 30px; margin-left: 30px;">
-			<!--  이부분 업데이트일시에 올렸던 파일 가져오는 부분인데 짜다가 포기
-			<c:if test="${mode=='update'}">
-				<c:forEach var="vo" items="${list1}">
-					<c:if test="${vo.dailyNum == dto.dailyNum}">
-						 <label style="font-weight: 900; font-size: 50;">첨부된사진</label>
-					      <div  class="profile_photo" style="background-image: url('${pageContext.request.contextPath}/uploads/daily/${vo.imageFilename}');"></div>
-					</c:if>  
-				</c:forEach>
-			</c:if>
-			 -->
+			<div style="margin-bottom: 20px; margin-top: 30px; margin-left: 30px;">			
 				 <label style="font-weight: 900; font-size: 50;">메인 사진</label>
 				 <div class="profile_photo" id="main_img">
-
+					
 				 </div>	 
 			 </div>
 			 </div>
@@ -218,7 +208,9 @@ function sendOk() {
 			  </tr>
 			  
 			  <tr align="left" height="40" style="border-bottom: 1px solid #cccccc;"> 
-			      <td width="100" bgcolor="#eeeeee" style="text-align: center;">작성자</td>
+			      <td width="100" bgcolor="#eeeeee" style="text-align: center;">
+			      		작성자
+			      </td>
 			      <td style="padding-left:10px;"> 
 			          ${sessionScope.member.userName}
 			      </td>
@@ -271,7 +263,9 @@ function sendOk() {
 						      <td width="100" bgcolor="#eeeeee" style="text-align: center;">첨부된파일</td>
 						      <td style="padding-left:10px;" class="saveImage2"> 
 								<a href="javascript:deleteFile('${vo.daily_imageFilenum}');"><i class="far fa-trash-alt"></i></a> 
-								${vo.imageFilename}
+								<div class="imgs">
+						     		<img alt="" src="${pageContext.request.contextPath}/uploads/daily/${vo.imageFilename}" height="150px" width="150px">
+						     	</div>
 						      </td>
 						  </tr>
 				   </c:forEach>
