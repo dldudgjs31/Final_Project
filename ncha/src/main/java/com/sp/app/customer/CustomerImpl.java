@@ -106,10 +106,9 @@ public class CustomerImpl implements CustomerService{
 
 	@Override
 	public void updateStockOption(Customer dto) throws Exception {
-		int stock =0;
+
 		try {
-			stock = readStockOption(dto.getOptionNum());
-			dto.setOption_stock(stock-dto.getNumber_sales()); 
+
 			dao.updateData("customer.updateStockOption", dto);
 		} catch (Exception e) {
 		}
@@ -137,6 +136,18 @@ public class CustomerImpl implements CustomerService{
 			throw e;
 		}
 		
+	}
+
+	@Override
+	public List<Customer> readOrderList(long memberIdx) throws Exception {
+		List<Customer> list = null;
+		try {
+			list = dao.selectList("customer.readOrderList", memberIdx);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;			
+		}
+		return list;
 	}
 
 

@@ -19,6 +19,9 @@ public interface CustomerService {
 	public int readStock(int productNum) throws Exception;
 	public int readCartQuantity(Customer dto) throws Exception;
 	public void deleteAllCart(String userId) throws Exception;
+	
+	//리뷰 관련
+	public List<Customer> readOrderList(long memberIdx) throws Exception;
 }
 
 

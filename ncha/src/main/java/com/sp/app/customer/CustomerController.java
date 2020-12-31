@@ -214,6 +214,7 @@ public class CustomerController {
 				//선택 상품 재고 수량 - 구매수량 
 				//전체 수량 업데이트
 				dto.setSellerId(list.get(i).getSellerId());
+				dto.setProductNum(list.get(i).getProductNum());
 				dto.setProductName(list.get(i).getProductName());
 				dto.setCategoryName(list.get(i).getCategoryName());
 				dto.setNumber_sales(list.get(i).getQuantity());
@@ -221,17 +222,20 @@ public class CustomerController {
 				dto.setTotal_sales(list.get(i).getTotal_sales());
 				dto.setOrder_option(list.get(i).getOrder_option());
 				dto.setNumber_sales(list.get(i).getQuantity());
+				dto.setOptionNum(list.get(i).getOptionNum());
 				dto.setStock(list.get(i).getStock());
 				service2.insertOrder(dto);
 				
-				//dto.setOption_stock(option_stock);
+				int stock =0;
+				stock = service2.readStockOption(dto.getOptionNum());
+				dto.setOption_stock(stock-dto.getNumber_sales()); 
 				service2.updateStockOption(dto);
 				service2.updateStock(dto);
 			}
 			System.out.println("---------------- 결제 완료 --------------");
 			service2.deleteAllCart(dto.getUserId());
 			System.out.println("---------------- 카트내역 삭제 완료--------------");
-			String message = dto.getUserId()+"님의 주문 결제가 완료되었습니다. 이용해주셔서 감사합니다.";
+			String message = dto.getUserName()+"님의 주문 결제가 완료되었습니다. 이용해주셔서 감사합니다.";
 			String title = "주문 완료";
 			model.addAttribute("message", message);
 			model.addAttribute("title", title);
@@ -248,8 +252,10 @@ public class CustomerController {
 			Model model
 			) throws Exception{
 		SessionInfo info =(SessionInfo)session.getAttribute("member");
-
+		List<Customer> reviewList = service2.readOrderList(info.getMemberIdx());
 		
+		
+		model.addAttribute("list", reviewList);
 		return ".store.customer.review";
 	}
 }

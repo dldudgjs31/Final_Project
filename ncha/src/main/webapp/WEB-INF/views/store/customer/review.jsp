@@ -42,7 +42,7 @@
 		<h2 class="mt-4 mb-3">구매한 상품
 			<small>리뷰 리스트</small>
 	    </h2>
-		<table class="table text-center">
+		<small><table class="table text-center">
 		<thead>
 			<tr>
 				<th>상품이미지</th>
@@ -52,20 +52,22 @@
 			</tr>
 		</thead>
 		<tbody>
+		<c:forEach var="dto" items="${list}">
 			<tr>
 				<td>
-					<div class="product_image" style="background-image: url('${pageContext.request.contextPath}/resources/img/logo.png');"></div>
+					<div class="product_image" style="background-image: url('${pageContext.request.contextPath}/uploads/product/${dto.imageFilename}"></div>
 				</td>
 				<td class="text-left">
-					<p>판매자 : </p>
-					<p>상품명 : </p>
+					<p>판매자 : ${dto.sellerId} </p>
+					<p>상품명 : ${dto.productName} </p>
 				</td>
-				<td></td>
+				<td>${dto.order_date}</td>
 				<td>
-					<button class="btn btn-primary" style="font-family: 'Jua', sans-serif;">등록하기</button>
+					<button class="btn btn-primary" style="font-family: 'Jua', sans-serif;"><small>등록하기</small></button>
 				</td>
 			</tr>	
+		</c:forEach>
 		</tbody>
-		</table>
+		</table></small>
     </div>
 </div>

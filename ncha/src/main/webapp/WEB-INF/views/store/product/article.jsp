@@ -79,6 +79,7 @@ function cartOk(num) {
 	if(confirm("상품을 장바구니에 추가하시겠습니까 ?")) {
 		var q = "num=" +${dto.productNum} + "&${query}";
 		var quantity = $("#totalBuyQty").text();
+		alert(quantity);
 		var optionDetail = $("select option:selected").text();
 		var options = optionDetail.split("[");
 		var option = options[0];
@@ -131,7 +132,8 @@ $(function(){
 		
 		var optionDetail = $("select option:selected").text();
 		var options = optionDetail.split("[");
-
+		var optionStock = options[1].split(":");
+		
 		var option = "[옵션 : "+options[0]+"]";
 		var optionNum = parseInt($("select option:selected").val());
 		var title=$(".my-3").text();
@@ -150,7 +152,7 @@ $(function(){
 			// qty=$(t).children().children("input[name=quantity]").val();
 			qty=$(t+" input[name=quantity]").val();
 			if(! qty) qty=0;
-			if(qty>${dto.stock}){
+			if(qty>parseInt(optionStock[1].split("]")[0])){
 				qty=qty-1;
 				$(t+" input[name=quantity]").val(qty);
 				$(t+" .productPrice").text(qty*price);
@@ -163,9 +165,6 @@ $(function(){
 			
 			$(t+" input[name=quantity]").val(pty);
 			$(t+" .productPrice").text(pty*price);
-			if(pty>=${dto.stock}){
-				return;
-			}
 			totalBuyQty=totalBuyQty+1;
 			totalBuyAmt=totalBuyAmt+price;
 			$("#totalBuyQty").text(totalBuyQty);
@@ -234,8 +233,13 @@ $(function(){
 		var productPrice=parseInt($(this).parent().next().children(".productPrice").text());
 		var totalBuyQty = parseInt($("#totalBuyQty").text());
 		var totalBuyAmt = parseInt($("#totalBuyAmt").text());
-
-		if(qty>${dto.stock}){
+		var optionDetail = $("select option:selected").text();
+		var options = optionDetail.split("[");
+		var optionStock = options[1].split(":");
+		
+		
+		
+		if(qty>parseInt(optionStock[1].split("]")[0])-1){
 			return;
 		}
 		qty=qty+1;
@@ -345,7 +349,7 @@ function buyOk() {
             			</c:when>
             			
             			<c:otherwise>
-			                <option value="${option.optionNum}">${option.opt_detail} [재고 : ${option.opt_stock}]</option>
+			                <option value="${option.optionNum}">${option.opt_detail} [재고 :${option.opt_stock}]</option>
             			</c:otherwise>
             		</c:choose>
             	</c:forEach>
