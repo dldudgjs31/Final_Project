@@ -92,6 +92,8 @@ function orderOk(userId) {
           <input type="hidden" name="stock" value="${dto1.stock}">
           <input type="hidden" name="order_option" value="${dto1.order_option}">
           <input type="hidden" name="optionNum" value="${dto1.optionNum}">
+          <input type="hidden" name="categoryName" value="${dto1.categoryName}">
+          <input type="hidden" name="productName" value="${dto1.productName}">
           <!-- For success/fail messages -->
           <button type="submit" class="btn btn-primary" id="sendMessageButton" onclick="orderOk();">결제하기</button>
         </form>

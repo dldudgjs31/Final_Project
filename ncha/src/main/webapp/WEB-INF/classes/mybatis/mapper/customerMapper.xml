@@ -7,9 +7,8 @@
 	INSERT ALL
 		INTO store_order_list (orderNum, memberIdx,total_sales, order_date)
 		VALUES(order_seq.NEXTVAL,#{memberIdx},#{total_sales},SYSDATE)
-		
-		INTO product_order_detail (orderNum, sellerId,productNum, number_sales, price , order_option, deliveryDetail,optionNum)
-		VALUES(order_seq.NEXTVAL,#{sellerId},#{productNum},#{number_sales},#{price},#{order_option},#{deliveryDetail},#{optionNum})
+		INTO product_order_detail (orderNum, sellerId,productName,categoryName, number_sales, price , order_option, deliveryDetail)
+		VALUES(order_seq.NEXTVAL,#{sellerId},#{productName},#{categoryName},#{number_sales},#{price},#{order_option},#{deliveryDetail})
 	SELECT * FROM dual
 </update>
 
@@ -43,9 +42,10 @@
 </select>
 
 <select id="readCart" parameterType="map" resultType="com.sp.app.customer.Customer">
-		SELECT b.productNum, b.sellerId, productName, price, b.discount_rate, quantity,((price-discount_rate)*quantity) total_sales, imageFilename, cartNum, optionNum, order_option, b.stock
+		SELECT b.productNum, b.sellerId, productName, price, b.discount_rate, quantity,((price-discount_rate)*quantity) total_sales, imageFilename, cartNum, g.categoryName, optionNum, order_option, b.stock
 		FROM store_cart c
 		LEFT OUTER JOIN product_bbs b ON c.productNum=b.productNum
+		LEFT OUTER JOIN product_category g ON g.categoryNum = b.categoryNum 
 		LEFT OUTER JOIN (
 			SELECT * FROM (
 				SELECT productNum, rank() over(partition by productNum order by main_imageFileNum) rank, imageFilename FROM product_image

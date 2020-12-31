@@ -76,8 +76,9 @@
 	 </select>
 	 
 	 <select id="readProduct" parameterType="Integer" resultType="com.sp.app.store.Store">
-	 	SELECT productNum,productName,b.created_date,hitCount,price, detail, stock, discount_rate,b.sellerId,categoryNum
+	 	SELECT productNum,productName,b.created_date,hitCount,price, detail, stock, discount_rate,b.sellerId,c.categoryNum,c.categoryName
 		FROM product_bbs b
+		JOIN product_category  c ON c.categoryNum = b.categoryNum
 		JOIN seller m ON b.sellerId=m.sellerId
 		WHERE productNum = #{num}
 	 </select>
