@@ -73,8 +73,17 @@ function sendOk(){
 		alert("내용을 입력하세요.");
 		f.content.focus();
 		return;
-	
-	 var mode="${mode}";
+	}
+	     
+     str = f.categoryNum.value;
+     if(!str) {
+         alert("카테고리를 설정하세요.");
+         f.categoryNum.focus();
+         return;
+     }
+     
+     
+     var mode="${mode}";
      if(mode=="created"||mode=="update" && f.upload.value!="") {
  		if(! /(\.gif|\.jpg|\.png|\.jpeg)$/i.test(f.upload.value)) {
  			alert('1개 이상의 이미지 파일을 선택해주세요.');
@@ -82,13 +91,6 @@ function sendOk(){
  			return;
  		}
  	}
-	     
-     str = f.categoryNum.value;
-     if(!str) {
-         alert("카테고리를 설정하세요! ");
-         f.categoryNum.focus();
-         return;
-     }
      
 	f.action="${pageContext.request.contextPath}/used/${mode}";
 	f.submit();
@@ -112,14 +114,14 @@ function goArticle(usedNum,page){
 
 
 <div class = "body-containter" style="width:700px;">
-	<div class="row body-title">
+	<div class="body-title">
 		<h3><i class="fas fa-chalkboard"></i>중고거래 글쓰기</h3>
 	</div>
 
 	<div>
-		<form name="usedForm" method="post" enctype="multipart/form-data" style="margin:0 auto; width: 100%;" align = "center">	
+		<form name="usedForm" method="post" enctype="multipart/form-data" style="margin:0 auto; width: 100%;">
 		
-			<table class="table text-center">
+			<table style="width: 100%; margin: 20px auto 0px; border-spacing: 0px; border-collapse: collapse;">
 			<tr align="left" height="40" style="border-bottom: 1px solid #cccccc;"> 
 				<td width="100" bgcolor="#eeeeee" style="text-align: center;">작성자</td>
 				<td style="padding-left:10px;">
