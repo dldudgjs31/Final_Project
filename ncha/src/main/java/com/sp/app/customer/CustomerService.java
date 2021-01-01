@@ -22,6 +22,9 @@ public interface CustomerService {
 	
 	//리뷰 관련
 	public List<Customer> readOrderList(long memberIdx) throws Exception;
+	public int readReviewCount(Customer dto) throws Exception;
+	public int readReviewNum(int OrderNum) throws Exception;
+	
 }
 
 

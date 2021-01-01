@@ -19,14 +19,32 @@ CREATE TABLE product_review (
 );
  * 
  * */
-	private int reviewNum , productNum;
+	private int reviewNum , productNum, orderNum;
 	private String userId;
 	private String userName;
 
 	private String content;
 	private String created_date;
 	private int score;
+	private String orderDetail;
 	
+	
+
+	public String getOrderDetail() {
+		return orderDetail;
+	}
+
+	public void setOrderDetail(String orderDetail) {
+		this.orderDetail = orderDetail;
+	}
+
+	public int getOrderNum() {
+		return orderNum;
+	}
+
+	public void setOrderNum(int orderNum) {
+		this.orderNum = orderNum;
+	}
 
 	public int getReviewNum() {
 		return reviewNum;

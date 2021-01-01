@@ -253,7 +253,19 @@ public class CustomerController {
 			) throws Exception{
 		SessionInfo info =(SessionInfo)session.getAttribute("member");
 		List<Customer> reviewList = service2.readOrderList(info.getMemberIdx());
-		
+		Customer dto = new Customer();
+		for(int i =0;i<reviewList.size();i++) {
+			int reviewCount = 0;
+			dto.setMemberIdx(info.getMemberIdx());
+			dto.setOrderNum(reviewList.get(i).getOrderNum());
+			reviewCount = service2.readReviewCount(dto);
+			reviewList.get(i).setReviewCount(reviewCount);
+			String orderDetail = reviewList.get(i).getProductName() + " [옵션 :"+reviewList.get(i).getOrder_option()+" / "+reviewList.get(i).getNumber_sales()+"개 ]";
+			reviewList.get(i).setOrderDetail(orderDetail);
+			if(reviewCount > 0) {
+				reviewList.get(i).setReviewNum(service2.readReviewNum(reviewList.get(i).getOrderNum()));
+			}
+		}
 		
 		model.addAttribute("list", reviewList);
 		return ".store.customer.review";

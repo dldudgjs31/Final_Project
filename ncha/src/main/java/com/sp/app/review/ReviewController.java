@@ -79,6 +79,37 @@ public class ReviewController {
 		return "review/list";
 	}
 
+	
+	//리뷰 수정 ajax
+	@RequestMapping("reviewUpdate")
+	public String updateReview(
+			@RequestParam int reviewNum,
+			Model model
+			) throws Exception{
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("reviewNum",reviewNum);
+		Review dto = service.readReview(map);
+		dto.setReviewNum(reviewNum);
+		model.addAttribute("dto",dto);
+		return "review/listUpdate";
+	}
+	
+	@RequestMapping(value = "updateSubmit", method = RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object>  updateSubmit(Review dto) throws Exception{
+		String state="true";
+		try {
+			service.updateReview(dto);
+		} catch (Exception e) {
+			state="false";
+		}
+		Map<String, Object> model=new HashedMap<>();
+		model.put("state", state);
+		
+		return model;
+	}
+	
+	
 	@PostMapping("insertReview")
 	@ResponseBody
 	public Map<String, Object> creatdSubmit(
@@ -118,16 +149,15 @@ public class ReviewController {
 	}
 
 	@RequestMapping(value="deleteReview", method = RequestMethod.POST)
-	@ResponseBody 
+	@ResponseBody
 	public Map<String, Object> delete(
 			@RequestParam int reviewNum,
 			HttpSession session
 			) throws Exception {
 		String state="true";
+		System.out.println(reviewNum+"---------------------d-d-d-d-d-d-d-----------------------");
 		try {
-			SessionInfo info=(SessionInfo)session.getAttribute("member");
 			 Map<String, Object> map = new HashedMap<>();
-			 map.put("userId", info.getUserId());
 			 map.put("reviewNum",reviewNum);
 			 
 			 service.deleteReview(map);

@@ -73,10 +73,28 @@
 </select>
 
 <select id="readOrderList" parameterType="Long" resultType="com.sp.app.customer.Customer">
- 	SELECT d.productName, i.imageFilename, s.order_date, d.sellerId
+ 	SELECT d.productName, i.imageFilename, s.order_date, d.sellerId, d.productNum, d.order_option, d.number_sales, d.price, s.orderNum, s.memberIdx
 	FROM store_order_list s
 	LEFT OUTER JOIN product_order_detail d ON s.orderNum = d.orderNum
 	LEFT OUTER JOIN product_image i ON i.productNum = d.productNum
 	WHERE s.memberIdx = #{memberIdx}
+	ORDER BY s.order_date DESC
+</select>
+
+<select id="readReviewCount" parameterType="com.sp.app.customer.Customer" resultType="Integer">
+	SELECT count(*) reviewCount
+	FROM product_review r
+	LEFT OUTER JOIN
+	(
+	    SELECT d.productNum, memberIdx, d.productName, o.orderNum
+	    FROM STORE_ORDER_LIST o
+	    JOIN PRODUCT_ORDER_DETAIL d ON o.orderNum = d.orderNum
+	    WHERE o.memberIdx = #{memberIdx}
+	) a ON r.orderNum = a.orderNum
+	WHERE r.ORDERNUM = #{orderNum}
+</select>
+
+<select id="readReviewNum" parameterType="Integer" resultType="Integer">
+	SELECT reviewNum FROM product_review WHERE orderNum = #{orderNum}
 </select>
 </mapper>

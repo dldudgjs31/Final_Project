@@ -150,6 +150,30 @@ public class CustomerImpl implements CustomerService{
 		return list;
 	}
 
+	@Override
+	public int readReviewCount(Customer dto) throws Exception {
+		int count = 0;
+		try {
+			count = dao.selectOne("customer.readReviewCount", dto);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;			
+		}
+		return count;
+	}
+
+	@Override
+	public int readReviewNum(int OrderNum) throws Exception {
+		int reviewNum = 0;
+		try {
+			reviewNum = dao.selectOne("customer.readReviewNum", OrderNum);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;			
+		}
+		return reviewNum;
+	}
+
 
 	
 	

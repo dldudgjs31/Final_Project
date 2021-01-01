@@ -32,7 +32,31 @@ public class Customer {
 	private String imageFilename;
 	private int number_sales;
 	
+	//리뷰
+	private int reviewCount;
+	private int reviewNum;
+	private String orderDetail;
 	
+	
+	
+	public String getOrderDetail() {
+		return orderDetail;
+	}
+	public void setOrderDetail(String orderDetail) {
+		this.orderDetail = orderDetail;
+	}
+	public int getReviewNum() {
+		return reviewNum;
+	}
+	public void setReviewNum(int reviewNum) {
+		this.reviewNum = reviewNum;
+	}
+	public int getReviewCount() {
+		return reviewCount;
+	}
+	public void setReviewCount(int reviewCount) {
+		this.reviewCount = reviewCount;
+	}
 	public String getCategoryName() {
 		return categoryName;
 	}

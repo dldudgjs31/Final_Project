@@ -418,17 +418,13 @@ function buyOk() {
   <div class="panel panel-default">
     <div class="panel-heading" role="tab" id="headingOne">
       <h4 class="panel-title text-center">
-        <a class="menu-title" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
           	제품 상세 정보
-        </a>
       </h4>
           	<hr>
     </div>
-    <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
       <div class="panel-body">
 					${dto.detail}
       </div>
-    </div>
   </div>
   <div class="panel panel-default">
     <div class="panel-heading" role="tab" id="headingTwo">
@@ -442,80 +438,12 @@ function buyOk() {
     <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
       <div class="panel-body">
     <div>
-<!--         <form name="reviewForm">
-		<table class="table">
-			<tr height='30'> 
-				 <td align='left' >
-				 	<span style='font-weight: bold;' >리뷰쓰기</span>
-				 </td>
-			</tr>
-			<tr>
-				<td>
-		  			<p class="star">
-		      			<a href="#">★</a>
-		       			<a href="#">★</a>
-		       			<a href="#">★</a>
-		       			<a href="#">★</a>
-		       			<a href="#">★</a>
-		   			</p>
-					<input type="hidden" name="score" id="score" value="0">
-			   </td>
-			</tr>
-			<tr>
-			   	<td style='padding:5px 5px 0px;'>
-					<textarea name="content" class='boxTA' style='width:99%; height: 70px;'></textarea>
-			    </td>
-			</tr>
-			<tr>
-			   <td align='right'>
-			        <button type='button' class='btn btnSendReview' style='padding:10px 20px;'>리뷰 등록</button>
-			    </td>
-			 </tr>
-		</table>
-		</form>     --> 
+
 		<div id="listReview"></div>
     
     </div>
 
-<table class="table">
-<%-- 	<thead id='listReviewHeader'>
-		<tr height='35'>
-		    <td colspan='2'>
-		       <div style='clear: both;'>
-		           <div style='float: left;'><span>[리뷰 목록]</span></div>
-		           <div style='float: right; text-align: right;'>전체평점 : <fmt:formatNumber value="${reviewScore}" pattern="0.0"/></div>
-		       </div>
-		    </td>
-		</tr>
-	</thead> --%>
-	
-	<tbody id='listReviewBody'>
-		<c:forEach var="vo" items="${list}">
-	    <tr height='35' style='background: #eeeeee;'>
-	       <td width='50%' style='padding:5px 5px; border:1px solid #cccccc; border-right:none;'>
-	           <span><b>${vo.userName}</b></span>
-	        </td>
-	       <td width='50%' style='padding:5px 5px; border:1px solid #cccccc; border-left:none;' align='right'>
-	           <span><c:forEach var="score" items="${ratingOptions}" varStatus="status" begin="1" end="${vo.score}">★</c:forEach></span> |
-	           <span>${vo.created_date}</span>
-	        </td>
-	    </tr>
-	    <tr>
-	        <td colspan='2' valign='top' style='padding:5px 5px;'>
-	              ${vo.content}
-	        </td>
-	    </tr>
-	</c:forEach>
-	</tbody>
-	
-	<tfoot id='listReviewFooter'>
-		<tr height='40' align="center">
-            <td colspan='2' >
-              ${paging}
-            </td>
-           </tr>
-	</tfoot>
-</table>
+
       </div>
     </div>
   </div>
