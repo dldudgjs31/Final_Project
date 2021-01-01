@@ -4,7 +4,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
   <link href="${pageContext.request.contextPath}/resources/css/modern-business.css" rel="stylesheet">
   
- <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark fixed-top" style="font-family: 'Noto Serif KR', serif; font-size: 15px;">
+ <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark fixed-top" style="font-family: 'Jua', serif; font-size: 15px;">
     <div class="container">
       <a class="navbar-brand" href="${pageContext.request.contextPath}/"><img alt="로고" src="${pageContext.request.contextPath}/resources/img/logo.png" style="width:150px;"></a>
       <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
@@ -36,7 +36,7 @@
           </li>
           
           <li class="nav-item">
-            <a class="nav-link" href="${pageContext.request.contextPath}/admin/chart/analysis">주문내역관리</a>
+            <a class="nav-link" href="${pageContext.request.contextPath}/admin/chart/salesList">주문내역관리</a>
           </li>
            <li class="nav-item">
             <a class="nav-link" href="${pageContext.request.contextPath}/">N차_신상</a>
