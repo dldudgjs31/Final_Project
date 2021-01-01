@@ -26,7 +26,7 @@
      </select>
 
 	 <select id="reviewScore" parameterType="Integer" resultType="Double">
-	 	SELECT AVG(score)
+	 	SELECT NVL(AVG(score),0)
 		FROM product_review 
 		WHERE productNum = #{productNum}
 	 </select>

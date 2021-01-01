@@ -157,8 +157,18 @@
     </div>
     <!--/main slider carousel-->
 </div>
+<a href="#" data-toggle="tooltip" title="Some tooltip text!">Hover over me</a>
 
-
+<!-- Generated markup by the plugin -->
+<div class="tooltip top" role="tooltip">
+  <div class="tooltip-arrow"></div>
+  <div class="tooltip-inner">
+    Some tooltip text!
+  </div>
+</div>
+<button type="button" class="btn btn-secondary" data-toggle="tooltip" data-placement="bottom" title="Tooltip on bottom">
+  Tooltip on bottom
+</button>
 
     </div>
 </div>

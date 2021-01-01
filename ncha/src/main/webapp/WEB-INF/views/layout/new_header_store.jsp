@@ -57,6 +57,9 @@
                <li class="nav-item"> 
                	<a class="nav-link" href="${pageContext.request.contextPath}/member/pwd">정보수정</a>
                </li>
+               <li class="nav-item"> 
+               	<a class="nav-link" href="${pageContext.request.contextPath}/store/customer/cartlist"><i class="fas fa-shopping-cart"></i></a>
+               </li>
                 <c:if test="${sessionScope.member.userId=='admin'}">
                     <li class="nav-item">
                     <a class="nav-link" href="${pageContext.request.contextPath}/admin">관리자</a>

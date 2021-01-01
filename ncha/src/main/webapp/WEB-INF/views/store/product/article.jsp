@@ -79,7 +79,6 @@ function cartOk(num) {
 	if(confirm("상품을 장바구니에 추가하시겠습니까 ?")) {
 		var q = "num=" +${dto.productNum} + "&${query}";
 		var quantity = $("#totalBuyQty").text();
-		alert(quantity);
 		var optionDetail = $("select option:selected").text();
 		var options = optionDetail.split("[");
 		var option = options[0];
@@ -89,7 +88,6 @@ function cartOk(num) {
 			return;
 		}
 		var url="${pageContext.request.contextPath}/store/customer/cart?"+q+"&quantity="+quantity+"&order_option="+option+"&optionNum="+optionNum;
-		alert(url);
 		location.href=url;
 	}
 	</c:if>

@@ -50,7 +50,6 @@ $(function(){
 });
 $(function(){
 	$("body").on("click",".reviewGO",function(){
-		alert($(this).parent().children().eq(3).val());
 		$("#productNum1").val($(this).parent().children().eq(1).val());
 		$("#orderNum").val($(this).parent().children().eq(2).val());
 		$("#orderDetail").val($(this).parent().children().eq(3).val());
@@ -146,7 +145,6 @@ $(function(){
 		score = $("#score").val();
 		reviewNum= $("#reviewNum123").val();
 		var query= "content=" +content+"&score=" +score +"&reviewNum="+ reviewNum;
-		alert(query);
 		var url="${pageContext.request.contextPath}/review/updateSubmit";
 		var fn = function(data){
 			var state=data.state;
