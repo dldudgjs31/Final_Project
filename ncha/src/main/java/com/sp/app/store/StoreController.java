@@ -162,6 +162,7 @@ public class StoreController {
 			@RequestParam(defaultValue="") String categoryNum,
 			@RequestParam(defaultValue = "") String keyword,
 			@RequestParam(defaultValue = "") String message,
+			@RequestParam(defaultValue = "") String order,
 			Model model) throws Exception {
 		keyword = URLDecoder.decode(keyword, "utf-8");
 		message = URLDecoder.decode(message, "utf-8");
@@ -194,6 +195,7 @@ public class StoreController {
 		if(message.length()!=0) {
 			model.addAttribute("message", message);			
 		}
+		model.addAttribute("order", order);
 		model.addAttribute("dto", dto);
 		model.addAttribute("list1", list1);
 		model.addAttribute("listFile", listFile);

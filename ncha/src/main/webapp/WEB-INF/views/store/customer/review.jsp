@@ -212,6 +212,7 @@ function updateReview(reviewNum){
 		<h2 class="mt-4 mb-3">구매한 상품
 			<small>리뷰 리스트</small>
 	    </h2>
+	    <p class="text-right">  총 주문 내역 수  : ${dataCount} &nbsp;&nbsp;&nbsp; (${pageNo}/${total_page} 페이지)</p>
 		<small><table class="table text-center">
 		<thead>
 			<tr>
@@ -251,6 +252,7 @@ function updateReview(reviewNum){
 		</c:forEach>
 		</tbody>
 		</table></small>
+		<p class="text-center">${dataCount==0?"등록된 게시물이 없습니다.":paging}</p>
 
 <!-- Modal -->
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">

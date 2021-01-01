@@ -174,6 +174,17 @@ public class CustomerImpl implements CustomerService{
 		return reviewNum;
 	}
 
+	@Override
+	public int dataOrderCount(long memberIdx) throws Exception {
+		int dataCount=0;
+		try {
+			dataCount = dao.selectOne("customer.dataOrderCount", memberIdx);
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		return dataCount;
+	}
+
 
 	
 	

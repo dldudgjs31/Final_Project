@@ -14,6 +14,7 @@
 </style>
 <script type="text/javascript">
 $(function(){
+	
 	$("body").on("click",".cancel",function(){
 		var cartNum = $(".cartNum").val();
 		if(confirm("담으신 상품을 삭제하시겠습니까?")){
@@ -32,6 +33,13 @@ $(function(){
 		}
 	});
 });
+
+	<c:if test="${message=='fail'}">
+$(function(){
+	alert("재고보다 많은양의 상품은 구매할 수 없습니다.");
+});
+	</c:if>
+
 
 </script>
 <Br>

@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.sp.app.common.MyUtil;
 import com.sp.app.member.Member;
 import com.sp.app.member.MemberService;
 import com.sp.app.member.SessionInfo;
@@ -29,6 +30,9 @@ public class CustomerController {
 	@Autowired
 	private MemberService service1;
 
+	@Autowired
+	private MyUtil myUtil;
+	
 	@RequestMapping("main")
 	public String orderForm(Customer dto1, Model model, HttpSession session) throws Exception {
 		SessionInfo info = (SessionInfo) session.getAttribute("member");
@@ -50,12 +54,19 @@ public class CustomerController {
 	@PostMapping("order")
 	public String orderSubmit(Customer dto, Model model) throws Exception {
 		try {
-			service2.insertOrder(dto);
 			//선택 상품 재고 업데이트
 			//선택 상품 재고 수량 - 구매수량 
 			//전체 수량 업데이트
 			int option_stock_total =service2.readStockOption(dto.getOptionNum());
 			dto.setOption_stock(option_stock_total-dto.getNumber_sales());
+			if(dto.getOption_stock()<0) {
+				String order = "fail";
+				model.addAttribute("page",1);
+				model.addAttribute("order",order);
+				model.addAttribute("num",dto.getProductNum());
+				return "redirect:/store/article";
+			}
+			service2.insertOrder(dto);
 			service2.updateStockOption(dto);
 			service2.updateStock(dto);
 		} catch (Exception e) {
@@ -124,7 +135,8 @@ public class CustomerController {
 	public String cartPage(
 			HttpSession session,
 			Customer dto,
-			Model model
+			Model model,
+			@RequestParam(defaultValue = "") String message
 			) throws Exception{
 		SessionInfo info  = (SessionInfo)session.getAttribute("member");
 		
@@ -137,6 +149,7 @@ public class CustomerController {
 			e.printStackTrace();
 		}
 		
+		model.addAttribute("message",message);
 		model.addAttribute("list",list);
 		return".store.customer.cart";
 	}
@@ -226,10 +239,16 @@ public class CustomerController {
 				dto.setNumber_sales(list.get(i).getQuantity());
 				dto.setOptionNum(list.get(i).getOptionNum());
 				dto.setStock(list.get(i).getStock());
-				service2.insertOrder(dto);
+				
 				
 				int stock =0;
 				stock = service2.readStockOption(dto.getOptionNum());
+				if(stock-dto.getNumber_sales()<0) {
+					String message = "fail";
+					model.addAttribute("message",message);
+					return "redirect:/store/customer/cartlist";
+				}
+				service2.insertOrder(dto);
 				dto.setOption_stock(stock-dto.getNumber_sales()); 
 				service2.updateStockOption(dto);
 				service2.updateStock(dto);
@@ -254,6 +273,19 @@ public class CustomerController {
 			Model model
 			) throws Exception{
 		SessionInfo info =(SessionInfo)session.getAttribute("member");
+		Map<String, Object> map = new HashMap<String, Object>();
+		int rows = 10;
+		int dataCount = service2.dataOrderCount(info.getMemberIdx());
+		int total_page = myUtil.pageCount(rows, dataCount);
+		int current_page = 1;
+		if (current_page > total_page)
+			current_page = total_page;
+
+		int offset = (current_page - 1) * rows;
+		if (offset < 0)	offset = 0;
+		map.put("offset", offset);
+		map.put("rows", rows);
+		
 		List<Customer> reviewList = service2.readOrderList(info.getMemberIdx());
 		Customer dto = new Customer();
 		for(int i =0;i<reviewList.size();i++) {
@@ -268,7 +300,11 @@ public class CustomerController {
 				reviewList.get(i).setReviewNum(service2.readReviewNum(reviewList.get(i).getOrderNum()));
 			}
 		}
-		
+		String paging = myUtil.pagingMethod(current_page, total_page, "listPage");
+		model.addAttribute("pageNo", current_page);
+		model.addAttribute("total_page", total_page);
+		model.addAttribute("dataCount", dataCount);
+		model.addAttribute("paging", paging);
 		model.addAttribute("list", reviewList);
 		return ".store.customer.review";
 	}

@@ -97,4 +97,8 @@
 <select id="readReviewNum" parameterType="Integer" resultType="Integer">
 	SELECT reviewNum FROM product_review WHERE orderNum = #{orderNum}
 </select>
+
+<select id="dataOrderCount" parameterType="Long" resultType="Integer">
+	SELECT count(*) dataCount FROM store_order_list WHERE memberIdx= #{memberIdx} 
+</select>
 </mapper>

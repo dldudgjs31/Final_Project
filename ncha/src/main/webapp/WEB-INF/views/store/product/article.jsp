@@ -46,6 +46,12 @@ font-family: 'Jua', sans-serif;
 </style>
 
 <script type="text/javascript">
+<c:if test="${order=='fail'}">
+$(function(){
+	alert("재고보다 많은양의 상품은 구매할 수 없습니다.");
+});
+	</c:if>
+
 function deleteBoard(num) {
 	<c:if test="${sessionScope.seller.sellerId==dto.sellerId || sessionScope.member.userId=='admin'}">
 	if(confirm("게시물을 삭제 하시겠습니까 ?")) {
