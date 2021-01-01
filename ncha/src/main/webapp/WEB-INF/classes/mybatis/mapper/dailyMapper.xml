@@ -76,6 +76,7 @@
 				</if>
  			</where>
  			ORDER BY dailyNum DESC
+ 			OFFSET #{offset} ROWS FETCH FIRST #{rows} ROWS ONLY
 	</select>
 	
 		<!-- 첨부된 파일 보여주는 애 -->

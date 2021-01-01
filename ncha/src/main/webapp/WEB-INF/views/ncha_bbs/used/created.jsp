@@ -119,11 +119,11 @@ function goArticle(usedNum,page){
 	</div>
 
 	<div>
-		<form name="usedForm" method="post" enctype="multipart/form-data" style="margin:0 auto; width: 100%;">
+		<form name="usedForm" method="post" enctype="multipart/form-data" style="margin:0 auto; width: 100%;" class="form-horizontal">
 		
-			<table style="width: 100%; margin: 20px auto 0px; border-spacing: 0px; border-collapse: collapse;">
+			<table class="table table-hover" style="width: 100%; margin: 20px auto 0px; border-spacing: 0px; border-collapse: collapse;">
 			<tr align="left" height="40" style="border-bottom: 1px solid #cccccc;"> 
-				<td width="100" bgcolor="#eeeeee" style="text-align: center;">작성자</td>
+				<td width="100" bgcolor="#F6F6F6" style="text-align: center;">작성자</td>
 				<td style="padding-left:10px;">
 					${sessionScope.member.userName}
 				</td>
@@ -146,15 +146,15 @@ function goArticle(usedNum,page){
 			
 			<table>
 			<tr align="left" height="40" style="border-bottom: 1px solid #cccccc;">
-      			<td width="100" bgcolor="#eeeeee" style="text-align: center;">사&nbsp;&nbsp;&nbsp;&nbsp;진</td>
+      			<td width="100" bgcolor="#F6F6F6" style="text-align: center;">사&nbsp;&nbsp;&nbsp;&nbsp;진</td>
      			 <td style="padding-left:10px;"> 
-          			<input type="file" name="upload" id="upload_img" onclick="fileUploadAction();" multiple="multiple" class="boxTF" size="53" style="width: 95%; height: 25px;">
+          			<input type="file" name="upload" id="upload_img" onclick="fileUploadAction();" multiple="multiple" class="boxTF form-control" size="53" style="width: 95%; height: 50px;">
        			</td>
   			</tr>
 			<c:if test="${mode=='update'}">
 				   <c:forEach var="vo" items="${imageList}">
 						  <tr id="file${vo.used_imageFileNum}" height="40" style="border-bottom: 1px solid #cccccc;"> 
-						      <td width="100" bgcolor="#eeeeee" style="text-align: center;">첨부된파일</td>
+						      <td width="100" bgcolor="#F6F6F6" style="text-align: center;">첨부된파일</td>
 						      <td style="padding-left:10px;"> 
 								<a href="javascript:deleteFile('${vo.used_imageFileNum}');"><i class="far fa-trash-alt"></i></a> 
 								${vo.imageFilename}
@@ -165,17 +165,17 @@ function goArticle(usedNum,page){
 			
 			
 			<tr align="left" height="40" style="border-top: 1px solid #cccccc; border-bottom: 1px solid #cccccc;"> 
-				<td width="100" bgcolor="#eeeeee" style="text-align: center;">제&nbsp;&nbsp;&nbsp;&nbsp;목</td>
+				<td width="100" bgcolor="#F6F6F6" style="text-align: center;">제&nbsp;&nbsp;&nbsp;&nbsp;목</td>
 				<td style="padding-left:10px;">
-					<input type="text" name="subject" maxlength="100" class="boxTF" style="width: 95%;" value="${dto.subject}">
+					<input type="text" name="subject" maxlength="100" class="boxTF form-control" style="width: 95%;" value="${dto.subject}">
 				</td>
 			</tr>
 
 
 			<tr align="left" height="40" style="border-top: 1px solid #cccccc; border-bottom: 1px solid #cccccc;"> 
-				<td width="100" bgcolor="#eeeeee" style="text-align: center;">카테고리</td>
+				<td width="100" bgcolor="#F6F6F6" style="text-align: center;">카테고리</td>
 				<td style="padding-left:10px;">
-					<select class="selectField" id="categoryNum" name="categoryNum">
+					<select class="selectField form-control" id="categoryNum" name="categoryNum">
 						<option value="">::카테고리 선택::</option>
 						<option value="1" ${dto.categoryNum=="1"?"selected='selected'":""}>의류</option>
 						<option value="2" ${dto.categoryNum=="2"?"selected='selected'":""}>가구</option>
@@ -187,14 +187,14 @@ function goArticle(usedNum,page){
 			</tr>
 
 			<tr align="left" height="40" style="border-top: 1px solid #cccccc; border-bottom: 1px solid #cccccc;"> 
-				<td width="100" bgcolor="#eeeeee" style="text-align: center;">가&nbsp;&nbsp;&nbsp;&nbsp;격</td>
+				<td width="100" bgcolor="#F6F6F6" style="text-align: center;">가&nbsp;&nbsp;&nbsp;&nbsp;격</td>
 				<td style="padding-left:10px;">
-					<input type="text" name="price" maxlength="100" class="boxTF" style="width: 95%;" value="${dto.price}">
+					<input type="text" name="price" maxlength="100" class="boxTF form-control" style="width: 95%;" value="${dto.price}">
 				</td>
 			</tr>
 			
 			<tr align="left" height="40" style="border-top: 1px solid #cccccc; border-bottom: 1px solid #cccccc;"> 
-				<td width="100" bgcolor="#eeeeee" style="text-align: center;">상품&nbsp;&nbsp;상태</td>
+				<td width="100" bgcolor="#F6F6F6" style="text-align: center;">상품&nbsp;&nbsp;상태</td>
 				<td style="padding-left:10px;">
 				    <input type="radio" name="productCondition" value="미개봉" ${dto.productCondition=='미개봉' || not empty dto ?"checked='checked'":"" }> 미개봉
 				    <input type="radio" name="productCondition" value="거의 새것" ${dto.productCondition=='거의 새것'?"checked='checked'":"" }> 거의 새것
@@ -203,7 +203,7 @@ function goArticle(usedNum,page){
 			</tr>
 
 			<tr align="left" height="40" style="border-top: 1px solid #cccccc; border-bottom: 1px solid #cccccc;"> 
-				<td width="100" bgcolor="#eeeeee" style="text-align: center;">결제&nbsp;&nbsp;방법</td>
+				<td width="100" bgcolor="#F6F6F6" style="text-align: center;">결제&nbsp;&nbsp;방법</td>
 				
 				<td style="padding-left:10px;">
 				    <input type="radio" name="dealingMode" value="현금" ${dto.productCondition=='현금' || not empty dto ?"checked='checked'":"" }> 현금
@@ -213,9 +213,9 @@ function goArticle(usedNum,page){
 			</tr>
 			
 			<tr align="left" height="40" style="border-top: 1px solid #cccccc; border-bottom: 1px solid #cccccc;"> 
-				<td width="100" bgcolor="#eeeeee" style="text-align: center;">거래&nbsp;&nbsp;지역</td>
+				<td width="100" bgcolor="#F6F6F6" style="text-align: center;">거래&nbsp;&nbsp;지역</td>
 				<td style="padding-left:10px;">
-					<select class="selectField" id="location" name="location">
+					<select class="selectField form-control" id="location" name="location">
 						<option value="">::거래지역 선택::</option>
 						<option value="서울" ${dto.location=="서울"?"selected='selected'":""}>서울</option>
 						<option value="인천" ${dto.location=="인천"?"selected='selected'":""}>인천</option>
@@ -225,9 +225,9 @@ function goArticle(usedNum,page){
 			</tr>	
 			
 			<tr align="left" style="border-bottom: 1px solid #cccccc;">
-				<td width="100" bgcolor="#eeeeee" style="text-align: center; padding-top:5px;" valign="top">내&nbsp;&nbsp;&nbsp;&nbsp;용</td>
+				<td width="100" bgcolor="#F6F6F6" style="text-align: center; padding-top:5px;" valign="top">내&nbsp;&nbsp;&nbsp;&nbsp;용</td>
 				<td valign="top" style="padding:5px 0px 5px 10px;"> 
-					<textarea name="content" rows="12" class="boxTA" style="width: 95%;">${dto.content}</textarea>
+					<textarea name="content" rows="12" class="boxTA form-control" style="width: 95%;">${dto.content}</textarea>
 				</td>
 			</tr>
 		</table>

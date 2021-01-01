@@ -162,6 +162,7 @@ public class UsedController {
 	
 	@RequestMapping(value = "article", method = RequestMethod.GET)
 	public String article(
+			String mode,
 			@RequestParam int usedNum,
 			@RequestParam String page,
 			@RequestParam(defaultValue = "all") String condition,
@@ -201,7 +202,9 @@ public class UsedController {
 		List<Used> imageList = service.imageList(usedNum);
 		int usedLikeCount = service.usedLikeCount(usedNum);
 		
+		
 		model.addAttribute("dto",dto);
+		model.addAttribute("mode",mode);
 		model.addAttribute("preReadDto",preReadDto);
 		model.addAttribute("nextReadDto",nextReadDto);
 		model.addAttribute("imageList",imageList);

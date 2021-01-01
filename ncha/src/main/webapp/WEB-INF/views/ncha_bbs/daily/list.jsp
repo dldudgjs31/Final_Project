@@ -274,7 +274,14 @@ function goArticle(dailyNum){
 
 <ol class="breadcrumb">
       <li class="breadcrumb-item">카테고리</li>
-      <li class="breadcrumb-item active">${dto.categoryName}</li>
+      <li class="breadcrumb-item active">
+      	<c:if test="${categoryNum==''}">전체</c:if>
+      	<c:if test="${categoryNum=='1'}">의류</c:if>
+      	<c:if test="${categoryNum=='2'}">가구</c:if>
+      	<c:if test="${categoryNum=='3'}">전자제품</c:if>
+      	<c:if test="${categoryNum=='4'}">도서</c:if>
+      	<c:if test="${categoryNum=='5'}">기타</c:if>
+      </li>
 </ol>
 
  <div class="col-lg-9 mb-4">
@@ -286,10 +293,6 @@ function goArticle(dailyNum){
         <div class="card h-100">         
           <a href="${articleUrl}&dailyNum=${dto.dailyNum}">       	
 	          <img class="card-img-top" src="${pageContext.request.contextPath}/uploads/daily/${dto.imageFilename}" alt=""  style="height: 200px;">   		          		
-	          <span class="post-overlay">		       
-			          <span class="post-likes">${dto.dailyLikeCount }</span>
-			          <span class="post-comments">${dto.replyCount }</span>			      
-			  </span>
           </a>              
           <div class="card-body" align="center">       
             <div class="profile-img card-text">
@@ -297,7 +300,9 @@ function goArticle(dailyNum){
    			</div><a href="javascript:searchProfile('${dto.userId}')" style="color: black !important;">${dto.userId}</a>
    			</div>
             <h4 class="card-title">
-              <a href="${articleUrl}&dailyNum=${dto.dailyNum}" style="color: #8C8C8C !important;">${dto.subject}</a>
+              <a href="${articleUrl}&dailyNum=${dto.dailyNum}" style="color: #8C8C8C !important;">${dto.subject}</a><br>
+               <i class="far fa-heart" style="text-align: left;"></i><span>${dto.dailyLikeCount}</span><span>&nbsp;</span>
+			   <i class="far fa-comment-dots" style="text-align: right;"></i><span>${dto.replyCount}</span>
             </h4>
           </div>
         </div>

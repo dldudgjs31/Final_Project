@@ -253,8 +253,8 @@ function deleteF(userId){
 	      </div>
 	      <span class="post-overlay">
 	        <p>
-	          <span class="post-likes"><span class="glyphicon glyphicon-heart"></span>좋아요: ${dto1.dailyLikeCount }</span>
-	          <span class="post-comments"><span class="glyphicon glyphicon-option-horizontal"></span>댓글: ${dto1.replyCount }</span>
+	          <i class="far fa-heart" style="text-align: left;"></i><span>${dto1.dailyLikeCount }</span><span>&nbsp;</span>
+	         <i class="far fa-comment-dots" style="text-align: right;"></i><span>${dto1.replyCount }</span>
 	        </p>
 	      </span>
 	    </a>
@@ -267,14 +267,14 @@ function deleteF(userId){
 	 <div class="post-list">
 	 <c:forEach var="dto2" items="${list2}">
 	 <c:if test="${dto.userId == dto2.userId}">	
-	    <a href="" class="post">
+	    <a href="${articleUrl2}&usedNum=${dto2.usedNum}&mode=${mode}" class="post">
 	      <div class="post-image" value="${dto2.usedNum}">
 	      	<img alt="" src="${pageContext.request.contextPath}/uploads/used/${dto2.imageFilename}" width="180" height="180" border="0">
 	      </div>
 	      <span class="post-overlay">
 	        <p>
-	          <span class="post-likes">${dto2.usedLikeCount }</span>
-	          <span class="post-comments">${dto2.replyCount }</span>
+	          <i class="far fa-heart" style="text-align: left;"></i><span>${dto2.usedLikeCount}</span><span>&nbsp;</span>
+	         <i class="far fa-comment-dots" style="text-align: right;"></i><span>${dto2.replyCount}</span>
 	        </p>
 	      </span>
 	    </a>

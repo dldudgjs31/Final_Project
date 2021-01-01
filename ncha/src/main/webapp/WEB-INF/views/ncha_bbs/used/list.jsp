@@ -303,18 +303,22 @@ function searchProfile(userId) {
          </c:if>
           
           <div class="card-body" align="center">
-            <p class="card-text" onclick="javascript:searchProfile('${dto.userId}')">@${dto.userId}</p>
+            <p class="card-text" onclick="javascript:searchProfile('${dto.userId}')" style="color: black !important;">@${dto.userId}</p>
            	
            	<c:if test="${dto.sold_check == 0}">
             <h4 class="card-title">
-              <a href="${articleUrl}&usedNum=${dto.usedNum}">${dto.subject}</a>
+              <a href="${articleUrl}&usedNum=${dto.usedNum}" style="color: #8C8C8C !important;">${dto.subject}</a><br>
+               <i class="far fa-heart" style="text-align: left;"></i><span>${dto.usedLikeCount}</span><span>&nbsp;</span>
+			   <i class="far fa-eye" style="text-align: right;"></i><span>${dto.hitCount}</span>
             </h4>
             </c:if>
             
             
             <c:if test="${dto.sold_check == 1}">
             <h4 class="card-title">
-              <del><a href="${articleUrl}&usedNum=${dto.usedNum}">${dto.subject}</a></del>
+              <del><a href="${articleUrl}&usedNum=${dto.usedNum}" style="color: #8C8C8C !important;">${dto.subject}</a></del><br>
+               <i class="far fa-heart" style="text-align: left;"></i><span>${dto.usedLikeCount}</span><span>&nbsp;</span>
+			   <i class="far fa-eye" style="text-align: right;"></i><span>${dto.hitCount}</span>
             </h4>
             </c:if>
            

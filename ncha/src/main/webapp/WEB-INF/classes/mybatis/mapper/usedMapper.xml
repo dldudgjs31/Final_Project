@@ -50,7 +50,7 @@
 	<select id="readUsed" parameterType="Integer" resultType="com.sp.app.used.Used">
 		SELECT u.usedNum, u.userId, userName, price, productCondition, dealingMode, location,
 			subject,content,TO_CHAR(created_date,'YYYY-MM-DD') created_date, sold_check, u.categoryNum, 
-			c.categoryName, hitCount, NVL(fileCount,0) fileCount, NVL(usedLikeCount, 0) usedLikeCount
+			c.categoryName, hitCount, NVL(fileCount,0) fileCount, NVL(usedLikeCount, 0) usedLikeCount, profile_imageFilename
 		FROM used_bbs u
 		JOIN member m ON u.userId = m.userId
 		JOIN used_category c ON c.categoryNum = u.categoryNum

@@ -24,6 +24,7 @@ import com.sp.app.common.MyUtil;
 import com.sp.app.member.SessionInfo;
 
 
+
 /**
  * 일상글 관련 컨트롤러
  * 주요 기능 : 글쓰기 글보기 글 리스트 
@@ -49,7 +50,7 @@ public class DailyController {
 			HttpServletRequest req,
 			Model model
 			) throws Exception{
-		int rows = 10; 
+		int rows = 12; 
 		int total_page = 0;
 		int dataCount = 0;
 		
@@ -58,31 +59,34 @@ public class DailyController {
 		}
 		
 		 Map<String, Object>map = new HashMap<>();
-		 
 		 map.put("categoryNum", categoryNum);
 		 map.put("keyword", keyword);
 		 map.put("sessionId", sessionId);
 		 
 		 dataCount = service.dataCount(map);
-        if(dataCount != 0)
-            total_page = myUtil.pageCount(rows,  dataCount);
-        
-        if(total_page < current_page) 
-            current_page = total_page;
+		 
+		 if(dataCount!=0) { 
+				total_page=myUtil.pageCount(rows, dataCount); //전체 페이지수 계산
+			}
+			
+			
+			if(total_page<current_page) {
+				current_page=total_page;
+			}
 
-        int offset = (current_page-1) * rows;
-		if(offset < 0) offset = 0;
-        map.put("offset", offset);
-        map.put("rows", rows);
+			int offset=(current_page-1)*rows;
+			if(offset<0) offset=0;
+			map.put("offset", offset);
+			map.put("rows", rows);
         
         List<Daily> list = service.listDaily(map);
         
-        int listNum, n = 0;
-        for(Daily dto : list) {
-            listNum = dataCount - (offset + n);
-            dto.setListNum(listNum);
-            n++;
-        }
+        int listNum, n=0;
+		for(Daily dto:list) {
+			listNum=dataCount-(offset+n);
+			dto.setListNum(listNum);
+			n++;
+		}
         
         String cp=req.getContextPath();
 

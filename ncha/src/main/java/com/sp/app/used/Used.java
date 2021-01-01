@@ -23,6 +23,7 @@ public class Used {
 	
 	private int hitCount; // 조회수
 	
+	private String profile_imageFilename; //프로필사진
 	private int used_imageFileNum; // 중고글에 게시할 이미지 번호
 	private String imageFilename; // 이미지 파일 이름
 	private List<MultipartFile> upload; // 파일처리
@@ -32,6 +33,9 @@ public class Used {
 	private int usedLikeCount; // 중고글 좋아요
 	
 	private int keeplistCount; //나의 찜목록 갯수
+	
+	
+	
 	
 	public int getListNum() {
 		return listNum;
@@ -167,5 +171,11 @@ public class Used {
 	}
 	public void setKeeplistCount(int keeplistCount) {
 		this.keeplistCount = keeplistCount;
+	}
+	public String getProfile_imageFilename() {
+		return profile_imageFilename;
+	}
+	public void setProfile_imageFilename(String profile_imageFilename) {
+		this.profile_imageFilename = profile_imageFilename;
 	}
 }

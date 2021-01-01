@@ -7,7 +7,7 @@ import java.util.Map;
 public interface UsedService {
 	//게시글 CRUD
 	public void insertUsed(Used dto, String pathname) throws Exception; //중고글 작성
-	public Used readUsed(int num); //중고글보기
+	public Used readUsed(int usedNum); //중고글보기
 	public void updateUsed(Used dto, String pathname) throws Exception; // 글 수정
 	public void deleteUsed(int num, String pathname,String userId) throws Exception;  // 글 삭제
 	

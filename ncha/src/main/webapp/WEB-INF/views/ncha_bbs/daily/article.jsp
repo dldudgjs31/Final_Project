@@ -45,7 +45,6 @@
 function searchProfile(userId) {
 	var url="${pageContext.request.contextPath}/mypage/searchProfile?userId="+userId;
 		location.href=url;
-	
 }
 function deleteDaily(dailyNum) {
 	<c:if test="${sessionScope.member.userId==dto.userId || sessionScope.member.userId=='admin' }">
@@ -220,9 +219,9 @@ $(function(){
 		var msg = "";
 		
 		if(replyLike==='1') {
-			msg="추 천 ?";
+			msg="좋 아 요? ?";
 		}else {
-			msg="비 추 천 ?";
+			msg="싫 어 요 ?";
 		}
 		
 		if(! confirm(msg)) {
@@ -357,6 +356,17 @@ $(function(){
    		</div><a href="javascript:searchProfile('${dto.userId}')" style="color: black !important;">${dto.userId}</a>
    	</div>
    	
+   	<table style="width: 100%; margin: 20px auto 0px; border-spacing: 0px; border-collapse: collapse;">
+			<tr height="35" style="border-bottom: 1px solid #cccccc;">
+			    <td width="50%" align="center" style="padding-left: 50px;">
+			      ${dto.subject}
+			    </td>
+			    <td width="50%" align="right" style="padding-right: 5px;">
+			       ${dto.created_date} | 조회 ${dto.hitCount} | 카테고리 : ${dto.categoryName}
+			    </td>
+			</tr>
+	</table>
+	
      <div class="slick-items" style="height: 450px;">
 		<c:forEach var="vo" items="${list1}">
 			<c:if test="${vo.dailyNum == dto.dailyNum}">
@@ -368,10 +378,11 @@ $(function(){
      </div>
      <div>
 			<table class="table-condensed" style="width: 100%; margin: 20px auto 0px; border-spacing: 0px; border-collapse: collapse;">
-			<tr height="35" style=" border-bottom: 1px solid #cccccc;">
-			    <td colspan="2" align="center">
-				   ${dto.subject}
-			    </td>
+			<tr style="border-bottom: 1px solid #cccccc;">
+				<td align="center" class="btnSendDailyLike">
+					<img alt="좋아요버튼" src="${pageContext.request.contextPath}/resources/images/heart.png" style="height: 25px; width: 25px">
+					<span id="dailyLikeCount">${dto.dailyLikeCount}</span>
+				</td>
 			</tr>
 			
 			<tr style="border-bottom: 1px solid #cccccc;">
@@ -386,12 +397,6 @@ $(function(){
 			 	  	중고글 링크 : <a href="${pageContext.request.contextPath}/used/article?page=1&usedNum=${dto.usedUrl}">${dto.usedUrl}</a>
 			   
 			   </td>
-			</tr>
-			
-			<tr>
-			    <td width="50%" align="right" style="padding-right: 5px;">
-			        ${dto.created_date} | 조회 ${dto.hitCount} | 카테고리 : ${dto.categoryName}
-			    </td>
 			</tr>
 
 			<tr height="35" style="border-bottom: 1px solid #cccccc;">
@@ -424,10 +429,6 @@ $(function(){
 			       </c:if>
 			    </td>
 			
-				<td align="center" class="btnSendDailyLike">
-					<img alt="좋아요버튼" src="${pageContext.request.contextPath}/resources/images/heart.png" style="height: 25px; width: 25px">
-					<span id="dailyLikeCount">${dto.dailyLikeCount}</span>
-				</td>
 			
 			<c:if test="${mode=='mypage'}">
 			    <td align="right">

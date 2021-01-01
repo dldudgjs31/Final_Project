@@ -80,10 +80,10 @@ public class UsedServiceImpl implements UsedService {
 	}
 
 	@Override
-	public Used readUsed(int num) {
+	public Used readUsed(int usedNum) {
 		Used dto = null;
 		try {
-			dto = dao.selectOne("used.readUsed", num);
+			dto = dao.selectOne("used.readUsed", usedNum);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

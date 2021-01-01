@@ -202,14 +202,14 @@ function sendOk() {
 			<table  class="created table table-hover" style="width: 100%; margin: 20px auto 0px; border-spacing: 0px; border-collapse: collapse;"> 
 			  <tbody id="tb">
 			  <tr align="left" height="40" style="border-top: 1px solid #cccccc; border-bottom: 1px solid #cccccc;"> 
-			      <td width="100" bgcolor="F6F6F6" style="text-align: center;">제&nbsp;&nbsp;&nbsp;&nbsp;목</td>
+			      <td width="100" bgcolor="#F6F6F6" style="text-align: center;">제&nbsp;&nbsp;&nbsp;&nbsp;목</td>
 			      <td style="padding-left:10px;"> 
 			        <input type="text" name="subject" maxlength="100" class="boxTF form-control" style="width: 95%;" value="${dto.subject}">
 			      </td>
 			  </tr>
 			  
 			  <tr align="left" height="40" style="border-bottom: 1px solid #cccccc;"> 
-			      <td width="100" bgcolor="F6F6F6" style="text-align: center;">
+			      <td width="100" bgcolor="#F6F6F6" style="text-align: center;">
 			      		작성자
 			      </td>
 			      <td style="padding-left:10px;"> 
@@ -218,26 +218,26 @@ function sendOk() {
 			  </tr>
 			
 			  <tr align="left" style="border-bottom: 1px solid #cccccc;"> 
-			      <td width="100" bgcolor="F6F6F6" style="text-align: center; padding-top:5px;" valign="top">내&nbsp;&nbsp;&nbsp;&nbsp;용</td>
+			      <td width="100" bgcolor="#F6F6F6" style="text-align: center; padding-top:5px;" valign="top">내&nbsp;&nbsp;&nbsp;&nbsp;용</td>
 			      <td valign="top" style="padding:5px 0px 5px 10px;"> 
 			        <textarea name="content" rows="12" class="boxTA form-control" style="width: 95%;">${dto.content}</textarea>
 			      </td>
 			  </tr> 
 			   
 			  <tr align="center" style="border-bottom: 1px solid #cccccc;">
-			  	  <td width="100" bgcolor="F6F6F6" style="text-align: center; padding-top:5px;" valign="top" class="usedUrl"> 내  중고 글  목록(클릭)
+			  	  <td width="100" bgcolor="#F6F6F6" style="text-align: center; padding-top:5px;" valign="top" class="usedUrl"> 내  중고 글  목록(클릭)
 			  	  </td>
 			  	  <td class="usedList" style="display: none;">
 		      		 <c:forEach var="vo" items="${list}">
 				  		 <img alt="" src="${pageContext.request.contextPath}/uploads/used/${vo.imageFilename}" width="150" height="150" border="0">
 				  		 <input type="checkbox"  name="usedUrl"  value="${vo.usedNum}">
- 	     				${vo.usedNum}
+ 	     				글번호:${vo.usedNum}
 		     		  </c:forEach>
 			      </td>
 			  </tr>
 	  
 			  <tr align="left" height="40" style="border-top: 1px solid #cccccc; border-bottom: 1px solid #cccccc;"> 
-					<td width="100" bgcolor="F6F6F6" style="text-align: center;">카테고리</td>
+					<td width="100" bgcolor="#F6F6F6" style="text-align: center;">카테고리</td>
 					<td style="padding-left:10px;">
 						<select class="selectField form-control" id="categoryNum" name="categoryNum">
 							<option value="${dto.categoryNum}"  >::카테고리 선택::</option>
@@ -251,7 +251,7 @@ function sendOk() {
 			  </tr>
 				
 			  <tr align="left" height="40" style="border-bottom: 1px solid #cccccc;" class="mainImage">
-			      <td width="100" bgcolor="F6F6F6" style="text-align: center;">메&nbsp;&nbsp;&nbsp;&nbsp;인</td>
+			      <td width="100" bgcolor="#F6F6F6" style="text-align: center;">메&nbsp;&nbsp;&nbsp;&nbsp;인</td>
 			      <td style="padding-left:10px;" class="mainImage2"> 
 			          <input type="file" id="image" name="upload" class="boxTF form-control" onchange="preWatchphoto(event);" multiple size="53" style="width: 95%; height: 50px; multiple">
 			      </td>
@@ -261,7 +261,7 @@ function sendOk() {
 				<c:if test="${mode=='update'}">
 				   <c:forEach var="vo" items="${listFile}">
 						  <tr id="${vo.daily_imageFilenum}" height="40" style="border-bottom: 1px solid #cccccc;" class="saveImage"> 
-						      <td width="100" bgcolor="F6F6F6" style="text-align: center;">첨부된파일</td>
+						      <td width="100" bgcolor="#F6F6F6" style="text-align: center;">첨부된파일</td>
 						      <td style="padding-left:10px;" class="saveImage2"> 
 								<a href="javascript:deleteFile('${vo.daily_imageFilenum}');"><i class="far fa-trash-alt"></i></a> 
 								<div class="imgs">
@@ -273,7 +273,7 @@ function sendOk() {
 				</c:if>
 			</table>
 			
-			<table style="width: 100%; margin: 0px auto; border-spacing: 0px;" class="table table-hover">
+			<table style="width: 100%; margin: 0px auto; border-spacing: 0px;" >
 			     <tr height="45"> 
 			      <td align="center" >
 			        <button type="button" class="btn" onclick="sendOk();">${mode=='update'?'수정완료':'등록하기'}</button>

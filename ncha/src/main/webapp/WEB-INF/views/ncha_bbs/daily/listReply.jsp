@@ -42,8 +42,8 @@
 	            <button type='button' class='btn btnReplyAnswerLayout' data-daily_replyNum='${vo.daily_replyNum}'>답글 <span id="answerCount${vo.daily_replyNum}">${vo.answerCount}</span></button>
 	        </td>
 	     	<td align="center" class="btnSendDailyLike">
-                 <button type='button' class='btn btnSendReplyLike' data-daily_replyNum='${vo.daily_replyNum}' data-replyLike='1' title="좋아요"><i>추천|</i> <span>${vo.likeCount}</span></button>
-                <button type='button' class='btn btnSendReplyLike' data-daily_replyNum='${vo.daily_replyNum}' data-replyLike='0' title="싫어요"><i >비추천|</i> <span>${vo.disLikeCount}</span></button>	        
+                 <button type='button' class='btn btnSendReplyLike' data-daily_replyNum='${vo.daily_replyNum}' data-replyLike='1' title="좋아요"><i class="far fa-grin fa-2x"></i><span>${vo.likeCount}</span></button>
+                <button type='button' class='btn btnSendReplyLike' data-daily_replyNum='${vo.daily_replyNum}' data-replyLike='0' title="싫어요"><i class="far fa-frown fa-2x"></i><span>${vo.disLikeCount}</span></button>	        
 			</td>
 	    </tr>
 	

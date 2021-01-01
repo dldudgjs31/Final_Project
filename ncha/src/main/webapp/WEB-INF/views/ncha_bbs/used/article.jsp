@@ -25,8 +25,33 @@
 .slick-next{
 	color: gray;
 }
+.profile-img{
+	grid-area:img;
+	display: flex;
+	
+	justify-content: center;
+	align-items: left;
+}
+.imgs{
+	width: 100px; 
+	height: 100px; 
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: cover;
+	border-radius: 50%;
+	border: 1px solid silver;
+}
+.userId{
+	font-weight: bold;
+	font-size: 18px;
+}
 </style>
 <script type="text/javascript">
+function searchProfile(userId) {
+	var url="${pageContext.request.contextPath}/mypage/searchProfile?userId="+userId;
+		location.href=url;
+}
+
 function updateForm(usedNum, page){
 	<c:if test="${sessionScope.member.userId == dto.userId}">
 		var q = "usedNum="+usedNum+"&page="+page;
@@ -343,6 +368,10 @@ $(function(){
 </script>
 
 <div class="body-container" style="width: 700px;">
+	<div class="profile-img">
+   		<div class="imgs" style="background-image:url('${pageContext.request.contextPath}/uploads/member/${dto.profile_imageFilename}'); border-bottom: 1px solid #cccccc;">
+   		</div><a href="javascript:searchProfile('${dto.userId}')" style="color: black !important;">${dto.userId}</a>
+   	</div>
 	
 	<div>
 		<table style="width: 100%; margin: 20px auto 0px; border-spacing: 0px; border-collapse: collapse;">
@@ -364,7 +393,7 @@ $(function(){
 			</c:forEach>
 	    </div>
 	    
-		<table style="width: 100%; margin: 20px auto 0px; border-spacing: 0px; border-collapse: collapse;">	
+		<table class="table-condensed" style="width: 100%; margin: 20px auto 0px; border-spacing: 0px; border-collapse: collapse;">	
 			<tr style="border-bottom: 1px solid #cccccc;">
 				<td align="center" class="btnSendUsedLike">
 					<img alt="좋아요버튼" src="${pageContext.request.contextPath}/resources/images/heart.png" style="height: 25px; width: 25px">
@@ -412,7 +441,7 @@ $(function(){
 			    <td colspan="2" align="left" style="padding-left: 5px;">
 			       이전글 :
 			        <c:if test="${not empty preReadDto}">
-			            <a href="${pageContext.request.contextPath}/used/article?${query}&usedNum=${preReadDto.usedNum}">${preReadDto.subject}</a>
+			            <a href="${pageContext.request.contextPath}/used/article?${query}&usedNum=${preReadDto.usedNum}" style="color: #8C8C8C !important;">${preReadDto.subject}</a>
 			        </c:if>
 			    </td>
 			</tr>
@@ -421,7 +450,7 @@ $(function(){
 			    <td colspan="2" align="left" style="padding-left: 5px;">
 			       다음글 :
 			        <c:if test="${not empty nextReadDto}">
-			            <a href="${pageContext.request.contextPath}/used/article?${query}&usedNum=${nextReadDto.usedNum}">${nextReadDto.subject}</a>
+			            <a href="${pageContext.request.contextPath}/used/article?${query}&usedNum=${nextReadDto.usedNum}" style="color: #8C8C8C !important;">${nextReadDto.subject}</a>
 			        </c:if>
 			     </td>
 			</tr>
@@ -438,10 +467,21 @@ $(function(){
 		            <button type="button" class="btn" onclick="deleteBoard('${dto.usedNum}','${page}');">삭제</button>
 		        </c:if>
 		    </td>
+			<c:if test="${mode=='mypage'}">
+			    <td align="right">
+			       <a href="javascript:searchProfile('${dto.userId}')">마이페이지</a>
+			    </td>
+			</c:if>
+			<c:if test="${mode!='mypage'}">
+			    <td align="right">
+			        <button type="button" class="btn" onclick="goList('${page}');">리스트</button>
+			    </td>
+			</c:if>
 		
-		    <td align="right">
+		
+		  <%--   <td align="right">
 		        <button type="button" class="btn" onclick="goList('${page}');">리스트</button>
-		    </td>
+		    </td> --%>
 			</tr>
 		</table>
 	</div>
