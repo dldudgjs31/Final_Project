@@ -54,6 +54,8 @@ public class CustomerController {
 			//선택 상품 재고 업데이트
 			//선택 상품 재고 수량 - 구매수량 
 			//전체 수량 업데이트
+			int option_stock_total =service2.readStockOption(dto.getOptionNum());
+			dto.setOption_stock(option_stock_total-dto.getNumber_sales());
 			service2.updateStockOption(dto);
 			service2.updateStock(dto);
 		} catch (Exception e) {
