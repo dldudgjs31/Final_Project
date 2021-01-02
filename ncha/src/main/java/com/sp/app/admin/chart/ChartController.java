@@ -1,7 +1,9 @@
 package com.sp.app.admin.chart;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -17,27 +19,41 @@ public class ChartController {
 	@Autowired
 	private ChartService service;
 	
-	@RequestMapping("analysis")
-	public String analysis() throws Exception {
-		return ".admin.chart.analysis";
+	@RequestMapping(value="salesList")
+	public String salesList() throws Exception{		
+		
+		return ".admin.chart.salesList";
 	}
 	
 	
+	@RequestMapping(value="category")
+	public String categoryList() throws Exception{		
+		
+		return ".admin.chart.category";
+	}
 	@RequestMapping(value="categoryAnalysis", produces ="application/json;charset=utf-8")
 	@ResponseBody
 	public String categorySalesSection() throws Exception{		
-		List<Analysis> list = service.categorySalesList();
+		List<CategoryAnalysis> list = service.categorySalesList();
 		JSONArray array = new JSONArray();
 		JSONObject ob = new JSONObject();
-		ob.put("name", "카테고리");
+		ob.put("name", "총 판매액");
 		
 		JSONArray jsonarr = new JSONArray();
+		
+		int allSales = 0;
+		for(int i = 0; i<list.size(); i++) {
+			System.out.println(i+ " : " + list.get(i).getTotal());
+			allSales+=list.get(i).getTotal();
+		}
+		
+		System.out.println(allSales);
 		for(int i = 0; i<list.size(); i++) {
 			List<Object>arr = new ArrayList<Object>();
 			
 			arr.add(list.get(i).getSection());
-			arr.add(list.get(i).getTotal());
-	
+			arr.add(((double)list.get(i).getTotal()/(double)allSales)*100);
+			//System.out.println(i+" : "+((double)list.get(i).getTotal()/(double)allSales)*100);
 			jsonarr.put(new JSONArray(arr));
 		}
 		ob.put("data", jsonarr);
@@ -45,5 +61,62 @@ public class ChartController {
 		
 		array.put(ob);
 		return array.toString(); 
+	}
+	
+	
+	@RequestMapping(value="categoryYearAnalysis")
+	@ResponseBody
+	public Map<String, Object> categoryYearSalesSection() throws Exception{		
+		List<CategoryAnalysis> list = service.categoryYearSalesList();
+		Map<String, Object> model = new HashMap<String, Object>();
+		
+		List<Map<String, Object>> datalist = new ArrayList<>();
+
+		Map<String, Object>map = new HashMap<>();
+		List<Integer>data = new ArrayList<>();
+		map.put("name","의류");
+		for(int i = 0; i<list.size(); i++) {
+			data.add(list.get(i).getClothes_total());
+		}
+		map.put("data",data);
+		datalist.add(map);
+		
+		
+		map = new HashMap<>();
+		data = new ArrayList<>();
+		map.put("name","전자제품");
+		for(int i = 0; i<list.size(); i++) {
+			data.add(list.get(i).getElectronics_total());
+		}
+		map.put("data",data);
+		datalist.add(map);
+		
+		
+		map = new HashMap<>();
+		data = new ArrayList<>();
+		map.put("name","생필품");
+		for(int i = 0; i<list.size(); i++) {
+			data.add(list.get(i).getNecessaries_total());
+		}
+		map.put("data",data);
+		datalist.add(map);
+		
+		
+		map = new HashMap<>();
+		data = new ArrayList<>();
+		map.put("name","인테리어 가구");
+		for(int i = 0; i<list.size(); i++) {
+			data.add(list.get(i).getInterior_total());
+		}
+		map.put("data",data);
+		datalist.add(map);
+		
+		int currentyear = Integer.parseInt(list.get(list.size()-1).getOrderYear());
+		System.out.println(currentyear);
+		
+		model.put("currentyear",currentyear);
+		model.put("series",datalist);
+		
+		return model;
 	}
 }

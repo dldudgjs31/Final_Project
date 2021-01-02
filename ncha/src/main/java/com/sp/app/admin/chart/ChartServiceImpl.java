@@ -14,16 +14,56 @@ public class ChartServiceImpl implements ChartService {
 	private CommonDAO dao;
 	
 	@Override
-	public List<Analysis> categorySalesList() {
-		List<Analysis> list = null;
+	public List<CategoryAnalysis> categorySalesList() {
+		List<CategoryAnalysis> list = null;
 		
 		try {
-			list = dao.selectList("admin.categorySalesSection");
+			list = dao.selectList("adminchart.categorySalesSection");
 			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return list;
+	}
+
+	@Override
+	public List<CategoryAnalysis> categoryYearSalesList() {
+		List<CategoryAnalysis> list = null;
+		
+		try {
+			list = dao.selectList("adminchart.categoryYearSalesSection");
+			//System.out.println(list.size());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
+	
+	
+
+	@Override
+	public List<CategoryAnalysis> storeSalesList() {
+		List<CategoryAnalysis> list = null;
+		
+		try {
+			list = dao.selectList("admin.storeSalesSection");
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
+
+	@Override
+	public List<CategoryAnalysis> storeYearSalesList() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<SalesTable> salesList() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
