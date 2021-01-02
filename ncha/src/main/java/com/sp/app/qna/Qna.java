@@ -13,8 +13,15 @@ public class Qna {
 	private int listNum;
 	private String status;
 	private String productName;
+	private String replyContent;
 	
 	
+	public String getReplyContent() {
+		return replyContent;
+	}
+	public void setReplyContent(String replyContent) {
+		this.replyContent = replyContent;
+	}
 	public String getProductName() {
 		return productName;
 	}

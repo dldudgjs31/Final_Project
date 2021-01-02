@@ -175,6 +175,7 @@ public class QnaController {
 			 map.put("qnaNum",qnaNum);
 			 
 			 service.deleteMyQna(map);
+			 service.deleteQnaReply(map);
 			} catch (Exception e) {
 			state="false";
 		}
@@ -193,6 +194,77 @@ public class QnaController {
 		try {
 			 service.updateMyQna(dto);
 			} catch (Exception e) {
+			state="false";
+		}
+		
+		Map<String, Object> model=new HashedMap<>();
+		model.put("state", state);
+		return model;
+	}
+	
+	
+	@RequestMapping(value="insertAnswer", method = RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> insertAnswer(
+			Qna dto,
+			HttpSession session
+			) throws Exception {
+		String state="true";
+		com.sp.app.seller.SessionInfo info = (com.sp.app.seller.SessionInfo)session.getAttribute("seller");
+		try {
+			 Map<String, Object> map = new HashedMap<>();
+			 map.put("qnaNum",dto.getQnaNum());
+			 map.put("sellerId", info.getSellerId());
+			 map.put("content", dto.getContent());
+			 service.insertQnaAnswer(map);
+			 service.updateStatus(map);
+			} catch (Exception e) {
+			state="false";
+		}
+		
+		Map<String, Object> model=new HashedMap<>();
+		model.put("state", state);
+		return model;
+	}
+	@RequestMapping(value="updateAnswer", method = RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> updateAnswer(
+			Qna dto,
+			HttpSession session
+			) throws Exception {
+		String state="true";
+		com.sp.app.seller.SessionInfo info = (com.sp.app.seller.SessionInfo)session.getAttribute("seller");
+		try {
+			Map<String, Object> map = new HashedMap<>();
+			map.put("qnaNum",dto.getQnaNum());
+			map.put("sellerId", info.getSellerId());
+			map.put("content", dto.getContent());
+			service.updateQnaReply(map);
+		} catch (Exception e) {
+			state="false";
+		}
+		
+		Map<String, Object> model=new HashedMap<>();
+		model.put("state", state);
+		return model;
+	}
+	
+	@RequestMapping("deleteReply")
+	@ResponseBody
+	public Map<String, Object> deleteReply(
+			Qna dto,
+			HttpSession session
+			) throws Exception {
+		String state="true";
+		com.sp.app.seller.SessionInfo info = (com.sp.app.seller.SessionInfo)session.getAttribute("seller");
+		try {
+			Map<String, Object> map = new HashedMap<>();
+			map.put("qnaNum",dto.getQnaNum());
+			map.put("sellerId", info.getSellerId());
+			map.put("content", dto.getContent());
+			service.deleteQnaReply(map);
+			service.updateStatusReturn(map);
+		} catch (Exception e) {
 			state="false";
 		}
 		

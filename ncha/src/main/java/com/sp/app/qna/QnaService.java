@@ -14,4 +14,13 @@ public interface QnaService {
 	public int dataMyQnaCount(Map<String, Object> map) throws Exception;
 	public void deleteMyQna(Map<String, Object> map)throws Exception;
 	public void updateMyQna(Qna dto) throws Exception;
+	
+	//판매자 mypage에서
+	public List<Qna> listSellerQna(Map<String, Object> map) throws Exception;
+	public int dataSellerQnaCount(Map<String, Object> map) throws Exception;
+	public void insertQnaAnswer(Map<String, Object> map) throws Exception;
+	public void updateStatus(Map<String, Object> map) throws Exception;
+	public void updateStatusReturn(Map<String, Object> map) throws Exception;
+	public void updateQnaReply(Map<String, Object> map) throws Exception;
+	public void deleteQnaReply(Map<String, Object> map) throws Exception;
 }

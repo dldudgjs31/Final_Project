@@ -37,7 +37,7 @@
             <a class="nav-link" href="${pageContext.request.contextPath}/store/created">판매글올리기</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="${pageContext.request.contextPath}/">마이페이지</a>
+            <a class="nav-link" href="${pageContext.request.contextPath}/store/mypage/main">마이페이지</a>
           </li>
           </c:if>
           <li class="nav-item">

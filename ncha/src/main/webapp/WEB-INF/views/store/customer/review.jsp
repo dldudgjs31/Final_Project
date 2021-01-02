@@ -192,7 +192,7 @@ function updateReview(reviewNum){
 <Br>
         <ol class="breadcrumb">
       <li class="breadcrumb-item">MYPAGE</li>
-      <li class="breadcrumb-item active">메인</li>
+      <li class="breadcrumb-item active">리뷰</li>
     </ol>
     <!-- Content Row -->
     <div class="row">
@@ -236,14 +236,14 @@ function updateReview(reviewNum){
 				<td>${dto.order_date}</td>
 				<td>
 				<c:if test="${dto.reviewCount == 0}">
-					<button class="btn btn-primary btn-lg reviewGO" data-toggle="modal" data-target="#myModal" style="font-family: 'Jua', sans-serif;"><small>등록하기</small></button>
+					<button class="btn btn-primary btn-xs reviewGO" data-toggle="modal" data-target="#myModal" style="font-family: 'Jua', sans-serif;"><small>등록</small></button>
 					<input type="hidden" name="productNum" value="${dto.productNum}" id="productNumber">
 					<input type="hidden" name="orderNum" value="${dto.orderNum}" id="orderNumber">
 					<input type="hidden" name="orderDetail" value="${dto.orderDetail}" >
 				</c:if>
 				<c:if test="${dto.reviewCount >= 1}">
-					<button class="btn btn-info btn-lg reviewUpdate" onclick="updateReview('${dto.reviewNum}')"  data-toggle="modal" data-target="#myModal1" style="font-family: 'Jua', sans-serif;"><small>수정하기</small></button>
-					<button class="btn btn-danger btn-lg reviewDelete" onclick="deleteReview('${dto.reviewNum}')"  style="font-family: 'Jua', sans-serif;"><small>삭제하기</small></button>
+					<button class="btn btn-info btn-xs reviewUpdate" onclick="updateReview('${dto.reviewNum}')"  data-toggle="modal" data-target="#myModal1" style="font-family: 'Jua', sans-serif;"><small>수정</small></button>
+					<button class="btn btn-danger btn-xs reviewDelete" onclick="deleteReview('${dto.reviewNum}')"  style="font-family: 'Jua', sans-serif;"><small>삭제</small></button>
 					<input type="hidden" name="reviewNum" value="${dto.reviewNum}">
 					<input type="hidden" name="orderDetail" value="${dto.orderDetail}" >
 				</c:if>	

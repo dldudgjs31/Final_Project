@@ -96,6 +96,76 @@ public class QnaServiceImpl implements QnaService {
 			throw e;
 		}
 	}
+	@Override
+	public List<Qna> listSellerQna(Map<String, Object> map) throws Exception {
+		List<Qna> list = null;
+		try {
+			list = dao.selectList("qna.listSellerQna", map);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
+		return list;
+	}
+	@Override
+	public int dataSellerQnaCount(Map<String, Object> map) throws Exception {
+		int dataCount=0;
+		try {
+			dataCount= dao.selectOne("qna.dataSellerQnaCount",map);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
+		return dataCount;
+	}
+	@Override
+	public void insertQnaAnswer(Map<String, Object> map) throws Exception {
+		try {
+			dao.insertData("qna.insertQnaAnswer", map);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
+	}
+	@Override
+	public void updateStatus(Map<String, Object> map) throws Exception {
+		try {
+			dao.updateData("qna.updateStatus", map);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
+		
+	}
+	@Override
+	public void updateQnaReply(Map<String, Object> map) throws Exception {
+		try {
+			dao.updateData("qna.updateQnaReply", map);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
+		
+	}
+	@Override
+	public void deleteQnaReply(Map<String, Object> map) throws Exception {
+		try {
+			dao.deleteData("qna.deleteQnaReply", map);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
+		
+	}
+	@Override
+	public void updateStatusReturn(Map<String, Object> map) throws Exception {
+		try {
+			dao.updateData("qna.updateStatusReturn", map);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
+	}
 
 
 }

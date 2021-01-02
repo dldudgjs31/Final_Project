@@ -7,10 +7,11 @@
 	VALUES(QNA_SEQ.NEXTVAL, #{subject},#{content},#{qnaType},#{productNum}, #{userId}, SYSDATE, 0)
 </insert>
 <select id="listQna" parameterType="map" resultType="com.sp.app.qna.Qna">
-	SELECT subject, content, qnaType, userId,create_date, enabled
-	FROM product_qna 
+	SELECT subject, q.content, qnaType, userId,create_date, enabled, r.content replyContent
+	FROM product_qna q
+	LEFT OUTER JOIN product_qna_reply r ON q.qnaNum = r.qnaNum
 	WHERE productNum = #{productNum}
-	ORDER BY qnaNum DESC
+	ORDER BY q.qnaNum DESC
 	OFFSET #{offset} ROWS FETCH FIRST #{rows} ROWS ONLY
 </select>
 
@@ -21,9 +22,10 @@
 </select>
 
 <select id="listMyQna" parameterType="map" resultType="com.sp.app.qna.Qna">
-	SELECT subject, content, qnaType, userId,create_date, enabled, b.productName, b.productNum, qnaNum
+	SELECT subject, q.content, qnaType, userId,create_date, enabled, b.productName, b.productNum, q.qnaNum, r.content replyContent
 	FROM product_qna q
 	LEFT OUTER JOIN product_bbs b ON q.productNum =b.productNum
+	LEFT OUTER JOIN product_qna_reply r ON r.qnaNum = q.qnaNum 
 	WHERE userId = #{userId}
 	ORDER BY qnaNum DESC
 	OFFSET #{offset} ROWS FETCH FIRST #{rows} ROWS ONLY
@@ -41,5 +43,45 @@
 
 <update id="updateMyQna" parameterType="com.sp.app.qna.Qna">
 	UPDATE product_qna SET subject =#{subject}, qnaType=#{qnaType}, content=#{content} WHERE qnaNum= #{qnaNum}
+</update>
+
+<!-- 판매자 영역 -->
+
+<select id="listSellerQna" parameterType="map" resultType="com.sp.app.qna.Qna">
+	SELECT q.qnaNum, q.subject, q.create_date, qnaType, b.productName, b.productNum, q.content, q.enabled, r.content replyContent
+	FROM product_qna q
+	LEFT OUTER JOIN product_bbs b ON q.productNum = b.productNum
+	LEFT OUTER JOIN product_qna_reply r ON r.qnaNum = q.qnaNum
+	WHERE b.sellerId = #{sellerId}
+	ORDER BY q.qnaNum DESC
+	OFFSET #{offset} ROWS FETCH FIRST #{rows} ROWS ONLY
+</select>
+
+<select id="dataSellerQnaCount" parameterType="map" resultType="Integer">
+	SELECT COUNT(*) 
+	FROM product_qna q
+	LEFT OUTER JOIN product_bbs b ON q.productNum = b.productNum
+	WHERE b.sellerId = #{sellerId}
+</select>
+
+<insert id="insertQnaAnswer" parameterType="map">
+	INSERT INTO product_qna_reply(qnaNum, content, sellerId)
+	VALUES(#{qnaNum},#{content},#{sellerId})
+</insert>
+
+<update id="updateStatus" parameterType="map">
+	UPDATE product_qna SET enabled = 1 WHERE qnaNum = #{qnaNum}
+</update>
+
+<update id="updateQnaReply" parameterType="map">
+	UPDATE product_qna_reply SET content = #{content} WHERE qnaNum = #{qnaNum}
+</update>
+
+<delete id="deleteQnaReply" parameterType="map">
+	DELETE FROM product_qna_reply WHERE qnaNum = #{qnaNum}
+</delete>
+
+<update id="updateStatusReturn" parameterType="map">
+	UPDATE product_qna SET enabled = 0 WHERE qnaNum = #{qnaNum}
 </update>
 </mapper>

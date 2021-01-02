@@ -59,7 +59,6 @@ $(function(){
 		var content = $(this).parent().children().eq(5).val();
 		$(".subject").val(subject);
 		$(".content").val(content);
-		
 		$("#qnaNum").val(qnaNum);
 	});
 });
@@ -90,11 +89,25 @@ $(function(){
 		ajaxFun(url, "post", "json", query, fn);
 	});
 });	
+$(function(){
+	//수정 모달에 데이터 전달
+	$("#articleRead").click(function(){
+		var content = $(this).parent().children().eq(1).val();
+		var subject = $(this).parent().children().eq(2).val();
+		var qnaType = $(this).parent().children().eq(3).val();
+		var replyContent = $(this).parent().children().eq(4).val();
+		
+		$(".subject1").text(subject);
+		$(".content1").text(content);
+		$(".qnaType1").text(qnaType);
+		$(".replyContent").text(replyContent);
+	});
+});
 </script>
 <Br>
         <ol class="breadcrumb">
       <li class="breadcrumb-item">MYPAGE</li>
-      <li class="breadcrumb-item active">장바구니</li>
+      <li class="breadcrumb-item active">문의내역</li>
     </ol>
     <!-- Content Row -->
     <div class="row">
@@ -131,10 +144,19 @@ $(function(){
 		<tr>
 			<td>${dto.productName}</td>
 			<td>${dto.status}</td>
-			<td width="30%">[${dto.qnaType}] ${dto.subject}</td>
+			<td width="30%">
+				[${dto.qnaType}] ${dto.subject}
+				<c:if test="${dto.status == '답변완료'}">
+				<a href="" id="articleRead" data-toggle="modal" data-target="#myModal1"><br>[답변 보기]</a>
+				<input type="hidden" value="${dto.content}" name="content">
+				<input type="hidden" value="${dto.subject}" name="subject">
+				<input type="hidden" value="${dto.qnaType}" name="qnaType">
+				<input type="hidden" name="replyContent" value="${dto.replyContent}"> 
+				</c:if>
+			</td>
 			<td>${dto.create_date}</td>
 			<td>
-				<button class="btn btn-primary btn-xs updateQna" data-toggle="modal" data-target="#myModal">수정</button>
+				<button class="btn btn-info btn-xs updateQna" data-toggle="modal" data-target="#myModal">수정</button>
 				<button class="btn btn-danger btn-xs" onclick="deleteQna('${dto.qnaNum}')">삭제</button>
 				<input type="hidden" name="subject" value="${dto.subject}">
 				<input type="hidden" name="qnaNum" value="${dto.qnaNum}">
@@ -206,3 +228,60 @@ $(function(){
 	  </div>
 	</div>
       
+          <!-- 모달 : 글보기 -->
+    <div class="modal fade" id="myModal1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	  <div class="modal-dialog">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+	        <h4 class="modal-title updateQna" id="myModalLabel">문의 내역</h4>
+	      </div>
+	      <div class="modal-body qnaForm1">
+	       
+	               <form name="qnaForm1">
+		<table class="table qnatable1">
+			<tr> 
+				 <td>
+					제목
+				 </td>
+				 <td class="subject1">
+				 </td>
+			</tr>
+			<tr>
+				<td>
+					질문 유형
+			   </td>
+				<td class="qnaType1">
+			   </td>
+			</tr>
+			<tr>
+			   	<td>
+			   		내용
+			    </td>
+			   	<td class="content1">
+			    </td>
+			</tr>
+			<tr>
+			   	<td colspan="2" class="text-center">
+			   		문의 판매자 답변
+			    </td>
+			</tr>
+			<tr>
+			   	<td >
+			   		답변
+			    </td>
+			   	<td class="replyContent">
+			    </td>
+			</tr>
+		
+		
+		</table>
+		</form>   
+	
+	      </div>
+	      <div class="modal-footer">
+	        <button type="button" class="btn btn-danger" data-dismiss="modal">닫기</button>
+	      </div>
+	    </div>
+	  </div>
+	</div>

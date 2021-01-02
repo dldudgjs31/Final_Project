@@ -20,7 +20,17 @@
 			<td>${dto.listNum}</td>
 			<td>${dto.status}</td>
 			<td>${dto.qnaType}</td>
-			<td width="50%">${dto.subject}</td>
+			<td width="50%">
+				${dto.subject}
+				<c:if test="${dto.status=='답변완료'}">
+				&nbsp;&nbsp;<a href="" data-toggle="modal" data-target="#myModal1" id="articleRead">[글보기]</a>
+				<input type="hidden" value="${dto.content}" name="content">
+				<input type="hidden" value="${dto.subject}" name="subject">
+				<input type="hidden" value="${dto.qnaType}" name="qnaType">
+				<input type="hidden" name="replyContent" value="${dto.replyContent}"> 
+				</c:if>
+				
+			</td>
 			<td>${dto.userId}</td>
 			<td>${dto.create_date}</td>
 		</tr>
@@ -28,7 +38,9 @@
 	</tbody>
 </table>
   <p class="text-center">${dataCount==0?"등록된 게시물이 없습니다.":paging}</p>
-<p class="text-right"><button type="button" data-toggle="modal" data-target="#myModal" class="btn btn-primary">글올리기</button></p>
+  <c:if test="${not empty sessionScope.member.userId}">
+<p class="text-right"><button type="button" data-toggle="modal" data-target="#myModal" class="btn btn-primary">문의작성</button></p>
+  </c:if>
 
 
     <!--modal  -->
@@ -85,7 +97,81 @@
 	  </div>
 	</div>
 
+
+    <!-- 모달 : 글보기 -->
+    <div class="modal fade" id="myModal1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	  <div class="modal-dialog">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+	        <h4 class="modal-title updateQna" id="myModalLabel">문의 내역</h4>
+	      </div>
+	      <div class="modal-body qnaForm1">
+	       
+	               <form name="qnaForm1">
+		<table class="table qnatable1">
+			<tr> 
+				 <td>
+					제목
+				 </td>
+				 <td class="subject1">
+				 </td>
+			</tr>
+			<tr>
+				<td>
+					질문 유형
+			   </td>
+				<td class="qnaType1">
+			   </td>
+			</tr>
+			<tr>
+			   	<td>
+			   		내용
+			    </td>
+			   	<td class="content1">
+			    </td>
+			</tr>
+			<tr>
+			   	<td colspan="2" class="text-center">
+			   		문의 판매자 답변
+			    </td>
+			</tr>
+			<tr>
+			   	<td >
+			   		답변
+			    </td>
+			   	<td class="replyContent">
+			    </td>
+			</tr>
+		
+		
+		</table>
+		</form>   
+	
+	      </div>
+	      <div class="modal-footer">
+	        <button type="button" class="btn btn-danger" data-dismiss="modal">닫기</button>
+	      </div>
+	    </div>
+	  </div>
+	</div>
+
 <script type="text/javascript">
+$(function(){
+
+	//수정 모달에 데이터 전달
+	$("#articleRead").click(function(){
+		var content = $(this).parent().children().eq(1).val();
+		var subject = $(this).parent().children().eq(2).val();
+		var qnaType = $(this).parent().children().eq(3).val();
+		var replyContent = $(this).parent().children().eq(4).val();
+		
+		$(".subject1").text(subject);
+		$(".content1").text(content);
+		$(".qnaType1").text(qnaType);
+		$(".replyContent").text(replyContent);
+	});
+});
 function createQna(productNum){
 	var url = "${pageContext.request.contextPath}/qna/insert";
 	var query = "productNum="+productNum;
