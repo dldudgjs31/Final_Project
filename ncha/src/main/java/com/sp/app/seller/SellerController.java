@@ -140,8 +140,8 @@ public class SellerController {
    }
    
    @RequestMapping(value="pwd", method=RequestMethod.GET)
-   public String pwdForm(String dropout, Model model) {
-      
+   public String pwdForm(String dropout, Model model) {   
+	 
       if(dropout==null) {
          model.addAttribute("mode", "update");
       } else {

@@ -205,6 +205,10 @@ function preWatchphoto(input){
     
     
 		
+
+
+<hr>
+	 <form class="form-horizontal" name="memberForm" method="post" onsubmit="return check();" enctype="multipart/form-data">
 			 <!-- 프로필 사진 업로드 및 미리 보여주기 -->
  			 <div >
  			 <label class="col-sm-2 control-label" for="userPwd">프로필 사진</label>
@@ -213,10 +217,7 @@ function preWatchphoto(input){
 				 </div>
 				 <input type="file" name="uploadphoto" accept="image/*" onchange="preWatchphoto(this)">	 
 			 </div> 
-
-
-<hr>
-	 <form class="form-horizontal" name="memberForm" method="post" onsubmit="return check();" enctype="multipart/form-data">
+			 
 	    <div class="form-group">
 	        <label class="col-sm-2 control-label" for="userId">아이디</label>
 	        <div class="col-sm-6">
@@ -350,7 +351,7 @@ function preWatchphoto(input){
 	    </div>
      
   </form>
-</div>
+
 <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
 <script>
     function daumPostcode() {
