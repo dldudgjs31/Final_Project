@@ -43,6 +43,20 @@ font-family: 'Jua', sans-serif;
 	border: 1px solid silver;
 	border-radius: 20px;	
 }
+#profile{
+	width: 100%;
+	display: flex;
+	align-items: flex-end;
+}
+#profile_image{
+	width:50px; 
+	height:50px; 
+	border-radius:50%; 
+	border:1px solid silver; 
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: contain;
+}
 </style>
 
 <script type="text/javascript">
@@ -336,15 +350,24 @@ function buyOk() {
 			</c:if>  
 		</c:forEach>
     </div>
+    
+
+    
     </div>
 
     <div class="col-md-5">
       <h3 class="my-3">${dto.productName}</h3>
-			<p>판매자 : ${dto.sellerId}</p>
+			<p>
+			<div id="profile">
+	            <div id="profile_image" style="background-image: url('${pageContext.request.contextPath}/uploads/member/${dto.profile_imagefilename}');"></div>
+	            <div> ${dto.sellerId}</div>
+            </div>
+			</p>
 			<p>조회수 : ${dto.hitCount}</p>
 			<p>재고 : ${dto.stock}</p>
-			<p>정가 :<del><fmt:formatNumber type="currency" value="${dto.price}" />원</del></p>
+			<p style="color:silver;">정가 :<del><fmt:formatNumber type="currency" value="${dto.price}" />원</del></p>
 			<p>세일가 : <fmt:formatNumber  type="currency"  value="${dto.price - dto.discount_rate}"/>원</p>
+			<p>평점 : <span style="color:#FFCD28;">${dto.score}</span></p>
             <select class="custom-select" id="single_select">
             	<c:forEach var="option" items="${optionList}">
             		<c:choose>

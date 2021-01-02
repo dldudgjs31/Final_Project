@@ -55,7 +55,7 @@
 	 </sql>
 	 
 	 <select id="listProduct" parameterType="map" resultType="com.sp.app.store.Store">
-		SELECT b.productNum,productName,b.created_date,hitCount,price, detail, stock, discount_rate,b.sellerId,categoryNum, imageFilename
+		SELECT b.productNum,productName,b.created_date,hitCount,price, detail, stock, discount_rate,b.sellerId,categoryNum, imageFilename, profile_imagefilename
 		FROM product_bbs b
 		JOIN seller m ON b.sellerId=m.sellerId
 		LEFT OUTER JOIN (
@@ -76,7 +76,7 @@
 	 </select>
 	 
 	 <select id="readProduct" parameterType="Integer" resultType="com.sp.app.store.Store">
-	 	SELECT productNum,productName,b.created_date,hitCount,price, detail, stock, discount_rate,b.sellerId,c.categoryNum,c.categoryName
+	 	SELECT productNum,productName,b.created_date,hitCount,price, detail, stock, discount_rate,b.sellerId,c.categoryNum,c.categoryName,m.profile_imagefilename
 		FROM product_bbs b
 		JOIN product_category  c ON c.categoryNum = b.categoryNum
 		JOIN seller m ON b.sellerId=m.sellerId

@@ -22,10 +22,21 @@ public class Store {
 	private int main_imageFileNum;
 	private String imageFilename;
 	private int optionNum;
+	private String score;
 	
 	private String opt_detail;
 	private String opt_stock;
+	private String profile_imagefilename;
+	private List<MultipartFile> upload;
+	private List<String> optionDetail;
+	private List<Integer> option_stock;
 	
+	public String getProfile_imagefilename() {
+		return profile_imagefilename;
+	}
+	public void setProfile_imagefilename(String profile_imagefilename) {
+		this.profile_imagefilename = profile_imagefilename;
+	}
 	public String getOpt_detail() {
 		return opt_detail;
 	}
@@ -38,10 +49,12 @@ public class Store {
 	public void setOpt_stock(String opt_stock) {
 		this.opt_stock = opt_stock;
 	}
-	private List<MultipartFile> upload;
-	private List<String> optionDetail;
-	private List<Integer> option_stock;
-	
+	public String getScore() {
+		return score;
+	}
+	public void setScore(String score) {
+		this.score = score;
+	}
 	
 	public String getCategoryName() {
 		return categoryName;

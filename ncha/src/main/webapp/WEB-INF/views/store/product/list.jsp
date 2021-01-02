@@ -17,6 +17,21 @@ $(document).ready(function() {
 <style type="text/css">
 .list-group-item{
 	color : black !important;
+	
+}
+#profile{
+	width: 100%;
+	display: flex;
+	align-items: flex-end;
+}
+#profile_image{
+	width:50px; 
+	height:50px; 
+	border-radius:50%; 
+	border:1px solid silver; 
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: contain;
 }
 </style>
   <!-- Page Content -->
@@ -114,17 +129,23 @@ $(document).ready(function() {
 			</table>
             <div class="row">
       <c:forEach var="dto" items="${list}">
-      <div class="col-lg-4 col-sm-6 portfolio-item" style="margin-bottom: 10px;">
+      <div class="col-lg-4 col-sm-6 portfolio-item" style="margin-bottom: 10px; ">
         <div class="card h-100">
           <a href="${articleUrl}&num=${dto.productNum}"><img class="card-img-top" src="${pageContext.request.contextPath}/uploads/product/${dto.imageFilename}" alt="" style="height: 200px;"></a>
           <div class="card-body">
-            <p class="card-text">${dto.sellerId}</p>
+            <p class="card-text" id="profile">
+            <div id="profile">
+	            <div id="profile_image" style="background-image: url('${pageContext.request.contextPath}/uploads/member/${dto.profile_imagefilename}');"></div>
+	            <div> ${dto.sellerId}</div>
+            </div>
+            </p>
             <h4 class="card-title">
               <a href="${articleUrl}&num=${dto.productNum}">${dto.productName}</a>
             </h4>
             
-            <del><p class="card-text">정가 : <fmt:formatNumber type="currency" value="${dto.price}" />원</p></del>
+           <p class="card-text" style="color:silver;">정가 :  <del><fmt:formatNumber type="currency" value="${dto.price}" />원</p></del>
             <p class="card-text">세일가 : <fmt:formatNumber  type="currency"  value="${dto.price - dto.discount_rate}"/>원</p>
+            <p>평점 : <span style="color:#FFCD28;">${dto.score}</span></p>
           </div>
         </div>
       </div>

@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.sp.app.common.FileManager;
 import com.sp.app.common.MyUtil;
+import com.sp.app.review.ReviewService;
 import com.sp.app.seller.SessionInfo;
 
 @Controller("store.storeController")
@@ -33,6 +34,9 @@ public class StoreController {
 	@Autowired
 	private MyUtil myUtil;
 
+	@Autowired
+	private ReviewService service2;
+	
 	@Autowired
 	private FileManager fileManager;
 	/**
@@ -83,6 +87,18 @@ public class StoreController {
 		int n = 0;
 		for (Store dto : list) {
 			listNum = dataCount - (offset + n);
+			double score = service2.reviewScore(dto.getProductNum());
+			if(score>4.5) {
+				dto.setScore("★★★★★");
+			}else if(score>3.5) {
+				dto.setScore("★★★★");
+			}else if(score>2.5) {
+				dto.setScore("★★★");
+			}else if(score>1.5) {
+				dto.setScore("★★");
+			}else {
+				dto.setScore("★");
+			}
 			dto.setListNum(listNum);
 			n++;
 		}
@@ -172,10 +188,22 @@ public class StoreController {
 		service.updateHitCount(num);
 
 		Store dto = service.readProduct(num);
+		
 		if (dto == null) {
 			return "redirect:/store/list?" + query;
 		}
-		
+		double score = service2.reviewScore(dto.getProductNum());
+		if(score>4.5) {
+			dto.setScore("★★★★★");
+		}else if(score>3.5) {
+			dto.setScore("★★★★");
+		}else if(score>2.5) {
+			dto.setScore("★★★");
+		}else if(score>1.5) {
+			dto.setScore("★★");
+		}else {
+			dto.setScore("★");
+		}
 		List<Store> list1 = service.readProductFile(num);
 		List<Store> listFile = service.listFile(num);
 		List<Store> optionList = service.readOption(num);
