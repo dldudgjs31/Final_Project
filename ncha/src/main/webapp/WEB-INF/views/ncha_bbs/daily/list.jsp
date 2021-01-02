@@ -284,7 +284,7 @@ function goArticle(dailyNum){
       </li>
 </ol>
 
- <div class="col-lg-9 mb-4">
+ <div class="col-lg-12">
         <p class="text-right">  총 게시글 수  : ${dataCount} &nbsp;&nbsp;&nbsp; (${page}/${total_page} 페이지)</p>
       <div class="row">
     

@@ -50,4 +50,8 @@ public interface UsedService {
 	public int usedKeepCount(Map<String, Object> map);
 	public List<Used> keepList(Map<String, Object> map);
 	public void deleteKeep(Map<String, Object>map) throws Exception;
+	
+	//메인에 보내는거
+	public Used readUsedHit() throws Exception;
+	public Used readUsedLike() throws Exception;
 }

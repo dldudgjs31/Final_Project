@@ -248,6 +248,17 @@ public class StoreServiceImpl implements StoreService {
 		return categoryName;
 	}
 
+	@Override
+	public Store readProduct() {
+		Store dto =null;
+		try {
+			dto = dao.selectOne("store.readProductMain");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return dto;
+	}
+
 
 
 }

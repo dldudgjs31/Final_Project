@@ -51,6 +51,10 @@ public interface DailyService {
 	//중고글 번호
 	public List<Used> listUsed(Map<String, Object> map);
 	
+	//메인에 표시할 게시물
+	public Daily readDailyHit() throws Exception;
+	public Daily readDailyLike() throws Exception;
+	
 
 	
 }

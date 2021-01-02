@@ -356,9 +356,36 @@ LEFT OUTER JOIN (
 WHERE u.userId = #{userId}
 ORDER BY usedNum DESC
  -->
+ 
 	
 	<delete id="deleteKeep" parameterType="map">
 		DELETE FROM used_keeplist
 		WHERE usedNum = #{usedNum}
 	</delete>
+	
+	<!-- 메인에 띄우는용 -->
+	<select id="readUsedHit" resultType="com.sp.app.used.Used">
+		SELECT u.usedNum, imageFilename, hitCount
+		FROM used_bbs u
+		JOIN used_image i ON u.usedNum = i.usedNum
+		ORDER BY hitCount DESC
+		FETCH FIRST 1 ROW ONLY
+	</select>
+	
+	<select id="readUsedLike" resultType="com.sp.app.used.Used">
+		SELECT u.usedNum, imageFilename, NVL(usedLikeCount, 0)usedLikeCount
+		FROM used_bbs u
+		JOIN (
+			SELECT * FROM(
+				SELECT usedNum, rank() over(partition by usedNum order by used_imageFileNum) rank, imageFilename
+				FROM used_image
+			) WHERE rank = 1
+		) i ON u.usedNum = i.usedNum
+		LEFT OUTER JOIN (
+			SELECT usedNum, COUNT(*) usedLikeCount FROM used_like
+			GROUP BY usedNum
+		) ul ON ul.usedNum = u.usedNum
+		ORDER BY usedLikeCount DESC
+		FETCH FIRST 1 ROW ONLY
+	</select>
 </mapper>

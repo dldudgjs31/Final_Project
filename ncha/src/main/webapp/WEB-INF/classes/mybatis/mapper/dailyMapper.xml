@@ -297,5 +297,30 @@
 	</insert>
 	
 	
+	<!-- 메인 게시글 -->
+	<select id="readDailyHit" resultType="com.sp.app.daily.Daily">
+		SELECT d.dailyNum, imageFilename, hitCount
+		FROM daily_bbs d
+		JOIN daily_image i ON d.dailyNum = i.dailyNum
+		ORDER BY hitCount DESC
+		FETCH FIRST 1 ROW ONLY
+	</select>
+	
+	<select id="readDailyLike" resultType="com.sp.app.daily.Daily">
+		SELECT d.dailyNum, NVL(dailyLikeCount, 0) dailyLikeCount, imageFilename
+		FROM daily_bbs d
+		JOIN (
+			SELECT * FROM(
+				SELECT dailyNum, rank() over(partition by dailyNum order by daily_imageFileNum) rank, imageFilename
+				FROM daily_image
+			) WHERE rank = 1
+		) i ON d.dailyNum = i.dailyNum
+		LEFT OUTER JOIN (
+			SELECT dailyNum, COUNT(*) dailyLikeCount FROM daily_like
+			GROUP BY dailyNum
+		) bc ON d.dailyNum = bc.dailyNum
+		ORDER BY dailyLikeCount DESC
+		FETCH FIRST 1 ROW ONLY
+	</select>
 	
 </mapper>

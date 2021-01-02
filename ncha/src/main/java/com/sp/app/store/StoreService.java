@@ -32,4 +32,6 @@ public interface StoreService {
 	public void deleteAllOption(int productNum) throws Exception;
 	public void deleteAllImage(int productNum) throws Exception;
 	
+	//커뮤니티 메인
+	public Store readProduct();
 }

@@ -179,4 +179,20 @@
 	<select id="readCategoryName" parameterType="Integer" resultType="String">
 	 	SELECT categoryName FROM product_category WHERE categoryNum = #{categoryNum}
 	</select>
+	
+	
+	<!-- 커뮤니티 메인에 띄울 상품 -->
+	<select id="readProductMain" resultType="com.sp.app.store.Store">
+		SELECT b.productNum,productName,hitCount,price, imageFilename
+		FROM product_bbs b
+		LEFT OUTER JOIN (
+			SELECT * FROM (
+				SELECT productNum, rank() over(partition by productNum order by main_imageFileNum) rank, imageFilename FROM product_image
+			) WHERE rank = 1
+		) i ON b.productNum = i.productNum
+		ORDER BY hitCount DESC
+		FETCH FIRST 1 ROW ONLY
+	</select>
+	
+	
 </mapper>

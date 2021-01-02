@@ -410,4 +410,27 @@ public class UsedServiceImpl implements UsedService {
 			throw e;
 		}
 	}
+	
+	@Override
+	public Used readUsedHit() throws Exception {
+		Used dto = null;
+		try {
+			dto = dao.selectOne("used.readUsedHit");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return dto;
+	}
+	
+	@Override
+	public Used readUsedLike() throws Exception {
+		Used dto = null;
+		try {
+			dto = dao.selectOne("used.readUsedLike");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return dto;
+	}
+
 }
