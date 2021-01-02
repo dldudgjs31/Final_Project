@@ -52,43 +52,40 @@
           </li>      
             </c:if>
 
-            <c:if test="${not empty sessionScope.member}">
-             <li  class="nav-item"> 
-             	<span class="nav-link" style="color:skyblue;">[${sessionScope.member.userName}]님 </span>
-             </li>
-              <li class="nav-item">
-               	 <a class="nav-link" href="${pageContext.request.contextPath}/member/logout">로그아웃</a>
-               </li>
-                
-               <li class="nav-item"> 
-               	<a class="nav-link" href="${pageContext.request.contextPath}/member/pwd">정보수정</a>
-               </li>
+             <c:if test="${not empty sessionScope.member}">
+            <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownPortfolio" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              	<span style="color:skyblue;">[${sessionScope.member.userName}]님 </span>
+            </a>
+            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownPortfolio">
+              <a class="dropdown-item" href="${pageContext.request.contextPath}/member/logout">로그아웃</a>
+              <a class="dropdown-item" href="${pageContext.request.contextPath}/member/pwd">정보수정</a>
+              
+                 <c:if test="${sessionScope.member.userId=='admin'}">
+                    	<a class="dropdown-item" href="${pageContext.request.contextPath}/admin">관리자</a>
+                </c:if>
+            </div>
+          </li>
                <li class="nav-item"> 
                	<a class="nav-link" href="${pageContext.request.contextPath}/store/customer/cartlist"><i class="fas fa-shopping-cart"></i></a>
                </li>
-                <c:if test="${sessionScope.member.userId=='admin'}">
-                    <li class="nav-item">
-                    <a class="nav-link" href="${pageContext.request.contextPath}/admin">관리자</a>
-                    </li>
-                </c:if>
+          
             </c:if>
             
-            <c:if test="${not empty sessionScope.seller}">
-             <li  class="nav-item"> 
-             	<span class="nav-link" style="color:skyblue;">[${sessionScope.seller.sellerName}]님 </span>
-             </li>
-              <li class="nav-item">
-               	 <a class="nav-link" href="${pageContext.request.contextPath}/seller/logout">로그아웃</a>
-               </li>
-                
-               <li class="nav-item"> 
-               	<a class="nav-link" href="${pageContext.request.contextPath}/seller/pwd">정보수정</a>
-               </li>
-                <c:if test="${sessionScope.member.userId=='admin'}">
-                    <li class="nav-item">
-                    <a class="nav-link" href="${pageContext.request.contextPath}/admin">관리자</a>
-                    </li>
+                        <c:if test="${not empty sessionScope.seller}">
+                <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownPortfolio" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              	<span style="color:skyblue;">[${sessionScope.seller.sellerName}]님 </span>
+            </a>
+            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownPortfolio">
+              <a class="dropdown-item" href="${pageContext.request.contextPath}/seller/logout">로그아웃</a>
+              <a class="dropdown-item" href="${pageContext.request.contextPath}/seller/pwd">정보수정</a>
+              
+                 <c:if test="${sessionScope.member.userId=='admin'}">
+                    	<a class="dropdown-item" href="${pageContext.request.contextPath}/admin">관리자</a>
                 </c:if>
+            </div>
+          </li>        
             </c:if>
 	         
         </ul>
