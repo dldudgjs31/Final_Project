@@ -1,11 +1,17 @@
 package com.sp.app.home;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.sp.app.customer.CustomerService;
+
 @Controller
 public class NchaController {
+	@Autowired
+	CustomerService service;
+	
 	/**
 	 * n-cha 중고거래 파트 메인 페이지(home)
 	 * @return
@@ -51,6 +57,6 @@ public class NchaController {
 	public String login2() {
 		return "member/login_store";
 	}
-
+	
 	
 }

@@ -72,13 +72,14 @@
 	WHERE productNum = #{productNum} AND userId = #{userId}
 </select>
 
-<select id="readOrderList" parameterType="Long" resultType="com.sp.app.customer.Customer">
+<select id="readOrderList" parameterType="map" resultType="com.sp.app.customer.Customer">
  	SELECT d.productName, i.imageFilename, s.order_date, d.sellerId, d.productNum, d.order_option, d.number_sales, d.price, s.orderNum, s.memberIdx
 	FROM store_order_list s
 	LEFT OUTER JOIN product_order_detail d ON s.orderNum = d.orderNum
 	LEFT OUTER JOIN product_image i ON i.productNum = d.productNum
 	WHERE s.memberIdx = #{memberIdx}
 	ORDER BY s.order_date DESC
+	OFFSET #{offset} ROWS FETCH FIRST #{rows} ROWS ONLY
 </select>
 
 <select id="readReviewCount" parameterType="com.sp.app.customer.Customer" resultType="Integer">
@@ -100,5 +101,9 @@
 
 <select id="dataOrderCount" parameterType="Long" resultType="Integer">
 	SELECT count(*) dataCount FROM store_order_list WHERE memberIdx= #{memberIdx} 
+</select>
+
+<select id="dataCartCount" parameterType="String" resultType="Integer">
+	SELECT COUNT(*) dataCount FROM product_cart WHERE userId = #{userId}
 </select>
 </mapper>

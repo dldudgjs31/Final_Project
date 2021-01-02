@@ -1,6 +1,15 @@
 package com.sp.app.customer;
 
 public class Customer {
+	//페이지
+	private int listNum;
+	
+	public int getListNum() {
+		return listNum;
+	}
+	public void setListNum(int listNum) {
+		this.listNum = listNum;
+	}
 	//구매자 정보
 	private long memberIdx;
 	private String userName;

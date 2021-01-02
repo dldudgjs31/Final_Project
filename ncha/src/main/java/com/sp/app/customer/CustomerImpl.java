@@ -139,10 +139,10 @@ public class CustomerImpl implements CustomerService{
 	}
 
 	@Override
-	public List<Customer> readOrderList(long memberIdx) throws Exception {
+	public List<Customer> readOrderList(Map<String, Object> map) throws Exception {
 		List<Customer> list = null;
 		try {
-			list = dao.selectList("customer.readOrderList", memberIdx);
+			list = dao.selectList("customer.readOrderList", map);
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw e;			
@@ -180,7 +180,20 @@ public class CustomerImpl implements CustomerService{
 		try {
 			dataCount = dao.selectOne("customer.dataOrderCount", memberIdx);
 		} catch (Exception e) {
-			// TODO: handle exception
+			e.printStackTrace();
+			throw e;		
+		}
+		return dataCount;
+	}
+
+	@Override
+	public int dataCartCount(String userId) throws Exception {
+		int dataCount =0;
+		try {
+			dataCount = dao.selectOne("customer.dataCartCount", userId);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;		
 		}
 		return dataCount;
 	}

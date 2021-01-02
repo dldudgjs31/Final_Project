@@ -10,12 +10,16 @@ function orderOk(userId) {
 
     f.submit();
 }
+
 </script>
 <style>
 .image{
 	background-position: center;
 	background-size: contain;
 	background-repeat: no-repeat;
+}
+.btn{
+	font-family : 'Jua', sans-serif;
 }
 </style>
 <Br>

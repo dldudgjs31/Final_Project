@@ -181,7 +181,7 @@ $(function(){
 		
 		var vprice = "<span class='productPrice'>"+price+"</span>원 <span class='buyCancel' data-code='"+code+"' data-price='"+price+"'>×</span>";
 	    $tr=$("<tr height='40' style='border-bottom: 1px solid #cccccc;' id='buyTr"+code+"'>");
-	    $td=$("<td>", {width:"200", style:"text-align: center;", html:title});
+	    $td=$("<td>", {width:"200", style:"text-align: center; width:45%;", html:title});
 	    $opt = $("<p>",{html:option});
 	    $td.append($opt);
 	    
@@ -454,7 +454,7 @@ function buyOk() {
   <div class="panel panel-default">
     <div class="panel-heading" role="tab" id="headingThree">
       <h4 class="panel-title text-center">
-        <a class="collapsed menu-title" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+        <a class="collapsed menu-title" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree" id="qna">
           Q&A
         </a>
       </h4>
@@ -462,7 +462,14 @@ function buyOk() {
     </div>
     <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
       <div class="panel-body">
-      123
+    <div>
+
+		<div id="listQna"></div>
+    
+    </div>
+
+
+
       </div>
     </div>
   </div>
@@ -568,15 +575,27 @@ function ajaxFun(url, method, dataType, query, fn) {
 //페이징 처리
 $(function(){
 	listPage(1);
+		listQnaPage(1);
 });
 
 function listPage(page) {
 	var url = "${pageContext.request.contextPath}/review/listReview";
 	//var query = "productNum=${dto.productNum}&pageNo="+page;
-	var query = "productNum=${dto.productNum}&pageNo="+page;
+	var query = "productNum=${dto.productNum}&page="+page;
 	
 	var fn = function(data){
 		$("#listReview").html(data);
+	};
+	
+	ajaxFun(url, "get", "html", query, fn);
+}
+function listQnaPage(page) {
+	var url = "${pageContext.request.contextPath}/qna/listQna";
+	//var query = "productNum=${dto.productNum}&pageNo="+page;
+	var query = "productNum=${dto.productNum}&page="+page;
+	
+	var fn = function(data){
+		$("#listQna").html(data);
 	};
 	
 	ajaxFun(url, "get", "html", query, fn);

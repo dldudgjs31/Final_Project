@@ -35,7 +35,7 @@ public class ReviewController {
 	
 	// 상품별 리뷰-AJAX : text로 응답
 	@RequestMapping(value = "listReview")
-	public String list(@RequestParam(value = "pageNo", defaultValue = "1") int current_page,
+	public String list(@RequestParam(value = "page", defaultValue = "1") int current_page,
 			@RequestParam int productNum, Model model)throws Exception {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("productNum",productNum);
@@ -155,7 +155,6 @@ public class ReviewController {
 			HttpSession session
 			) throws Exception {
 		String state="true";
-		System.out.println(reviewNum+"---------------------d-d-d-d-d-d-d-----------------------");
 		try {
 			 Map<String, Object> map = new HashedMap<>();
 			 map.put("reviewNum",reviewNum);

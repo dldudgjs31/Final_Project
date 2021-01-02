@@ -11,6 +11,9 @@
 	background-size: contain;
 	background-repeat: no-repeat;
 }
+.btn{
+	font-family : 'Jua', sans-serif;
+}
 </style>
 <script type="text/javascript">
 $(function(){
@@ -56,7 +59,7 @@ $(function(){
 	          <a href="${pageContext.request.contextPath}/store/customer/cartlist" class="list-group-item">장바구니</a>
 	          <a href="#" class="list-group-item">주문내역</a>
 	          <a href="${pageContext.request.contextPath}/store/customer/review" class="list-group-item">REVIEW</a>
-	          <a href="contact.html" class="list-group-item">Q&A</a>
+	          <a href="${pageContext.request.contextPath}/qna/mypage/qnalist" class="list-group-item">Q&A</a>
         </div>
       </div>
       <!-- Content Column -->

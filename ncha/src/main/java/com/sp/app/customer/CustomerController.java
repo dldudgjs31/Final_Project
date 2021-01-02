@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,7 @@ import com.sp.app.common.MyUtil;
 import com.sp.app.member.Member;
 import com.sp.app.member.MemberService;
 import com.sp.app.member.SessionInfo;
+import com.sp.app.store.Store;
 
 @Controller("customer.customerController")
 @RequestMapping("/store/customer/*")
@@ -269,24 +271,38 @@ public class CustomerController {
 	
 	@RequestMapping("review")
 	public String mypageReview(
+			@RequestParam(value = "page", defaultValue = "1") int current_page,
 			HttpSession session,
+			HttpServletRequest req,
 			Model model
 			) throws Exception{
 		SessionInfo info =(SessionInfo)session.getAttribute("member");
-		Map<String, Object> map = new HashMap<String, Object>();
+		
 		int rows = 10;
-		int dataCount = service2.dataOrderCount(info.getMemberIdx());
-		int total_page = myUtil.pageCount(rows, dataCount);
-		int current_page = 1;
-		if (current_page > total_page)
+		int total_page = 0;
+		int dataCount = 0;
+		dataCount = service2.dataOrderCount(info.getMemberIdx());
+		Map<String, Object> map = new HashMap<>();
+		if (dataCount != 0) {
+			total_page = myUtil.pageCount(rows, dataCount);
+		}
+		if (total_page < current_page) {
 			current_page = total_page;
-
+		}
 		int offset = (current_page - 1) * rows;
-		if (offset < 0)	offset = 0;
+		if (offset < 0)
+			offset = 0;
 		map.put("offset", offset);
 		map.put("rows", rows);
-		
-		List<Customer> reviewList = service2.readOrderList(info.getMemberIdx());
+		map.put("memberIdx",info.getMemberIdx());
+		List<Customer> reviewList = service2.readOrderList(map);
+		int listNum=0; 
+		int n = 0;
+		for (Customer dto : reviewList) {
+			listNum = dataCount - (offset + n);
+			dto.setListNum(listNum);
+			n++;
+		}
 		Customer dto = new Customer();
 		for(int i =0;i<reviewList.size();i++) {
 			int reviewCount = 0;
@@ -300,8 +316,10 @@ public class CustomerController {
 				reviewList.get(i).setReviewNum(service2.readReviewNum(reviewList.get(i).getOrderNum()));
 			}
 		}
-		String paging = myUtil.pagingMethod(current_page, total_page, "listPage");
-		model.addAttribute("pageNo", current_page);
+		String cp = req.getContextPath();
+		String listUrl = cp + "/store/customer/review";
+		String paging = myUtil.paging(current_page, total_page, listUrl);
+		model.addAttribute("page", current_page);
 		model.addAttribute("total_page", total_page);
 		model.addAttribute("dataCount", dataCount);
 		model.addAttribute("paging", paging);

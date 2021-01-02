@@ -34,6 +34,9 @@ function deleteCart(num) {
 	background-size: contain;
 	background-repeat: no-repeat;
 }
+.btn{
+	font-family : 'Jua', sans-serif;
+}
 </style>
 <Br>
 

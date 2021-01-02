@@ -45,7 +45,7 @@
           <a href="${pageContext.request.contextPath}/store/customer/cartlist" class="list-group-item">장바구니</a>
           <a href="about.html" class="list-group-item">주문내역</a>
           <a href="${pageContext.request.contextPath}/store/customer/review" class="list-group-item">REVIEW</a>
-          <a href="contact.html" class="list-group-item">Q&A</a>
+          <a href="${pageContext.request.contextPath}/qna/mypage/qnalist" class="list-group-item">Q&A</a>
         </div>
       </div>
       <!-- Content Column -->
@@ -166,8 +166,9 @@
     Some tooltip text!
   </div>
 </div>
-<button type="button" class="btn btn-secondary" data-toggle="tooltip" data-placement="bottom" title="Tooltip on bottom">
-  Tooltip on bottom
+<button type="button" class="btn btn-primary">
+  Profile <span class="badge badge-light">9</span>
+  <span class="sr-only">unread messages</span>
 </button>
 
     </div>
