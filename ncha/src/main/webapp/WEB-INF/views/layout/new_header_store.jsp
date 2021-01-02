@@ -32,7 +32,7 @@
             <a class="nav-link" href="${pageContext.request.contextPath}/store/customer/mypage">마이페이지(고객)</a>
           </li>
     	</c:if>
-		 <c:if test="${not empty sessionScope.seller || sessionScope.member.userId=='admin'}">
+		 <c:if test="${not empty sessionScope.seller}">
           <li class="nav-item">
             <a class="nav-link" href="${pageContext.request.contextPath}/store/created">판매글올리기</a>
           </li>
