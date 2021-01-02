@@ -18,9 +18,15 @@
           <li class="nav-item">
             <a class="nav-link" href="${pageContext.request.contextPath}/store/list">N차_스토어</a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" href="${pageContext.request.contextPath}/event/proceedList">이벤트</a>
-          </li>
+          <li class="nav-item dropdown">
+ 			<a class="nav-link dropdown-toggle" href="#" id="navbarDropdownPortfolio" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              N차_소식
+            </a>
+            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownPortfolio">
+              <a class="dropdown-item" href="${pageContext.request.contextPath}/notice/list">N차_공지</a>
+              <a class="dropdown-item" href="${pageContext.request.contextPath}/event/proceedList">N차_이벤트</a>
+            </div>         
+             </li>
 		<c:if test="${not empty sessionScope.member}">
 		  <li class="nav-item">
             <a class="nav-link" href="${pageContext.request.contextPath}/store/customer/mypage">마이페이지(고객)</a>
