@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.sp.app.common.MyUtil;
-import com.sp.app.customer.Customer;
 import com.sp.app.member.SessionInfo;
 
 @Controller("qna.qnaController")

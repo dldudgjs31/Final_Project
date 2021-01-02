@@ -23,8 +23,6 @@ import com.sp.app.common.FileManager;
 import com.sp.app.common.MyUtil;
 import com.sp.app.seller.SessionInfo;
 
-import oracle.jdbc.proxy.annotation.Post;
-
 @Controller("store.storeController")
 @RequestMapping("/store/*")
 public class StoreController {
