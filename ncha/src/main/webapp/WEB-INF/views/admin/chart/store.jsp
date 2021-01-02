@@ -3,17 +3,17 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
-
-<script src="https://code.highcharts.com/highcharts.js"></script>
-<script src="https://code.highcharts.com/highcharts-3d.js"></script>
+<script src="https://code.highcharts.com/8.0.0/highcharts.js"></script>
+<script src="https://code.highcharts.com/8.0.0/highcharts-more.js"></script>
+<script src="https://code.highcharts.com/8.0.0/themes/dark-unica.js"></script>
 
 <script type="text/javascript">
 $(function(){
-	var url = "${pageContext.request.contextPath}/admin/chart/categoryAnalysis"
+	var url = "${pageContext.request.contextPath}/admin/chart/storeAnalysis"
 
 	$.getJSON(url,function(data){
 		console.log(data);
-		Highcharts.chart('categorySales-chart', {
+		Highcharts.chart('storeSales-chart', {
 		    chart: {
 		        type: 'pie',
 		        options3d: {
@@ -23,18 +23,25 @@ $(function(){
 		        }
 		    },
 		    title: {
-		        text: 'N차스토어 카테고리별 판매액'
+		        text: '스토어별 매출(%)'
 		    },
 		    accessibility: {
 		        point: {
 		            valueSuffix: '%'
 		        }
 		    },
+		    tooltip: {
+		        pointFormat: '{series.name}: <b>{point.percentage:.2f}%</b>'
+		    },
 		    plotOptions: {
-		        pie: {
-		        	allowPointSelect: true,
+		    	pie: {
+		            allowPointSelect: true,
 		            cursor: 'pointer',
-		            depth: 35
+		            depth: 35,
+		            dataLabels: {
+		                enabled: true,
+		                format: '{point.name}'
+		            }
 		        }
 		    },
 		    series:data
@@ -42,6 +49,11 @@ $(function(){
 		
 	});
 });
+
+
+
+
+
 </script>
 
 
@@ -60,9 +72,17 @@ $(function(){
           <a href="${pageContext.request.contextPath}/admin/chart/store" class="list-group-item">스토어별 매출분석</a>
         </div>
       </div>
-      
-    <div class="col-lg-9 mb-4">
-		<div id="categorySales-chart" style="font: 'Jua'"></div>
-	</div>
-	</div>
+     
+     
+    	<div class="col-lg-9 mb-4">
+	    	<figure class="highcharts-figure">
+				<div id="storeSales-chart" style="font: 'Jua'"></div>
+			</figure>
+				<br><br>
+			
+		</div>
+	
+	 </div>
 </div>
+
+

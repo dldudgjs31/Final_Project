@@ -119,4 +119,41 @@ public class ChartController {
 		
 		return model;
 	}
+	
+	
+	@RequestMapping(value="store")
+	public String store() throws Exception{		
+		
+		return ".admin.chart.store";
+	}
+	@RequestMapping(value="storeAnalysis", produces ="application/json;charset=utf-8")
+	@ResponseBody
+	public String storeSalesSection() throws Exception{		
+		List<StoreAnalysis> list = service.storeSalesList();
+		JSONArray array = new JSONArray();
+		JSONObject ob = new JSONObject();
+		ob.put("name", "총 판매액");
+		
+		JSONArray jsonarr = new JSONArray();
+		
+		int allSales = 0;
+		for(int i = 0; i<list.size(); i++) {
+			System.out.println(i+ " : " + list.get(i).getTotal_sum());
+			allSales+=list.get(i).getTotal_sum();
+		}
+		
+		System.out.println(allSales);
+		for(int i = 0; i<list.size(); i++) {
+			List<Object>arr = new ArrayList<Object>();
+			
+			arr.add(list.get(i).getSellerId());
+			arr.add(((double)list.get(i).getTotal_sum()/(double)allSales)*100);
+			
+			jsonarr.put(new JSONArray(arr));
+		}
+		ob.put("data", jsonarr);
+		
+		array.put(ob);
+		return array.toString(); 
+	}
 }

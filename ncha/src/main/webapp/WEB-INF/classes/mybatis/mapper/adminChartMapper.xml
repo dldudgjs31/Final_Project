@@ -41,7 +41,18 @@
 	</select>
 	
 	
-	
+	<select id="storeSalesSection" resultType="com.sp.app.admin.chart.StoreAnalysis">
+		WITH store_sales AS(
+    		SELECT s.sellerId, pod.orderNum, total_sales FROM seller s
+    		LEFT OUTER JOIN product_order_detail pod ON s.sellerId = pod.sellerId 
+    		LEFT OUTER JOIN store_order_list sol ON pod.orderNum = sol.orderNum
+		)
+	<![CDATA[
+		SELECT DISTINCT sellerId, NVL(SUM(total_sales),0) total_sum
+		FROM store_sales
+ 		GROUP BY sellerId
+	]]>
+	</select>
 	
 	
 </mapper>

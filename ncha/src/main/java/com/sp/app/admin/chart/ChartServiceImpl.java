@@ -42,11 +42,11 @@ public class ChartServiceImpl implements ChartService {
 	
 
 	@Override
-	public List<CategoryAnalysis> storeSalesList() {
-		List<CategoryAnalysis> list = null;
+	public List<StoreAnalysis> storeSalesList() {
+		List<StoreAnalysis> list = null;
 		
 		try {
-			list = dao.selectList("admin.storeSalesSection");
+			list = dao.selectList("adminchart.storeSalesSection");
 			
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -55,7 +55,7 @@ public class ChartServiceImpl implements ChartService {
 	}
 
 	@Override
-	public List<CategoryAnalysis> storeYearSalesList() {
+	public List<StoreAnalysis> storeYearSalesList() {
 		// TODO Auto-generated method stub
 		return null;
 	}
