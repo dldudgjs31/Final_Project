@@ -130,8 +130,8 @@ $(document).ready(function() {
             <div class="row">
       <c:forEach var="dto" items="${list}">
       <div class="col-lg-4 col-sm-6 portfolio-item" style="margin-bottom: 10px; ">
-        <div class="card h-100">
-          <a href="${articleUrl}&num=${dto.productNum}"><img class="card-img-top" src="${pageContext.request.contextPath}/uploads/product/${dto.imageFilename}" alt="" style="height: 200px;"></a>
+        <div class="card h-100" style="border: none;">
+          <a href="${articleUrl}&num=${dto.productNum}"><img class="card-img-top" src="${pageContext.request.contextPath}/uploads/product/${dto.imageFilename}" alt="" style="height: 200px; border: 1px solid silver; border-radius: 20px;"></a>
           <div class="card-body">
             <p class="card-text" id="profile">
             <div id="profile">

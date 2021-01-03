@@ -26,6 +26,7 @@ public interface CustomerService {
 	public int readReviewCount(Customer dto) throws Exception;
 	public int readReviewNum(int OrderNum) throws Exception;
 	public int dataOrderCount(Map<String, Object> map)throws Exception;
+	
+	public int readTotalSales(Map<String, Object> map)throws Exception;
 }
-
 

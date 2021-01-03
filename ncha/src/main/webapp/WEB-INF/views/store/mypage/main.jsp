@@ -14,7 +14,7 @@
       <div class="col-xs-6 col-md-4">
         <div class="list-group">
 	          <a href="${pageContext.request.contextPath}/store/mypage/main" class="list-group-item">메인</a>
-	          <a href="#" class="list-group-item">판매내역</a>
+	          <a href="${pageContext.request.contextPath}/store/mypage/saleslist" class="list-group-item">판매내역</a>
 	          <a href="#" class="list-group-item">재고관리</a>
 	          <a href="${pageContext.request.contextPath}/store/mypage/qna" class="list-group-item">Q&A 관리</a>
         </div>

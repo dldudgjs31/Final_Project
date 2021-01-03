@@ -30,6 +30,9 @@
 #myCarousel .carousel-indicators > li.active img {
     opacity: 0.7;
 }
+.list-group-item{
+	color: black !important;
+}
 </style>
 <Br>
         <ol class="breadcrumb">

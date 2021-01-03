@@ -6,6 +6,9 @@
 .btn{
 	font-family : 'Jua', sans-serif;
 }
+.list-group-item{
+	color: black !important;
+}
 </style>
 
 <script type="text/javascript">

@@ -31,7 +31,6 @@ public class Customer {
 	private String enddate;
 	
 	
-	
 	//샐러 정보
 	private String SellerId;
 	private int stock;

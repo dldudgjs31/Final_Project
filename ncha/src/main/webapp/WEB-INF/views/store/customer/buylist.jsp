@@ -14,6 +14,9 @@
 	background-size: contain;
 	background-repeat: no-repeat;
 }
+.list-group-item{
+	color: black !important;
+}
 </style>
 <script type="text/javascript">
 function searchList() {
@@ -39,7 +42,7 @@ $(function(){
 });
 //시작일보다 큰날짜 선택 못하게 하는 쿼리
 $(function(){
-	$("input[name=enddate]").blur(function(){
+	$("input[name=enddate]").change(function(){
 		if($("input[name=enddate]").val() < $("input[name=startdate]").val()){
 			alert("검색 마지막 날짜를 시작일보다 작게 설정할 수 없습니다.");
 			$("input[name=enddate]").val("");
@@ -121,6 +124,3 @@ $(function(){
       </div>
       </div>
       
-<script type="text/javascript">
-
-</script>

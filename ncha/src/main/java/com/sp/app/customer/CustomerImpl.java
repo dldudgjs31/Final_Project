@@ -198,6 +198,17 @@ public class CustomerImpl implements CustomerService{
 		return dataCount;
 	}
 
+	@Override
+	public int readTotalSales(Map<String, Object> map) throws Exception {
+		int sales=0;
+		try {
+			sales = dao.selectOne("customer.readTotalSales", map);
+		} catch (Exception e) {
+			
+		}
+		return sales;
+	}
+
 
 	
 	
