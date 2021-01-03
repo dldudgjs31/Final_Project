@@ -3,6 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
+
 <script type="text/javascript" src="${pageContext.request.contextPath}/resources/se/js/HuskyEZCreator.js" charset="utf-8"></script>
 <script type="text/javascript">
 <c:if test="${mode=='update'}">
@@ -13,6 +14,53 @@
 		}, "json");
   }
 </c:if>
+
+function ajaxJSON(url, method, query, fn) {
+	$.ajax({
+		type:method
+		,url:url
+		,data:query
+		,dataType:"json"
+		,success:function(data) {
+			fn(data);
+		}
+		,beforeSend:function(jqXHR) {
+	        jqXHR.setRequestHeader("AJAX", true);
+	    }
+	    ,error:function(jqXHR) {
+	    	if(jqXHR.status===403) {
+	    		login();
+	    		return false;
+	    	}
+	    	
+	    	console.log(jqXHR.responseText);
+	    }
+	});
+}
+function ajaxFileJSON(url, method, query, fn) {
+	$.ajax({
+		type:method
+		,url:url
+        ,processData: false  // file 전송시 필수. 서버로전송할 데이터를 쿼리문자열로 변환여부
+        ,contentType: false  // file 전송시 필수. 서버에전송할 데이터의 Content-Type. 기본:application/x-www-urlencoded
+		,data:query
+		,dataType:"json"
+		,success:function(data) {
+			fn(data);
+		}
+		,beforeSend:function(jqXHR) {
+	        jqXHR.setRequestHeader("AJAX", true);
+	    }
+	    ,error:function(jqXHR) {
+	    	if(jqXHR.status===403) {
+	    		login();
+	    		return false;
+	    	}
+	    	
+	    	console.log(jqXHR.responseText);
+	    }
+	});
+}
 </script>
 
 <div class="alert-info">
@@ -75,12 +123,12 @@
   <table style="width: 100%; margin: 0px auto; border-spacing: 0px;">
      <tr height="45"> 
       <td align="center" >
-        <button type="button" class="btn" onclick="sendNotice()">${mode=='update'?'수정완료':'등록하기'}</button>
+        <button type="submit" class="btn" onclick="sendOk();">${mode=='update'?'수정완료':'등록하기'}</button>
         <button type="reset" class="btn">다시입력</button>
-        <button type="button" class="btn" onclick="sendCancel('${pageNo}');">${mode=='update'?'수정취소':'등록취소'}</button>
+        <button type="button" class="btn" onclick="javascript:location.href='${pageContext.request.contextPath}/notice/list';">${mode=='update'?'수정취소':'등록취소'}</button>
          <c:if test="${mode=='update'}">
          	 <input type="hidden" name="num" value="${dto.num}">
-        	 <input type="hidden" name="pageNo" value="${pageNo}">
+        	 <input type="hidden" name="page" value="${page}">
         </c:if>
       </td>
     </tr>
@@ -120,7 +168,7 @@ function setDefaultFont() {
 	oEditors.getById["content"].setDefaultFont(sDefaultFont, nFontSize);
 }
 
-function sendNotice() {
+function sendOk() {
 	oEditors.getById["content"].exec("UPDATE_CONTENTS_FIELD", []);
 	
     var f = document.noticeForm;
@@ -132,17 +180,10 @@ function sendNotice() {
         return false;
     }
 
-    str = f.content.value;
-    if(!str || str=="<p>&nbsp;</p>") {
-    	alert("내용을 입력하세요. ");
- 		f.content.focus();
-    	return false;
-    }
-
     var mode="${mode}";
     var url="${pageContext.request.contextPath}/notice/"+mode;
     var query = new FormData(f);
-    var page = "${pageNo}";
+    var page = "${page}";
     
 	var fn = function(data){
 		var state=data.state;
@@ -153,9 +194,9 @@ function sendNotice() {
     		page="1";
     	
     	if(mode=="created") {
-    		reloadBoard()
+		url="${pageContext.request.contextPath}/notice/list?page="+page;
     	} else {
-    		listPage(page);
+    		page="1";
     	}
 	};
 	

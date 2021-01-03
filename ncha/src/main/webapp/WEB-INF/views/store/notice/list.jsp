@@ -11,7 +11,7 @@
 <table style="width: 100%; margin: 20px auto 0px; border-spacing: 0px;">
    <tr height="35">
       <td align="left" width="50%">
-          ${dataCount}개(${pageNo}/${total_page} 페이지)
+          ${dataCount}개(${page}/${total_page} 페이지)
       </td>
       <td align="right">
           &nbsp;
@@ -24,7 +24,7 @@
       <th width="60" style="color: #787878;">번호</th>
       <th style="color: #787878;">제목</th>
       <th width="100" style="color: #787878;">작성자</th>
-      <th width="80" style="color: #787878;">작성일</th>
+      <th width="120" style="color: #787878;">작성일</th>
       <th width="60" style="color: #787878;">첨부</th>
       <th width="60" style="color: #787878;">조회수</th>
   </tr>
@@ -33,7 +33,7 @@
   <tr align="center" bgcolor="#ffffff" height="35" style="border-bottom: 1px solid #cccccc;"> 
       <td><span style="display: inline-block; padding:1px 3px; background: #ED4C00;color: #FFFFFF">공지</span></td>
       <td align="left" style="padding-left: 10px;">
-           <a href="javascript:articleBoard('${dto.num}', '${pageNo}');">${dto.subject}</a>
+<a href="${articleUrl}&num=${dto.num}">${dto.subject}</a>
       </td>
       <td>${dto.userName}</td>
       <td>${dto.created}</td>
@@ -50,7 +50,7 @@
   <tr align="center" bgcolor="#ffffff" height="35" style="border-bottom: 1px solid #cccccc;"> 
       <td>${dto.listNum}</td>
       <td align="left" style="padding-left: 10px;">
-           <a href="javascript:articleBoard('${dto.num}', '${pageNo}');">${dto.subject}</a>
+	  <a href="${articleUrl}&num=${dto.num}">${dto.subject}</a>
            <c:if test="${dto.gap < 1}">
                <img src='${pageContext.request.contextPath}/resources/images/new.gif'>
            </c:if>
@@ -79,24 +79,12 @@
 <table style="width: 100%; margin: 10px auto; border-spacing: 0px;">
    <tr height="40">
       <td align="left" width="100">
-          <button type="button" class="btn" onclick="reloadBoard();">새로고침</button>
-      </td>
-      <td align="center">
-          <form name="searchForm" action="" method="post">
-              <select id="condition" name="condition" class="selectField">
-                  <option value="all" ${condition=="all"?"selected='selected'":""}>모두</option>
-                  <option value="subject" ${condition=="subject"?"selected='selected'":""}>제목</option>
-                  <option value="content" ${condition=="content"?"selected='selected'":""}>내용</option>
-                  <option value="userName" ${condition=="userName"?"selected='selected'":""}>작성자</option>
-                  <option value="created" ${condition=="created"?"selected='selected'":""}>등록일</option>
-            </select>
-            <input type="text" id="keyword" name="keyword" class="boxTF" value="${keyword}">
-            <button type="button" class="btn" onclick="searchList();">검색</button>
-        </form>
+          <button type="button" class="btn" onclick="javascript:location.href='${pageContext.request.contextPath}/notice/list';">새로고침</button>
+
       </td>
       <td align="right" width="100">
       	<c:if test="${sessionScope.member.userId=='admin'}">
-          <button type="button" class="btn" onclick="insertForm();">글올리기</button>
+          <button type="button" class="btn" onclick="javascript:location.href='${pageContext.request.contextPath}/notice/created';">글올리기</button>
         </c:if>
       </td>
    </tr>

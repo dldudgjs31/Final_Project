@@ -299,7 +299,8 @@ public class EventController {
 		map.put("keyword", keyword);
 		map.put("eventNum", eventNum);
 
-		Event preReadDto = service.preReadEvent(map);
+		Event preReadDto = service.
+				preReadEvent(map);
 		Event nextReadDto = service.nextReadEvent(map);
 		
 		model.addAttribute("dto", dto);

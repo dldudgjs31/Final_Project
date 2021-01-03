@@ -2,7 +2,42 @@
 <%@ page trimDirectiveWhitespaces="true" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<link href="${pageContext.request.contextPath}/resources/css/shop-homepage.css" rel="stylesheet">
+<script type="text/javascript">
+function listPage(page) {
+	var url="${pageContext.request.contextPath}/notice/list";
+	var query="page="+page;
+	var selector = "#tab-content";
+	
+	ajaxHTML(url, "get", query, selector);
+}
 
+function deleteEvent() {
+	<c:if test="${sessionScope.member.userId==dto.userId}">
+		var q = "num=${dto.num}&page=${page}";
+	    var url = "${pageContext.request.contextPath}/notice/delete?" + q;
+
+	    if(confirm("위 자료를 삭제 하시 겠습니까 ? "))
+	  	  location.href=url;
+	</c:if>    
+	<c:if test="${sessionScope.member.userId!=dto.userId}">
+	  alert("게시물을 삭제할 수  없습니다.");
+	</c:if>
+	}
+
+function updateEvent() {
+	<c:if test="${sessionScope.member.userId==dto.userId}">
+		var q = "num=${dto.num}&page=${page}";
+	    var url = "${pageContext.request.contextPath}/notice/update?" + q;
+
+	    location.href=url;
+	</c:if>
+
+	<c:if test="${sessionScope.member.userId!=dto.userId}">
+	   alert("게시물을 수정할 수  없습니다.");
+	</c:if>
+	}
+</script>
 <div class="alert-info">
   <i class="fas fa-info-circle"></i>
     중요한 일정 및 알림, 이벤트 등은 공지사항 통해 고객님께 알려 드립니다.
@@ -43,7 +78,7 @@
     <td colspan="2" align="left" style="padding-left: 5px;">
        이전글 :
         <c:if test="${not empty preReadDto}">
-            <a href="javascript:articleBoard('${preReadDto.num}', '${pageNo}');">${preReadDto.subject}</a>
+		<a href="${pageContext.request.contextPath}/notice/article?${query}&num=${preReadDto.num}">${preReadDto.subject}</a>
         </c:if>
     </td>
 </tr>
@@ -52,7 +87,7 @@
     <td colspan="2" align="left" style="padding-left: 5px;">
        다음글 :
         <c:if test="${not empty nextReadDto}">
-            <a href="javascript:articleBoard('${nextReadDto.num}', '${pageNo}');">${nextReadDto.subject}</a>
+	      <a href="${pageContext.request.contextPath}/notice/article?${query}&num=${nextReadDto.num}">${nextReadDto.subject}</a>
         </c:if>
      </td>
 </tr>
@@ -61,16 +96,14 @@
 <table style="width: 100%; margin: 0px auto 20px; border-spacing: 0px;">
 <tr height="45">
     <td width="300" align="left">
-        <c:if test="${sessionScope.member.userId==dto.userId}">
-            <button type="button" class="btn" onclick="updateForm('${dto.num}', '${pageNo}');">수정</button>
-        </c:if>
-        <c:if test="${sessionScope.member.userId==dto.userId || sessionScope.member.userId=='admin'}">
-            <button type="button" class="btn" onclick="deleteBoard('${dto.num}', '${pageNo}');">삭제</button>
+        <c:if test="${sessionScope.member.userId=='admin'}">
+            <button type="button" class="btn" onclick="updateEvent();">수정</button>
+      	    <button type="button" class="btn" onclick="deleteEvent();">삭제</button>
         </c:if>
     </td>
 
     <td align="right">
-        <button type="button" class="btn" onclick="listPage('${pageNo}')">리스트</button>
+        <button type="button" class="btn" onclick="javascript:location.href='${pageContext.request.contextPath}/notice/list?${query}';">리스트</button>
     </td>
 </tr>
 </table>

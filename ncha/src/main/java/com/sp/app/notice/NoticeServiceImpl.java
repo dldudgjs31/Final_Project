@@ -11,7 +11,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.sp.app.common.FileManager;
 import com.sp.app.common.dao.CommonDAO;
 
-@Service("customer.noticeService")
+@Service("notice.noticeServiceImpl")
 public class NoticeServiceImpl implements NoticeService {
 	@Autowired
 	private CommonDAO dao;
@@ -27,6 +27,7 @@ public class NoticeServiceImpl implements NoticeService {
 
 			dao.insertData("notice.insertNotice", dto);
 			
+			// 파일 업로드
 			if(! dto.getUpload().isEmpty()) {
 				for(MultipartFile mf:dto.getUpload()) {
 					String saveFilename=fileManager.doFileUpload(mf, pathname);
@@ -167,6 +168,7 @@ public class NoticeServiceImpl implements NoticeService {
 	@Override
 	public void deleteNotice(int num, String pathname) throws Exception {
 		try {
+			// 파일 지우기
 			List<Notice> listFile=listFile(num);
 			if(listFile!=null) {
 				for(Notice dto:listFile) {
@@ -174,6 +176,7 @@ public class NoticeServiceImpl implements NoticeService {
 				}
 			}
 			
+			// 파일 테이블 내용 지우기
 			Map<String, Object> map=new HashMap<String, Object>();
 			map.put("field", "num");
 			map.put("num", num);

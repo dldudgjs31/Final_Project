@@ -38,12 +38,13 @@ public class NoticeController {
 	
 	@RequestMapping(value="list")
 	public String list(
-			@RequestParam(value="pageNo", defaultValue="1") int current_page,
+			@RequestParam(value="page", defaultValue="1") int current_page,
 			@RequestParam(defaultValue="all") String condition,
 			@RequestParam(defaultValue="") String keyword,
 			HttpServletRequest req,
 			Model model) throws Exception {
-		
+		String cp = req.getContextPath();
+
 		int rows = 10; // 한 화면에 보여주는 게시물 수
 		int total_page = 0;
 		int dataCount = 0;
@@ -54,9 +55,7 @@ public class NoticeController {
 		
         // 전체 페이지 수
         Map<String, Object> map = new HashMap<String, Object>();
-        map.put("condition", condition);
-        map.put("keyword", keyword);
-
+      
         dataCount = service.dataCount(map);
         if(dataCount != 0)
             total_page = myUtil.pageCount(rows,  dataCount) ;
@@ -98,19 +97,24 @@ public class NoticeController {
             
             n++;
         }
-        
-        String paging = myUtil.pagingMethod(current_page, total_page, "listPage");
+        String query = "";
+        String listUrl = cp+"/notice/list";
+        String articleUrl = cp+"/notice/article?page=" + current_page;
+      
+        if(query.length()!=0) {
+        	listUrl = cp+"/notice/list?" + query;
+        	articleUrl = cp+"/notice/article?page=" + current_page + "&"+ query;
+        }
+        String paging = myUtil.pagingMethod(current_page, total_page, listUrl);
 		
 		model.addAttribute("noticeList", noticeList);
 		model.addAttribute("list", list);
-		model.addAttribute("pageNo", current_page);
+		model.addAttribute("page", current_page);
 		model.addAttribute("dataCount", dataCount);
 		model.addAttribute("total_page", total_page);
 		model.addAttribute("paging", paging);		
-		
-		model.addAttribute("condition", condition);
-		model.addAttribute("keyword", keyword);
-		
+		model.addAttribute("articleUrl", articleUrl);
+
 		return ".store.notice.list";
 	}
 
@@ -119,14 +123,13 @@ public class NoticeController {
 			Model model
 			) throws Exception {
 
-		model.addAttribute("pageNo", "1");
+		model.addAttribute("page", "1");
 		model.addAttribute("mode", "created");
 		return ".store.notice.created";
 	}
 
 	@RequestMapping(value="created", method=RequestMethod.POST)
-	@ResponseBody
-	public Map<String, Object> createdSubmit(
+	public String createdSubmit(
 			Notice dto,
 			HttpSession session) throws Exception {
 		
@@ -142,36 +145,34 @@ public class NoticeController {
 				service.insertNotice(dto, pathname);
 				state="true";
 			} catch (Exception e) {
+				e.printStackTrace();
 			}
 		}
 		
 		Map<String, Object> model=new HashMap<>();
 		model.put("state", state);
-		return model;
+		return "redirect:/notice/list";
 	}
 
 	@RequestMapping(value = "article", method = RequestMethod.GET)
 	public String article(
 			@RequestParam int num,
-			@RequestParam String pageNo,
-			@RequestParam(defaultValue="all") String condition,
-			@RequestParam(defaultValue="") String keyword,
+			@RequestParam String page,
 			HttpServletResponse resp,
 			Model model) throws Exception {
 
-		keyword = URLDecoder.decode(keyword, "utf-8");
-		
+		String query="page="+page;
+
 		service.updateHitCount(num);
 
 		Notice dto = service.readNotice(num);
 		if(dto==null) {
 			resp.sendError(410, "삭제된 게시물입니다.");
-			return null;
+			return "redirect:/notice/list?"+query;
 		}
 		
+		// 이전 글, 다음 글
 		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("condition", condition);
-		map.put("keyword", keyword);
 		map.put("num", num);
 
 		Notice preReadDto = service.preReadNotice(map);
@@ -184,15 +185,16 @@ public class NoticeController {
 		model.addAttribute("preReadDto", preReadDto);
 		model.addAttribute("nextReadDto", nextReadDto);
 		model.addAttribute("listFile", listFile);
-		model.addAttribute("pageNo", pageNo);
-		
+		model.addAttribute("page", page);
+		model.addAttribute("query", query);
+
 		return ".store.notice.article";
 	}
 
 	@RequestMapping(value="update", method=RequestMethod.GET)
 	public String updateForm(
 			@RequestParam int num,
-			@RequestParam String pageNo,
+			@RequestParam String page,
 			HttpServletResponse resp,
 			HttpSession session,			
 			Model model	) throws Exception {
@@ -212,7 +214,7 @@ public class NoticeController {
 		List<Notice> listFile=service.listFile(num);
 			
 		model.addAttribute("mode", "update");
-		model.addAttribute("pageNo", pageNo);
+		model.addAttribute("page", page);
 		model.addAttribute("dto", dto);
 		model.addAttribute("listFile", listFile);
 		
@@ -220,9 +222,9 @@ public class NoticeController {
 	}
 
 	@RequestMapping(value="update", method=RequestMethod.POST)
-	@ResponseBody
-	public Map<String, Object> updateSubmit(
+	public String updateSubmit(
 			Notice dto,
+			@RequestParam String page,
 			HttpSession session) throws Exception {
 
 		SessionInfo info=(SessionInfo)session.getAttribute("member");
@@ -237,22 +239,23 @@ public class NoticeController {
 				service.updateNotice(dto, pathname);
 				state="true";
 			} catch (Exception e) {
+				e.printStackTrace();
 			}
 		}
 		
 		Map<String, Object> model=new HashMap<>();
 		model.put("state", state);
-		return model;
+		return "redirect:/notice/list?page="+ page;
 	}
 
-	@RequestMapping(value="delete", method=RequestMethod.POST)
-	@ResponseBody
-	public Map<String, Object> delete(
+	@RequestMapping(value="delete", method=RequestMethod.GET)
+	public String delete(
 			@RequestParam int num,
+			@RequestParam String page,
 			HttpSession session) throws Exception {
 		SessionInfo info=(SessionInfo)session.getAttribute("member");
 		String state="false";
-		
+
 		if(info.getUserId().equals("admin")) {
 			try {
 				String root = session.getServletContext().getRealPath("/");
@@ -260,12 +263,12 @@ public class NoticeController {
 				service.deleteNotice(num, pathname);
 				state="true";
 			} catch (Exception e) {
+				e.printStackTrace();
 			}
 		}
-		
 		Map<String, Object> model=new HashMap<>();
 		model.put("state", state);
-		return model;
+		return "redirect:/notice/list?page="+page;
 	}
 
 	@RequestMapping(value="download")
@@ -292,6 +295,7 @@ public class NoticeController {
 				PrintWriter out = resp.getWriter();
 				out.println("<script>alert('파일 다운로드가 불가능 합니다 !!!');history.back();</script>");
 			} catch (Exception e) {
+				e.printStackTrace();
 			}
 		}
 	}
@@ -326,6 +330,7 @@ public class NoticeController {
 				PrintWriter out = resp.getWriter();
 				out.println("<script>alert('파일 다운로드가 불가능 합니다 !!!');history.back();</script>");
 			} catch (Exception e) {
+				e.printStackTrace();
 			}
 		}
 	}
