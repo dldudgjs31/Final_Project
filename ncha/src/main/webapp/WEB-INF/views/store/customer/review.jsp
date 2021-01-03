@@ -197,7 +197,7 @@ function updateReview(reviewNum){
     <!-- Content Row -->
     <div class="row">
       <!-- Sidebar Column -->
-      <div class="col-xs-6 col-md-4">
+      <div class="col-xs-6 col-md-4" >
         <div class="list-group">
 	          <a href="${pageContext.request.contextPath}/store/customer/mypage" class="list-group-item">메인</a>
 	          <a href="${pageContext.request.contextPath}/store/customer/cartlist" class="list-group-item">장바구니</a>
@@ -208,7 +208,7 @@ function updateReview(reviewNum){
       </div>
       <!-- Content Column -->
 
-      <div class="col-xs-12 col-md-8">
+      <div class="col-xs-12 col-md-8" style="min-height: 400px;">
 		<h2 class="mt-4 mb-3">구매한 상품
 			<small>리뷰 리스트</small>
 	    </h2>

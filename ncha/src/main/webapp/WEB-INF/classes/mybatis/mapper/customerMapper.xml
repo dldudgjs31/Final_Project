@@ -73,11 +73,18 @@
 </select>
 
 <select id="readOrderList" parameterType="map" resultType="com.sp.app.customer.Customer">
- 	SELECT d.productName, i.imageFilename, s.order_date, d.sellerId, d.productNum, d.order_option, d.number_sales, d.price, s.orderNum, s.memberIdx
+ 	SELECT d.productName, i.imageFilename, s.order_date, d.sellerId, d.productNum, d.order_option, d.number_sales, d.price, s.orderNum, s.memberIdx, s.total_sales
 	FROM store_order_list s
 	LEFT OUTER JOIN product_order_detail d ON s.orderNum = d.orderNum
 	LEFT OUTER JOIN product_image i ON i.productNum = d.productNum
-	WHERE s.memberIdx = #{memberIdx}
+	LEFT OUTER JOIN product_category c ON c.categoryName = d.categoryName
+	WHERE s.memberIdx = #{memberIdx} 
+	 <if test="startdate!=null and startdate!=''">
+	 	AND s.order_date BETWEEN TO_DATE(#{startdate},'YYYY-MM-DD') AND TO_DATE(#{enddate},'YYYY-MM-DD')
+	 </if>
+	 <if test="categoryNum!=null and categoryNum!=0">
+	 	AND c.categoryNum = #{categoryNum}
+	</if>
 	ORDER BY s.order_date DESC
 	OFFSET #{offset} ROWS FETCH FIRST #{rows} ROWS ONLY
 </select>
@@ -100,7 +107,17 @@
 </select>
 
 <select id="dataOrderCount" parameterType="Long" resultType="Integer">
-	SELECT count(*) dataCount FROM store_order_list WHERE memberIdx= #{memberIdx} 
+	SELECT count(*) dataCount 
+	FROM store_order_list s
+	LEFT OUTER JOIN product_order_detail d ON s.orderNum = d.orderNum
+	LEFT OUTER JOIN product_category c ON c.categoryName = d.categoryName
+	WHERE memberIdx= #{memberIdx} 
+	<if test="startdate!=null and startdate!=''">
+	 	AND s.order_date BETWEEN TO_DATE(#{startdate},'YYYY-MM-DD') AND TO_DATE(#{enddate},'YYYY-MM-DD')
+	</if>
+	<if test="categoryNum!=null and categoryNum!=0">
+	 	AND c.categoryNum = #{categoryNum}
+	</if>
 </select>
 
 <select id="dataCartCount" parameterType="String" resultType="Integer">

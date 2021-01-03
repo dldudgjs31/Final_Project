@@ -133,7 +133,7 @@ $(function(){
       </div>
       <!-- Content Column -->
 
-      <div class="col-xs-12 col-md-8">
+      <div class="col-xs-12 col-md-8" style="min-height: 400px;">
       	 <h2 class="mt-4 mb-3">Q&A
       <small>문의 내역</small>
     </h2>
@@ -182,7 +182,7 @@ $(function(){
     
       </div>
       
-      
+      </div>
           <!--modal  -->
 		
 			<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">

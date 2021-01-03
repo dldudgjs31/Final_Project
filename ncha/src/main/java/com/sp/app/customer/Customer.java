@@ -27,6 +27,8 @@ public class Customer {
 	private String deliveryDetail;
 	private int option_stock;
 	private String categoryName;
+	private String startdate;
+	private String enddate;
 	
 	
 	
@@ -48,6 +50,18 @@ public class Customer {
 	
 	
 	
+	public String getStartdate() {
+		return startdate;
+	}
+	public void setStartdate(String startdate) {
+		this.startdate = startdate;
+	}
+	public String getEnddate() {
+		return enddate;
+	}
+	public void setEnddate(String enddate) {
+		this.enddate = enddate;
+	}
 	public String getOrderDetail() {
 		return orderDetail;
 	}

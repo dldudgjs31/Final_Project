@@ -64,7 +64,7 @@ $(function(){
       </div>
       <!-- Content Column -->
 
-      <div class="col-xs-12 col-md-8">
+      <div class="col-xs-12 col-md-8" style="min-height: 400px;">
 	 <h2 class="mt-4 mb-3">장바구니
       <small>선택한 상품</small>
     </h2>

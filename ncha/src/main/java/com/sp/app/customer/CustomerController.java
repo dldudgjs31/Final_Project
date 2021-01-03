@@ -281,8 +281,9 @@ public class CustomerController {
 		int rows = 10;
 		int total_page = 0;
 		int dataCount = 0;
-		dataCount = service2.dataOrderCount(info.getMemberIdx());
 		Map<String, Object> map = new HashMap<>();
+		map.put("memberIdx",info.getMemberIdx());
+		dataCount = service2.dataOrderCount(map);
 		if (dataCount != 0) {
 			total_page = myUtil.pageCount(rows, dataCount);
 		}
@@ -294,7 +295,6 @@ public class CustomerController {
 			offset = 0;
 		map.put("offset", offset);
 		map.put("rows", rows);
-		map.put("memberIdx",info.getMemberIdx());
 		List<Customer> reviewList = service2.readOrderList(map);
 		int listNum=0; 
 		int n = 0;
@@ -328,7 +328,69 @@ public class CustomerController {
 	}
 	
 	@RequestMapping("buylist")
-	public String buylist() throws Exception{
+	public String buylist(
+			@RequestParam(value = "page", defaultValue = "1") int current_page,
+			@RequestParam(defaultValue = "") String startdate,
+			@RequestParam(defaultValue = "") String enddate, 
+			@RequestParam(defaultValue = "0") int categoryNum,
+			HttpSession session,
+			HttpServletRequest req,
+			Model model
+			) throws Exception{
+		SessionInfo info =(SessionInfo)session.getAttribute("member");
+		
+		int rows = 10;
+		int total_page = 0;
+		int dataCount = 0;
+		Map<String, Object> map = new HashMap<>();
+		map.put("startdate", startdate);
+		map.put("enddate", enddate);
+		map.put("categoryNum", categoryNum);
+		map.put("memberIdx",info.getMemberIdx());
+		dataCount = service2.dataOrderCount(map);
+		if (dataCount != 0) {
+			total_page = myUtil.pageCount(rows, dataCount);
+		}
+		if (total_page < current_page) {
+			current_page = total_page;
+		}
+		int offset = (current_page - 1) * rows;
+		if (offset < 0)
+			offset = 0;
+		map.put("offset", offset);
+		map.put("rows", rows);
+		List<Customer> reviewList = service2.readOrderList(map);
+		int listNum=0; 
+		int n = 0;
+		for (Customer dto : reviewList) {
+			listNum = dataCount - (offset + n);
+			dto.setListNum(listNum);
+			n++;
+		}
+		Customer dto = new Customer();
+		for(int i =0;i<reviewList.size();i++) {
+			int reviewCount = 0;
+			dto.setMemberIdx(info.getMemberIdx());
+			dto.setOrderNum(reviewList.get(i).getOrderNum());
+			reviewCount = service2.readReviewCount(dto);
+			reviewList.get(i).setReviewCount(reviewCount);
+			String orderDetail = reviewList.get(i).getProductName() + " [옵션 :"+reviewList.get(i).getOrder_option()+" / "+reviewList.get(i).getNumber_sales()+"개 ]";
+			reviewList.get(i).setOrderDetail(orderDetail);
+			if(reviewCount > 0) {
+				reviewList.get(i).setReviewNum(service2.readReviewNum(reviewList.get(i).getOrderNum()));
+			}
+		}
+		String cp = req.getContextPath();
+		String listUrl = cp + "/store/customer/review";
+		String paging = myUtil.paging(current_page, total_page, listUrl);
+		model.addAttribute("startdate", startdate);
+		model.addAttribute("enddate", enddate);
+		model.addAttribute("categoryNum", categoryNum);
+		model.addAttribute("page", current_page);
+		model.addAttribute("total_page", total_page);
+		model.addAttribute("dataCount", dataCount);
+		model.addAttribute("paging", paging);
+		model.addAttribute("list", reviewList);
 	return ".store.customer.buylist";
 	}
 	

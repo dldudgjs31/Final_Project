@@ -175,10 +175,10 @@ public class CustomerImpl implements CustomerService{
 	}
 
 	@Override
-	public int dataOrderCount(long memberIdx) throws Exception {
+	public int dataOrderCount(Map<String, Object> map) throws Exception {
 		int dataCount=0;
 		try {
-			dataCount = dao.selectOne("customer.dataOrderCount", memberIdx);
+			dataCount = dao.selectOne("customer.dataOrderCount", map);
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw e;		

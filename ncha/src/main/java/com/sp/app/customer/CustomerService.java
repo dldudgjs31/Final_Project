@@ -25,7 +25,7 @@ public interface CustomerService {
 	public List<Customer> readOrderList(Map<String, Object> map) throws Exception;
 	public int readReviewCount(Customer dto) throws Exception;
 	public int readReviewNum(int OrderNum) throws Exception;
-	public int dataOrderCount(long memberIdx)throws Exception;
+	public int dataOrderCount(Map<String, Object> map)throws Exception;
 }
 
 
