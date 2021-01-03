@@ -88,11 +88,16 @@ $(function(){
 
 $(function(){
 	// 작성 모달에 데이터 전달
-	$("#qnatitle").click(function(){
+	$(".qnatitle").click(function(){
 		var content = $(this).parent().children().eq(1).val();
 		var subject = $(this).parent().children().eq(2).val();
 		var qnaType = $(this).parent().children().eq(3).val();
 		var qnaNum = $(this).parent().children().eq(4).val();
+		
+		$(".subject").text("");
+		$(".content").text("");
+		$(".qnaType").text("");
+		$("#qnaNum").val("");
 		
 		$(".subject").text(subject);
 		$(".content").text(content);
@@ -100,12 +105,18 @@ $(function(){
 		$("#qnaNum").val(qnaNum);
 	});
 	//수정 모달에 데이터 전달
-	$("#updateqna").click(function(){
+	$(".updateqna1").click(function(){
 		var content = $(this).parent().children().eq(2).val();
 		var subject = $(this).parent().children().eq(3).val();
 		var qnaType = $(this).parent().children().eq(4).val();
 		var qnaNum = $(this).parent().children().eq(5).val();
 		var replyContent = $(this).parent().children().eq(6).val();
+		
+		$(".subject1").text("");
+		$(".content1").text("");
+		$(".qnaType1").text("");
+		$("#qnaNum1").val("");
+		$("#replyContent").val("");
 		
 		$(".subject1").text(subject);
 		$(".content1").text(content);
@@ -174,7 +185,7 @@ function deleteQna(qnaNum){
 			<td>${dto.create_date}</td>
 			<td>
 			<c:if test="${dto.status=='답변대기'}">
-				<button class="btn btn-primary btn-xs " data-toggle="modal" data-target="#myModal1" id="qnatitle">답변</button>
+				<button class="btn btn-primary btn-xs qnatitle" data-toggle="modal" data-target="#myModal1">답변</button>
 				<input type="hidden" value="${dto.content}" name="content">
 				<input type="hidden" value="${dto.subject}" name="subject">
 				<input type="hidden" value="${dto.qnaType}" name="qnaType">
@@ -182,7 +193,7 @@ function deleteQna(qnaNum){
 			</c:if>
 			
 			<c:if test="${dto.status=='답변완료'}">
-				<button class="btn btn-info btn-xs " data-toggle="modal" data-target="#myModal2" id="updateqna">수정</button>
+				<button class="btn btn-info btn-xs updateqna1" data-toggle="modal" data-target="#myModal2" >수정</button>
 				<button class="btn btn-danger btn-xs " onclick="deleteQna('${dto.qnaNum}')">삭제</button>
 				<input type="hidden" value="${dto.content}" name="content">
 				<input type="hidden" value="${dto.subject}" name="subject">

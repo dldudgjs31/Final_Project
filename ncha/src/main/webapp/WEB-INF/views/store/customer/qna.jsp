@@ -91,17 +91,27 @@ $(function(){
 });	
 $(function(){
 	//수정 모달에 데이터 전달
-	$("#articleRead").click(function(){
+	$(".articleRead").click(function(){
 		var content = $(this).parent().children().eq(1).val();
 		var subject = $(this).parent().children().eq(2).val();
 		var qnaType = $(this).parent().children().eq(3).val();
 		var replyContent = $(this).parent().children().eq(4).val();
+		$(".subject1").text("");
+		$(".content1").text("");
+		$(".qnaType1").text("");
+		$(".replyContent").text("");
 		
 		$(".subject1").text(subject);
 		$(".content1").text(content);
 		$(".qnaType1").text(qnaType);
 		$(".replyContent").text(replyContent);
 	});
+	$(".closeQna").click(function(){
+		$(".subject1").text("");
+		$(".content1").text("");
+		$(".qnaType1").text("");
+		$(".replyContent").text("");
+	})
 });
 </script>
 <Br>
@@ -116,7 +126,7 @@ $(function(){
         <div class="list-group">
 	          <a href="${pageContext.request.contextPath}/store/customer/mypage" class="list-group-item">메인</a>
 	          <a href="${pageContext.request.contextPath}/store/customer/cartlist" class="list-group-item">장바구니</a>
-	          <a href="${pageContext.request.contextPath}/store/customer/cartlist" class="list-group-item">주문내역</a>
+	          <a href="${pageContext.request.contextPath}/store/customer/buylist" class="list-group-item">주문내역</a>
 	          <a href="${pageContext.request.contextPath}/store/customer/review" class="list-group-item">REVIEW</a>
 	          <a href="${pageContext.request.contextPath}/qna/mypage/qnalist" class="list-group-item">Q&A</a>
         </div>
@@ -147,7 +157,7 @@ $(function(){
 			<td width="30%">
 				[${dto.qnaType}] ${dto.subject}
 				<c:if test="${dto.status == '답변완료'}">
-				<a href="" id="articleRead" data-toggle="modal" data-target="#myModal1"><br>[답변 보기]</a>
+				<a href="" class="articleRead" data-toggle="modal" data-target="#myModal1"><br>[답변 보기]</a>
 				<input type="hidden" value="${dto.content}" name="content">
 				<input type="hidden" value="${dto.subject}" name="subject">
 				<input type="hidden" value="${dto.qnaType}" name="qnaType">
@@ -280,7 +290,7 @@ $(function(){
 	
 	      </div>
 	      <div class="modal-footer">
-	        <button type="button" class="btn btn-danger" data-dismiss="modal">닫기</button>
+	        <button type="button" class="btn btn-danger closeQna" data-dismiss="modal">닫기</button>
 	      </div>
 	    </div>
 	  </div>

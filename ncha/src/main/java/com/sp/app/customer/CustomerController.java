@@ -326,4 +326,10 @@ public class CustomerController {
 		model.addAttribute("list", reviewList);
 		return ".store.customer.review";
 	}
+	
+	@RequestMapping("buylist")
+	public String buylist() throws Exception{
+	return ".store.customer.buylist";
+	}
+	
 }

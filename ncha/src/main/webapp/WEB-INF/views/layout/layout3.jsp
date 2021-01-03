@@ -35,7 +35,8 @@ $(function(){
 	   });
 });
 </script>
-
+<style>
+</style>
 </head>
 
 <body style="font-family: 'Jua', sans-serif;">

@@ -23,7 +23,7 @@
 			<td width="50%">
 				${dto.subject}
 				<c:if test="${dto.status=='답변완료'}">
-				&nbsp;&nbsp;<a href="" data-toggle="modal" data-target="#myModal1" id="articleRead">[글보기]</a>
+				&nbsp;&nbsp;<a href="" data-toggle="modal" data-target="#myModal1" class="articleRead">[글보기]</a>
 				<input type="hidden" value="${dto.content}" name="content">
 				<input type="hidden" value="${dto.subject}" name="subject">
 				<input type="hidden" value="${dto.qnaType}" name="qnaType">
@@ -160,11 +160,16 @@
 $(function(){
 
 	//수정 모달에 데이터 전달
-	$("#articleRead").click(function(){
+	$(".articleRead").click(function(){
 		var content = $(this).parent().children().eq(1).val();
 		var subject = $(this).parent().children().eq(2).val();
 		var qnaType = $(this).parent().children().eq(3).val();
 		var replyContent = $(this).parent().children().eq(4).val();
+		
+		$(".subject1").text("");
+		$(".content1").text("");
+		$(".qnaType1").text("");
+		$(".replyContent").text("");
 		
 		$(".subject1").text(subject);
 		$(".content1").text(content);

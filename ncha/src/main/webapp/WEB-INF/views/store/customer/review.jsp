@@ -199,11 +199,11 @@ function updateReview(reviewNum){
       <!-- Sidebar Column -->
       <div class="col-xs-6 col-md-4">
         <div class="list-group">
-          <a href="${pageContext.request.contextPath}/store/customer/mypage" class="list-group-item">메인 </a>
-          <a href="${pageContext.request.contextPath}/store/customer/cartlist" class="list-group-item">장바구니</a>
-          <a href="about.html" class="list-group-item">주문내역</a>
-          <a href="${pageContext.request.contextPath}/store/customer/review" class="list-group-item">REVIEW</a>
-          <a href="${pageContext.request.contextPath}/qna/mypage/qnalist" class="list-group-item">Q&A</a>
+	          <a href="${pageContext.request.contextPath}/store/customer/mypage" class="list-group-item">메인</a>
+	          <a href="${pageContext.request.contextPath}/store/customer/cartlist" class="list-group-item">장바구니</a>
+	          <a href="${pageContext.request.contextPath}/store/customer/buylist" class="list-group-item">주문내역</a>
+	          <a href="${pageContext.request.contextPath}/store/customer/review" class="list-group-item">REVIEW</a>
+	          <a href="${pageContext.request.contextPath}/qna/mypage/qnalist" class="list-group-item">Q&A</a>
         </div>
       </div>
       <!-- Content Column -->
