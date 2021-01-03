@@ -16,6 +16,10 @@
 		INSERT INTO product_option(optionNum, optionDetail, option_stock, productNum)
 		VALUES(option_seq.NEXTVAL,#{optionDetail},#{option_stock},#{productNum})
 	</insert>
+	<insert id="insertMyOption" parameterType="com.sp.app.store_profile.Option">
+		INSERT INTO product_option(optionNum, optionDetail, option_stock, productNum)
+		VALUES(option_seq.NEXTVAL,#{optionDetail},#{option_stock},#{productNum})
+	</insert>
 	
 	 <select id="dataCount" parameterType="map" resultType="Integer">
 	 	SELECT NVL(COUNT(*),0) 
@@ -29,6 +33,16 @@
  				AND b.categoryNum = #{categoryNum}
  			</if>
 	 	</where>	
+	 </select>
+	 
+	 <select id="dataCountMyproduct" parameterType="map" resultType="Integer">
+	 	SELECT NVL(COUNT(*),0) 
+	 	FROM product_bbs b
+	 	JOIN seller m ON b.sellerId = m.sellerId
+	 	WHERE b.sellerId = #{sellerId}
+	 		<if test="categoryNum!=null and categoryNum!=''">
+ 				 AND b.categoryNum = #{categoryNum}
+ 			</if>
 	 </select>
 	 
 	 	 <sql id="where-list">
@@ -71,6 +85,24 @@
  				AND b.categoryNum = #{categoryNum}
  			</if>
 	 	</where>
+		ORDER BY productNum DESC
+		OFFSET #{offset} ROWS FETCH FIRST #{rows} ROWS ONLY
+	 </select>
+	 
+	 <select id="listMyProduct" parameterType="map" resultType="com.sp.app.store.Store">
+		SELECT b.productNum,productName,b.created_date,hitCount,price, detail, stock, discount_rate,b.sellerId,b.categoryNum, imageFilename, profile_imagefilename, c.categoryName
+		FROM product_bbs b
+		LEFT OUTER JOIN seller m ON b.sellerId=m.sellerId
+		LEFT OUTER JOIN product_category c ON c.categoryNum = b.categoryNum
+		LEFT OUTER JOIN (
+			SELECT * FROM (
+				SELECT productNum, rank() over(partition by productNum order by main_imageFileNum) rank, imageFilename FROM product_image
+			) WHERE rank = 1
+		) i ON b.productNum = i.productNum
+		WHERE b.sellerId = #{sellerId}
+	 		<if test="categoryNum!=null and categoryNum!=''">
+ 				AND b.categoryNum = #{categoryNum}
+ 			</if>
 		ORDER BY productNum DESC
 		OFFSET #{offset} ROWS FETCH FIRST #{rows} ROWS ONLY
 	 </select>
@@ -194,5 +226,7 @@
 		FETCH FIRST 1 ROW ONLY
 	</select>
 	
-	
+	<update id="updateMyStock" parameterType="map">
+		UPDATE product_bbs SET stock = #{stock} WHERE productNum = #{productNum}
+	</update>
 </mapper>

@@ -30,7 +30,21 @@ public class Store {
 	private List<MultipartFile> upload;
 	private List<String> optionDetail;
 	private List<Integer> option_stock;
+	private List<Integer> option_number;
+	private List<Store> optionlist;
 	
+	public List<Integer> getOption_number() {
+		return option_number;
+	}
+	public void setOption_number(List<Integer> option_number) {
+		this.option_number = option_number;
+	}
+	public List<Store> getOptionlist() {
+		return optionlist;
+	}
+	public void setOptionlist(List<Store> optionlist) {
+		this.optionlist = optionlist;
+	}
 	public String getProfile_imagefilename() {
 		return profile_imagefilename;
 	}

@@ -33,6 +33,9 @@ $(document).ready(function() {
 	background-position: center;
 	background-size: contain;
 }
+p{
+margin-bottom: 0.5rem;
+}
 </style>
   <!-- Page Content -->
     <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
@@ -132,16 +135,21 @@ $(document).ready(function() {
       <div class="col-lg-4 col-sm-6 portfolio-item" style="margin-bottom: 10px; ">
         <div class="card h-100" style="border: none;">
           <a href="${articleUrl}&num=${dto.productNum}"><img class="card-img-top" src="${pageContext.request.contextPath}/uploads/product/${dto.imageFilename}" alt="" style="height: 200px; border: 1px solid silver; border-radius: 20px;"></a>
-          <div class="card-body">
+          <div class="card-body" style="padding-top: 0;">
             <p class="card-text" id="profile">
             <div id="profile">
 	            <div id="profile_image" style="background-image: url('${pageContext.request.contextPath}/uploads/member/${dto.profile_imagefilename}');"></div>
 	            <div> ${dto.sellerId}</div>
             </div>
             </p>
-            <h4 class="card-title">
+            <h5 class="card-title">
+            <c:if test="${dto.stock=='0'}">
+              <del><a href="${articleUrl}&num=${dto.productNum}">${dto.productName}</a></del>&nbsp;<span style="color:red;">품절</span>
+			</c:if>
+			<c:if test="${dto.stock>0}">
               <a href="${articleUrl}&num=${dto.productNum}">${dto.productName}</a>
-            </h4>
+			</c:if>
+            </h5>
             
            <p class="card-text" style="color:silver;">정가 :  <del><fmt:formatNumber type="currency" value="${dto.price}" />원</p></del>
             <p class="card-text">세일가 : <fmt:formatNumber  type="currency"  value="${dto.price - dto.discount_rate}"/>원</p>

@@ -10,6 +10,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.sp.app.common.FileManager;
 import com.sp.app.common.dao.CommonDAO;
+import com.sp.app.store_profile.Option;
 
 @Service("store.storeService")
 public class StoreServiceImpl implements StoreService {
@@ -258,6 +259,48 @@ public class StoreServiceImpl implements StoreService {
 		}
 		return dto;
 	}
+
+	@Override
+	public List<Store> listMyProduct(Map<String, Object> map) throws Exception {
+		List<Store> list = null;
+		try {
+			list = dao.selectList("store.listMyProduct", map);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
+
+	@Override
+	public int dataCountMyproduct(Map<String, Object> map) throws Exception {
+		int dataCount =0;
+		try {
+			dataCount=dao.selectOne("store.dataCountMyproduct", map);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return dataCount;
+	}
+
+	@Override
+	public void updateMyStock(Map<String, Object> map) throws Exception {
+		try {
+			dao.updateData("store.updateMyStock", map);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+	}
+
+	@Override
+	public void insertMyOption(Option dto) throws Exception {
+		try {
+			dao.insertData("store.insertMyOption", dto);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+	} 
 
 
 

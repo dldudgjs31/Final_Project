@@ -96,8 +96,10 @@ public class StoreController {
 				dto.setScore("★★★");
 			}else if(score>1.5) {
 				dto.setScore("★★");
-			}else {
+			}else if(score>0.5){
 				dto.setScore("★");
+			}else {
+				dto.setScore("평가 없음");
 			}
 			dto.setListNum(listNum);
 			n++;
@@ -201,8 +203,10 @@ public class StoreController {
 			dto.setScore("★★★");
 		}else if(score>1.5) {
 			dto.setScore("★★");
-		}else {
+		}else if(score>0.5){
 			dto.setScore("★");
+		}else {
+			dto.setScore("평가 없음");
 		}
 		List<Store> list1 = service.readProductFile(num);
 		List<Store> listFile = service.listFile(num);

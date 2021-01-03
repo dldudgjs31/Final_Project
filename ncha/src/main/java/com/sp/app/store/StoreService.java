@@ -3,6 +3,8 @@ package com.sp.app.store;
 import java.util.List;
 import java.util.Map;
 
+import com.sp.app.store_profile.Option;
+
 public interface StoreService {
 	//글등록
 	public void insertProduct(Store dto, String pathname) throws Exception;
@@ -34,4 +36,10 @@ public interface StoreService {
 	
 	//커뮤니티 메인
 	public Store readProduct();
+	
+	//판매자 재고 관리
+	public List<Store> listMyProduct(Map<String, Object> map)throws Exception;
+	public int dataCountMyproduct(Map<String, Object> map)throws Exception;
+	public void updateMyStock(Map<String, Object> map)throws Exception;
+	public void insertMyOption(Option dto)throws Exception;
 }

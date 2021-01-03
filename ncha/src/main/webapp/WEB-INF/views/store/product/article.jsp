@@ -57,6 +57,9 @@ font-family: 'Jua', sans-serif;
 	background-position: center;
 	background-size: contain;
 }
+p{
+	margin-bottom: 0.5rem;
+}
 </style>
 
 <script type="text/javascript">
@@ -363,11 +366,18 @@ function buyOk() {
 	            <div> ${dto.sellerId}</div>
             </div>
 			</p>
-			<p>조회수 : ${dto.hitCount}</p>
-			<p>재고 : ${dto.stock}</p>
+			<p>조회수 : ${dto.hitCount} | 평점 : <span style="color:#FFCD28;">${dto.score}</span></p>
+			<p>재고 : 
+			<c:if test="${dto.stock=='0'}">
+				<span style="color:red;">품절</span>
+			</c:if>
+			<c:if test="${dto.stock>0}">
+				${dto.stock}
+			</c:if>
+			
+			</p>
 			<p style="color:silver;">정가 :<del><fmt:formatNumber type="currency" value="${dto.price}" />원</del></p>
 			<p>세일가 : <fmt:formatNumber  type="currency"  value="${dto.price - dto.discount_rate}"/>원</p>
-			<p>평점 : <span style="color:#FFCD28;">${dto.score}</span></p>
             <select class="custom-select" id="single_select">
             	<c:forEach var="option" items="${optionList}">
             		<c:choose>

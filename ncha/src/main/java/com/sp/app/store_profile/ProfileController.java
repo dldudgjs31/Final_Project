@@ -13,11 +13,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.sp.app.common.MyUtil;
 import com.sp.app.customer.Customer;
 import com.sp.app.customer.CustomerService;
 import com.sp.app.seller.SessionInfo;
+import com.sp.app.store.Store;
+import com.sp.app.store.StoreService;
 import com.sp.app.qna.Qna;
 import com.sp.app.qna.QnaService;
 
@@ -31,6 +34,8 @@ public class ProfileController {
 		private MyUtil myUtil;
 		@Autowired
 		CustomerService service2;
+		@Autowired
+		StoreService service3;
 		
 		@RequestMapping("main")
 		public String mypageMain()throws Exception{
@@ -148,5 +153,94 @@ public class ProfileController {
 			model.addAttribute("paging", paging);
 			model.addAttribute("list", reviewList);
 		return ".store.mypage.sales_list";
+		}
+		@RequestMapping("stockupdate")
+		public String stockupdate(
+				@RequestParam(value = "page", defaultValue = "1") int current_page,
+				@RequestParam(defaultValue = "0") int categoryNum,
+				HttpSession session,
+				HttpServletRequest req,
+				Model model
+				) throws Exception{
+			SessionInfo info =(SessionInfo)session.getAttribute("seller");
+			
+			int rows = 10;
+			int total_page = 0;
+			int dataCount = 0;
+			Map<String, Object> map = new HashMap<>();
+			map.put("categoryNum", categoryNum);
+			map.put("sellerId",info.getSellerId());
+			dataCount = service3.dataCountMyproduct(map);
+			if (dataCount != 0) {
+				total_page = myUtil.pageCount(rows, dataCount);
+			}
+			if (total_page < current_page) {
+				current_page = total_page;
+			}
+			int offset = (current_page - 1) * rows;
+			if (offset < 0)
+				offset = 0;
+			map.put("offset", offset);
+			map.put("rows", rows);
+			List<Store> list = service3.listMyProduct(map);
+			int listNum=0; 
+			int n = 0;
+			for (Store dto : list) {
+				listNum = dataCount - (offset + n);
+				dto.setListNum(listNum);
+				List<Store> optionlist = service3.readOption(list.get(n).getProductNum());
+				dto.setOptionlist(optionlist);
+				n++;
+			}
+			
+			String cp = req.getContextPath();
+			String listUrl = cp + "/store/mypage/stockupdate";
+			String paging = myUtil.paging(current_page, total_page, listUrl);
+			model.addAttribute("categoryNum", categoryNum);
+			model.addAttribute("page", current_page);
+			model.addAttribute("total_page", total_page);
+			model.addAttribute("dataCount", dataCount);
+			model.addAttribute("paging", paging);
+			model.addAttribute("list", list);
+			return ".store.mypage.stock_update";
+		}
+		@RequestMapping("stock_update")
+		@ResponseBody
+		public Map<String, Object>  stock_updateSubmit(
+				Store dto,
+				HttpSession session
+				)throws Exception{
+			String state="true";
+			SessionInfo info=(SessionInfo)session.getAttribute("seller");
+					
+			try {
+				Map<String, Object> map = new HashMap<>();
+				map.put("productNum", dto.getProductNum());
+				//전체 재고 업데이트
+				int stock = 0;
+				for(int i =0; i<dto.getOption_stock().size();i++) {
+					stock += dto.getOption_stock().get(i);
+				}
+				map.put("stock", stock);
+				service3.updateMyStock(map);
+				//옵션 모두 삭제
+				service3.deleteAllOption(dto.getProductNum());
+				//옵션 등록
+				Option opt_dto = new Option();
+				for(int i =0; i<dto.getOption_stock().size();i++) {
+					//옵션 재고
+					opt_dto.setOption_stock(dto.getOption_stock().get(i));
+					opt_dto.setOptionDetail(dto.getOptionDetail().get(i));
+					opt_dto.setProductNum(dto.getProductNum());
+					service3.insertMyOption(opt_dto);
+				}
+				
+			} catch (Exception e) {
+				state="false";
+			}
+			
+			Map<String, Object> model=new HashedMap<>();
+			model.put("state", state);
+			return model;
 		}
 }

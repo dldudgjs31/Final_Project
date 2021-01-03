@@ -52,7 +52,13 @@ $(function(){
 });
 
 $(function(){
-	
+	$(".searchbtn").click(function(){
+		if($("input[name=enddate]").val()=="" || $("input[name=startdate]").val()==""){
+			alert("날짜를 선택해주세요.");
+			return;
+		}
+		searchList();
+	});
 });
 </script>
 <Br>
@@ -74,7 +80,7 @@ $(function(){
       <!-- Content Column -->
 
       <div class="col-xs-12 col-md-8">
-      	 <h2 class="mt-4 mb-3"> 판매내역 리스트
+      	 <h2 class="mt-4 mb-3"> 판매내역
       <small>판매 상품 리스트</small>
     </h2>
     <form name="searchForm" action="${pageContext.request.contextPath}/store/mypage/saleslist" method="post">
@@ -88,7 +94,7 @@ $(function(){
 				<option value="3" ${categoryNum==3?"selected='selected'":""}>인테리어가구</option>
 				<option value="4" ${categoryNum==4?"selected='selected'":""}>생필품</option>
 		</select>&nbsp;
-	    <button class="btn btn-primary btn-xs" type="button" onclick="searchList()">조회&nbsp;<i class="fas fa-search"></i></button>
+	    <button class="btn btn-primary btn-xs searchbtn" type="button" onclick="searchList()">조회&nbsp;<i class="fas fa-search"></i></button>
     </div>
     </form>
      <p class="text-right">  총 주문 내역 수  : ${dataCount} &nbsp;&nbsp;&nbsp; (${page}/${total_page} 페이지)</p>
