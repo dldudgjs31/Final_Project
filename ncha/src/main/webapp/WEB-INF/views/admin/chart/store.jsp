@@ -49,11 +49,6 @@ $(function(){
 		
 	});
 });
-
-
-
-
-
 </script>
 
 
@@ -63,26 +58,11 @@ $(function(){
 	    <li class="breadcrumb-item active">스토어별</li>
 	</ol>
     
-    <div class="row">
-      <!-- Sidebar Column -->
-      <div class="col-lg-3 mb-3">
-         <div class="list-group">
-          <a href="${pageContext.request.contextPath}/admin/chart/salesList" class="list-group-item">매출 리스트</a>	
-          <a href="${pageContext.request.contextPath}/admin/chart/category" class="list-group-item">카테고리별 매출분석</a>
-          <a href="${pageContext.request.contextPath}/admin/chart/store" class="list-group-item">스토어별 매출분석</a>
-        </div>
-      </div>
-     
-     
-    	<div class="col-lg-9 mb-4">
-	    	<figure class="highcharts-figure">
-				<div id="storeSales-chart" style="font: 'Jua'"></div>
-			</figure>
-				<br><br>
-			
-		</div>
-	
-	 </div>
+   <div class="col-lg-9 mb-4">
+	    <figure class="highcharts-figure">
+			<div id="storeSales-chart" style="font: 'Jua'"></div>
+		</figure>
+	</div>
 </div>
 
 

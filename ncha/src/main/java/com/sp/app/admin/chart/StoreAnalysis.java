@@ -5,7 +5,7 @@ public class StoreAnalysis {
 	
 	private String sellerId;
 	private int total_sum;
-	
+	private int orderYear;
 	
 	public String getSellerId() {
 		return sellerId;
@@ -18,5 +18,11 @@ public class StoreAnalysis {
 	}
 	public void setTotal_sum(int total_sum) {
 		this.total_sum = total_sum;
+	}
+	public int getOrderYear() {
+		return orderYear;
+	}
+	public void setOrderYear(int orderYear) {
+		this.orderYear = orderYear;
 	}
 }

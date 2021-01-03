@@ -55,4 +55,22 @@
 	</select>
 	
 	
+	<!-- 모든 셀러 아이디 가져오기 , 필요없어짐-->
+	<select id="getSellerId" resultType="String">
+		SELECT sellerId FROM seller
+	</select>
+	
+	<select id="dataCount" parameterType="map" resultType="Integer">
+		SELECT NVL(COUNT(*), 0)
+		FROM product_order_detail
+	</select>
+	
+	<select id="getSalesList" parameterType="map" resultType="com.sp.app.admin.chart.SalesTable">
+		SELECT pod.orderNum, sellerId, categoryName, Number_Sales as amount, price, 
+			productName, sol.total_sales, userId, TO_CHAR(sol.order_date,'YYYY-MM-DD') order_date
+		FROM product_order_detail pod
+		LEFT OUTER JOIN store_order_list sol ON sol.orderNum = pod.orderNum
+		LEFT OUTER JOIN member m ON sol.memberIdx = m.memberIdx
+        OFFSET #{offset} ROWS FETCH FIRST #{rows} ROWS ONLY
+	</select>
 </mapper>

@@ -35,9 +35,17 @@
             </div>
           </li>
           
-          <li class="nav-item">
-            <a class="nav-link" href="${pageContext.request.contextPath}/admin/chart/salesList">주문내역관리</a>
+          <li class="nav-item dropdown">
+	          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownPortfolio" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+	          	매출 분석
+	          </a>
+	          <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownPortfolio">
+	              <a class="dropdown-item" href="${pageContext.request.contextPath}/admin/chart/salesList">전체 매출리스트</a>
+	              <a class="dropdown-item" href="${pageContext.request.contextPath}/admin/chart/category">카테고리별 매출분석</a>
+	              <a class="dropdown-item" href="${pageContext.request.contextPath}/admin/chart/store">스토어 매출분석</a>
+              </div>
           </li>
+          
            <li class="nav-item">
             <a class="nav-link" href="${pageContext.request.contextPath}/">N차_신상</a>
           </li>

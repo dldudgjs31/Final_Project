@@ -1,26 +1,28 @@
 package com.sp.app.admin.chart;
 
-//판매자 입장!!(관리자가 관리함)
+
 public class SalesTable {
-	private int memberIdx;
-	private String userId; //멤버테이블조인
+	private int listNum;
 	private int orderNum;
-	
 	private String sellerId;
+
+	private String userId; //멤버테이블조인
+
+	private String categoryName;
+
+	private String productName;
+	private int amount;
+	private int price;
+	private int total_sales;
+	
 	private String order_date;
 	
-	private int productNum;
-	private int price;
-	
-	private String categoryName;
-	private int categoryNum;
-	
-	
-	public int getMemberIdx() {
-		return memberIdx;
+
+	public int getListNum() {
+		return listNum;
 	}
-	public void setMemberIdx(int memberIdx) {
-		this.memberIdx = memberIdx;
+	public void setListNum(int listNum) {
+		this.listNum = listNum;
 	}
 	public String getUserId() {
 		return userId;
@@ -46,12 +48,6 @@ public class SalesTable {
 	public void setOrder_date(String order_date) {
 		this.order_date = order_date;
 	}
-	public int getProductNum() {
-		return productNum;
-	}
-	public void setProductNum(int productNum) {
-		this.productNum = productNum;
-	}
 	public int getPrice() {
 		return price;
 	}
@@ -64,10 +60,22 @@ public class SalesTable {
 	public void setCategoryName(String categoryName) {
 		this.categoryName = categoryName;
 	}
-	public int getCategoryNum() {
-		return categoryNum;
+	public String getProductName() {
+		return productName;
 	}
-	public void setCategoryNum(int categoryNum) {
-		this.categoryNum = categoryNum;
+	public void setProductName(String productName) {
+		this.productName = productName;
+	}
+	public int getAmount() {
+		return amount;
+	}
+	public void setAmount(int amount) {
+		this.amount = amount;
+	}
+	public int getTotal_sales() {
+		return total_sales;
+	}
+	public void setTotal_sales(int total_sales) {
+		this.total_sales = total_sales;
 	}
 }

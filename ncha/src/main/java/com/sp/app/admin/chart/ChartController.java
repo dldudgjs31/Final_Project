@@ -5,12 +5,18 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.sp.app.common.MyUtil;
 
 @Controller("admin.chart.chartController")
 @RequestMapping("/admin/chart/*")
@@ -18,10 +24,51 @@ public class ChartController {
 
 	@Autowired
 	private ChartService service;
+	@Autowired
+	private MyUtil myUtil;
+
 	
 	@RequestMapping(value="salesList")
-	public String salesList() throws Exception{		
+	public String salesList(@RequestParam(value = "page", defaultValue = "1") int current_page,
+			HttpServletRequest req,
+			Model model) throws Exception{	
 		
+		int rows = 20;
+		int dataCount, total_page;
+
+		Map<String, Object> map = new HashMap<>();
+		dataCount = service.dataCount(map);
+		total_page = myUtil.pageCount(rows, dataCount);
+		if (current_page > total_page) {
+			current_page = total_page;
+		}
+
+		int offset = (current_page - 1) * rows;
+		if (offset < 0)
+			offset = 0;
+		map.put("offset", offset);
+		map.put("rows", rows);
+		
+		List<SalesTable>list = service.salesList(map);
+		int listNum, n=0;
+		for(SalesTable dto:list) {
+			listNum=dataCount-(offset+n);
+			dto.setListNum(listNum);
+			n++;
+		}
+		
+		String cp = req.getContextPath();
+		String listUrl = cp + "/admin/chart/salesList";
+
+	
+		String paging = myUtil.paging(current_page, total_page, listUrl);
+
+		model.addAttribute("list", list);
+		model.addAttribute("dataCount", dataCount);
+		model.addAttribute("page", current_page);
+		model.addAttribute("total_page", total_page);
+		model.addAttribute("paging", paging);
+
 		return ".admin.chart.salesList";
 	}
 	
@@ -43,21 +90,18 @@ public class ChartController {
 		
 		int allSales = 0;
 		for(int i = 0; i<list.size(); i++) {
-			System.out.println(i+ " : " + list.get(i).getTotal());
 			allSales+=list.get(i).getTotal();
 		}
 		
-		System.out.println(allSales);
 		for(int i = 0; i<list.size(); i++) {
 			List<Object>arr = new ArrayList<Object>();
 			
 			arr.add(list.get(i).getSection());
 			arr.add(((double)list.get(i).getTotal()/(double)allSales)*100);
-			//System.out.println(i+" : "+((double)list.get(i).getTotal()/(double)allSales)*100);
+
 			jsonarr.put(new JSONArray(arr));
 		}
 		ob.put("data", jsonarr);
-		
 		
 		array.put(ob);
 		return array.toString(); 
@@ -112,7 +156,6 @@ public class ChartController {
 		datalist.add(map);
 		
 		int currentyear = Integer.parseInt(list.get(list.size()-1).getOrderYear());
-		System.out.println(currentyear);
 		
 		model.put("currentyear",currentyear);
 		model.put("series",datalist);
@@ -138,11 +181,9 @@ public class ChartController {
 		
 		int allSales = 0;
 		for(int i = 0; i<list.size(); i++) {
-			System.out.println(i+ " : " + list.get(i).getTotal_sum());
 			allSales+=list.get(i).getTotal_sum();
 		}
-		
-		System.out.println(allSales);
+	
 		for(int i = 0; i<list.size(); i++) {
 			List<Object>arr = new ArrayList<Object>();
 			
@@ -156,4 +197,16 @@ public class ChartController {
 		array.put(ob);
 		return array.toString(); 
 	}
+	
+	/*
+	@RequestMapping(value="storeYearAnalysis")
+	@ResponseBody
+	public Map<String, Object> storeYearSalesSection() throws Exception{		
+		Map<String, Object> model = new HashMap<String, Object>();
+		List<StoreAnalysis> list = service.storeYearSalesList();
+		
+		model.put("data", list);
+	
+		return model;
+	}*/
 }
