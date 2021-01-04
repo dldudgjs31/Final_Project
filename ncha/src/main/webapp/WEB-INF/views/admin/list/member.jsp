@@ -73,7 +73,7 @@ function deleteMember(userId) {
 }
 function authMember(userId, allow) {
 	var url="${pageContext.request.contextPath}/admin/list/authMember?userId="+userId+"&allow="+allow+"&page=${page}";
-	if(confirm("권한을 변경 하시겠습니까?")) {
+	if(confirm("권한을 변경하시겠습니까?")) {
 		location.href=url;
 	}
 }
@@ -105,7 +105,7 @@ function authMember(userId, allow) {
 	<th width="120">생년월일</th>
 	<th width="120">전화번호</th>
 	<th width="160">이메일</th>
-	<th width="60">권한</th>
+	<th width="100">계정상태</th>
 	<th>변경</th>
 
 </tr>
@@ -120,11 +120,11 @@ function authMember(userId, allow) {
 	<td>${dto.email}</td>
 	<td> 
 	<c:choose>
-		 <c:when test="${dto.allow=='0'}">
-	        	<span>없음</span> 
+		 <c:when test="${dto.allow=='1'}">
+	        	<span>사용정지</span> 
 	     </c:when>
 	     <c:otherwise>
-	       	<span>있음</span> 
+	       	<span>사용가능</span> 
 	 	</c:otherwise>
 	</c:choose>
 	 
