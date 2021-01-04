@@ -212,7 +212,7 @@ function deleteF(userId){
     		
     		</div>
     	</div>
-    	<div class="profile-introduce">자기소개 !${dto.introduce}세션아이디:${sessionScope.member.userId}, userId:${dto.userId}, userId1:${dto.userId1}, userId2:${dto.userId2}, check:${check}</div>
+    	<div class="profile-introduce"> ${dto.introduce}</div>
     	<div class="profile-name">
     		<h1>${dto.userId}</h1>&nbsp;&nbsp;
     		

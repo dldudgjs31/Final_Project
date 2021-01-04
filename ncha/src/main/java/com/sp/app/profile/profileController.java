@@ -1,5 +1,6 @@
 package com.sp.app.profile;
 
+import java.io.File;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.util.HashMap;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.sp.app.common.FileManager;
 import com.sp.app.common.MyUtil;
 import com.sp.app.daily.Daily;
 import com.sp.app.daily.DailyService;
@@ -37,7 +39,9 @@ public class profileController {
 	
 	@Autowired
 	private MyUtil myUtil;
-	
+	@Autowired
+	private FileManager fileManager;
+
 	
 	
 	@RequestMapping("profile")
@@ -166,17 +170,44 @@ public class profileController {
 	
 	@RequestMapping("profileUpdate")
 	public String profileUpdate(
-			Member dto,
 			final RedirectAttributes reAttr,
 			Model model,
 			HttpSession session) throws Exception{
-		//String root = session.getServletContext().getRealPath("/");
-		//String pathname = root+"uploads"+File.separator+"member";
+		String root = session.getServletContext().getRealPath("/");
+		String pathname = root+"uploads"+File.separator+"member";
+		SessionInfo info=(SessionInfo)session.getAttribute("member");
 		
-		//service.updateProfile(dto,pathname);
+		Member dto = service.readProfile(info.getUserId());
+		service.updateProfile(dto, pathname);
 		model.addAttribute("dto", dto);
 		
 		return ".ncha_bbs.main.profile_update";
+	}
+	
+	@RequestMapping("profile_update")
+	public String profile_update(
+			final RedirectAttributes reAttr,
+			Model model,
+			Member dto,
+			HttpSession session
+			) throws Exception{
+	
+		try {
+			String root = session.getServletContext().getRealPath("/");
+			String pathname = root+File.separator+"uploads"+File.separator+"member";
+			
+			service.updateProfile(dto, pathname);
+		} catch (Exception e) {
+		}
+		
+		StringBuilder sb=new StringBuilder();
+		sb.append(dto.getUserName()+ "님의 회원정보가 정상적으로 변경되었습니다.<br>");
+		sb.append("메인화면으로 이동 하시기 바랍니다.<br>");
+		
+		reAttr.addFlashAttribute("title", "회원 정보 수정");
+		reAttr.addFlashAttribute("message", sb.toString());
+		
+		return "redirect:/member/complete";
 	}
 	
 	@RequestMapping("followerList")

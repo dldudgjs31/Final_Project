@@ -303,6 +303,24 @@ public class MemberServiceImpl implements MemberService {
 		
 		return list;
 	}
+
+	@Override
+	public void updateProfile(Member dto, String pathname) throws Exception {
+		try {
 	
-	
+		String serverFilename = fileManager.doFileUpload(dto.getUploadphoto(), pathname);
+		if(serverFilename != null) {
+			if(dto.getProfile_imageFilename().length()!=0) {
+				fileManager.doFileDelete(dto.getProfile_imageFilename(), pathname);
+			}
+		}
+		dto.setProfile_imageFilename(serverFilename);
+
+		
+		dao.updateData("member.updateProfile", dto);
+	} catch (Exception e) {
+		e.printStackTrace();
+		throw e;
+	}
+  }
 }

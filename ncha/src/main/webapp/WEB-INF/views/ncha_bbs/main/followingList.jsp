@@ -140,7 +140,7 @@ function deleteFollowing(userId1, userId2) {
 	</td>
 	
 	<td>
-	${dto.introduce}세션아이디:${sessionScope.member.userId}, dto아이디:${dto.userId}, userId1:${dto.userId1}, userId2:${dto.userId2}
+	${dto.introduce}
 	</td>
 </tr>
 </c:forEach>

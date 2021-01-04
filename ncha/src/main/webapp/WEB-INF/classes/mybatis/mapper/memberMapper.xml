@@ -126,6 +126,11 @@
                      introduce=#{introduce , jdbcType=VARCHAR}, profile_imageFilename=#{profile_imageFilename, jdbcType=VARCHAR} 
                WHERE userId=#{userId} 
     </update>
+    
+    <update id="updateProfile" parameterType="com.sp.app.member.Member">
+        UPDATE member SET  introduce=#{introduce , jdbcType=VARCHAR}, profile_imageFilename=#{profile_imageFilename, jdbcType=VARCHAR} 
+               WHERE userId=#{userId} 
+    </update>
 
     <!-- member 테이블 정보 삭제  -->    
     <delete id="deleteMember" parameterType="String">

@@ -12,6 +12,7 @@ public interface MemberService {
 	public void updateLastLogin(String userId) throws Exception;
 	public void updateMember(Member dto, String pathname) throws Exception;
 	
+	
 	public Member readMember(String userId);
 	public Member readMember(long memberIdx);
 	
@@ -22,6 +23,7 @@ public interface MemberService {
 	
 	
 	public Member readProfile(String userId) throws Exception;
+	public void updateProfile(Member dto, String pathname) throws Exception;
 	public List<Member> listFollower(Map<String, Object> map);
 	public List<Member> listFollowing(Map<String, Object> map);
 	public int FollowerCount(String userId);

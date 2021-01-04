@@ -1,9 +1,7 @@
 package com.sp.app.home;
 
-import java.io.IOException;
 import java.util.List;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -14,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.sp.app.count.CountManager;
-import com.sp.app.count.MyServlet;
 import com.sp.app.customer.CustomerService;
 import com.sp.app.daily.Daily;
 import com.sp.app.daily.DailyService;
@@ -26,8 +23,7 @@ import com.sp.app.used.Used;
 import com.sp.app.used.UsedService;
 
 @Controller
-public class NchaController extends MyServlet{
-	private static final long serialVersionUID = 1L;
+public class NchaController{
 	
 	@Autowired
 	CustomerService service;
@@ -68,7 +64,19 @@ public class NchaController extends MyServlet{
 			  usedRank1 = service3.readUsedLike();
 		} catch (Exception e) {
 		}
+		  
+		   int currentCount;
+		   long toDayCount, yesterDayCount, totalCount;
 		 
+		   currentCount = CountManager.getCurrentCount();
+		   toDayCount = CountManager.getTodayCount();
+		   yesterDayCount = CountManager.getYesterDayCount();
+		   totalCount = CountManager.getTotalCount();
+		   
+		  model.addAttribute("currentCount",currentCount);
+		  model.addAttribute("toDayCount",toDayCount);
+		  model.addAttribute("yesterDayCount",yesterDayCount);
+		  model.addAttribute("totalCount",totalCount);
 		  model.addAttribute("listFollower",list);
 		  model.addAttribute("storeRank", storeRank);
 		  model.addAttribute("dailyRank",dailyRank); 
@@ -117,7 +125,9 @@ public class NchaController extends MyServlet{
 	public String login2() {
 		return "member/login_store";
 	}
-
+	
+	
+/*
 	@Override
 	protected void process(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		req.setCharacterEncoding("utf-8");
@@ -136,7 +146,8 @@ public class NchaController extends MyServlet{
 			req.setAttribute("toDayCount", toDayCount);
 			req.setAttribute("yesterDayCount", yesterDayCount);
 			req.setAttribute("totalCount", totalCount);
-			forward(req, resp, "/WEB-INF/views/ncha_bbs/main/main.jsp");
+			forward(req, resp, ".ncha_bbs.main.main");
 		}
-	}		
+	}
+*/		
 }
