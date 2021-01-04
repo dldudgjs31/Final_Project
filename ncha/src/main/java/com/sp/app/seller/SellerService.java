@@ -3,6 +3,8 @@ package com.sp.app.seller;
 import java.util.List;
 import java.util.Map;
 
+import com.sp.app.member.Member;
+
 public interface SellerService {
 	public Seller loginSeller(String sellerId);
 	
@@ -10,6 +12,7 @@ public interface SellerService {
 	
 	public void updateLastLogin(String sellerId) throws Exception;
 	public void updateSeller(Seller dto,String pathname) throws Exception;
+	public void updateSeller(Seller dto) throws Exception;
 	
 	public Seller readSeller(String sellerId);
 	
@@ -17,4 +20,6 @@ public interface SellerService {
 	
 	public int dataCount(Map<String, Object> map);
 	public List<Seller> listSeller(Map<String, Object> map);
+	public void generatePwd(Seller dto) throws Exception;
+
 }

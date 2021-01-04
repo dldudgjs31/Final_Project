@@ -234,6 +234,9 @@ function sendLogin1() {
 				<div class="group">
 					<input type="submit" class="button" value="로&nbsp;&nbsp;그&nbsp;&nbsp;인"  onclick="sendLogin();" style="font-family: 'Jua', sans-serif; font-size: 20px;">
 				</div>
+				<div class="group" >
+		       		<a href="${pageContext.request.contextPath}/member/pwdFind">패스워드찾기</a>&nbsp;&nbsp;&nbsp;
+				</div>
 				<div class="foot-lnk">
 					<span style="color: white;">${message}</span>
 				</div>
@@ -258,6 +261,9 @@ function sendLogin1() {
 				<br>
 				<div class="group">
 					<input type="submit" class="button" value="로그인"  onclick="sendLogin1();" style="font-family: 'Jua', sans-serif; font-size: 20px;">
+				</div>
+					<div class="group" >
+		       		<a href="${pageContext.request.contextPath}/seller/pwdFind_store">패스워드찾기</a>&nbsp;&nbsp;&nbsp;
 				</div>
 				<div class="foot-lnk">
 					<span style="color: white;">${message}</span>
