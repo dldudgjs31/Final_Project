@@ -38,8 +38,50 @@ public class ProfileController {
 		StoreService service3;
 		
 		@RequestMapping("main")
-		public String mypageMain()throws Exception{
-			
+		public String mypageMain(
+				HttpSession session,
+				Model model
+				)throws Exception{
+			try {
+				SessionInfo info = (SessionInfo)session.getAttribute("seller");
+				Map<String, Object> map = new HashMap<>();
+				map.put("sellerId", info.getSellerId());
+				//판매총액
+				int total_sales=0;
+				total_sales=service2.readTotalSales(map);
+				
+				//판매 총 수량
+				int total_salesCount=0;
+				total_salesCount=service3.dataMySoldCount(map);
+				//판매중인 상품수량
+				int recent_sale=0;
+				recent_sale=service3.dataMyProductCount(map);
+				
+				//품절 상품 수량 
+				map.put("stock", 0);
+				int soldout_product =service3.dataMyProductCount(map);
+				
+				//qna 개수
+				int allQna =service2.dataMyAllQnaCount(map);
+				int yetQna = service2.dataMyQnaEnabledCount(map);
+				
+				//찜하기 수
+				int likeCount = service3.dataStoreLikeCount(map);
+				
+				//최근 판매된 상품
+				List<Customer> list = service3.listRecentSoldProduct(map);
+				 
+				model.addAttribute("total_sales", total_sales); 
+				model.addAttribute("total_salesCount", total_salesCount); 
+				model.addAttribute("recent_sale", recent_sale); 
+				model.addAttribute("soldout_product", soldout_product); 
+				model.addAttribute("allQna", allQna); 
+				model.addAttribute("yetQna", yetQna); 
+				model.addAttribute("list", list); 
+				model.addAttribute("likeCount", likeCount); 
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 			return ".store.mypage.main";
 		}
 		

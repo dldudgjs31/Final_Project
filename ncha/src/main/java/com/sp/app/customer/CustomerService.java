@@ -26,7 +26,15 @@ public interface CustomerService {
 	public int readReviewCount(Customer dto) throws Exception;
 	public int readReviewNum(int OrderNum) throws Exception;
 	public int dataOrderCount(Map<String, Object> map)throws Exception;
-	
 	public int readTotalSales(Map<String, Object> map)throws Exception;
+	
+	//마이페이지 메인
+	public int readMyproductCount(Map<String, Object> map)throws Exception;
+	public int dataReviewCount(Map<String, Object> map)throws Exception;
+	public int dataMyAllQnaCount(Map<String, Object> map)throws Exception;
+	public int dataMyQnaEnabledCount(Map<String, Object> map)throws Exception;
+	public List<Customer> listRecentOrder(Map<String, Object> map) throws Exception;
+	public List<Customer> listLike(Map<String, Object> map) throws Exception;
+	
 }
 

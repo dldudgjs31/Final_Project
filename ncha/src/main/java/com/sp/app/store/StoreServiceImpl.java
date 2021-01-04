@@ -10,6 +10,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.sp.app.common.FileManager;
 import com.sp.app.common.dao.CommonDAO;
+import com.sp.app.customer.Customer;
 import com.sp.app.store_profile.Option;
 
 @Service("store.storeService")
@@ -300,6 +301,124 @@ public class StoreServiceImpl implements StoreService {
 			e.printStackTrace();
 		}
 		
+	}
+
+	@Override
+	public int dataMySoldCount(Map<String, Object> map) throws Exception {
+		int dataCount =0;
+		try {
+			dataCount=dao.selectOne("store.dataMySoldCount", map);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return dataCount;
+	}
+
+	@Override
+	public int dataMyProductCount(Map<String, Object> map) throws Exception {
+		int dataCount =0;
+		try {
+			dataCount=dao.selectOne("store.dataMyProductCount", map);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return dataCount;
+	}
+
+	@Override
+	public int readBestReviewProduct(Map<String, Object> map) throws Exception {
+		int productNum =0;
+		try {
+			productNum=dao.selectOne("store.readBestReviewProduct", map);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return productNum;
+	}
+
+	@Override
+	public int readWorstReviewProduct(Map<String, Object> map) throws Exception {
+		int productNum =0;
+		try {
+			productNum=dao.selectOne("store.readWorstReviewProduct", map);
+		} catch (Exception e) {
+			e.printStackTrace(); 
+		}
+		return productNum;
+	}
+
+	@Override
+	public List<Customer> listRecentSoldProduct(Map<String, Object> map) throws Exception {
+		List<Customer> list = null;
+		try {
+			list = dao.selectList("store.listRecentSoldProduct", map);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
+
+	@Override
+	public void insertLike(Map<String, Object> map) throws Exception {
+		try {
+			dao.insertData("store.insertLike", map);
+		} catch (Exception e) {
+			throw e;
+		}
+	}
+
+	@Override
+	public int checkLike(Map<String, Object> map) throws Exception {
+		int check =0;
+		try {
+			check= dao.selectOne("store.checkLike", map);
+		} catch (Exception e) {
+			throw e;
+		}
+		return check;
+	}
+
+	@Override
+	public void deleteLike(Map<String, Object> map) throws Exception {
+		try {
+			dao.deleteData("store.deleteLike", map);
+		} catch (Exception e) {
+			throw e;
+		}
+		
+	}
+
+	@Override
+	public int dataLikeCount(Map<String, Object> map) throws Exception {
+		int dataCount =0;
+		try {
+			dataCount=dao.selectOne("store.dataLikeCount", map);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return dataCount;
+	}
+
+	@Override
+	public int dataProductLikeCount(int productNum) throws Exception {
+		int dataCount =0;
+		try {
+			dataCount=dao.selectOne("store.dataProductLikeCount", productNum);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return dataCount;
+	}
+
+	@Override
+	public int dataStoreLikeCount(Map<String, Object> map) throws Exception {
+		int dataCount =0;
+		try {
+			dataCount=dao.selectOne("store.dataStoreLikeCount", map);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return dataCount;
 	} 
 
 

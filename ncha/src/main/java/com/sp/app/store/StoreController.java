@@ -10,6 +10,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.collections4.map.HashedMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -88,6 +89,8 @@ public class StoreController {
 		for (Store dto : list) {
 			listNum = dataCount - (offset + n);
 			double score = service2.reviewScore(dto.getProductNum());
+			int likeCount = service.dataProductLikeCount(dto.getProductNum());
+			dto.setLikeCount(likeCount);
 			if(score>4.5) {
 				dto.setScore("★★★★★");
 			}else if(score>3.5) {
@@ -179,6 +182,7 @@ public class StoreController {
 			@RequestParam(defaultValue = "") String keyword,
 			@RequestParam(defaultValue = "") String message,
 			@RequestParam(defaultValue = "") String order,
+			HttpSession session,
 			Model model) throws Exception {
 		keyword = URLDecoder.decode(keyword, "utf-8");
 		message = URLDecoder.decode(message, "utf-8");
@@ -190,10 +194,11 @@ public class StoreController {
 		service.updateHitCount(num);
 
 		Store dto = service.readProduct(num);
-		
 		if (dto == null) {
 			return "redirect:/store/list?" + query;
 		}
+		int likeCount = service.dataProductLikeCount(num);
+		dto.setLikeCount(likeCount);
 		double score = service2.reviewScore(dto.getProductNum());
 		if(score>4.5) {
 			dto.setScore("★★★★★");
@@ -212,13 +217,11 @@ public class StoreController {
 		List<Store> listFile = service.listFile(num);
 		List<Store> optionList = service.readOption(num);
 		
-		
 		Map<String, Object> map = new HashMap<>();
 		map.put("num", num);
 		map.put("condition", condition);
 		map.put("categoryNum", categoryNum);
 		map.put("keyword", keyword);
-
 		Store preReadDto = service.preReadProduct(map);
 		Store nextReadDto = service.nextReadProduct(map);
 
@@ -337,5 +340,33 @@ public class StoreController {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+	@RequestMapping("updateLike")
+	@ResponseBody
+	public Map<String, Object> updateLike(
+			@RequestParam int productNum,
+			HttpSession session
+			)throws Exception{
+		com.sp.app.member.SessionInfo info = (com.sp.app.member.SessionInfo)session.getAttribute("member");
+		String state ="false";
+		try {
+			Map<String, Object> map = new HashedMap<>();
+			map.put("productNum", productNum);
+			map.put("userId", info.getUserId());
+			int check = service.checkLike(map);
+			if(check==0) {
+				service.insertLike(map);
+				state="true";
+			}if(check==1) {
+				service.deleteLike(map);
+				state="deltrue";
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			state ="false";
+		}
+		Map<String, Object> model=new HashedMap<>();
+		model.put("state", state);
+		return model;
 	}
 }

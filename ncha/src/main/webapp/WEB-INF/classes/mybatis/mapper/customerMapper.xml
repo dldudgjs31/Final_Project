@@ -48,7 +48,7 @@
 		LEFT OUTER JOIN product_category g ON g.categoryNum = b.categoryNum 
 		LEFT OUTER JOIN (
 			SELECT * FROM (
-				SELECT productNum, rank() over(partition by productNum order by main_imageFileNum) rank, imageFilename FROM product_image
+				SELECT productNum, rank() over(partition by productNum order by main_imageFileNum) rank, imageFilename FROM product_image 
 			) WHERE rank = 1
 		) i ON c.productNum= i.productNum
 		WHERE c.userId=#{userId}
@@ -116,7 +116,7 @@
 </select>
 
 <select id="readReviewCount" parameterType="com.sp.app.customer.Customer" resultType="Integer">
-	SELECT count(*) reviewCount
+	SELECT NVL(count(*),0) reviewCount
 	FROM product_review r
 	LEFT OUTER JOIN
 	(
@@ -133,7 +133,7 @@
 </select>
 
 <select id="dataOrderCount" parameterType="Long" resultType="Integer">
-	SELECT count(*) dataCount 
+	SELECT NVL(count(*),0) dataCount 
 	FROM store_order_list s
 	LEFT OUTER JOIN product_order_detail d ON s.orderNum = d.orderNum
 	LEFT OUTER JOIN product_category c ON c.categoryName = d.categoryName
@@ -153,6 +153,66 @@
 </select>
 
 <select id="dataCartCount" parameterType="String" resultType="Integer">
-	SELECT COUNT(*) dataCount FROM product_cart WHERE userId = #{userId}
+	SELECT NVL(count(*),0) dataCount FROM store_cart WHERE userId = #{userId}
+</select>
+
+<select id="readMyproductCount" parameterType="map" resultType="Integer">
+	SELECT NVL(count(*),0) FROM store_order_list WHERE memberIdx = #{memberIdx}
+</select>
+<select id="dataReviewCount" parameterType="map" resultType="Integer">
+	SELECT NVL(count(*),0) FROM product_review WHERE userId = #{userId}
+</select>
+<select id="dataMyAllQnaCount" parameterType="map" resultType="Integer">
+	SELECT NVL(count(*),0) FROM product_qna q
+	LEFT OUTER JOIN product_bbs b ON b.productNum = q.productNum
+	WHERE 
+	<if test="userId!=null">
+		q.userId = #{userId}
+	</if>
+	<if test="sellerId!=null">
+		b.sellerId =#{sellerId}
+	</if>
+</select>
+<select id="dataMyQnaEnabledCount" parameterType="map" resultType="Integer">
+	SELECT NVL(count(*),0) FROM product_qna q 
+	LEFT OUTER JOIN product_bbs b ON b.productNum = q.productNum
+	WHERE ENABLED =0 AND
+	<if test="userId!=null">
+		q.userId = #{userId}
+	</if>
+	<if test="sellerId!=null">
+		b.sellerId =#{sellerId}
+	</if>
+</select>
+
+<select id="listRecentOrder" parameterType="map" resultType="com.sp.app.customer.Customer">
+	SELECT d.productName, o.total_sales, d.order_option, d.number_sales, o.order_date, i.imageFilename,d.productNum
+	FROM store_order_list o 
+	LEFT OUTER JOIN product_order_detail d ON o.orderNum = d.orderNum
+	LEFT OUTER JOIN(
+				SELECT * FROM (
+					SELECT productNum, rank() over(partition by productNum order by main_imageFileNum) rank, imageFilename FROM product_image
+				) WHERE rank = 1
+			) i ON i.productNum = d.productNum
+	WHERE o.memberIdx = #{memberIdx}
+	ORDER BY o.order_date DESC
+	OFFSET 0 ROWS FETCH FIRST 3 ROWS ONLY
+</select>
+
+<select id="listLike" parameterType="map" resultType="com.sp.app.customer.Customer">
+        SELECT l.productNum, b.sellerId, productName, price, b.discount_rate, imageFilename, categoryName
+		FROM product_like l
+		LEFT OUTER JOIN product_bbs b ON l.productNum=b.productNum
+		LEFT OUTER JOIN product_category g ON g.categoryNum = b.categoryNum 
+		LEFT OUTER JOIN (
+			SELECT * FROM (
+				SELECT productNum, rank() over(partition by productNum order by main_imageFileNum) rank, imageFilename FROM product_image 
+			) WHERE rank = 1
+		) i ON b.productNum= i.productNum
+		WHERE l.userId=#{userId}
+		ORDER BY b.productnum ASC
+		<if test="memberIdx!=null">
+		OFFSET 0 ROWS FETCH FIRST 3 ROWS ONLY
+		</if>
 </select>
 </mapper>

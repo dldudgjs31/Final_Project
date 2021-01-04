@@ -23,6 +23,7 @@ public class Store {
 	private String imageFilename;
 	private int optionNum;
 	private String score;
+	private int likeCount;
 	
 	private String opt_detail;
 	private String opt_stock;
@@ -33,6 +34,12 @@ public class Store {
 	private List<Integer> option_number;
 	private List<Store> optionlist;
 	
+	public int getLikeCount() {
+		return likeCount;
+	}
+	public void setLikeCount(int likeCount) {
+		this.likeCount = likeCount;
+	}
 	public List<Integer> getOption_number() {
 		return option_number;
 	}
