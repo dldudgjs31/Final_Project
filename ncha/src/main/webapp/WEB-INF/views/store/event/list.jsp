@@ -84,7 +84,7 @@
 							src="${pageContext.request.contextPath}/uploads/event/${dto.imageFilename}"
 							alt="" style="height: 200px;"></a>
 						<div class="card-body">
-							<p class="card-text">${dto.sellerId}</p>
+							<p class="card-text">${dto.sellerName}</p>
 							<h4 class="card-title">
 								<a href="${articleUrl}&eventNum=${dto.eventNum}">${dto.subject}</a>
 							</h4>

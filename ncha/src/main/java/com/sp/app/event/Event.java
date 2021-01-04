@@ -5,6 +5,14 @@ import org.springframework.web.multipart.MultipartFile;
 public class Event {
 	private int listNum, eventNum;
 	private String sellerId;
+	private String sellerName;
+
+	public String getSellerName() {
+		return sellerName;
+	}
+	public void setSellerName(String sellerName) {
+		this.sellerName = sellerName;
+	}
 	private String subject;
 	private String content;
 	private String start_date;
