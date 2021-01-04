@@ -129,6 +129,8 @@
 		ajaxFun1(url, "get", "json", query, fn);
 	}
   $(function(){
+	  <c:if test="${not empty sessionScope.member.userId}">
 	  listPage1();
+	  </c:if>
   });
   </script>
