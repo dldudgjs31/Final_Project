@@ -70,10 +70,10 @@ function deleteEvent() {
       <!-- Sidebar Column -->
       <div class="col-lg-3 mb-4">
         <div class="list-group">
-          <a href="index.html" class="list-group-item">진행중 이벤트</a>
-          <a href="index.html" class="list-group-item">종료된 이벤트</a>
-          <a href="about.html" class="list-group-item">전체 이벤트</a>
-        </div>
+          <a href="${pageContext.request.contextPath}/event/proceedList" class="list-group-item">진행중 이벤트</a>
+          <a href="${pageContext.request.contextPath}/event/endList" class="list-group-item">종료된 이벤트</a>
+          <a href="${pageContext.request.contextPath}/event/list" class="list-group-item">전체 이벤트</a>
+       </div>
       </div>
       <!-- Content Column -->
 	
@@ -87,7 +87,7 @@ function deleteEvent() {
 			
 			<tr height="35" style="border-bottom: 1px solid #cccccc;">
 			    <td width="50%" align="left" style="padding-left: 5px;">
-			       주최 : ${dto.sellerId}
+			       주최 : ${dto.sellerName}
 			    </td>
 			</tr>
 			
@@ -137,7 +137,7 @@ function deleteEvent() {
 			    </td>
 			
 			    <td align="right">
-			        <button type="button" class="btn" onclick="javascript:location.href='${pageContext.request.contextPath}/event/list?${query}';">리스트</button>
+			        <button type="button" class="btn" onclick="javascript:location.href='${pageContext.request.contextPath}/event/proceedlist?${query}';">리스트</button>
 			    </td>
 			</tr>
 			</table>

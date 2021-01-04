@@ -73,7 +73,7 @@ $(document).ready(function() {
         	<table  class="table" style="width: 100%; margin: 10px auto; border-spacing: 0px;">
 				<tr height="40">
 					<td align="left"> 
-						<button type="button" class="btn" onclick="javascript:location.href='${pageContext.request.contextPath}/event/list';">새로고침</button>
+						<button type="button" class="btn" onclick="javascript:location.href='${pageContext.request.contextPath}/event/proceedList';">새로고침</button>
 					</td>
 					<c:if
 					test="${sessionScope.member.userId=='admin'||sessionScope.seller.allow=='1'}">
@@ -92,7 +92,7 @@ $(document).ready(function() {
         <div class="card h-100">
           <a href="${articleUrl}&eventNum=${dto.eventNum}"><img class="card-img-top" src="${pageContext.request.contextPath}/uploads/event/${dto.imageFilename}" alt="" style="height: 200px;"></a>
           <div class="card-body">
-            <p class="card-text">${dto.sellerId}</p>
+            <p class="card-text">${dto.sellerName}</p>
             <h4 class="card-title">
               <a  href="${articleUrl}&eventNum=${dto.eventNum}">${dto.subject}</a>
             </h4>

@@ -22,7 +22,7 @@
 			  <tr align="left" height="40" style="border-bottom: 1px solid #cccccc;"> 
 			      <td width="100" bgcolor="#eeeeee" style="text-align: center;">작성자</td>
 			      <td style="padding-left:10px;"> 
-			          ${sessionScope.seller.sellerId} 
+			          ${sessionScope.seller.sellerName} 
 			      </td>
 			  </tr>
 			
@@ -64,7 +64,7 @@
 			      <td align="center" >
 			        <button type="submit" class="btn" onclick="sendOk();">${mode=='update'?'수정완료':'등록하기'}</button>
 			        <button type="reset" class="btn">다시입력</button>
-			        <button type="button" class="btn" onclick="javascript:location.href='${pageContext.request.contextPath}/event/list';">${mode=='update'?'수정취소':'등록취소'}</button>
+			        <button type="button" class="btn" onclick="javascript:location.href='${pageContext.request.contextPath}/event/proceedlist';">${mode=='update'?'수정취소':'등록취소'}</button>
 			         <c:if test="${mode=='update'}">
 			         	 <input type="hidden" name="eventNum" value="${dto.eventNum}">
 			         	 <input type="hidden" name="imageFilename" value="${dto.imageFilename}">

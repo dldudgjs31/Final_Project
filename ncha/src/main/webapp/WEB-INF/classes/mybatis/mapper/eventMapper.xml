@@ -39,7 +39,7 @@
 	
 	<!-- 예정된 이벤트는 전체 이벤트에 노출X -->
 	<select id="listEvent" parameterType="map" resultType="com.sp.app.event.Event">
-		SELECT eventNum, e.sellerId, subject, imageFilename, 
+		SELECT eventNum, e.sellerId, s.sellerName, subject, imageFilename, 
 		       TO_CHAR(start_date,'yyyy-mm-dd')as start_date,
 		       TO_CHAR(end_date,'yyyy-mm-dd')as end_date
 		FROM event e
@@ -56,7 +56,7 @@
 	
 	<!-- 진행중인 이벤트 리스트 -->
 	<select id="listEvent_proceed" parameterType="map" resultType="com.sp.app.event.Event">
-		SELECT eventNum, e.sellerId, subject, imageFilename, 
+		SELECT eventNum, e.sellerId,s.sellerName, subject, imageFilename, 
 		       TO_CHAR(start_date,'yyyy-mm-dd')as start_date,
 		       TO_CHAR(end_date,'yyyy-mm-dd')as end_date
 		FROM event e
@@ -74,7 +74,7 @@
 	
 	<!-- 종료된 이벤트리스트 -->
 	<select id="listEvent_end" parameterType="map" resultType="com.sp.app.event.Event">
-		SELECT eventNum, e.sellerId, subject, imageFilename, 
+		SELECT eventNum, e.sellerId, s.sellerName,subject, imageFilename, 
 		       TO_CHAR(start_date,'yyyy-mm-dd')as start_date,
 		       TO_CHAR(end_date,'yyyy-mm-dd')as end_date
 		FROM event e
@@ -90,7 +90,7 @@
 	</select>
 	
 	<select id="readEvent" parameterType="Integer" resultType="com.sp.app.event.Event">
-		SELECT eventNum , e.sellerId, subject, imageFilename, 
+		SELECT eventNum , e.sellerId, s.sellerName,subject, imageFilename, 
 				content,  TO_CHAR(start_date,'yyyy-mm-dd')as start_date,
 		       TO_CHAR(end_date,'yyyy-mm-dd')as end_date
 		FROM event e
