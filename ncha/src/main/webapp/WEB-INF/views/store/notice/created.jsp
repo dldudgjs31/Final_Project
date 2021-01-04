@@ -199,7 +199,7 @@ function sendOk() {
     		page="1";
     	}
 	};
-	
+	return true;
 	ajaxFileJSON(url, "post", query, fn);		
 }
 </script>
