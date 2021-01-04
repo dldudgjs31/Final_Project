@@ -11,7 +11,8 @@ public interface MemberService {
 	public void updateMembership(Map<String, Object> map) throws Exception;
 	public void updateLastLogin(String userId) throws Exception;
 	public void updateMember(Member dto, String pathname) throws Exception;
-	
+	public void updateMember(Member dto) throws Exception;
+
 	
 	public Member readMember(String userId);
 	public Member readMember(long memberIdx);
@@ -32,7 +33,8 @@ public interface MemberService {
 	public void insertFollow(Map<String, Object> map) throws Exception;
 	public int followCheck(Map<String, Object> map) throws Exception;
 
-	
+	public void generatePwd(Member dto) throws Exception;
+
 	public List<Member> rankFollower();
 	//public void deleteFollower(String userId1) throws Exception;
 	//public void deleteFollowing(String userId2) throws Exception;
