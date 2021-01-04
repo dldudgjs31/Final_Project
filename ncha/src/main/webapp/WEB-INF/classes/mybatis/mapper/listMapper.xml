@@ -53,6 +53,8 @@
 		 TO_CHAR(end_date,'yyyy-mm-dd')as end_date, allow
 		FROM event 
 		OFFSET #{offset} ROWS FETCH FIRST #{rows} ROWS ONLY
+		ORDER BY eventNum DESC
+		
 	</select>
 	
    <update id="updateEvent" parameterType="map">
