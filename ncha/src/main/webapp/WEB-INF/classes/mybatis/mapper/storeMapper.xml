@@ -229,4 +229,62 @@
 	<update id="updateMyStock" parameterType="map">
 		UPDATE product_bbs SET stock = #{stock} WHERE productNum = #{productNum}
 	</update>
+	
+	<!-- 판매자 메인단 -->
+	<select id="dataMySoldCount" parameterType="map" resultType="Integer">
+	 	SELECT NVL(SUM(d.number_sales),0) 
+		FROM product_order_detail d
+		LEFT OUTER JOIN store_order_list o ON o.orderNum = d.orderNum
+		WHERE sellerId=#{sellerId}
+	</select>
+	<select id="dataMyProductCount" parameterType="map" resultType="Integer">
+	 	SELECT count(*) FROM product_bbs WHERE sellerId = #{sellerId} 
+	 	<if test="stock!=null">
+	 	AND stock=#{stock}
+	 	</if>
+	</select>
+	
+	<select id="readBestReviewProduct" parameterType="map" resultType="Integer">
+	
+	</select>
+	
+	<select id="readWorstReviewProduct" parameterType="map" resultType="Integer">
+	
+	</select>
+	<select id="listRecentSoldProduct" parameterType="map" resultType="com.sp.app.customer.Customer">
+		SELECT d.productName, o.total_sales, d.order_option, d.number_sales, o.order_date, i.imageFilename,d.productNum
+		FROM store_order_list o 
+		LEFT OUTER JOIN product_order_detail d ON o.orderNum = d.orderNum
+		LEFT OUTER JOIN(
+					SELECT * FROM (
+						SELECT productNum, rank() over(partition by productNum order by main_imageFileNum) rank, imageFilename FROM product_image
+					) WHERE rank = 1
+				) i ON i.productNum = d.productNum
+		WHERE d.sellerId= #{sellerId}
+		ORDER BY o.order_date DESC
+		OFFSET 0 ROWS FETCH FIRST 3 ROWS ONLY
+	</select>
+	
+	<insert id="insertLike" parameterType="map">
+	 INSERT INTO product_like(productNum, userId) VALUES(#{productNum}, #{userId})
+	</insert>
+	
+	<select id="checkLike" parameterType="map" resultType="Integer">
+		SELECT NVL(count(*),0) FROM product_like WHERE productNum =#{productNum} AND userId=#{userId}
+	</select>
+	<delete id="deleteLike" parameterType="map">
+		DELETE FROM product_like WHERE productNum =#{productNum} AND userId=#{userId}
+	</delete>
+	<select id="dataLikeCount" parameterType="map" resultType="Integer">
+	 	SELECT COUNT(*) FROM product_like WHERE userId=#{userId}
+	</select>
+	<select id="dataProductLikeCount" parameterType="Integer" resultType="Integer">
+		SELECT COUNT(*) FROM product_like WHERE productNum=#{productNum}
+	</select>
+	
+	<select id="dataStoreLikeCount" parameterType="map" resultType="Integer">
+		select count(*) from product_like p 
+		LEFT OUTER JOIN product_bbs b ON p.productNum = b.productNum
+		WHERE sellerId = #{sellerId}
+	</select>
 </mapper>

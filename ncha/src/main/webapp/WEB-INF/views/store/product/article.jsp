@@ -394,8 +394,9 @@ function buyOk() {
             <br> <br>
 			
 			<button type="button" class="buyAdd btn btn-primary" data-code="100" data-price="${dto.price-dto.discount_rate}"><i class="fas fa-plus-square"></i>&nbsp;리스트 추가</button>
-	
-			<button type="button" class="btn btn-primary" onclick="cartOk(${dto.productNum});"><i class="fas fa-cart-plus"></i></button><Br>
+			<button type="button" class="btn btn-primary" onclick="cartOk(${dto.productNum});"><i class="fas fa-cart-plus"></i></button>
+				<button type="button" class="btn btn-info productLike" onclick="likeOk(${dto.productNum});"><i id="likeIcon" class="far fa-heart"></i></button>&nbsp;&nbsp;<span style="color:#FF6464;"><i class="fas fa-heart"></i> &nbsp;${dto.likeCount}</span><Br>
+			
 			<small class="text-danger"><Br>${message}</small>
 			<form name="buyForm" method="post">
 		    <table class="table" style="width: 100%; border-spacing: 0px; border-collapse: collapse; ">
@@ -498,7 +499,7 @@ function buyOk() {
     <div>
 
 		<div id="listQna"></div>
-    
+    <br>
     </div>
 
 
@@ -664,7 +665,24 @@ $(function(){
 		ajaxFun(url, "post", "json", query, fn);
 	});
 });
+function likeOk(num){
 
+	var url="${pageContext.request.contextPath}/store/updateLike";	
+	var query="productNum="+num;
+	var fn = function(data) {
+		var state=data.state;
+		if(state==="true") {
+			alert("찜하기 완료!")
+			$("#likeIcon").attr("class","fas fa-heart");
+		} else if(state==="deltrue") {
+			alert("찜하기 취소 완료!");
+			$("#likeIcon").attr("class","far fa-heart");
+		}else if(state==="false"){
+			alert("찜하기 등록에 실패했습니다.");
+		}
+	};
+	ajaxFun(url, "post", "json", query, fn);
+}
 </script>
 
 

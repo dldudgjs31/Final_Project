@@ -204,9 +204,81 @@ public class CustomerImpl implements CustomerService{
 		try {
 			sales = dao.selectOne("customer.readTotalSales", map);
 		} catch (Exception e) {
-			
+			e.printStackTrace();
+			throw e;	
 		}
 		return sales;
+	}
+
+	@Override
+	public int readMyproductCount(Map<String, Object> map) throws Exception {
+		int dataCount=0;
+		try {
+			dataCount =dao.selectOne("customer.readMyproductCount", map);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;	
+		}
+		return dataCount;
+	}
+
+	@Override
+	public int dataReviewCount(Map<String, Object> map) throws Exception {
+		int dataCount=0;
+		try {
+			dataCount =dao.selectOne("customer.dataReviewCount", map);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;	
+		}
+		return dataCount;
+	}
+
+	@Override
+	public int dataMyAllQnaCount(Map<String, Object> map) throws Exception {
+		int dataCount=0;
+		try {
+			dataCount =dao.selectOne("customer.dataMyAllQnaCount", map);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;	
+		}
+		return dataCount;
+	}
+
+	@Override
+	public int dataMyQnaEnabledCount(Map<String, Object> map) throws Exception {
+		int dataCount=0;
+		try {
+			dataCount =dao.selectOne("customer.dataMyQnaEnabledCount", map);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;	
+		}
+		return dataCount;
+	}
+
+	@Override
+	public List<Customer> listRecentOrder(Map<String, Object> map) throws Exception {
+		List<Customer> list = null;
+		try {
+			list = dao.selectList("customer.listRecentOrder", map);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;			
+		}
+		return list;
+	}
+
+	@Override
+	public List<Customer> listLike(Map<String, Object> map) throws Exception {
+		List<Customer> list =null;
+		try {
+			list = dao.selectList("customer.listLike", map);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return list;
 	}
 
 

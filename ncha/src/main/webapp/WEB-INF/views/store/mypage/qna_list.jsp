@@ -171,7 +171,7 @@ function deleteQna(qnaNum){
       </div>
       <!-- Content Column -->
 
-      <div class="col-xs-12 col-md-8">
+      <div class="col-xs-12 col-md-8" style="min-height: 400px;">
       	 <h2 class="mt-4 mb-3"> 문의내역 관리
       <small>Q&A 리스트</small>
     </h2>

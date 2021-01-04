@@ -10,6 +10,11 @@
 <script src="https://code.highcharts.com/modules/accessibility.js"></script>
 
 <script type="text/javascript">
+function searchProfile(userId) {
+	var url="${pageContext.request.contextPath}/mypage/searchProfile?userId="+userId;
+		location.href=url;
+}
+
 $(function(){
 	var url = "${pageContext.request.contextPath}/mainChart/categoryCount"
 
@@ -123,21 +128,23 @@ $(function(){
       </a>
     </div>
     
-    <div style="width: 45%; height: 99%; border: 1px solid #DAD9FF; text-align: center; font-size: 25px;">  
+    
+<div class="row">
+    <div style="width: 25%; height: 300px;; border: 1px solid #DAD9FF; text-align: center; font-size: 25px;">  
     	<h4 style="color: blue;">N차_인기인 TOP 5 </h4>
     	<c:forEach var="vo" items="${listFollower}">
-    		<p> ${vo.userId} : 팔로워 ${vo.followerCount}명</p>
+    		<p><a href="javascript:searchProfile('${vo.userId}')" style="color: black !important;">${vo.userId} : 팔로워 ${vo.followerCount}명</a></p>
     	</c:forEach>
     </div>
-    <div style="align-items:right; width: 45%; height: 99%; border: 1px solid #DAD9FF; text-align: center; font-size: 25px;" id="categoryCount"></div>
+    <div style="align-items:center; width: 45%; height: 300px;; border: 1px solid #DAD9FF; text-align: center; font-size: 25px;" id="categoryCount"></div>
     
-    
-    <div>
+    <div style="align-items:right; width: 25%; height: 300px;; border: 1px solid #DAD9FF; text-align: center; font-size: 25px;">
     		<p>현재 접속자 : ${currentCount}</p>
            	<p>오늘 접속자 : ${toDayCount}</p>
            	<p>어제 접속자 : ${yesterDayCount}</p>
            	<p>전체 접속자 : ${totalCount}</p>
     </div>
+</div>   
 
 
     

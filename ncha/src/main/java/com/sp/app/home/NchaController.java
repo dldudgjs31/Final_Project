@@ -125,29 +125,4 @@ public class NchaController{
 	public String login2() {
 		return "member/login_store";
 	}
-	
-	
-/*
-	@Override
-	protected void process(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		req.setCharacterEncoding("utf-8");
-		String uri=req.getRequestURI();
-		
-		if(uri.indexOf("main.do")!=-1) {
-			int currentCount;
-			long toDayCount, yesterDayCount, totalCount;
-			
-			currentCount=CountManager.getCurrentCount();
-			toDayCount=CountManager.getTodayCount();
-			yesterDayCount=CountManager.getYesterDayCount();
-			totalCount=CountManager.getTotalCount();
-			
-			req.setAttribute("currentCount", currentCount);
-			req.setAttribute("toDayCount", toDayCount);
-			req.setAttribute("yesterDayCount", yesterDayCount);
-			req.setAttribute("totalCount", totalCount);
-			forward(req, resp, ".ncha_bbs.main.main");
-		}
-	}
-*/		
 }

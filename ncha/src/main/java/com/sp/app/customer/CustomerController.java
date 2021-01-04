@@ -22,6 +22,7 @@ import com.sp.app.member.Member;
 import com.sp.app.member.MemberService;
 import com.sp.app.member.SessionInfo;
 import com.sp.app.store.Store;
+import com.sp.app.store.StoreService;
 
 @Controller("customer.customerController")
 @RequestMapping("/store/customer/*")
@@ -31,7 +32,10 @@ public class CustomerController {
 	private CustomerService service2;
 	@Autowired
 	private MemberService service1;
-
+	@Autowired
+	private StoreService service3;
+	
+	
 	@Autowired
 	private MyUtil myUtil;
 	
@@ -83,8 +87,50 @@ public class CustomerController {
 	}
 
 	@GetMapping("mypage")
-	public String mypage() throws Exception {
-
+	public String mypage(
+			HttpSession session,
+			Model model
+			) throws Exception {
+		SessionInfo info =(SessionInfo)session.getAttribute("member");
+		try {
+		//구매총금액
+		int total_sales=0;
+		Map<String, Object> map = new HashMap<>();
+		map.put("memberIdx", info.getMemberIdx());
+		total_sales= service2.readTotalSales(map);
+		//구매한 상품 수	
+		int total_salesCount =0;
+		total_salesCount=service2.readMyproductCount(map);	
+		//장바구니 담은 상품 수
+		int cartCount = 0;
+		cartCount =service2.dataCartCount(info.getUserId());
+		//구매후기 수
+		int reviewCount=0;
+		map.put("userId", info.getUserId());
+		reviewCount=service2.dataReviewCount(map);
+		//qna 수
+		int total_qna = 0;
+		int yet_qna = 0;
+		total_qna=service2.dataMyAllQnaCount(map);
+		yet_qna=service2.dataMyQnaEnabledCount(map);
+		
+		//상품 리스트 불러오기 주문 날짜순
+		List<Customer> orderList =service2.listRecentOrder(map);
+		
+		//좋아요 리스트 불러오기
+		List<Customer> likeList = service2.listLike(map);
+		
+		model.addAttribute("total_sales",total_sales);
+		model.addAttribute("total_salesCount",total_salesCount);
+		model.addAttribute("cartCount",cartCount);
+		model.addAttribute("reviewCount",reviewCount);
+		model.addAttribute("total_qna",total_qna);
+		model.addAttribute("yet_qna",yet_qna);
+		model.addAttribute("orderList",orderList);
+		model.addAttribute("likeList",likeList);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		return ".store.customer.main";
 	}
 
@@ -392,6 +438,51 @@ public class CustomerController {
 		model.addAttribute("paging", paging);
 		model.addAttribute("list", reviewList);
 	return ".store.customer.buylist";
+	}
+	
+	@RequestMapping("likeList")
+	public String likeList(
+			@RequestParam(value = "page", defaultValue = "1") int current_page,
+			HttpSession session,
+			HttpServletRequest req,
+			Model model
+			)throws Exception{
+		SessionInfo info =(SessionInfo)session.getAttribute("member");
+		int rows = 10;
+		int total_page = 0;
+		int dataCount = 0;
+		Map<String, Object> map = new HashMap<>();
+		map.put("userId",info.getUserId());
+		dataCount =service3.dataLikeCount(map);
+		if (dataCount != 0) {
+			total_page = myUtil.pageCount(rows, dataCount);
+		}
+		if (total_page < current_page) {
+			current_page = total_page;
+		}
+		int offset = (current_page - 1) * rows;
+		if (offset < 0)
+			offset = 0;
+		map.put("offset", offset);
+		map.put("rows", rows);
+		List<Customer> list = service2.listLike(map);
+		int listNum=0; 
+		int n = 0;
+		for (Customer dto : list) {
+			listNum = dataCount - (offset + n);
+			dto.setListNum(listNum);
+			n++;
+		}
+		String cp = req.getContextPath();
+		String listUrl = cp + "/store/customer/likeList";
+		String paging = myUtil.paging(current_page, total_page, listUrl);
+		model.addAttribute("page", current_page);
+		model.addAttribute("total_page", total_page);
+		model.addAttribute("dataCount", dataCount);
+		model.addAttribute("paging", paging);
+		model.addAttribute("list", list);
+		
+		return".store.customer.likeList";
 	}
 	
 }
