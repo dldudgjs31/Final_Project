@@ -66,8 +66,8 @@
                 </c:if>
             </div>
           </li>
-               <li class="nav-item"> 
-               	<a class="nav-link" href="${pageContext.request.contextPath}/store/customer/cartlist"><i class="fas fa-shopping-cart"></i></a>
+               <li class="nav-item" style="display: flex; align-items: center;"> 
+               	<a class="nav-link" href="${pageContext.request.contextPath}/store/customer/cartlist"><i class="fas fa-shopping-cart"></i></a><div class="cartCount" style="width:16px; height:16px; color:#3c3c3c; border-radius: 50%; background-color: silver; text-align: center; line-height:-2px; "></div>
                </li>
           
             </c:if>
@@ -92,4 +92,43 @@
       </div>
     </div>
   </nav>
-  
+  <script>
+  function login1() {
+		location.href="${pageContext.request.contextPath}/member/login";
+	}
+  function ajaxFun1(url, method, dataType, query, fn) {
+		$.ajax({
+			type:method
+			,url:url
+			,data:query
+			,dataType:dataType
+			,success:function(data) {
+				fn(data);
+			}
+			,beforeSend:function(jqXHR) {
+		        jqXHR.setRequestHeader("AJAX", true);
+		    }
+		    ,error:function(jqXHR) {
+		    	if(jqXHR.status===403) {
+		    		login1();
+		    		return false;
+		    	}
+		    	
+		    	console.log(jqXHR.responseText);
+		    }
+		});
+	}
+  function listPage1() {
+		var url = "${pageContext.request.contextPath}/store/cartHeader";
+		var query = "page=1";
+		
+		var fn = function(data){
+			$(".cartCount").text(data.check);
+		};
+		
+		ajaxFun1(url, "get", "json", query, fn);
+	}
+  $(function(){
+	  listPage1();
+  });
+  </script>

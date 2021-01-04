@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.sp.app.common.FileManager;
 import com.sp.app.common.MyUtil;
+import com.sp.app.customer.CustomerService;
 import com.sp.app.review.ReviewService;
 import com.sp.app.seller.SessionInfo;
 
@@ -32,6 +33,8 @@ public class StoreController {
 	@Autowired
 	private StoreService service;
 
+	@Autowired
+	private CustomerService service3;
 	@Autowired
 	private MyUtil myUtil;
 
@@ -228,6 +231,7 @@ public class StoreController {
 		if(message.length()!=0) {
 			model.addAttribute("message", message);			
 		}
+		model.addAttribute("productNum",num);
 		model.addAttribute("order", order);
 		model.addAttribute("dto", dto);
 		model.addAttribute("list1", list1);
@@ -367,6 +371,45 @@ public class StoreController {
 		}
 		Map<String, Object> model=new HashedMap<>();
 		model.put("state", state);
+		return model;
+	}
+	@RequestMapping("updateLikepage")
+	@ResponseBody
+	public Map<String, Object> updateLikepage(
+			@RequestParam int productNum,
+			HttpSession session
+			)throws Exception{
+		com.sp.app.member.SessionInfo info = (com.sp.app.member.SessionInfo)session.getAttribute("member");
+		int check = 0;
+		try {
+			Map<String, Object> map = new HashedMap<>();
+			map.put("productNum", productNum);
+			map.put("userId", info.getUserId());
+			check=service.checkLike(map);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		Map<String, Object> model=new HashedMap<>();
+		model.put("check", check);
+		return model;
+	}
+	@RequestMapping("cartHeader")
+	@ResponseBody
+	public Map<String, Object> cartHeader(
+			@RequestParam int page,
+			HttpSession session
+			)throws Exception{
+		com.sp.app.member.SessionInfo info = (com.sp.app.member.SessionInfo)session.getAttribute("member");
+		int check=0;
+		try {
+			Map<String, Object> map = new HashedMap<>();
+			map.put("userId", info.getUserId());
+			check=service3.dataCartCount(info.getUserId());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		Map<String, Object> model=new HashedMap<>();
+		model.put("check", check);
 		return model;
 	}
 }

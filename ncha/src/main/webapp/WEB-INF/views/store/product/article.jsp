@@ -609,7 +609,11 @@ function ajaxFun(url, method, dataType, query, fn) {
 //페이징 처리
 $(function(){
 	listPage(1);
-		listQnaPage(1);
+	listQnaPage(1);
+	
+	<c:if test="${not empty sessionScope.member.userId}">
+	likePage();
+	</c:if>
 });
 
 function listPage(page) {
@@ -635,6 +639,19 @@ function listQnaPage(page) {
 	ajaxFun(url, "get", "html", query, fn);
 }
 
+function likePage(){
+	var url="${pageContext.request.contextPath}/store/updateLikepage";	
+	var query="productNum="+${productNum};
+	var fn = function(data) {
+		var check=data.check;
+		if(check==1) {
+			$("#likeIcon").attr("class","fas fa-heart");
+		} else if(check==0) {
+			$("#likeIcon").attr("class","far fa-heart");
+		}
+	};
+	ajaxFun(url, "post", "json", query, fn);
+}
 //리뷰 등록
 $(function(){
 	$(".btnSendReview").click(function(){
