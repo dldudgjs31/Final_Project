@@ -290,6 +290,19 @@ public class MemberServiceImpl implements MemberService {
 		}
 		return result;
 	}
+
+	@Override
+	public List<Member> rankFollower() {
+		List<Member> list=null;
+		
+		try {
+			list=dao.selectList("member.rankFollower");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return list;
+	}
 	
 	
 }

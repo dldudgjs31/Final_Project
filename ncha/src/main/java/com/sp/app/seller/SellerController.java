@@ -21,7 +21,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.sp.app.common.MyUtil;
-import com.sp.app.member.Member;
 
 
 

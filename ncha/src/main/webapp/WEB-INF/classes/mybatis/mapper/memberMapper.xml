@@ -133,5 +133,15 @@
     </delete>
     
     
+    <!-- 팔로워 많은 랭킹 -->
+	<select id="rankFollower" resultType="com.sp.app.member.Member">
+		select m.userId, count(*) followerCount
+		FROM member m
+		JOIN follower f ON m.userId = f.userId1
+		GROUP BY m.userId
+		order by followerCount DESC	
+		FETCH FIRST 5 ROW ONLY
+	</select>
+    
 	
 </mapper>

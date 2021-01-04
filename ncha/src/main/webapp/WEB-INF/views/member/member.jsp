@@ -210,7 +210,7 @@ function preWatchphoto(input){
 				 <div class="profile_photo" >
 				  	<img id ="img" src="${pageContext.request.contextPath}/resources/img/noprofile.jpg" style="margin:10px 0;width: 200px; height: 200px; border: 2px solid silver;"/>
 				 </div>
-				 <input type="file" name="profile_imageFilename" accept="image/*" onchange="preWatchphoto(this)">	 
+				 <input type="file" name="uploadphoto" accept="image/*" onchange="preWatchphoto(this)">	 
 			 </div>
 				 
 				

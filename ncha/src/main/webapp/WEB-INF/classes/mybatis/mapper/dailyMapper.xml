@@ -110,7 +110,7 @@
 		
 	<!-- 업데이트( 제목, 내용 수정 ) -->
 	<update id="updateDaily" parameterType="com.sp.app.daily.Daily">
-		UPDATE daily_bbs d SET subject=#{subject}, content=#{content}, dailyNum=#{dailyNum}
+		UPDATE daily_bbs d SET subject=#{subject}, content=#{content}, dailyNum=#{dailyNum}, usedUrl=#{usedUrl}
 		WHERE dailyNum = #{dailyNum}
 		
 	</update>
@@ -196,7 +196,7 @@
 	
 	<!-- 게시 글 좋아요 추가 -->
 	<insert id="insertDailyLike" parameterType="map">
-		INSERT INTO daily_Like(dailyNum, userId) VALUES (#{dailyNum}, #{userId})
+		INSERT INTO daily_Like(dailyNum, userId, created) VALUES (#{dailyNum}, #{userId}, SYSDATE)
 	</insert>
 	
 	<!-- 게시글 좋아요 개수 -->
@@ -322,5 +322,8 @@
 		ORDER BY dailyLikeCount DESC
 		FETCH FIRST 1 ROW ONLY
 	</select>
+	
+	
+	
 	
 </mapper>

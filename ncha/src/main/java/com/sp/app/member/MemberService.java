@@ -30,6 +30,8 @@ public interface MemberService {
 	public void insertFollow(Map<String, Object> map) throws Exception;
 	public int followCheck(Map<String, Object> map) throws Exception;
 
+	
+	public List<Member> rankFollower();
 	//public void deleteFollower(String userId1) throws Exception;
 	//public void deleteFollowing(String userId2) throws Exception;
 	

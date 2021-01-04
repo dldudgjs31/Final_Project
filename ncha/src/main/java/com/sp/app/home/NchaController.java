@@ -1,21 +1,34 @@
 package com.sp.app.home;
 
+import java.io.IOException;
+import java.util.List;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.sp.app.count.CountManager;
+import com.sp.app.count.MyServlet;
 import com.sp.app.customer.CustomerService;
 import com.sp.app.daily.Daily;
 import com.sp.app.daily.DailyService;
+import com.sp.app.member.Member;
+import com.sp.app.member.MemberService;
 import com.sp.app.store.Store;
 import com.sp.app.store.StoreService;
 import com.sp.app.used.Used;
 import com.sp.app.used.UsedService;
 
 @Controller
-public class NchaController {
+public class NchaController extends MyServlet{
+	private static final long serialVersionUID = 1L;
+	
 	@Autowired
 	CustomerService service;
 	@Autowired
@@ -24,20 +37,26 @@ public class NchaController {
 	private DailyService service2;
 	@Autowired
 	private UsedService service3;
+	@Autowired
+	private MemberService service4;
+	
+	
 	
 	/**
 	 * n-cha 중고거래 파트 메인 페이지(home)
 	 * @return
 	 */
 	@RequestMapping(value = "/", method = RequestMethod.GET)
-	public String home(Model model) {
+	public String home(Model model,
+			HttpServletRequest req,
+			HttpServletResponse resp) {
 		
 		Store storeRank = null;
 		  Daily dailyRank = null; 
 		  Used usedRank = null;
 		  Daily dailyRank1 = null; 
 		  Used usedRank1 = null;
-		 
+		  List<Member> list = service4.rankFollower();
 
 		  
 		  try {
@@ -50,12 +69,15 @@ public class NchaController {
 		} catch (Exception e) {
 		}
 		 
-		  
+		  model.addAttribute("listFollower",list);
 		  model.addAttribute("storeRank", storeRank);
 		  model.addAttribute("dailyRank",dailyRank); 
 		  model.addAttribute("usedRank", usedRank);
 		  model.addAttribute("dailyRank1",dailyRank1); 
 		  model.addAttribute("usedRank1", usedRank1);
+		  
+		  
+		  
 		
 		return ".ncha_bbs.main.main";
 	}
@@ -95,6 +117,26 @@ public class NchaController {
 	public String login2() {
 		return "member/login_store";
 	}
-	
-	
+
+	@Override
+	protected void process(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		req.setCharacterEncoding("utf-8");
+		String uri=req.getRequestURI();
+		
+		if(uri.indexOf("main.do")!=-1) {
+			int currentCount;
+			long toDayCount, yesterDayCount, totalCount;
+			
+			currentCount=CountManager.getCurrentCount();
+			toDayCount=CountManager.getTodayCount();
+			yesterDayCount=CountManager.getYesterDayCount();
+			totalCount=CountManager.getTotalCount();
+			
+			req.setAttribute("currentCount", currentCount);
+			req.setAttribute("toDayCount", toDayCount);
+			req.setAttribute("yesterDayCount", yesterDayCount);
+			req.setAttribute("totalCount", totalCount);
+			forward(req, resp, "/WEB-INF/views/ncha_bbs/main/main.jsp");
+		}
+	}		
 }
