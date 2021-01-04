@@ -33,6 +33,17 @@
 .list-group-item{
 	color: black !important;
 }
+.btn{
+	font-family : 'Jua', sans-serif;
+}
+.card-text{
+	margin-bottom: 0.5rem;
+}
+.imagebox{
+	background-size: contain;
+	background-position: center;
+	background-repeat: no-repeat;
+}
 </style>
 <Br>
         <ol class="breadcrumb">
@@ -45,6 +56,7 @@
       <div class="col-xs-6 col-md-4">
         <div class="list-group">
 	          <a href="${pageContext.request.contextPath}/store/customer/mypage" class="list-group-item">메인</a>
+	          <a href="${pageContext.request.contextPath}/store/customer/likeList" class="list-group-item">찜한상품</a>
 	          <a href="${pageContext.request.contextPath}/store/customer/cartlist" class="list-group-item">장바구니</a>
 	          <a href="${pageContext.request.contextPath}/store/customer/buylist" class="list-group-item">주문내역</a>
 	          <a href="${pageContext.request.contextPath}/store/customer/review" class="list-group-item">REVIEW</a>
@@ -54,49 +66,105 @@
       <!-- Content Column -->
 
       <div class="col-xs-12 col-md-8">
-<div class="container">
-  <h2>Accordion Example</h2>
-  <p><strong>Note:</strong> The <strong>data-parent</strong> attribute makes sure that all collapsible elements under the specified parent will be closed when one of the collapsible item is shown.</p>
-  <div id="accordion">
-    <div class="card">
-      <div class="card-header">
-        <a class="card-link" data-toggle="collapse" href="#collapseOne">
-          Collapsible Group Item #1
-        </a>
-      </div>
-      <div id="collapseOne" class="collapse show" data-parent="#accordion">
-        <div class="card-body">
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-        </div>
-      </div>
-    </div>
-    <div class="card">
-      <div class="card-header">
-        <a class="collapsed card-link" data-toggle="collapse" href="#collapseTwo">
-        Collapsible Group Item #2
-      </a>
-      </div>
-      <div id="collapseTwo" class="collapse" data-parent="#accordion">
-        <div class="card-body">
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-        </div>
-      </div>
-    </div>
-    <div class="card">
-      <div class="card-header">
-        <a class="collapsed card-link" data-toggle="collapse" href="#collapseThree">
-          Collapsible Group Item #3
-        </a>
-      </div>
-      <div id="collapseThree" class="collapse" data-parent="#accordion">
-        <div class="card-body">
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
+		    <h2 class="mt-4 mb-3">고객 마이페이지
+		    	<small>스토어 이용 현황</small>
+		    </h2>
+      
+             <div class="row">
+                            <div class="col-xl-3 col-md-6">
+                                <div class="card bg-primary text-white mb-4">
+                                    <div class="card-body text-center">구매 총 금액</div>
+                                    <div class="card-title text-center"><fmt:formatNumber  type="currency"  value="${total_sales}"/>원  <br> 상품 수 : ${total_salesCount}개 </div>
+                                    <div class="card-footer d-flex align-items-center justify-content-between">
+                                        <a class="small text-white stretched-link" href="${pageContext.request.contextPath}/store/customer/buylist">주문내역 확인하기</a>
+                                        <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-3 col-md-6">
+                                <div class="card bg-success text-white mb-4">
+                                    <div class="card-body text-center">장바구니 담은 상품</div>
+                                    <div class="card-title text-center"><i class="fas fa-shopping-cart"></i><br>${cartCount}개</div>
+                                    <div class="card-footer d-flex align-items-center justify-content-between">
+                                        <a class="small text-white stretched-link" href="${pageContext.request.contextPath}/store/customer/cartlist">장바구니 확인하기</a>
+                                        <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-3 col-md-6">
+                                <div class="card bg-warning text-white mb-4">
+                                    <div class="card-body text-center">작성한 구매후기</div>
+                                    <div class="card-title text-center"><i class="fas fa-user-edit"></i><br>${reviewCount}개</div>
+                                    <div class="card-footer d-flex align-items-center justify-content-between">
+                                        <a class="small text-white stretched-link" href="${pageContext.request.contextPath}/store/customer/review">구매후기 확인하기</a>
+                                        <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-3 col-md-6">
+                                <div class="card bg-info text-white mb-4">
+                                    <div class="card-body text-center">Q&A현황</div>
+                                    <div class="card-title text-center">답변완료 ${total_qna - yet_qna}개<br>답변대기 ${yet_qna}개</div>
+                                    <div class="card-footer d-flex align-items-center justify-content-between">
+                                        <a class="small text-white stretched-link" href="${pageContext.request.contextPath}/qna/mypage/qnalist">Q&A 확인하기</a>
+                                        <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <hr>
+            <h3 class="mt-4 mb-3">최근 구매한 상품
+		    </h3>
+                        
+			   <div class="row">
+			   <c:forEach var="dto" items="${orderList}">
+			      <div class="col-lg-4 mb-4">
+			        <div class="card h-80">
+			          <h4 class="card-header">${dto.productName}</h4>
+			          <div class="card-body">
+			          <div class="imagebox" style="width: 100%; height: 100px; background-image:url('${pageContext.request.contextPath}/uploads/product/${dto.imageFilename}'); border: 1px solid silver; border-radius: 20px;margin-bottom: 10px;">
+			          
+			          </div>
+			            <p class="card-text">결제 금액 : <fmt:formatNumber  type="currency"  value="${dto.total_sales}"/>원</p>
+			            <p class="card-text">주문 옵션 : ${dto.order_option}</p>
+			            <p class="card-text">[수량: ${dto.number_sales}]</p>
+			            <p class="card-text">주문일자 : ${dto.order_date}</p>
+			          </div>
+			          <div class="card-footer">
+			            <a href="${pageContext.request.contextPath}/store/article?page=1&num=${dto.productNum}" class="btn btn-primary">해당 상품글보기</a>
+			          </div>
+			        </div>
+			      </div>
+			   </c:forEach>
+		
+			<hr>
+			
+			    </div>
+			    <hr>
+            <h3 class="mt-4 mb-3">내가 찜한 상품
+		    </h3>
+			   <div class="row">
+              <c:forEach var="dto1" items="${likeList}">           
+			      <div class="col-lg-4 mb-4">
+			        <div class="card h-80">
+			          <h4 class="card-header">${dto1.productName}</h4>
+			          <div class="card-body">
+			          <div class="imagebox" style="width: 100%; height: 100px; background-image:url('${pageContext.request.contextPath}/uploads/product/${dto1.imageFilename}'); border: 1px solid silver; border-radius: 20px;margin-bottom: 10px;">
+			          
+			          </div>
+			            <p class="card-text">판매점 : ${dto1.sellerId} </p>
+			            <p class="card-text">가격 : <fmt:formatNumber  type="currency"  value="${dto1.price - dto1.discount_rate}"/>원</p>
+			            <p class="card-text">카테고리 : ${dto1.categoryName} </p>
+			          </div>
+			          <div class="card-footer">
+			            <a href="${pageContext.request.contextPath}/store/article?page=1&num=${dto1.productNum}" class="btn btn-primary">해당 상품글보기</a>
+			          </div>
+			        </div>
+			      </div>
+			 </c:forEach>
+			
+			
+			    </div>
 
 
     </div>

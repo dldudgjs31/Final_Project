@@ -146,7 +146,7 @@ function updateSubmit(num) {
 			<tr>
 				<th>상품명</th>
 				<th >옵션</th>
-				<th >수정</th>
+				<th >재고업데이트</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -171,7 +171,7 @@ function updateSubmit(num) {
 				</form>
 				</td>
 				<td>
-					<button type="button" class="btn btn-primary btn-xs updatestock" onclick="updateSubmit(${dto.productNum})">수정</button>
+					<button type="button" class="btn btn-info btn-xs updatestock" onclick="updateSubmit(${dto.productNum})">수정</button>
 					<input type="hidden" name="productNum" value="${dto.productNum}">
 				</td>
 			</tr>	

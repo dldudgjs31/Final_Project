@@ -3,6 +3,7 @@ package com.sp.app.store;
 import java.util.List;
 import java.util.Map;
 
+import com.sp.app.customer.Customer;
 import com.sp.app.store_profile.Option;
 
 public interface StoreService {
@@ -42,4 +43,19 @@ public interface StoreService {
 	public int dataCountMyproduct(Map<String, Object> map)throws Exception;
 	public void updateMyStock(Map<String, Object> map)throws Exception;
 	public void insertMyOption(Option dto)throws Exception;
+	
+	//판매자 메인페이지
+	public int  dataMySoldCount(Map<String, Object> map)throws Exception;
+	public int dataMyProductCount(Map<String, Object> map)throws Exception;
+	public int readBestReviewProduct(Map<String, Object> map)throws Exception;
+	public int readWorstReviewProduct(Map<String, Object> map)throws Exception;
+	List<Customer> listRecentSoldProduct(Map<String, Object> map)throws Exception;
+	
+	//찜하기
+	public void insertLike(Map<String, Object> map)throws Exception;
+	public void deleteLike(Map<String, Object> map)throws Exception;
+	public int checkLike(Map<String, Object> map)throws Exception;
+	public int dataLikeCount(Map<String, Object> map)throws Exception;
+	public int dataProductLikeCount(int productNum)throws Exception;
+	public int dataStoreLikeCount(Map<String, Object> map)throws Exception;
 }
