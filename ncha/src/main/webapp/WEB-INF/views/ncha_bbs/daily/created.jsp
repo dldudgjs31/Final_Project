@@ -120,6 +120,9 @@ $(function(){
 
 <script type="text/javascript">
 
+
+
+
 function sendOk() {
 	var f = document.dailyForm;
 
@@ -228,10 +231,17 @@ function sendOk() {
 			  	  <td width="100" bgcolor="#F6F6F6" style="text-align: center; padding-top:5px;" valign="top" class="usedUrl"> 내  중고 글  목록(클릭)
 			  	  </td>
 			  	  <td class="usedList" style="display: none;">
-		      		 <c:forEach var="vo" items="${list}">
+		      		 <c:forEach var="vo" items="${list}">		      	
+		      		 	<c:if test="${vo.usedNum == dto.usedUrl}">	 	
 				  		 <img alt="" src="${pageContext.request.contextPath}/uploads/used/${vo.imageFilename}" width="150" height="150" border="0">
-				  		 <input type="checkbox"  name="usedUrl"  value="${vo.usedNum}">
+				  		 <input type="checkbox"  name="usedUrl"  value="${vo.usedNum}" checked="checked">
  	     				글번호:${vo.usedNum}
+ 	     				</c:if>		
+ 	     				<c:if test="${vo.usedNum != dto.usedUrl}">	 	
+				  		 <img alt="" src="${pageContext.request.contextPath}/uploads/used/${vo.imageFilename}" width="150" height="150" border="0">
+				  		 <input type="checkbox"  name="usedUrl"  value="${vo.usedNum}" >
+ 	     				글번호:${vo.usedNum}
+ 	     				</c:if>	     		 
 		     		  </c:forEach>
 			      </td>
 			  </tr>

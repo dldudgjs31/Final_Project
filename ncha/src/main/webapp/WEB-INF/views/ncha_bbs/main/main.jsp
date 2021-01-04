@@ -3,6 +3,56 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/highcharts-3d.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
+<script src="https://code.highcharts.com/modules/export-data.js"></script>
+<script src="https://code.highcharts.com/modules/accessibility.js"></script>
+
+<script type="text/javascript">
+$(function(){
+	var url = "${pageContext.request.contextPath}/mainChart/categoryCount"
+
+	$.getJSON(url,function(data){
+		console.log(data);
+		Highcharts.chart('categoryCount', {
+		    chart: {
+		        type: 'pie',
+		        options3d: {
+		            enabled: true,
+		            alpha: 45,
+		            beta: 0
+		        }
+		    },
+		    title: {
+		        text: '카테고리별 일상 게시글(%)'
+		    },
+		    accessibility: {
+		        point: {
+		            valueSuffix: '%'
+		        }
+		    },
+		    tooltip: {
+		        pointFormat: '{series.name}: <b>{point.percentage:.2f}%</b>'
+		    },
+		    plotOptions: {
+		    	pie: {
+		            allowPointSelect: true,
+		            cursor: 'pointer',
+		            depth: 35,
+		            dataLabels: {
+		                enabled: true,
+		                format: '{point.name}'
+		            }
+		        }
+		    },
+		    series:data
+		});
+		
+	});
+});
+</script>
+
 
 
     <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel" style="width: 99%; height: 99%">
@@ -71,6 +121,22 @@
         <span class="carousel-control-next-icon" aria-hidden="true"></span>
         <span class="sr-only">Next</span>
       </a>
+    </div>
+    
+    <div style="width: 45%; height: 99%; border: 1px solid #DAD9FF; text-align: center; font-size: 25px;">  
+    	<h4 style="color: blue;">N차_인기인 TOP 5 </h4>
+    	<c:forEach var="vo" items="${listFollower}">
+    		<p> ${vo.userId} : 팔로워 ${vo.followerCount}명</p>
+    	</c:forEach>
+    </div>
+    <div style="align-items:right; width: 45%; height: 99%; border: 1px solid #DAD9FF; text-align: center; font-size: 25px;" id="categoryCount"></div>
+    
+    
+    <div>
+    		<p>현재 접속자 : ${currentCount}</p>
+           	<p>오늘 접속자 : ${toDayCount}</p>
+           	<p>어제 접속자 : ${yesterDayCount}</p>
+           	<p>전체 접속자 : ${totalCount}</p>
     </div>
 
 

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="home">
+	<select id="categoryCount" resultType="com.sp.app.home.CategoryCount">
+		WITH categoryCount AS( 
+           select dailyNum,categoryName 
+            from daily_bbs d
+            join DAILY_CATEGORY c ON d.categoryNum = c.categoryNum
+        )
+	<![CDATA[
+		SELECT '의류' section, NVL(count(*),0) total  FROM categoryCount WHERE categoryName = '의류'
+		UNION ALL
+		SELECT '가구' section, NVL(count(*),0) total FROM categoryCount WHERE categoryName = '가구'
+		UNION ALL
+		SELECT '전자제품' section, NVL(count(*),0) total FROM categoryCount WHERE categoryName = '전자제품'
+		UNION ALL
+		SELECT '도서' section, NVL(count(*),0) total FROM categoryCount WHERE categoryName = '도서'
+        UNION ALL
+		SELECT '기타' section, NVL(count(*),0) total FROM categoryCount WHERE categoryName = '기타'
+	]]>
+	</select>
+</mapper>
