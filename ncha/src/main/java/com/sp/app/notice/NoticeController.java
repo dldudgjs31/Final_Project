@@ -102,7 +102,7 @@ public class NoticeController {
         String articleUrl = cp+"/notice/article?page=" + current_page;
       
         if(query.length()!=0) {
-        	listUrl = cp+"/notice/list?" + query;
+        	listUrl = cp+"/notice/list?"+ query;
         	articleUrl = cp+"/notice/article?page=" + current_page + "&"+ query;
         }
         String paging = myUtil.pagingMethod(current_page, total_page, listUrl);

@@ -291,7 +291,7 @@ public class EventController {
 		if (dto == null)
 			return "redirect:/event/list?"+query;
 		
-		dto.setContent(dto.getContent().replaceAll("\n", "<br>"));
+		//dto.setContent(dto.getContent().replaceAll("\n", "<br>"));
 		
 		// 이전 글, 다음 글
 		Map<String, Object> map = new HashMap<String, Object>();
