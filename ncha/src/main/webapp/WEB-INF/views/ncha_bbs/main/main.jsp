@@ -3,6 +3,9 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
+<link href="${pageContext.request.contextPath}/resources/css/carousel.css" rel="stylesheet">
+<link href="${pageContext.request.contextPath}/resources/css/carousel.rtl.css" rel="stylesheet">
+
 <script src="https://code.highcharts.com/highcharts.js"></script>
 <script src="https://code.highcharts.com/highcharts-3d.js"></script>
 <script src="https://code.highcharts.com/modules/exporting.js"></script>
@@ -34,7 +37,6 @@
 	align-items: flex-end;
 	align-content: center;
 }
-
 </style>
 
 
@@ -46,10 +48,8 @@ function searchProfile(userId) {
 	var url="${pageContext.request.contextPath}/mypage/searchProfile?userId="+userId;
 		location.href=url;
 }
-
 $(function(){
 	var url = "${pageContext.request.contextPath}/mainChart/categoryCount"
-
 	$.getJSON(url,function(data){
 		console.log(data);
 		Highcharts.chart('categoryCount', {
@@ -94,62 +94,54 @@ $(function(){
 
     <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel" style="width: 99%; height: 99%">
       <ol class="carousel-indicators">
-        <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
-        <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-        <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
-        <li data-target="#carouselExampleIndicators" data-slide-to="3"></li>
-        <li data-target="#carouselExampleIndicators" data-slide-to="4"></li>
+      	<c:forEach var="dto" items="${bannerlist}" varStatus="status">
+      		<li data-target="#carouselExampleIndicators" data-slide-to="${status.index}" class="${status.index==0?'active':'' }"></li>
+      	</c:forEach> 
       </ol>
+
+  
       <div class="carousel-inner" role="listbox">
         <!-- Slide One - Set the background image for this slide in the line below -->
-          <div class="carousel-item active" style="width:99%; height:500px; background-image: url('${pageContext.request.contextPath}/resources/img/storeHit.PNG');">
-		  <%-- <div class="carousel-item active" style="background-image: url('${pageContext.request.contextPath}/uploads/product/${storeRank.imageFilename}')"> --%>
-          <div class="carousel-caption d-none d-md-block">
-      	  <a href="${pageContext.request.contextPath}/store/article?page=1&num=${storeRank.productNum}" style="font-size: 25px; font-weight: bold;">스토어에서 제일 많이 찾은 상품은?!</a><br>
-      	  <a href="${pageContext.request.contextPath}/store/article?page=1&num=${storeRank.productNum}">누르면 스토어 화면으로 이동합니다!!!!</a>
-          </div>
+       <c:forEach var="dto" items="${bannerlist}" varStatus="status"> 
+        <div class="carousel-item ${status.index==0?'active':'' }" style="background-image: url('${pageContext.request.contextPath}/uploads/ncha_banner/${dto.serverFilename}')">
+        	<div class="carousel-caption d-none d-md-block">
+        	<c:if test="${status.index==0}">
+        		<a href="${pageContext.request.contextPath}/store/article?page=1&num=${storeRank.productNum}" style="font-size: 25px; font-weight: bold;">스토어에서 제일 많이 찾은 상품은?!</a><br>
+      	  		<a href="${pageContext.request.contextPath}/store/article?page=1&num=${storeRank.productNum}">누르면 스토어 화면으로 이동합니다!!!!</a>
+        	</c:if>
         </div>
-        <!-- Slide Two - Set the background image for this slide in the line below -->
-          <a href="${pageContext.request.contextPath}/used/article?page=1&usedNum=${usedRank.usedNum}"></a>
-        <div class="carousel-item" style="width:99%; height:500px; background-image: url('${pageContext.request.contextPath}/resources/img/usedHit.PNG');">
-        <%-- <div class="carousel-item" style="background-image: url('${pageContext.request.contextPath}/uploads/used/${usedRank.imageFilename}');"> --%>
-          <div class="carousel-caption d-none d-md-block">
-           <a href="${pageContext.request.contextPath}/used/article?page=1&usedNum=${usedRank.usedNum}" style="font-size: 25px; font-weight: bold;">중고글 최다 조회수!!!!</a><br>
-      	   <a href="${pageContext.request.contextPath}/used/article?page=1&usedNum=${usedRank.usedNum}">누르면 해당 게시글로 이동합니다!!</a>
-          </div>
+        	
+        	<div class="carousel-caption d-none d-md-block">
+        	<c:if test="${status.index==1}">
+        		 <a href="${pageContext.request.contextPath}/used/article?page=1&usedNum=${usedRank.usedNum}" style="font-size: 25px; font-weight: bold;">중고글 최다 조회수!!!!</a><br>
+      	   		<a href="${pageContext.request.contextPath}/used/article?page=1&usedNum=${usedRank.usedNum}">누르면 해당 게시글로 이동합니다!!</a>
+        	</c:if>
+        	 </div>
+        	
+        	<div class="carousel-caption d-none d-md-block">
+        	<c:if test="${status.index==2}">
+        		<a href="${pageContext.request.contextPath}/daily/article?page=1&dailyNum=${dailyRank.dailyNum}" style="font-size: 25px; font-weight: bold;">일상글 최다 조회수!!!!</a><br>
+      	   		<a href="${pageContext.request.contextPath}/daily/article?page=1&dailyNum=${dailyRank.dailyNum}">누르면 해당 게시글로 이동합니다!!</a>
+        	</c:if>
+        	 </div>
+        	
+        	<div class="carousel-caption d-none d-md-block">
+        	<c:if test="${status.index==3}">
+          		<a href="${pageContext.request.contextPath}/used/article?page=1&usedNum=${usedRank1.usedNum}" style="font-size: 25px; font-weight: bold;">중고글 최다 좋아요!!!!</a><br>
+      	   		<a href="${pageContext.request.contextPath}/used/article?page=1&usedNum=${usedRank1.usedNum}">누르면 해당 게시글로 이동합니다!!</a>
+        	</c:if>
+        	 </div>
+        	 
+        	<div class="carousel-caption d-none d-md-block">
+        	<c:if test="${status.index==4}">
+				<a href="${pageContext.request.contextPath}/daily/article?page=1&dailyNum=${dailyRank1.dailyNum}" style="font-size: 25px; font-weight: bold;">일상글 최다 좋아요!!!!</a><br>
+      	  		 <a href="${pageContext.request.contextPath}/daily/article?page=1&dailyNum=${dailyRank1.dailyNum}">누르면 해당 게시글로 이동합니다!!</a>
+        	</c:if>
+        	</div>
         </div>
-          
-        <!-- Slide Three - Set the background image for this slide in the line below -->
-        <div class="carousel-item" style="width:99%; height:500px; background-image: url('${pageContext.request.contextPath}/resources/img/dailyHit.PNG');">
-        <%-- <div class="carousel-item" style="background-image: url('${pageContext.request.contextPath}/uploads/daily/${dailyRank.imageFilename}');"> --%>
-          <div class="carousel-caption d-none d-md-block">
-           <a href="${pageContext.request.contextPath}/daily/article?page=1&dailyNum=${dailyRank.dailyNum}" style="font-size: 25px; font-weight: bold;">일상글 최다 조회수!!!!</a><br>
-      	   <a href="${pageContext.request.contextPath}/daily/article?page=1&dailyNum=${dailyRank.dailyNum}">누르면 해당 게시글로 이동합니다!!</a>
-          </div>
-        </div>
-        
-        
-        <!-- Slide four - Set the background image for this slide in the line below -->
-          <a href="${pageContext.request.contextPath}/used/article?page=1&usedNum=${usedRank1.usedNum}"></a>
-        <div class="carousel-item" style="width:99%; height:500px; background-image: url('${pageContext.request.contextPath}/resources/img/usedLike.PNG');">
-        <%-- <div class="carousel-item" style="background-image: url('${pageContext.request.contextPath}/uploads/used/${usedRank1.imageFilename}');"> --%>
-          <div class="carousel-caption d-none d-md-block">
-          <a href="${pageContext.request.contextPath}/used/article?page=1&usedNum=${usedRank1.usedNum}" style="font-size: 25px; font-weight: bold;">중고글 최다 좋아요!!!!</a><br>
-      	   <a href="${pageContext.request.contextPath}/used/article?page=1&usedNum=${usedRank1.usedNum}">누르면 해당 게시글로 이동합니다!!</a>
-          </div>
-        </div>
-          
-        <!-- Slide five - Set the background image for this slide in the line below -->
-        <div class="carousel-item" style="width:99%; height:500px; background-image: url('${pageContext.request.contextPath}/resources/img/dailyLike.PNG');">
-        <%-- <div class="carousel-item" style="background-image: url('${pageContext.request.contextPath}/uploads/daily/${dailyRank1.imageFilename}');"> --%>
-          <div class="carousel-caption d-none d-md-block">
-           <a href="${pageContext.request.contextPath}/daily/article?page=1&dailyNum=${dailyRank1.dailyNum}" style="font-size: 25px; font-weight: bold;">일상글 최다 좋아요!!!!</a><br>
-      	   <a href="${pageContext.request.contextPath}/daily/article?page=1&dailyNum=${dailyRank1.dailyNum}">누르면 해당 게시글로 이동합니다!!</a>
-          </div>
-        </div>
-        
-        
+       </c:forEach>
       </div>
+      
       <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
         <span class="carousel-control-prev-icon" aria-hidden="true"></span>
         <span class="sr-only">Previous</span>
@@ -159,8 +151,10 @@ $(function(){
         <span class="sr-only">Next</span>
       </a>
     </div>
-    <br>
-    <br>
+    
+    
+<br>
+<br>
  
     	<div class="row">
     	<h4 style="color: blue; align-items: center;">N차_인기인 TOP</h4>
@@ -181,7 +175,7 @@ $(function(){
     	<br>
     	<br>
 <div style="display: flex; justify-content: center;">   
-    <div style=" width: 45%; height: 300px;; border: 1px solid #DAD9FF; text-align: center; font-size: 25px;" id="categoryCount"></div>
+	<div style=" width: 45%; height: 300px;; border: 1px solid #DAD9FF; text-align: center; font-size: 25px;" id="categoryCount"></div>
     
     <div style=" width: 25%; height: 300px;; border: 1px solid #DAD9FF; text-align: center; font-size: 25px;">
     		<p>현재 접속자 : ${currentCount}</p>
@@ -190,7 +184,6 @@ $(function(){
            	<p>전체 접속자 : ${totalCount}</p>
     </div>
 </div>
-
     
     
 
