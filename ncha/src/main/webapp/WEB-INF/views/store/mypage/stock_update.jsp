@@ -119,6 +119,7 @@ function updateSubmit(num) {
 	          <a href="${pageContext.request.contextPath}/store/mypage/saleslist" class="list-group-item">판매내역</a>
 	          <a href="${pageContext.request.contextPath}/store/mypage/stockupdate" class="list-group-item">재고관리</a>
 	          <a href="${pageContext.request.contextPath}/store/mypage/qna" class="list-group-item">Q&A 관리</a>
+	          <a href="${pageContext.request.contextPath}/store/myFollowStore?page=1&sellerId=${sellerId}" class="list-group-item">MY스토어</a>
         </div>
       </div>
       <!-- Content Column -->

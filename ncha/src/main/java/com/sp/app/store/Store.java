@@ -25,6 +25,7 @@ public class Store {
 	private int optionNum;
 	private String score;
 	private int likeCount;
+	private int storeFollowCount;
 	
 	private String opt_detail;
 	private String opt_stock;
@@ -35,6 +36,12 @@ public class Store {
 	private List<Integer> option_number;
 	private List<Store> optionlist;
 	
+	public int getStoreFollowCount() {
+		return storeFollowCount;
+	}
+	public void setStoreFollowCount(int storeFollowCount) {
+		this.storeFollowCount = storeFollowCount;
+	}
 	public String getSellerName() {
 		return sellerName;
 	}

@@ -57,6 +57,7 @@
         <div class="list-group">
 	          <a href="${pageContext.request.contextPath}/store/customer/mypage" class="list-group-item">메인</a>
 	          <a href="${pageContext.request.contextPath}/store/customer/likeList" class="list-group-item">찜한상품</a>
+	          <a href="${pageContext.request.contextPath}/store/customer/followStore" class="list-group-item">팔로잉스토어</a>
 	          <a href="${pageContext.request.contextPath}/store/customer/cartlist" class="list-group-item">장바구니</a>
 	          <a href="${pageContext.request.contextPath}/store/customer/buylist" class="list-group-item">주문내역</a>
 	          <a href="${pageContext.request.contextPath}/store/customer/review" class="list-group-item">REVIEW</a>
@@ -152,7 +153,7 @@
 			          <div class="imagebox" style="width: 100%; height: 100px; background-image:url('${pageContext.request.contextPath}/uploads/product/${dto1.imageFilename}'); border: 1px solid silver; border-radius: 20px;margin-bottom: 10px;">
 			          
 			          </div>
-			            <p class="card-text">판매점 : ${dto1.sellerId} </p>
+			            <p class="card-text">판매점 : ${dto1.sellerName} </p>
 			            <p class="card-text">가격 : <fmt:formatNumber  type="currency"  value="${dto1.price - dto1.discount_rate}"/>원</p>
 			            <p class="card-text">카테고리 : ${dto1.categoryName} </p>
 			          </div>

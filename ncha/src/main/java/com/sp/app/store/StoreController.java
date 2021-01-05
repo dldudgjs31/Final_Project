@@ -22,8 +22,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.sp.app.common.FileManager;
 import com.sp.app.common.MyUtil;
+import com.sp.app.customer.Customer;
 import com.sp.app.customer.CustomerService;
 import com.sp.app.review.ReviewService;
+import com.sp.app.seller.Seller;
+import com.sp.app.seller.SellerService;
 import com.sp.app.seller.SessionInfo;
 
 @Controller("store.storeController")
@@ -40,6 +43,9 @@ public class StoreController {
 
 	@Autowired
 	private ReviewService service2;
+	
+	@Autowired
+	private SellerService service4;
 	
 	@Autowired
 	private FileManager fileManager;
@@ -93,7 +99,9 @@ public class StoreController {
 			listNum = dataCount - (offset + n);
 			double score = service2.reviewScore(dto.getProductNum());
 			int likeCount = service.dataProductLikeCount(dto.getProductNum());
+			int storeFollow = service.dataStoreFollowCount(dto.getSellerId());
 			dto.setLikeCount(likeCount);
+			dto.setStoreFollowCount(storeFollow);
 			if(score>4.5) {
 				dto.setScore("★★★★★");
 			}else if(score>3.5) {
@@ -124,7 +132,7 @@ public class StoreController {
 			articleUrl += "&" + query;
 		}
 		String paging = myUtil.paging(current_page, total_page, listUrl);
-
+		
 		model.addAttribute("categoryName", categoryName);
 		model.addAttribute("list", list);
 		model.addAttribute("articleUrl", articleUrl);
@@ -202,6 +210,8 @@ public class StoreController {
 		}
 		int likeCount = service.dataProductLikeCount(num);
 		dto.setLikeCount(likeCount);
+		int storeFollowCount = service.dataStoreFollowCount(dto.getSellerId());
+		dto.setStoreFollowCount(storeFollowCount);
 		double score = service2.reviewScore(dto.getProductNum());
 		if(score>4.5) {
 			dto.setScore("★★★★★");
@@ -411,5 +421,125 @@ public class StoreController {
 		Map<String, Object> model=new HashedMap<>();
 		model.put("check", check);
 		return model;
+	}
+	@RequestMapping("updateStoreLike")
+	@ResponseBody
+	public Map<String, Object> updateStoreLike(
+			@RequestParam String sellerId,
+			HttpSession session
+			)throws Exception{
+		com.sp.app.member.SessionInfo info = (com.sp.app.member.SessionInfo)session.getAttribute("member");
+		String state ="false";
+		try {
+			Map<String, Object> map = new HashedMap<>();
+			map.put("sellerId", sellerId);
+			map.put("userId", info.getUserId());
+			int check = service.checkStoreLike(map);
+			if(check==0) {
+				service.insertStoreLike(map);
+				state="true";
+			}if(check==1) {
+				service.deleteStoreLike(map);
+				state="deltrue";
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			state ="false";
+		}
+		Map<String, Object> model=new HashedMap<>();
+		model.put("state", state);
+		return model;
+	}
+	
+	@RequestMapping("updateFollowpage")
+	@ResponseBody
+	public Map<String, Object> updateFollowpage(
+			@RequestParam String sellerId,
+			HttpSession session
+			)throws Exception{
+		com.sp.app.member.SessionInfo info = (com.sp.app.member.SessionInfo)session.getAttribute("member");
+		int check = 0;
+		try {
+			Map<String, Object> map = new HashedMap<>();
+			map.put("sellerId", sellerId);
+			map.put("userId", info.getUserId());
+			check=service.checkStoreLike(map);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		Map<String, Object> model=new HashedMap<>();
+		model.put("check", check);
+		return model;
+	}
+	
+	@RequestMapping("myFollowStore")
+	public String myFollowStore(
+			@RequestParam(value = "page", defaultValue = "1") int current_page,
+			@RequestParam String sellerId,
+			HttpSession session,
+			HttpServletRequest req,
+			Model model
+			)throws Exception{
+		int rows = 10;
+		int total_page = 0;
+		int dataCount = 0;
+		Map<String, Object> map = new HashMap<>();
+		map.put("sellerId",sellerId);
+		dataCount =service.dataMyProductCount(map);
+		if (dataCount != 0) {
+			total_page = myUtil.pageCount(rows, dataCount);
+		}
+		if (total_page < current_page) {
+			current_page = total_page;
+		}
+		int offset = (current_page - 1) * rows;
+		if (offset < 0)
+			offset = 0;
+		map.put("offset", offset);
+		map.put("rows", rows);
+		List<Store> list = service.listMyProduct(map);
+		int listNum=0; 
+		int n = 0;
+		if(list !=null) {
+			for (Store dto : list) {
+				double score = service2.reviewScore(dto.getProductNum());
+				int likeCount = service.dataProductLikeCount(dto.getProductNum());
+				int storeFollow = service.dataStoreFollowCount(dto.getSellerId());
+				dto.setLikeCount(likeCount);
+				dto.setStoreFollowCount(storeFollow);
+				if(score>4.5) {
+					dto.setScore("★★★★★");
+				}else if(score>3.5) {
+					dto.setScore("★★★★");
+				}else if(score>2.5) {
+					dto.setScore("★★★");
+				}else if(score>1.5) {
+					dto.setScore("★★");
+				}else if(score>0.5){
+					dto.setScore("★");
+				}else {
+					dto.setScore("평가 없음");
+				}
+				listNum = dataCount - (offset + n);
+				dto.setListNum(listNum);
+				n++;
+			}
+		}
+		int followCount = service.dataStoreFollowCount(sellerId);
+		Seller sellerDto = service4.readSeller(sellerId);
+		
+		
+		String cp = req.getContextPath();
+		String listUrl = cp + "/store/customer/myFollowStore";
+		String paging = myUtil.paging(current_page, total_page, listUrl);
+		model.addAttribute("page", current_page);
+		model.addAttribute("total_page", total_page);
+		model.addAttribute("dataCount", dataCount);
+		model.addAttribute("paging", paging);
+		model.addAttribute("list", list);
+		model.addAttribute("sellerId", sellerId);
+		model.addAttribute("sellerDto", sellerDto);
+		model.addAttribute("followCount", followCount);
+		return ".store.mypage.mystore";
 	}
 }

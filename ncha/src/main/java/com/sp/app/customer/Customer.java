@@ -30,7 +30,6 @@ public class Customer {
 	private String startdate;
 	private String enddate;
 	
-	
 	//샐러 정보
 	private String SellerId;
 	private int stock;
@@ -41,7 +40,7 @@ public class Customer {
 	private String productName;
 	private String imageFilename;
 	private int number_sales;
-	
+	private String profile_imageFilename;
 	//리뷰
 	private int reviewCount;
 	private int reviewNum;
@@ -49,6 +48,12 @@ public class Customer {
 	
 	
 	
+	public String getProfile_imageFilename() {
+		return profile_imageFilename;
+	}
+	public void setProfile_imageFilename(String profile_imageFilename) {
+		this.profile_imageFilename = profile_imageFilename;
+	}
 	public String getSellerName() {
 		return sellerName;
 	}

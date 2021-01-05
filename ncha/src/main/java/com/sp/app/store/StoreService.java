@@ -58,4 +58,12 @@ public interface StoreService {
 	public int dataLikeCount(Map<String, Object> map)throws Exception;
 	public int dataProductLikeCount(int productNum)throws Exception;
 	public int dataStoreLikeCount(Map<String, Object> map)throws Exception;
+	
+	//스토어 찜하기
+	public void insertStoreLike(Map<String, Object> map)throws Exception;
+	public void deleteStoreLike(Map<String, Object> map)throws Exception;
+	public int checkStoreLike(Map<String, Object> map)throws Exception;
+	public int dataStoreFollowCount(String sellerId)throws Exception;
+	public int dataMyStoreFollow(String userId)throws Exception;
+	List<Customer> listFollow(Map<String, Object> map)throws Exception;
 }

@@ -79,6 +79,7 @@ public class ProfileController {
 				model.addAttribute("yetQna", yetQna); 
 				model.addAttribute("list", list); 
 				model.addAttribute("likeCount", likeCount); 
+				model.addAttribute("sellerId", info.getSellerId()); 
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -132,6 +133,7 @@ public class ProfileController {
 			model.addAttribute("paging", paging);
 			model.addAttribute("qnaList", qnaList);
 			model.addAttribute("articleUrl", articleUrl);
+			model.addAttribute("sellerId", info.getSellerId());
 			
 			
 			return".store.mypage.qna_list";
@@ -194,6 +196,7 @@ public class ProfileController {
 			model.addAttribute("dataCount", dataCount);
 			model.addAttribute("paging", paging);
 			model.addAttribute("list", reviewList);
+			model.addAttribute("seller", info.getSellerId());
 		return ".store.mypage.sales_list";
 		}
 		@RequestMapping("stockupdate")
@@ -244,6 +247,7 @@ public class ProfileController {
 			model.addAttribute("dataCount", dataCount);
 			model.addAttribute("paging", paging);
 			model.addAttribute("list", list);
+			model.addAttribute("seller", info.getSellerId());
 			return ".store.mypage.stock_update";
 		}
 		@RequestMapping("stock_update")

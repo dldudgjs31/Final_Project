@@ -139,7 +139,7 @@ margin-bottom: 0.5rem;
             <p class="card-text" id="profile">
             <div id="profile">
 	            <div id="profile_image" style="background-image: url('${pageContext.request.contextPath}/uploads/member/${dto.profile_imagefilename}');"></div>
-	            <div> ${dto.sellerName}</div>
+	            <div> ${dto.sellerName} &nbsp;<span style="color:#FF6464;"><i class="fas fa-heart"></i> &nbsp;${dto.storeFollowCount}</span></div>
             </div>
             </p>
             <h5 class="card-title">

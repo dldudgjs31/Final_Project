@@ -363,7 +363,10 @@ function buyOk() {
 			<p>
 			<div id="profile">
 	            <div id="profile_image" style="background-image: url('${pageContext.request.contextPath}/uploads/member/${dto.profile_imagefilename}');"></div>
-	            <div> ${dto.sellerName}</div>
+	            <div> ${dto.sellerName}&nbsp;
+		            <button type="button" class="btn btn-xs" onclick="StoreLike('${dto.sellerId}')"><i id="likeStoreIcon" class="far fa-heart"></i></button> 
+	            	&nbsp;<span style="color:#FF6464;">follower:</i> &nbsp;${dto.storeFollowCount}</span>
+	            </div>
             </div>
 			</p>
 			<p>조회수 : ${dto.hitCount} | 평점 : <span style="color:#FFCD28;">${dto.score}</span></p>
@@ -395,8 +398,9 @@ function buyOk() {
 			
 			<button type="button" class="buyAdd btn btn-primary" data-code="100" data-price="${dto.price-dto.discount_rate}"><i class="fas fa-plus-square"></i>&nbsp;리스트 추가</button>
 			<button type="button" class="btn btn-primary" onclick="cartOk(${dto.productNum});"><i class="fas fa-cart-plus"></i></button>
-				<button type="button" class="btn btn-info productLike" onclick="likeOk(${dto.productNum});"><i id="likeIcon" class="far fa-heart"></i></button>&nbsp;&nbsp;<span style="color:#FF6464;"><i class="fas fa-heart"></i> &nbsp;${dto.likeCount}</span><Br>
-			
+				<button type="button" class="btn btn-info productLike" onclick="likeOk(${dto.productNum});"><i id="likeIcon" class="far fa-heart"></i></button>&nbsp;&nbsp;
+				<span style="color:#FF6464;"><i class="fas fa-heart"></i>  &nbsp;${dto.likeCount}</span>
+			<Br>
 			<small class="text-danger"><Br>${message}</small>
 			<form name="buyForm" method="post">
 		    <table class="table" style="width: 100%; border-spacing: 0px; border-collapse: collapse; ">
@@ -612,6 +616,7 @@ $(function(){
 	listQnaPage(1);
 	
 	<c:if test="${not empty sessionScope.member.userId}">
+	followPage();
 	likePage();
 	</c:if>
 });
@@ -648,6 +653,20 @@ function likePage(){
 			$("#likeIcon").attr("class","fas fa-heart");
 		} else if(check==0) {
 			$("#likeIcon").attr("class","far fa-heart");
+		}
+	};
+	ajaxFun(url, "post", "json", query, fn);
+	
+}
+function followPage(){
+	var url="${pageContext.request.contextPath}/store/updateFollowpage";	
+	var query="sellerId=${dto.sellerId}";
+	var fn = function(data) {
+		var check=data.check;
+		if(check==1) {
+			$("#likeStoreIcon").attr("class","fas fa-heart");
+		} else if(check==0) {
+			$("#likeStoreIcon").attr("class","far fa-heart");
 		}
 	};
 	ajaxFun(url, "post", "json", query, fn);
@@ -696,6 +715,24 @@ function likeOk(num){
 			$("#likeIcon").attr("class","far fa-heart");
 		}else if(state==="false"){
 			alert("찜하기 등록에 실패했습니다.");
+		}
+	};
+	ajaxFun(url, "post", "json", query, fn);
+}
+function StoreLike(sellerId){
+
+	var url="${pageContext.request.contextPath}/store/updateStoreLike";	
+	var query="sellerId="+sellerId;
+	var fn = function(data) {
+		var state=data.state;
+		if(state==="true") {
+			alert("스토어 팔로우 완료!")
+			$("#likeStoreIcon").attr("class","fas fa-heart");
+		} else if(state==="deltrue") {
+			alert("스토어 팔로우 취소 완료!");
+			$("#likeStoreIcon").attr("class","far fa-heart");
+		}else if(state==="false"){
+			alert("스토어 팔로우 에 실패했습니다.");
 		}
 	};
 	ajaxFun(url, "post", "json", query, fn);

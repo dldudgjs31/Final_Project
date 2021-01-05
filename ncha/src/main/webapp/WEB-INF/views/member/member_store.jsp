@@ -23,7 +23,7 @@ function memberOk() {
 	var str;
 	
 	var mode = "${mode}";
-	if(mode=="seller"){
+	if(mode=="seller" && ! f.uploadphoto.value){
 		alert("이미지 파일을 선택하세요.");
 		f.uploadphoto.focus();
 		return;

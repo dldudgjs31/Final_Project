@@ -419,6 +419,70 @@ public class StoreServiceImpl implements StoreService {
 			e.printStackTrace();
 		}
 		return dataCount;
+	}
+
+	@Override
+	public void insertStoreLike(Map<String, Object> map) throws Exception {
+		try {
+			dao.insertData("store.insertStoreLike", map);
+		} catch (Exception e) {
+			throw e;
+		}
+		
+	}
+
+	@Override
+	public void deleteStoreLike(Map<String, Object> map) throws Exception {
+		try {
+			dao.deleteData("store.deleteStoreLike", map);
+		} catch (Exception e) {
+			throw e;
+		}
+		
+	}
+
+	@Override
+	public int checkStoreLike(Map<String, Object> map) throws Exception {
+		int check=0;
+		try {
+			check = dao.selectOne("store.checkStoreLike", map);
+		} catch (Exception e) {
+			throw e;
+		}
+		return check;
+	}
+
+	@Override
+	public int dataStoreFollowCount(String sellerId) throws Exception {
+		int dataCount =0;
+		try {
+			dataCount=dao.selectOne("store.dataStoreFollowCount", sellerId);
+		} catch (Exception e) {
+			throw e;
+		}
+		return dataCount;
+	}
+
+	@Override
+	public int dataMyStoreFollow(String userId) throws Exception {
+		int dataCount =0;
+		try {
+			dataCount=dao.selectOne("store.dataMyStoreFollow", userId);
+		} catch (Exception e) {
+			throw e;
+		}
+		return dataCount;
+	}
+
+	@Override
+	public List<Customer> listFollow(Map<String, Object> map) throws Exception {
+		List<Customer> list =null;
+		try {
+			list =dao.selectList("store.listFollow", map);
+		} catch (Exception e) {
+			throw e;
+		}
+		return list;
 	} 
 
 

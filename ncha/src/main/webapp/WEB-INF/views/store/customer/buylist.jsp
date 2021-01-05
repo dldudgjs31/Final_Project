@@ -64,6 +64,7 @@ $(function(){
         <div class="list-group">
 	          <a href="${pageContext.request.contextPath}/store/customer/mypage" class="list-group-item">메인</a>
 	          <a href="${pageContext.request.contextPath}/store/customer/likeList" class="list-group-item">찜한상품</a>
+	          <a href="${pageContext.request.contextPath}/store/customer/followStore" class="list-group-item">팔로잉스토어</a>
 	          <a href="${pageContext.request.contextPath}/store/customer/cartlist" class="list-group-item">장바구니</a>
 	          <a href="${pageContext.request.contextPath}/store/customer/buylist" class="list-group-item">주문내역</a>
 	          <a href="${pageContext.request.contextPath}/store/customer/review" class="list-group-item">REVIEW</a>

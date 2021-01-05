@@ -287,4 +287,32 @@
 		LEFT OUTER JOIN product_bbs b ON p.productNum = b.productNum
 		WHERE sellerId = #{sellerId}
 	</select>
+	
+	<insert id="insertStoreLike" parameterType="map">
+		INSERT INTO store_follow(userId, sellerId) VALUES(#{userId},#{sellerId})
+	</insert>
+	
+	<select id="checkStoreLike" parameterType="map" resultType="Integer">
+		SELECT NVL(COUNT(*),0) FROM store_follow WHERE userId =#{userId} AND sellerId = #{sellerId}
+	</select>
+	
+	<delete id="deleteStoreLike" parameterType="map">
+		DELETE FROM store_follow WHERE userId =#{userId} AND sellerId = #{sellerId}
+	</delete>
+	
+	<select id="dataStoreFollowCount" parameterType="map" resultType="Integer">
+		SELECT NVL(COUNT(*),0) FROM store_follow WHERE sellerId = #{sellerId}
+	</select>
+	
+	<select id="dataMyStoreFollow" parameterType="String" resultType="Integer">
+		SELECT NVL(COUNT(*),0) FROM store_follow WHERE userId =#{userId}
+	</select>
+	
+	<select id="listFollow" parameterType="map" resultType="com.sp.app.customer.Customer">
+		SELECT s.sellerName, s.profile_imageFilename, f.sellerId 
+		FROM store_follow f 
+		LEFT OUTER JOIN seller s ON s.sellerId = f.sellerId 
+		WHERE f.userId =#{userId}
+		OFFSET #{offset} ROWS FETCH FIRST #{rows} ROWS ONLY
+	</select>
 </mapper>

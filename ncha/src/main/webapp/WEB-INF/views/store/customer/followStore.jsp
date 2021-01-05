@@ -48,21 +48,21 @@ function ajaxFun(url, method, dataType, query, fn) {
 	    }
 	});
 }
-function deleteCart(num){
-	if(!confirm("찜한 상품을 삭제하시겠습니까?")){
+function deleteCart(sellerId){
+	if(!confirm("스토어를 언팔로우하시겠습니까?")){
 		return;
 	}
-	var url="${pageContext.request.contextPath}/store/updateLike";	
-	var query="productNum="+num;
+	var url="${pageContext.request.contextPath}/store/updateStoreLike";	
+	var query="sellerId="+sellerId;
 	var fn = function(data) {
 		var state=data.state;
 		if(state==="true") {
-			alert("찜하기 완료!")
+			alert("팔로우 완료!")
 		} else if(state==="deltrue") {
-			alert("찜하기 취소 완료!");
-			location.replace('${pageContext.request.contextPath}/store/customer/likeList'); 
+			alert("팔로우 취소 완료!");
+			location.replace('${pageContext.request.contextPath}/store/customer/followStore'); 
 		}else if(state==="false"){
-			alert("찜하기 등록에 실패했습니다.");
+			alert("팔로우 등록에 실패했습니다.");
 		}
 	};
 	ajaxFun(url, "post", "json", query, fn);
@@ -90,17 +90,15 @@ function deleteCart(num){
       <!-- Content Column -->
 
       <div class="col-xs-12 col-md-8" style="min-height: 700px;">
-   <h2 class="mt-4 mb-3">찜한 상품
+   <h2 class="mt-4 mb-3">내가 팔로우하는 스토어
       <small>리스트</small>
     </h2>
-       <p class="text-right">찜한 상품 수 : ${dataCount}개  (${page}/${total_page} 페이지)</p>
+       <p class="text-right">스토어 수 : ${dataCount}개  (${page}/${total_page} 페이지)</p>
 		<small><table class="table text-center">
 		<thead>
 			<tr>
 				<th>상품이미지</th>
-				<th>상품명</th>
-				<th>카테고리</th>
-				<th>가격</th>
+				<th>스토어명</th>
 				<th>바로가기</th>
 				<th>설정</th>
 			</tr>
@@ -109,20 +107,18 @@ function deleteCart(num){
 		<c:forEach var="dto" items="${list}">
 			<tr>
 				<td>
-					<div class="image" style="background-image: url('${pageContext.request.contextPath}/uploads/product/${dto.imageFilename}');"></div>
+					<div class="image" style="background-image: url('${pageContext.request.contextPath}/uploads/member/${dto.profile_imageFilename}');"></div>
 				</td>
-				<td>${dto.productName}</td>
-				<td>${dto.categoryName}</td>
-				<td><fmt:formatNumber  type="currency"  value="${dto.price - dto.discount_rate}"/>원</td>
-				<td><a href="${pageContext.request.contextPath}/store/article?page=1&num=${dto.productNum}"> [상품글로 이동]</a></td>
+				<td>${dto.sellerName}</td>
+				<td><a href="${pageContext.request.contextPath}/store/myFollowStore?page=1&sellerId=${dto.sellerId}"> [스토어로 이동]</a></td>
 				<td>
-					<button class="btn btn-danger btn-xs" onclick="deleteCart('${dto.productNum}')" >삭제</button>
+					<button class="btn btn-danger btn-xs" onclick="deleteCart('${dto.sellerId}')" >삭제</button>
 				</td>
 			</tr>
 		</c:forEach>
 		</tbody>
 		</table></small>
-          <p class="text-center">${dataCount==0?"등록된 게시물이 없습니다.":paging}</p>
+          <p class="text-center">${dataCount==0?"등록된 스토어가 없습니다.":paging}</p>
     
     
       </div>

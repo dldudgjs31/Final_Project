@@ -484,5 +484,52 @@ public class CustomerController {
 		
 		return".store.customer.likeList";
 	}
+	@RequestMapping("followStore")
+	public String followStore(
+			@RequestParam(value = "page", defaultValue = "1") int current_page,
+			HttpSession session,
+			HttpServletRequest req,
+			Model model
+			)throws Exception{
+		SessionInfo info =(SessionInfo)session.getAttribute("member");
+		int rows = 10;
+		int total_page = 0;
+		int dataCount = 0;
+		Map<String, Object> map = new HashMap<>();
+		map.put("userId",info.getUserId());
+		dataCount =service3.dataMyStoreFollow(info.getUserId());
+		if (dataCount != 0) {
+			total_page = myUtil.pageCount(rows, dataCount);
+		}
+		if (total_page < current_page) {
+			current_page = total_page;
+		}
+		int offset = (current_page - 1) * rows;
+		if (offset < 0)
+			offset = 0;
+		map.put("offset", offset);
+		map.put("rows", rows);
+		List<Customer> list = service3.listFollow(map);
+		int listNum=0; 
+		int n = 0;
+		if(list !=null) {
+			for (Customer dto : list) {
+				listNum = dataCount - (offset + n);
+				dto.setListNum(listNum);
+				n++;
+			}
+		}
+		String cp = req.getContextPath();
+		String listUrl = cp + "/store/customer/followStore";
+		String paging = myUtil.paging(current_page, total_page, listUrl);
+		model.addAttribute("page", current_page);
+		model.addAttribute("total_page", total_page);
+		model.addAttribute("dataCount", dataCount);
+		model.addAttribute("paging", paging);
+		model.addAttribute("list", list);
+		return".store.customer.followStore";
+		
+	}
+	
 	
 }
