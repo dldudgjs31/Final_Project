@@ -14,6 +14,7 @@ public class Store {
 	private String detail;
 	private int stock;
 	private String sellerId;
+	private String sellerName;
 	private int categoryNum;
 	private String categoryName;
 	private int discount_rate;
@@ -34,6 +35,12 @@ public class Store {
 	private List<Integer> option_number;
 	private List<Store> optionlist;
 	
+	public String getSellerName() {
+		return sellerName;
+	}
+	public void setSellerName(String sellerName) {
+		this.sellerName = sellerName;
+	}
 	public int getLikeCount() {
 		return likeCount;
 	}

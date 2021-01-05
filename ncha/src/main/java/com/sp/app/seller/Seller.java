@@ -13,10 +13,16 @@ public class Seller {
 	private String created_date;
 	private String modify_date;
 	private int allow;
-	
+	private String introduce;
 	private MultipartFile uploadphoto;
 	private String profile_imageFilename;
 	
+	public String getIntroduce() {
+		return introduce;
+	}
+	public void setIntroduce(String introduce) {
+		this.introduce = introduce;
+	}
 	public int getListNum() {
 		return listNum;
 	}

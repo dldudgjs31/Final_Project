@@ -79,10 +79,10 @@ public class SellerServiceImpl implements SellerService {
 			if(serverFilename != null) {
 				if(dto.getProfile_imageFilename().length()!=0) {
 					fileManager.doFileDelete(dto.getProfile_imageFilename(), pathname);
+					dto.setProfile_imageFilename(serverFilename);
 				}
 			}
 			
-			dto.setProfile_imageFilename(serverFilename);
 			 
 			if(dto.getEmail1().length()!=0 && dto.getEmail2().length()!=0) {
 				dto.setEmail(dto.getEmail1() + "@" + dto.getEmail2());

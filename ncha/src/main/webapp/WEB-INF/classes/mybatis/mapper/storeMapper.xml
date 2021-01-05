@@ -69,7 +69,7 @@
 	 </sql>
 	 
 	 <select id="listProduct" parameterType="map" resultType="com.sp.app.store.Store">
-		SELECT b.productNum,productName,b.created_date,hitCount,price, detail, stock, discount_rate,b.sellerId,categoryNum, imageFilename, profile_imagefilename
+		SELECT b.productNum,productName,b.created_date,hitCount,price, detail, stock, discount_rate,b.sellerId,categoryNum, imageFilename, profile_imagefilename,m.sellername
 		FROM product_bbs b
 		JOIN seller m ON b.sellerId=m.sellerId
 		LEFT OUTER JOIN (
@@ -90,7 +90,7 @@
 	 </select>
 	 
 	 <select id="listMyProduct" parameterType="map" resultType="com.sp.app.store.Store">
-		SELECT b.productNum,productName,b.created_date,hitCount,price, detail, stock, discount_rate,b.sellerId,b.categoryNum, imageFilename, profile_imagefilename, c.categoryName
+		SELECT b.productNum,productName,b.created_date,hitCount,price, detail, stock, discount_rate,b.sellerId,b.categoryNum, imageFilename, profile_imagefilename, c.categoryName,m.sellername
 		FROM product_bbs b
 		LEFT OUTER JOIN seller m ON b.sellerId=m.sellerId
 		LEFT OUTER JOIN product_category c ON c.categoryNum = b.categoryNum
@@ -108,7 +108,7 @@
 	 </select>
 	 
 	 <select id="readProduct" parameterType="Integer" resultType="com.sp.app.store.Store">
-	 	SELECT productNum,productName,b.created_date,hitCount,price, detail, stock, discount_rate,b.sellerId,c.categoryNum,c.categoryName,m.profile_imagefilename
+	 	SELECT productNum,productName,b.created_date,hitCount,price, detail, stock, discount_rate,b.sellerId,c.categoryNum,c.categoryName,m.profile_imagefilename,m.sellername
 		FROM product_bbs b
 		JOIN product_category  c ON c.categoryNum = b.categoryNum
 		JOIN seller m ON b.sellerId=m.sellerId

@@ -218,6 +218,25 @@ $(function(){
 		$("input[name=stock]").val(stock);
 	});
 }); 
+
+//할인금액 제한 설정
+$(function(){
+	
+	$("input[name=price]").blur(function(){
+		if($("input[name=price]").val()<$("input[name=discount_rate]").val()){
+			alert("할인금액은 정가보다 높게 설정할 수 없습니다.")
+			$("input[name=discount_rate]").val("0");
+			return;
+		}
+	});
+	$("input[name=discount_rate]").blur(function(){
+		if($("input[name=price]").val()<$("input[name=discount_rate]").val()){
+			alert("할인금액은 정가보다 높게 설정할 수 없습니다.");
+			$("input[name=discount_rate]").val("0");
+			return;
+		}
+	});
+});
 </script>
 
 

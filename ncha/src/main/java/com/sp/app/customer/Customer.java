@@ -17,7 +17,7 @@ public class Customer {
 	private String addr1;
 	private String addr2;
 	private String zip;
-	
+	private String sellerName;
 	//주문 정보
 	private int quantity;
 	private String userId;
@@ -49,6 +49,12 @@ public class Customer {
 	
 	
 	
+	public String getSellerName() {
+		return sellerName;
+	}
+	public void setSellerName(String sellerName) {
+		this.sellerName = sellerName;
+	}
 	public String getStartdate() {
 		return startdate;
 	}

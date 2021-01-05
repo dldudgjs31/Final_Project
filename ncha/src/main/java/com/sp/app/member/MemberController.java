@@ -209,7 +209,9 @@ public class MemberController {
 			
 			return "redirect:/member/complete";
 		}
-
+		System.out.println(dto.getProfile_imageFilename()+"------------------------------");
+		System.out.println(dto.getProfile_imageFilename()+"------------------------------");
+		System.out.println(dto.getProfile_imageFilename()+"------------------------------");
 		// 회원정보수정폼
 		model.addAttribute("dto", dto);
 		model.addAttribute("mode", "update");
@@ -226,6 +228,9 @@ public class MemberController {
 		try {
 			String root = session.getServletContext().getRealPath("/");
 			String pathname = root+File.separator+"uploads"+File.separator+"member";
+			System.out.println(dto.getProfile_imageFilename()+"------------------------------");
+			System.out.println(dto.getProfile_imageFilename()+"------------------------------");
+			System.out.println(dto.getProfile_imageFilename()+"------------------------------");
 			service.updateMember(dto, pathname);
 		} catch (Exception e) {
 		}

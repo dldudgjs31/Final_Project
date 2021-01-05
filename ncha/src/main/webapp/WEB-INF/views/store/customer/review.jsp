@@ -233,7 +233,7 @@ function updateReview(reviewNum){
 					<div class="product_image" style="background-image: url('${pageContext.request.contextPath}/uploads/product/${dto.imageFilename}"></div>
 				</td>
 				<td class="text-left">
-					<p>판매자 : ${dto.sellerId} </p>
+					<p>판매자 : ${dto.sellerName} </p>
 					<p>상품명 : ${dto.productName} </p>
 					<p>옵션 : ${dto.order_option} / [ ${dto.number_sales}개 ]
 				</td>

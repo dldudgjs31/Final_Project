@@ -217,7 +217,7 @@ function preWatchphoto(input){
 				 <div class="profile_photo" >
 				 <c:choose>
 				 	<c:when test="${empty dto.profile_imageFilename}">
-				  	<img id ="img" src="${pageContext.request.contextPath}/resources/img/user.png" style="margin:10px 0;width: 200px; height: 200px; border: 2px solid silver;"/>
+				  	<img id ="img" src="${pageContext.request.contextPath}/resources/img/nophoto.png" style="margin:10px 0;width: 200px; height: 200px; border: 2px solid silver;"/>
 				 	</c:when>
 				 	<c:when test="${not empty dto.profile_imageFilename}">
 				  	<img id ="img" src="${pageContext.request.contextPath}/uploads/member/${dto.profile_imageFilename}" style="margin:10px 0;width: 200px; height: 200px; border: 2px solid silver;"/>
@@ -337,7 +337,7 @@ function preWatchphoto(input){
 			       			<input type="hidden" name="profile_imageFilename" value="${dto.profile_imageFilename}">
 		</c:if>
 		<div class="row" style="display: flex; justify-content: center;">
-	            <button type="submit" name="sendButton" class="btn btn-primary" onclick="memberOk();">${mode=="member"?"회원가입":"정보수정"} <span class="glyphicon glyphicon-ok"></span></button>
+	            <button type="submit"  name="sendButton" class="btn btn-primary" onclick="memberOk();">${mode=="member"?"회원가입":"정보수정"} <span class="glyphicon glyphicon-ok"></span></button>
 	            &nbsp;&nbsp;<button type="reset" class="btn btn-primary">다시입력</button>
 	            &nbsp;&nbsp;<button type="button" class="btn btn-danger" onclick="javascript:location.href='${pageContext.request.contextPath}/';">${mode=="member"?"가입취소":"수정취소"} <span class="glyphicon glyphicon-remove"></span></button>
 		</div>

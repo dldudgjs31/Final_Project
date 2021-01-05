@@ -363,7 +363,7 @@ function buyOk() {
 			<p>
 			<div id="profile">
 	            <div id="profile_image" style="background-image: url('${pageContext.request.contextPath}/uploads/member/${dto.profile_imagefilename}');"></div>
-	            <div> ${dto.sellerId}</div>
+	            <div> ${dto.sellerName}</div>
             </div>
 			</p>
 			<p>조회수 : ${dto.hitCount} | 평점 : <span style="color:#FFCD28;">${dto.score}</span></p>
