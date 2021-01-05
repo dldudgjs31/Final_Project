@@ -46,7 +46,6 @@ function preWatchphoto(input){
     
         <div>
 			<form name="memberForm" method="post" enctype="multipart/form-data">
-
 			 <!-- 프로필 사진 업로드 및 미리 보여주기 -->
 			 <div style="margin-bottom: 20px; margin-top: 30px; margin-left: 300px;">
 				 <label style="font-weight: 900; font-size: 50;">프로필 사진${dto.userId}</label>
@@ -69,9 +68,8 @@ function preWatchphoto(input){
 			  <table style="width: 100%; margin: 0px auto; border-spacing: 0px;">
 			     <tr height="45"> 
 			      <td align="center" >
-			       	<c:if test="${mode=='update'}">
-			       			<%-- <input type="hidden" name="profile_imageFilename" value="${dto.profile_imageFilename}"> --%>
-					</c:if>
+			       	<input type="hidden" name="profile_imageFilename" value="${dto.profile_imageFilename}">
+			       	<input type="hidden" name="introduce" value="${dto.introduce}">
 			        <button type="button" name="sendButton" class="btn" onclick="memberOk('${dto.userId}');">정보수정</button>
 			        <button type="reset" class="btn">다시입력</button>
 			        <button type="button" class="btn" onclick="javascript:location.href='${pageContext.request.contextPath}/mypage/profile';">수정취소</button>

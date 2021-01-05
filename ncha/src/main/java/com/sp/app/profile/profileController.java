@@ -173,12 +173,13 @@ public class profileController {
 			final RedirectAttributes reAttr,
 			Model model,
 			HttpSession session) throws Exception{
-		String root = session.getServletContext().getRealPath("/");
-		String pathname = root+"uploads"+File.separator+"member";
 		SessionInfo info=(SessionInfo)session.getAttribute("member");
 		
 		Member dto = service.readProfile(info.getUserId());
-		service.updateProfile(dto, pathname);
+		System.out.println(dto.getProfile_imageFilename()+"-----------------------------------------------------------------");
+		System.out.println(dto.getProfile_imageFilename()+"-----------------------------------------------------------------");
+		System.out.println(dto.getProfile_imageFilename()+"-----------------------------------------------------------------");
+		
 		model.addAttribute("dto", dto);
 		
 		return ".ncha_bbs.main.profile_update";
@@ -199,9 +200,9 @@ public class profileController {
 			service.updateProfile(dto, pathname);
 		} catch (Exception e) {
 		}
-		
+		SessionInfo info = (SessionInfo)session.getAttribute("member");
 		StringBuilder sb=new StringBuilder();
-		sb.append(dto.getUserName()+ "님의 회원정보가 정상적으로 변경되었습니다.<br>");
+		sb.append(info.getUserName()+ "님의 회원정보가 정상적으로 변경되었습니다.<br>");
 		sb.append("메인화면으로 이동 하시기 바랍니다.<br>");
 		
 		reAttr.addFlashAttribute("title", "회원 정보 수정");

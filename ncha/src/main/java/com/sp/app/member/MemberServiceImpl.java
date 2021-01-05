@@ -336,12 +336,12 @@ public class MemberServiceImpl implements MemberService {
 		if(serverFilename != null) {
 			if(dto.getProfile_imageFilename().length()!=0) {
 				fileManager.doFileDelete(dto.getProfile_imageFilename(), pathname);
+				dto.setProfile_imageFilename(serverFilename);
+				dao.updateData("member.updateProfile", dto);
 			}
 		}
-		dto.setProfile_imageFilename(serverFilename);
 
 		
-		dao.updateData("member.updateProfile", dto);
 	} catch (Exception e) {
 		e.printStackTrace();
 		throw e;
