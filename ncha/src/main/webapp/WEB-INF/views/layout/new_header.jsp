@@ -33,6 +33,22 @@
               <a class="dropdown-item" href="${pageContext.request.contextPath}/event/proceedList">N차_이벤트</a>
             </div>         
              </li>
+            
+            
+            
+            <c:if test="${sessionScope.member.userId=='admin'}">
+	          <li class="nav-item dropdown">
+	          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownPortfolio" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+	          	배너 관리
+	          </a>
+	          <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownPortfolio">
+              	<a class="dropdown-item" href="${pageContext.request.contextPath}/admin/ncha_banner/created">전체 새로올리기</a>
+               <a class="dropdown-item" href="${pageContext.request.contextPath}/admin/ncha_banner/update">배너 수정</a>
+              </div>      
+	          </li>
+          </c:if> 
+             
+             
 		 <c:if test="${not empty sessionScope.member}">
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownPortfolio" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

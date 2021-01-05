@@ -1,10 +1,10 @@
-package com.sp.app.admin.banner;
+package com.sp.app.admin.storebanner;
 
 import java.util.List;
 
 import org.springframework.web.multipart.MultipartFile;
 
-public class Banner {
+public class StoreBanner {
 	
 	private int fileNum; //갯수제한	
 	private String serverFilename; //서버에 저장되는 이름

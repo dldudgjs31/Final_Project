@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="adminbanner">
+<mapper namespace="storebanner">
 
 	<!-- 시퀀스 -->
 	<select id="storebanner_seq" resultType="Integer">
 		SELECT storebanner_seq.NEXTVAL FROM dual
 	</select>
 
-	<insert id="insertBanner" parameterType="com.sp.app.admin.banner.Banner">
+	<insert id="insertBanner" parameterType="com.sp.app.admin.storebanner.StoreBanner">
 		INSERT INTO storebanner(fileNum,serverFilename) VALUES (#{fileNum} ,#{serverFilename})
 	</insert>
 	
-	<select id="imageList" parameterType="Integer"  resultType="com.sp.app.admin.banner.Banner">
+	<select id="imageList" parameterType="Integer"  resultType="com.sp.app.admin.storebanner.StoreBanner">
 		SELECT fileNum, serverFilename
 		FROM storebanner
 		ORDER BY fileNum

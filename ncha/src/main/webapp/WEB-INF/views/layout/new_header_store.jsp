@@ -26,8 +26,8 @@
 	          	배너 관리
 	          </a>
 	          <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownPortfolio">
-              	<a class="dropdown-item" href="${pageContext.request.contextPath}/admin/banner/created">전체 새로올리기</a>
-               <a class="dropdown-item" href="${pageContext.request.contextPath}/admin/banner/update">배너 수정</a>
+              	<a class="dropdown-item" href="${pageContext.request.contextPath}/admin/storebanner/created">전체 새로올리기</a>
+               <a class="dropdown-item" href="${pageContext.request.contextPath}/admin/storebanner/update">배너 수정</a>
               </div>      
 	          </li>
           </c:if>

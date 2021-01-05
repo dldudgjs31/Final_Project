@@ -44,7 +44,7 @@ function check() {
 		}
 	}
     
-	f.action="${pageContext.request.contextPath}/admin/banner/${mode}";
+	f.action="${pageContext.request.contextPath}/admin/storebanner/${mode}";
 	f.submit();
 };
     //업로드한 이미지 미리보기
@@ -108,7 +108,7 @@ $(function(){
 	});
 }); 
 function deleteFile(fileNum) {
-		var url="${pageContext.request.contextPath}/admin/banner/delete";
+		var url="${pageContext.request.contextPath}/admin/storebanner/delete";
 		$.post(url, {fileNum:fileNum}, function(data){
 			$("#file"+fileNum).remove();
 		}, "json");

@@ -1,4 +1,4 @@
-package com.sp.app.admin.banner;
+package com.sp.app.admin.storebanner;
 
 import java.io.File;
 import java.util.List;
@@ -14,12 +14,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-@Controller("admin.banner.bannerController")
-@RequestMapping("/admin/banner/*")
-public class BannerController {
+@Controller("admin.storebanner.storeBannerController")
+@RequestMapping("/admin/storebanner/*")
+public class StoreBannerController {
 	
 	@Autowired
-	private BannerService service;
+	private StoreBannerService service;
 
 	// 모든 배너를 삭제후, 다시올림
 	@RequestMapping(value="created", method = RequestMethod.GET)
@@ -28,14 +28,14 @@ public class BannerController {
 			Model model) throws Exception{
 		
 		model.addAttribute("mode","created");
-		return ".admin.banner.created";
+		return ".admin.storebanner.created";
 	}
 	
 	
 	
 	@RequestMapping(value="created", method = RequestMethod.POST)
 	public String writeSubmit(
-			Banner dto,
+			StoreBanner dto,
 			HttpSession session,
 			HttpServletRequest req,
 			Model model) throws Exception{
@@ -62,20 +62,20 @@ public class BannerController {
 			HttpSession session,
 			Model model) throws Exception {
 		
-		List<Banner> list = service.listFile(); //사진파일리스트
+		List<StoreBanner> list = service.listFile(); //사진파일리스트
 		
 		model.addAttribute("list",list);
 		model.addAttribute("mode","update");
 		
 		
-		return ".admin.banner.created";
+		return ".admin.storebanner.created";
 	}
 	
 	
 	@RequestMapping(value = "update", method = RequestMethod.POST)
 	public String updateSubmit(
 			Model model,
-			Banner dto,
+			StoreBanner dto,
 			HttpSession session) throws Exception{
 		
 		

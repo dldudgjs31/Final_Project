@@ -1,4 +1,4 @@
-package com.sp.app.admin.banner;
+package com.sp.app.admin.storebanner;
 
 import java.util.List;
 
@@ -9,8 +9,8 @@ import org.springframework.web.multipart.MultipartFile;
 import com.sp.app.common.FileManager;
 import com.sp.app.common.dao.CommonDAO;
 
-@Service("admin.banner.bannerService")
-public class BannerServiceImpl implements BannerService{
+@Service("admin.storebanner.StorebannerService")
+public class StoreBannerServiceImpl implements StoreBannerService{
 
 	@Autowired
 	private CommonDAO dao;
@@ -18,19 +18,19 @@ public class BannerServiceImpl implements BannerService{
 	private FileManager fileManager;
 	
 	@Override
-	public void insertImage(Banner dto, String pathname) throws Exception {
+	public void insertImage(StoreBanner dto, String pathname) throws Exception {
 		
 		try {
 			if(! dto.getUpload().isEmpty()) {
 				for(MultipartFile mf : dto.getUpload()) {
-					int num =  dao.selectOne("adminbanner.storebanner_seq");
+					int num =  dao.selectOne("storebanner.storebanner_seq");
 					dto.setFileNum(num);
 					
 					String imageFilename = fileManager.doFileUpload(mf, pathname);
 					if(imageFilename==null) continue;
 					
 					dto.setServerFilename(imageFilename);
-					dao.insertData("adminbanner.insertBanner",dto);
+					dao.insertData("storebanner.insertBanner",dto);
 				}
 			}
 		
@@ -41,11 +41,11 @@ public class BannerServiceImpl implements BannerService{
 	}
 
 	@Override
-	public List<Banner> listFile() throws Exception {
-		List<Banner>list = null;
+	public List<StoreBanner> listFile() {
+		List<StoreBanner>list = null;
 		
 		try {
-			list = dao.selectList("adminbanner.imageList");
+			list = dao.selectList("storebanner.imageList");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -55,7 +55,7 @@ public class BannerServiceImpl implements BannerService{
 	@Override
 	public void deleteImage(int fileNum) throws Exception {
 		try {
-			dao.deleteData("adminbanner.deleteImage",fileNum);
+			dao.deleteData("storebanner.deleteImage",fileNum);
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw e;
@@ -63,7 +63,7 @@ public class BannerServiceImpl implements BannerService{
 	}
 
 	@Override
-	public void updateImage(Banner dto, String pathname) throws Exception {
+	public void updateImage(StoreBanner dto, String pathname) throws Exception {
 		try {
 			if(!dto.getUpload().isEmpty()) {
 				for(MultipartFile mf : dto.getUpload()) {
@@ -84,7 +84,7 @@ public class BannerServiceImpl implements BannerService{
 	@Override
 	public void deleteAll() throws Exception {
 		try {
-			dao.deleteData("adminbanner.deleteAll");
+			dao.deleteData("storebanner.deleteAll");
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw e;

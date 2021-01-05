@@ -12,8 +12,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.sp.app.admin.banner.Banner;
-import com.sp.app.admin.banner.BannerService;
+import com.sp.app.admin.ncha_banner.NchaBanner;
+import com.sp.app.admin.ncha_banner.NchaBannerService;
+import com.sp.app.admin.storebanner.StoreBanner;
+import com.sp.app.admin.storebanner.StoreBannerService;
 import com.sp.app.count.CountManager;
 import com.sp.app.customer.CustomerService;
 import com.sp.app.daily.Daily;
@@ -39,8 +41,9 @@ public class NchaController{
 	@Autowired
 	private MemberService service4;
 	@Autowired
-	private BannerService service5;
-	
+	private StoreBannerService service5;
+	@Autowired
+	private NchaBannerService service6;
 	
 	/**
 	 * n-cha 중고거래 파트 메인 페이지(home)
@@ -57,7 +60,9 @@ public class NchaController{
 		  Daily dailyRank1 = null; 
 		  Used usedRank1 = null;
 		  List<Member> list = service4.rankFollower();
-
+		  List<NchaBanner>bannerlist = service6.listFile();
+		  
+		  System.out.println("bl:" +bannerlist.size());
 		  
 		  try {
 			  storeRank = service1.readProduct();
@@ -66,8 +71,12 @@ public class NchaController{
 			  
 			  dailyRank1 = service2.readDailyLike();
 			  usedRank1 = service3.readUsedLike();
+	
 		} catch (Exception e) {
 		}
+		  
+		  
+		  
 		  
 		   int currentCount;
 		   long toDayCount, yesterDayCount, totalCount;
@@ -87,7 +96,7 @@ public class NchaController{
 		  model.addAttribute("usedRank", usedRank);
 		  model.addAttribute("dailyRank1",dailyRank1); 
 		  model.addAttribute("usedRank1", usedRank1);
-		  
+		  model.addAttribute("bannerlist",bannerlist);
 		  
 		  
 		
@@ -112,8 +121,8 @@ public class NchaController{
 			HttpSession session,
 			Model model) throws Exception{
 		
-		List<Banner>list = service5.listFile();
-		
+		List<StoreBanner>list = service5.listFile();
+	
 		model.addAttribute("list",list);
 		
 		return ".store.main.main";

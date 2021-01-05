@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="nchabanner">
+
+	<!-- 시퀀스 -->
+	<select id="nchabanner_seq" resultType="Integer">
+		SELECT nchabanner_seq.NEXTVAL FROM dual
+	</select>
+
+	<insert id="insertBanner" parameterType="com.sp.app.admin.ncha_banner.NchaBanner">
+		INSERT INTO ncha_banner(fileNum,serverFilename) VALUES (#{fileNum} ,#{serverFilename})
+	</insert>
+	
+	<select id="imageList" parameterType="Integer"  resultType="com.sp.app.admin.ncha_banner.NchaBanner">
+		SELECT fileNum, serverFilename
+		FROM ncha_banner
+		ORDER BY fileNum
+	</select>
+	
+	<delete id="deleteImage" parameterType="Integer">
+		DELETE FROM ncha_banner WHERE fileNum = #{fileNum}
+	</delete>
+	
+	<delete id="deleteAll">
+		TRUNCATE TABLE ncha_banner
+	</delete>
+	
+</mapper>
