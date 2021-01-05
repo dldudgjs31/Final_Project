@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -11,6 +12,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.sp.app.admin.banner.Banner;
+import com.sp.app.admin.banner.BannerService;
 import com.sp.app.count.CountManager;
 import com.sp.app.customer.CustomerService;
 import com.sp.app.daily.Daily;
@@ -35,7 +38,8 @@ public class NchaController{
 	private UsedService service3;
 	@Autowired
 	private MemberService service4;
-	
+	@Autowired
+	private BannerService service5;
 	
 	
 	/**
@@ -104,7 +108,13 @@ public class NchaController{
 	 * @return
 	 */
 	@RequestMapping("/store/main")
-	public String storeHome() {
+	public String storeHome(
+			HttpSession session,
+			Model model) throws Exception{
+		
+		List<Banner>list = service5.listFile();
+		
+		model.addAttribute("list",list);
 		
 		return ".store.main.main";
 	}

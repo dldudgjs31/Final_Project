@@ -11,33 +11,22 @@
 
     <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
       <ol class="carousel-indicators">
-        <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
-        <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-        <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+      	<c:forEach var="dto" items="${list}" varStatus="status">
+      		<li data-target="#carouselExampleIndicators" data-slide-to="${status.index}" class="${status.index==0?'active':'' }"></li>
+      	</c:forEach> 
       </ol>
+      
       <div class="carousel-inner" role="listbox">
         <!-- Slide One - Set the background image for this slide in the line below -->
-        <div class="carousel-item active" style="background-image: url('http://placehold.it/1900x1080')">
-          <div class="carousel-caption d-none d-md-block">
-            <h3>First Slide</h3>
-            <p>This is a description for the first slide.</p>
-          </div>
+       <c:forEach var="dto" items="${list}" varStatus="status"> 
+        <div class="carousel-item ${status.index==0?'active':'' }" style="background-image: url('${pageContext.request.contextPath}/uploads/storebanner/${dto.serverFilename}')">
         </div>
-        <!-- Slide Two - Set the background image for this slide in the line below -->
-        <div class="carousel-item" style="background-image: url('http://placehold.it/1900x1080')">
-          <div class="carousel-caption d-none d-md-block">
-            <h3>Second Slide</h3>
-            <p>This is a description for the second slide.</p>
-          </div>
-        </div>
-        <!-- Slide Three - Set the background image for this slide in the line below -->
-        <div class="carousel-item" style="background-image: url('http://placehold.it/1900x1080')">
-          <div class="carousel-caption d-none d-md-block">
-            <h3>Third Slide</h3>
-            <p>This is a description for the third slide.</p>
-          </div>
-        </div>
+       </c:forEach>
       </div>
+      
+      
+      
+  
       <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
         <span class="carousel-control-prev-icon" aria-hidden="true"></span>
         <span class="sr-only">Previous</span>

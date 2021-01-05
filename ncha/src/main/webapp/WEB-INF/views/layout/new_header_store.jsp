@@ -18,6 +18,22 @@
           <li class="nav-item">
             <a class="nav-link" href="${pageContext.request.contextPath}/store/list">N차_스토어</a>
           </li>
+          
+          
+           <c:if test="${sessionScope.member.userId=='admin'}">
+	          <li class="nav-item dropdown">
+	          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownPortfolio" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+	          	배너 관리
+	          </a>
+	          <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownPortfolio">
+              	<a class="dropdown-item" href="${pageContext.request.contextPath}/admin/banner/created">전체 새로올리기</a>
+               <a class="dropdown-item" href="${pageContext.request.contextPath}/admin/banner/update">배너 수정</a>
+              </div>      
+	          </li>
+          </c:if>
+          
+          
+          
           <li class="nav-item dropdown">
  			<a class="nav-link dropdown-toggle" href="#" id="navbarDropdownPortfolio" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               N차_소식
