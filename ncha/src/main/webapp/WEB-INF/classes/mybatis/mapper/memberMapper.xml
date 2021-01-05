@@ -21,8 +21,8 @@
  <update id="insertMember12" parameterType="com.sp.app.member.Member">           
       INSERT ALL
  		  	INTO memberId (memberIdx) values (member_seq.NEXTVAL)
- 			into member (memberIdx,userId,userName,userPwd,tel,zip,addr1,addr2,birth,email,introduce,profile_imageFilename)
- 			values (member_seq.NEXTVAL,#{userId}, #{userName}, #{userPwd}, #{tel}, #{zip}, #{addr1}, #{addr2, jdbcType=VARCHAR}, #{birth}, 
+ 			into member (memberIdx,userId,introduce,userName,userPwd, tel, zip,addr1,addr2,birth,email,introduce,profile_imageFilename)
+ 			values (member_seq.NEXTVAL,#{userId}, #{introduce},#{userName}, #{userPwd}, #{tel}, #{zip}, #{addr1}, #{addr2, jdbcType=VARCHAR}, #{birth}, 
              	#{email, jdbcType=VARCHAR}, #{introduce, jdbcType=VARCHAR}, #{profile_imageFilename, jdbcType=VARCHAR}) 
  			select * from dual
     </update>

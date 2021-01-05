@@ -12,6 +12,12 @@
 #img{
 	border-radius: 100%;
 }
+.btn{
+	font-family : 'Jua', sans-serif;
+}
+h3{
+	font-family : 'Jua', sans-serif;
+}
 </style>
 
 
@@ -21,7 +27,7 @@ function memberOk(userId) {
 	var str;
 	
 	var mode = "${mode}";
-	if(mode=="update"&& !f.uploadphoto.value){
+	if(mode=="member"&& !f.uploadphoto.value){
 		alert("이미지 파일을 선택하세요.");
 		f.uploadphoto.focus();
 		return;
@@ -195,112 +201,112 @@ function preWatchphoto(input){
 }
 
 </script>
+<br>
 <div class="row body-title">
-          <h3><span class="glyphicon glyphicon-user"></span> ${mode=="member"?"회원 가입":"회원 정보 수정"} </h3>
+          <h3 style="font-family : 'Jua', sans-serif;"> <i class="fas fa-user-plus"></i>&nbsp;&nbsp;${mode=="member"?"회원 가입":"회원 정보 수정"} </h3>
     </div>
     
     <div class="row alert alert-info">
         <i class="glyphicon glyphicon-info-sign"></i> N차 신상의 회원이 되시면 회원님만의 유익한 정보를 만날수 있습니다.
     </div>
     
-    
-		
-
-
 <hr>
-	 <form class="form-horizontal" name="memberForm" method="post" onsubmit="return check();" enctype="multipart/form-data">
-			 <!-- 프로필 사진 업로드 및 미리 보여주기 -->
+	<form  name="memberForm" method="post" onsubmit="return check();" enctype="multipart/form-data">
  			 <div >
  			 <label class="col-sm-2 control-label" for="userPwd">프로필 사진</label>
 				 <div class="profile_photo" >
+				 <c:choose>
+				 	<c:when test="${empty dto.profile_imageFilename}">
 				  	<img id ="img" src="${pageContext.request.contextPath}/resources/img/user.png" style="margin:10px 0;width: 200px; height: 200px; border: 2px solid silver;"/>
+				 	</c:when>
+				 	<c:when test="${not empty dto.profile_imageFilename}">
+				  	<img id ="img" src="${pageContext.request.contextPath}/uploads/member/${dto.profile_imageFilename}" style="margin:10px 0;width: 200px; height: 200px; border: 2px solid silver;"/>
+				 	</c:when>
+				 </c:choose>
 				 </div>
-				 <input type="file" name="uploadphoto" accept="image/*" onchange="preWatchphoto(this)">	 
 			 </div> 
-			 
-	    <div class="form-group">
-	        <label class="col-sm-2 control-label" for="userId">아이디</label>
-	        <div class="col-sm-6">
-	            <input class="form-control" id="userId"  onchange="userIdCheck();" name="userId" type="text" placeholder="아이디"
+			  <input type="file" name="uploadphoto" accept="image/*" onchange="preWatchphoto(this)"><br> 	<br> 
+    <table class="table">
+    <tr>
+    	<td>자기소개</td>
+    	<td>
+			<textarea class="form-control content" name="introduce">${dto.introduce}</textarea>
+    	</td>
+    </tr>
+    <tr>
+    	<td>아이디</td>
+    	<td>
+    		<input class="form-control" id="userId"  onchange="userIdCheck();" name="userId" type="text" placeholder="아이디"
 	                       value="${dto.userId}"
 	                       ${mode=="update" ? "readonly='readonly' style='border:none;'":""}>
 	            <p class="help-block">아이디는 5~10자 이내이며, 첫글자는 영문자로 시작해야 합니다.</p>
-	        </div>
-	    </div>
-	 <hr>
-	    <div class="form-group">
-	        <label class="col-sm-2 control-label" for="userPwd">패스워드</label>
-	        <div class="col-sm-6">
+    	</td>
+    </tr>
+    <tr>
+    	<td>패스워드</td>
+    	<td>
 	            <input class="form-control" id="userPwd" name="userPwd" type="password" placeholder="비밀번호">
 	            <p class="help-block">패스워드는 5~10자이며 하나 이상의 숫자나 특수문자가 포함되어야 합니다.</p>
-	        </div>
-	    </div>
-	    <hr>
-	    <div class="form-group">
-	        <label class="col-sm-2 control-label" for="userPwdCheck">패스워드 확인</label>
-	        <div class="col-sm-6">
+    	</td>
+    </tr>
+    <tr>
+    	<td>패스워드 확인</td>
+    	<td>
 	            <input class="form-control" id="userPwdCheck" name="userPwdCheck" type="password" placeholder="비밀번호 확인">
 	            <p class="help-block">패스워드를 한번 더 입력해주세요.</p>
-	        </div>
-	    </div>
-	 <hr>
-	    <div class="form-group">
-	        <label class="col-sm-2 control-label" for="userName">이름</label>
-	        <div class="col-sm-8">
+    	</td>
+    </tr>
+    <tr>
+    	<td>이름 </td>
+    	<td>
 	            <input class="form-control" id="userName" name="userName" type="text" placeholder="이름"
 	                       value="${dto.userName}" ${mode=="update" ? "readonly='readonly' style='border:none;' ":""}>
-	        </div>
-	    </div>
-	 <hr>
-	    <div class="form-group">
-	        <label class="col-sm-2 control-label" for="birth">생년월일</label>
-	        <div class="col-sm-8">
+    	</td>
+    </tr>
+    <tr>
+    	<td>생년월일 </td>
+    	<td>
 	            <input class="form-control" id="birth" name="birth" type="text" placeholder="생년월일" value="${dto.birth}">
 	            <p class="help-block">생년월일은 2000-01-01 형식으로 입력 합니다.</p>
-	        </div>
-	    </div>
-	    <hr>
-	    <div class="form-group">
-	        <label class="col-sm-2 control-label" for="addr">우편번호</label>
-	        <div class="col-sm-8">
+    	</td>
+    </tr>
+    <tr>
+    	<td>우편번호 </td>
+    	<td>
 	            <input class="form-control" type="text" name="zip" id="zip" value="${dto.zip}">
-	           <button type="button" class="btn" onclick="daumPostcode();"> 우편번호</button>    
-	        </div>
-	    </div> 
-	    <div class="form-group">
-	        <label class="col-sm-2 control-label" for="addr">주소</label>
-	        <div class="col-sm-8">
-	            <input class="form-control" type="text" name="addr1" id="addr1"  value="${dto.addr1}" placeholder="기본 주소" readonly="readonly">
-	        </div>
-	        <div class="col-sm-8">
-	            <input class="form-control" type="text" name="addr2" id="addr2" value="${dto.addr2}" placeholder="나머지 주소">
-	        </div>
-	    </div> 
-	    <hr>
-	    
-	    <div class="form-group">
-	        <label class="col-sm-2 control-label" for="email">이메일</label>
-	        <div class="col-sm-8">
-			            <input class="form-control" type="text" name="email1" value="${dto.email1}" size="13" maxlength="30"  >
-			            @ 
-	            		<select name="selectEmail" onchange="changeEmail();" class="selectField form-control">
+	           <button type="button" class="btn btn-info btn-xs" onclick="daumPostcode();" style="margin-top: 10px;"> 우편번호</button>    
+    	</td>
+    </tr>
+    <tr>
+    	<td>상세주소 </td>
+    	<td>
+	         <input class="form-control" type="text" name="addr1" id="addr1"  value="${dto.addr1}" placeholder="기본 주소" readonly="readonly">
+	         <input class="form-control" type="text" name="addr2" id="addr2" value="${dto.addr2}" placeholder="나머지 주소">
+    	</td>
+    </tr>
+    <tr>
+    	<td>이메일 </td>
+    	<td>
+    	<div class="row" style="display: flex; align-items:  center;">
+	         			<input class="form-control" type="text" name="email1" value="${dto.email1}" size="13" maxlength="30" style="width: 30%;">
+			          &nbsp;  @ &nbsp;
+	            		<select name="selectEmail" onchange="changeEmail();" class="selectField form-control" style="width: 30%;">
 			                <option value="">선 택</option>
 			                <option value="naver.com" ${dto.email2=="naver.com" ? "selected='selected'" : ""}>네이버 메일</option>
 			                <option value="hanmail.net" ${dto.email2=="hanmail.net" ? "selected='selected'" : ""}>한 메일</option>
 			                <option value="hotmail.com" ${dto.email2=="hotmail.com" ? "selected='selected'" : ""}>핫 메일</option>
 			                <option value="gmail.com" ${dto.email2=="gmail.com" ? "selected='selected'" : ""}>지 메일</option>
 			                <option value="direct">직접입력</option>
-			            </select>
-			            <input class="form-control" type="text" name="email2" value="${dto.email2}" size="13" maxlength="30"  readonly="readonly">
-	        </div>
-	    </div>
-	    <hr>
-	    <div class="form-group">
-	        <label class="col-sm-2 control-label" for="tel1">전화번호</label>
-	        <div class="col-sm-8">
-	             <div class="row">
-	                  <div class="col-sm-2" style="padding-right: 5px;">
-							  <select class="form-control" id="tel1" name="tel1" >
+			            </select>&nbsp;
+			            <input class="form-control" type="text" name="email2" value="${dto.email2}" size="13" maxlength="30"  readonly="readonly"style="width: 30%;">
+    	</div>
+    	</td>
+    </tr>
+    <tr>
+    	<td>연락처 </td>
+    	<td>
+	             <div class="row" style="display: flex;align-items: center;">
+							  <select class="form-control" id="tel1" name="tel1" style="width: 30%;">
 									<option value="">선 택</option>
 									<option value="010" ${dto.tel1=="010" ? "selected='selected'" : ""}>010</option>
 									<option value="011" ${dto.tel1=="011" ? "selected='selected'" : ""}>011</option>
@@ -309,48 +315,39 @@ function preWatchphoto(input){
 									<option value="018" ${dto.tel1=="018" ? "selected='selected'" : ""}>018</option>
 									<option value="019" ${dto.tel1=="019" ? "selected='selected'" : ""}>019</option>
 							  </select>
-	                  </div>
 	
-	-
-	                 <div class="col-sm-2" >
-	 						  <input class="form-control" id="tel2" name="tel2" type="text" value="${dto.tel2}" maxlength="4">
-	                  </div>
-							-
-	                  <div class="col-sm-2" >
-							  <input class="form-control" id="tel3" name="tel3" type="text" value="${dto.tel3}" maxlength="4">
-	                  </div>
+							&nbsp;-&nbsp;
+	 						  <input class="form-control" id="tel2" name="tel2" type="text" value="${dto.tel2}" maxlength="4" style="width: 30%;">
+							&nbsp;-&nbsp;
+							  <input class="form-control" id="tel3" name="tel3" type="text" value="${dto.tel3}" maxlength="4" style="width: 30%;">
 	             </div>
-	        </div>
-	    </div>
-<hr>
-	    <div class="form-group">
-	        <label class="col-sm-2 control-label" for="agree">약관 동의</label>
-	        <div class="col-sm-8 checkbox">
-	            <label>
-	                <input id="agree" name="agree" type="checkbox" checked="checked"
+    	</td>
+    </tr>
+      <tr>
+    	<td>약관동의 </td>
+    	<td>
+    		        <input id="agree" name="agree" type="checkbox" checked="checked"
 	                         onchange="form.sendButton.disabled = !checked"> <a href="#">이용약관</a>에 동의합니다.
-	            </label>
-	        </div>
-	    </div>
-	     <hr>
-	    <div class="form-group">
-	    <c:if test="${mode=='update'}">
+    	</td>
+    </tr>
+    <tr>
+    	<td colspan="2">
+    	
+    	<c:if test="${mode=='update'}">
 			       			<input type="hidden" name="profile_imageFilename" value="${dto.profile_imageFilename}">
 		</c:if>
-	        <div class="col-sm-offset-2 col-sm-10">
+		<div class="row" style="display: flex; justify-content: center;">
 	            <button type="submit" name="sendButton" class="btn btn-primary" onclick="memberOk();">${mode=="member"?"회원가입":"정보수정"} <span class="glyphicon glyphicon-ok"></span></button>
-	            <button type="reset" class="btn btn-primary">다시입력</button>
-	            <button type="button" class="btn btn-danger" onclick="javascript:location.href='${pageContext.request.contextPath}/';">${mode=="member"?"가입취소":"수정취소"} <span class="glyphicon glyphicon-remove"></span></button>
-	        </div>
-	    </div>
-	
-	    <div class="form-group">
-	        <div class="col-sm-offset-2 col-sm-10">
+	            &nbsp;&nbsp;<button type="reset" class="btn btn-primary">다시입력</button>
+	            &nbsp;&nbsp;<button type="button" class="btn btn-danger" onclick="javascript:location.href='${pageContext.request.contextPath}/';">${mode=="member"?"가입취소":"수정취소"} <span class="glyphicon glyphicon-remove"></span></button>
+		</div>
 	                <p class="form-control-static">${message}</p>
-	        </div>
-	    </div>
+    	</td>
+    </tr>
+    </table>
+	</form>		
+
      
-  </form>
 
 <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
 <script>

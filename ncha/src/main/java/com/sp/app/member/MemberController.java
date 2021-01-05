@@ -213,7 +213,7 @@ public class MemberController {
 		// 회원정보수정폼
 		model.addAttribute("dto", dto);
 		model.addAttribute("mode", "update");
-		return ".member.member";
+		return ".member.member2";
 	}
 
 	@RequestMapping(value="update", method=RequestMethod.POST)
