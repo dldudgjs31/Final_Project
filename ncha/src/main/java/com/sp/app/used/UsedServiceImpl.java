@@ -433,4 +433,15 @@ public class UsedServiceImpl implements UsedService {
 		return dto;
 	}
 
+	@Override
+	public List<Used> readUsedHit2() throws Exception {
+		List<Used> list = null;
+		try {
+			list = dao.selectList("used.readUsedHit2");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
+
 }

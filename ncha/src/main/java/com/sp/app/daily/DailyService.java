@@ -53,6 +53,7 @@ public interface DailyService {
 	
 	//메인에 표시할 게시물
 	public Daily readDailyHit() throws Exception;
+	public List<Daily> readDailyHit2() throws Exception;
 	public Daily readDailyLike() throws Exception;
 	
 

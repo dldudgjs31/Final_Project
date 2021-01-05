@@ -54,11 +54,16 @@ public class NchaController{
 			HttpServletRequest req,
 			HttpServletResponse resp) {
 		
-		Store storeRank = null;
+		 Store storeRank = null;
 		  Daily dailyRank = null; 
 		  Used usedRank = null;
+		  
 		  Daily dailyRank1 = null; 
 		  Used usedRank1 = null;
+		  
+		  List<Daily> dailyRank2 = null;
+		  List<Used> usedRank2 = null;
+		  
 		  List<Member> list = service4.rankFollower();
 		  List<NchaBanner>bannerlist = service6.listFile();
 		  
@@ -72,6 +77,9 @@ public class NchaController{
 			  dailyRank1 = service2.readDailyLike();
 			  usedRank1 = service3.readUsedLike();
 	
+			  dailyRank2 = service2.readDailyHit2();
+			  usedRank2 = service3.readUsedHit2();
+
 		} catch (Exception e) {
 		}
 		  
@@ -94,8 +102,11 @@ public class NchaController{
 		  model.addAttribute("storeRank", storeRank);
 		  model.addAttribute("dailyRank",dailyRank); 
 		  model.addAttribute("usedRank", usedRank);
+		  model.addAttribute("usedRank2", usedRank2);
 		  model.addAttribute("dailyRank1",dailyRank1); 
+		  model.addAttribute("dailyRank2",dailyRank2); 
 		  model.addAttribute("usedRank1", usedRank1);
+		  model.addAttribute("usedRank2", usedRank2);
 		  model.addAttribute("bannerlist",bannerlist);
 		  
 		  

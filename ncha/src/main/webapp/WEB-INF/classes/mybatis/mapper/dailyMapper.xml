@@ -306,6 +306,14 @@
 		FETCH FIRST 1 ROW ONLY
 	</select>
 	
+		<select id="readDailyHit2" resultType="com.sp.app.daily.Daily">
+		SELECT d.dailyNum, imageFilename, hitCount, content, subject, d.dailyNum
+		FROM daily_bbs d
+		JOIN daily_image i ON d.dailyNum = i.dailyNum
+		ORDER BY hitCount DESC
+		FETCH FIRST 2 ROW ONLY
+	</select>
+	
 	<select id="readDailyLike" resultType="com.sp.app.daily.Daily">
 		SELECT d.dailyNum, NVL(dailyLikeCount, 0) dailyLikeCount, imageFilename
 		FROM daily_bbs d
