@@ -374,6 +374,17 @@ public class DailyServiceImpl implements DailyService{
 		}
 		return dto;
 	}
+	
+	@Override
+	public List<Daily> readDailyHit2() throws Exception {
+		List<Daily> list=null;
+		try {
+			list=dao.selectList("daily.readDailyHit2");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
 
 
 	@Override

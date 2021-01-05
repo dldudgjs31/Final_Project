@@ -372,6 +372,14 @@ ORDER BY usedNum DESC
 		FETCH FIRST 1 ROW ONLY
 	</select>
 	
+	<select id="readUsedHit2" resultType="com.sp.app.used.Used">
+		SELECT u.usedNum, imageFilename, hitCount,content,subject,price,u.usedNum
+		FROM used_bbs u
+		JOIN used_image i ON u.usedNum = i.usedNum
+		ORDER BY hitCount DESC
+		FETCH FIRST 2 ROW ONLY
+	</select>
+	
 	<select id="readUsedLike" resultType="com.sp.app.used.Used">
 		SELECT u.usedNum, imageFilename, NVL(usedLikeCount, 0)usedLikeCount
 		FROM used_bbs u

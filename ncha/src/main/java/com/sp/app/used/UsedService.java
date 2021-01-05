@@ -53,5 +53,6 @@ public interface UsedService {
 	
 	//메인에 보내는거
 	public Used readUsedHit() throws Exception;
+	public List<Used> readUsedHit2() throws Exception;
 	public Used readUsedLike() throws Exception;
 }
