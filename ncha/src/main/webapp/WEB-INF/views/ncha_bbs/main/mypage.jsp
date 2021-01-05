@@ -208,20 +208,19 @@ function deleteF(userId){
 <div class="body-container" >
     <div class="profile-title">
     	<div class="profile-img">
-    		<div class="imgs" style="background-image:url('${pageContext.request.contextPath}/uploads/member/${dto.profile_imageFilename}');">
-    		
-    		</div>
+    		<div class="imgs" style="background-image:url('${pageContext.request.contextPath}/uploads/member/${dto.profile_imageFilename}');"></div>
     	</div>
     	<div class="profile-introduce"> ${dto.introduce}</div>
     	<div class="profile-name">
     		<h1>${dto.userId}</h1>&nbsp;&nbsp;
-    		
+    		<c:if test="${dto.userId != sessionScope.member.userId}">
     			<c:if test="${check==0}">
     				<a href="javascript:follow('${dto.userId}')" style="color: #FF0000 !important;"><i class="far fa-heart fa-3x"></i></a>
     			</c:if>
     			<c:if test="${check==1}">
     				<a href="javascript:deleteF('${dto.userId}')" style="color: #FF0000 !important;"><i class="fas fa-heart fa-3x"></i></a>
     			</c:if>
+    		</c:if>
     	</div>
     	<div class="profile-setting">
     	<c:if test="${sessionScope.member.userId == dto.userId}">

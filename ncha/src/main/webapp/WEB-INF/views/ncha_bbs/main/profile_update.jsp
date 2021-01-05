@@ -69,7 +69,7 @@ function preWatchphoto(input){
 			     <tr height="45"> 
 			      <td align="center" >
 			       	<input type="hidden" name="profile_imageFilename" value="${dto.profile_imageFilename}">
-			       	<input type="hidden" name="introduce" value="${dto.introduce}">
+			       
 			        <button type="button" name="sendButton" class="btn" onclick="memberOk('${dto.userId}');">정보수정</button>
 			        <button type="reset" class="btn">다시입력</button>
 			        <button type="button" class="btn" onclick="javascript:location.href='${pageContext.request.contextPath}/mypage/profile';">수정취소</button>

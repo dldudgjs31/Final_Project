@@ -9,6 +9,38 @@
 <script src="https://code.highcharts.com/modules/export-data.js"></script>
 <script src="https://code.highcharts.com/modules/accessibility.js"></script>
 
+<style type="text/css">
+.profile-img{
+	grid-area:img;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+.imgs{
+	width: 175px; 
+	height: 175px; 
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: cover;
+	border-radius: 50%;
+	border: 1px solid silver;
+}
+.profile-introduce{
+	grid-area:intro;
+}
+.profile-name{
+	grid-area:name;
+	display: flex;
+	align-items: flex-end;
+	align-content: center;
+}
+
+</style>
+
+
+
+
+
 <script type="text/javascript">
 function searchProfile(userId) {
 	var url="${pageContext.request.contextPath}/mypage/searchProfile?userId="+userId;
@@ -127,25 +159,37 @@ $(function(){
         <span class="sr-only">Next</span>
       </a>
     </div>
-    
-    
-<div class="row">
-    <div style="width: 25%; height: 300px;; border: 1px solid #DAD9FF; text-align: center; font-size: 25px;">  
-    	<h4 style="color: blue;">N차_인기인 TOP 5 </h4>
-    	<c:forEach var="vo" items="${listFollower}">
-    		<p><a href="javascript:searchProfile('${vo.userId}')" style="color: black !important;">${vo.userId} : 팔로워 ${vo.followerCount}명</a></p>
+    <br>
+    <br>
+ 
+    	<div class="row">
+    	<h4 style="color: blue; align-items: center;">N차_인기인 TOP</h4>
+    	<c:forEach var="vo" items="${listFollower}">		
+    			<div style="padding-right: 100px;">
+    			<div class="profile-img">
+	    			<div class="imgs" style="background-image:url('${pageContext.request.contextPath}/uploads/member/${vo.profile_imageFilename}');"></div>
+		    	</div>
+		    	<div class="profile-name"><h1>${vo.userId}</h1></div>
+		    	<div class="profile-introduce" style="font-size: 18px;">
+		    		<c:if test="${vo.introduce == null || vo.introduce == ''}">&nbsp;</c:if>
+		    		<c:if test="${vo.introduce != null || vo.introduce != ''}">${vo.introduce}</c:if>
+		    	</div>
+		    	<div>팔로워 : ${vo.followerCount}</div>	 
+		    	</div>   	
     	</c:forEach>
-    </div>
-    <div style="align-items:center; width: 45%; height: 300px;; border: 1px solid #DAD9FF; text-align: center; font-size: 25px;" id="categoryCount"></div>
+    	</div>
+    	<br>
+    	<br>
+<div style="display: flex; justify-content: center;">   
+    <div style=" width: 45%; height: 300px;; border: 1px solid #DAD9FF; text-align: center; font-size: 25px;" id="categoryCount"></div>
     
-    <div style="align-items:right; width: 25%; height: 300px;; border: 1px solid #DAD9FF; text-align: center; font-size: 25px;">
+    <div style=" width: 25%; height: 300px;; border: 1px solid #DAD9FF; text-align: center; font-size: 25px;">
     		<p>현재 접속자 : ${currentCount}</p>
            	<p>오늘 접속자 : ${toDayCount}</p>
            	<p>어제 접속자 : ${yesterDayCount}</p>
            	<p>전체 접속자 : ${totalCount}</p>
     </div>
-</div>   
-
+</div>
 
     
     
