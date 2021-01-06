@@ -5,6 +5,7 @@ import java.util.Map;
 
 import com.sp.app.event.Event;
 import com.sp.app.member.Member;
+import com.sp.app.notice.Notice;
 import com.sp.app.seller.Seller;
 
 public interface ListService {
@@ -29,5 +30,16 @@ public interface ListService {
 	public void updateEvent(Map<String, Object> map) throws Exception;
 	public void deleteEvent(Integer eventNum) throws Exception;
 
+	public int dataCountNotice(Map<String, Object> map);
+	public List<Notice> listNotice(Map<String, Object> map);
+	public List<Notice> listNotice();
+	public Notice readNotice(int num);
+	public void updateNotice(Map<String, Object> map)   throws Exception;
+	public void deleteNotice(int num, String pathname) throws Exception;
 	
+	public void insertFile(Notice dto) throws Exception;
+	public List<Notice> listFile(int num);
+	public void deleteFile(Map<String, Object> map) throws Exception;
+
+
 }

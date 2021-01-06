@@ -63,4 +63,32 @@
 	<delete id="deleteEvent" parameterType="Integer">
     	DELETE FROM event WHERE eventNum=#{eventNum}
     </delete>
+    
+      <select id="dataCountNotice" parameterType="map" resultType="Integer">
+		SELECT NVL(COUNT(*), 0)
+		FROM notice
+	</select>
+	
+<select id="listNotice" parameterType="map" resultType="com.sp.app.notice.Notice">
+		SELECT n.num, n.userId, notice, subject, created 
+		FROM notice n
+		JOIN member m ON n.userId=m.userId
+		LEFT OUTER JOIN (
+			SELECT num, COUNT(*) fileCount FROM noticeFile
+			GROUP BY num
+		) f ON n.num=f.num
+		ORDER BY num DESC
+		OFFSET #{offset} ROWS FETCH FIRST #{rows} ROWS ONLY
+	 </select>
+	
+   <!-- 수정 -->
+	<update id="updateNotice"  parameterType="map">
+		UPDATE notice SET notice=#{notice}
+		WHERE num=#{num}
+	</update>
+    
+	<!-- 삭제 -->
+	<delete id="deleteNotice" parameterType="Integer">
+		DELETE FROM notice WHERE num=#{num}
+	</delete>
 </mapper>

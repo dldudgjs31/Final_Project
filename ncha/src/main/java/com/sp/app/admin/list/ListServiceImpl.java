@@ -1,21 +1,26 @@
 package com.sp.app.admin.list;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.sp.app.common.FileManager;
 import com.sp.app.common.dao.CommonDAO;
 import com.sp.app.event.Event;
 import com.sp.app.member.Member;
+import com.sp.app.notice.Notice;
 import com.sp.app.seller.Seller;
 
 @Service("admin.list.listService") 
 public class ListServiceImpl implements ListService {
 	@Autowired
 	private CommonDAO dao;
-
+	@Autowired
+	private FileManager fileManager;
 	@Override
 	public int dataCountMember(Map<String, Object> map) {
 		int result=0;
@@ -145,6 +150,121 @@ public class ListServiceImpl implements ListService {
 	}
 
 	@Override
+	public int dataCountNotice(Map<String, Object> map) {
+		int result=0;
+		try {
+			result=dao.selectOne("list.dataCountNotice", map);
+		} catch (Exception e) {
+		}
+		
+		return result;
+	}
+
+	@Override
+	public List<Notice> listNotice(Map<String, Object> map) {
+		List<Notice> list=null;
+		
+		try {
+			list=dao.selectList("list.listNotice", map);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return list;
+	}
+
+	@Override
+	public List<Notice> listNotice() {
+		List<Notice> list=null;
+		try {
+			list=dao.selectList("list.listAllNotice");	
+		} catch (Exception e) {
+		}
+		
+		return list;
+	}
+
+	@Override
+	public Notice readNotice(int num) {
+		Notice dto=null;
+
+		try {
+			dto=dao.selectOne("notice.readNotice", num);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return dto;
+	}
+	@Override
+	public void updateNotice(Map<String, Object> map) throws Exception {
+		
+		try {
+			dao.updateData("list.updateNotice", map);	
+		} catch (Exception e) {
+			throw e;
+		}
+	}
+	
+	@Override
+	public void insertFile(Notice dto) throws Exception {
+		try {
+			dao.insertData("notice.insertFile", dto);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
+	}
+	@Override
+	public List<Notice> listFile(int num) {
+		List<Notice> listFile=null;
+		
+		try {
+			listFile=dao.selectList("notice.listFile", num);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return listFile;
+	}
+
+
+	@Override
+	public void deleteFile(Map<String, Object> map) throws Exception {
+		try {
+			dao.deleteData("notice.deleteFile", map);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
+	}
+
+
+	@Override
+	public void deleteNotice(int num, String pathname) throws Exception {
+		try {
+			// 파일 지우기
+			List<Notice> listFile=listFile(num);
+			if(listFile!=null) {
+				for(Notice dto:listFile) {
+					fileManager.doFileDelete(dto.getSaveFilename(), pathname);
+				}
+			}
+			
+			// 파일 테이블 내용 지우기
+			Map<String, Object> map=new HashMap<String, Object>();
+			map.put("field", "num");
+			map.put("num", num);
+			deleteFile(map);
+			
+			dao.deleteData("notice.deleteNotice", num);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
+	}
+	
+	@Override
 	public int dataCountEvent(Map<String, Object> map) {
 		int result=0;
 		try {
@@ -206,5 +326,4 @@ public class ListServiceImpl implements ListService {
 			throw e;
 		}		
 	}
-
 }

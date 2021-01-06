@@ -31,7 +31,7 @@
             </a>
             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownPortfolio">
               <a class="dropdown-item" href="${pageContext.request.contextPath}/admin/list/event">이벤트게시판</a>
-              <a class="dropdown-item" href="${pageContext.request.contextPath}/">공지게시판</a>
+              <a class="dropdown-item" href="${pageContext.request.contextPath}/admin/list/notice">공지게시판</a>
             </div>
           </li>
           

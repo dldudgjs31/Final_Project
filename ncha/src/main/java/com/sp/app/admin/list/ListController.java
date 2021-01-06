@@ -1,10 +1,12 @@
 package com.sp.app.admin.list;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -15,6 +17,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.sp.app.common.MyUtil;
 import com.sp.app.event.Event;
 import com.sp.app.member.Member;
+import com.sp.app.member.SessionInfo;
+import com.sp.app.notice.Notice;
 import com.sp.app.seller.Seller;
 
 @Controller("admin.list.listController")
@@ -250,5 +254,95 @@ public class ListController {
 
 				return ".admin.list.event";
 			}
+		  
+		  @RequestMapping("notice")
+			public String listNotice(@RequestParam(value = "page", defaultValue = "1") int current_page,
+					HttpServletRequest req, Model model) throws Exception {
+				int rows = 10;
+				int total_page = 0;
+				int dataCount = 0;
+				
+				Map<String, Object> map = new HashMap<>();
+				dataCount = service.dataCountNotice(map);
+				total_page = myUtil.pageCount(rows, dataCount);
+				if (current_page > total_page) {
+					current_page = total_page;
+				}
+
+				int offset = (current_page - 1) * rows;
+				if (offset < 0)
+					offset = 0;
+				map.put("offset", offset);
+				map.put("rows", rows);
+
+				List<Notice> list = service.listNotice(map);
+				int listNum, n=0;
+				for(Notice dto:list) {
+					listNum=dataCount-(offset+n);
+					dto.setListNum(listNum);
+					n++;
+				}
+				
+				String cp = req.getContextPath();
+				String listUrl = cp + "/admin/list/notice";
+
+			
+				String paging = myUtil.paging(current_page, total_page, listUrl);
+
+				model.addAttribute("list", list);
+				model.addAttribute("dataCount", dataCount);
+				model.addAttribute("page", current_page);
+				model.addAttribute("total_page", total_page);
+				model.addAttribute("paging", paging);
+
+				return ".admin.list.notice";
+			}
+
+			
+			
+
+			  @RequestMapping("deleteNotice")
+			   public String deleteNotice(
+						Notice dto,
+			         @RequestParam int num,
+			         @RequestParam String page,
+			         HttpSession session
+			         ) throws Exception{
+					SessionInfo info=(SessionInfo)session.getAttribute("member");
+					
+			      try {
+			    	  String root = session.getServletContext().getRealPath("/");
+						String pathname = root + "uploads" + File.separator + "notice";		
+						dto.setUserId(info.getUserId());
+			         service.deleteNotice(num, pathname);
+			      } catch (Exception e) {
+			         throw e;
+			      }
+			      return "redirect:/admin/list/notice?page="+page;
+			   }
+			  
+			  @RequestMapping("authNotice")
+			   public String authNotice(
+					  Notice dto,
+			         @RequestParam int num,
+			         @RequestParam int notice,		         
+			         @RequestParam String page
+			         ) throws Exception{
+					
+			      try {
+						
+						Map<String, Object> map = new HashMap<String, Object>();
+			    	  notice = notice==0?1:0;
+			    	  map.put("num", num);
+			    	  map.put("notice", notice);
+			    	  
+			          service.updateNotice(map);
+			      } catch (Exception e) {
+			         throw e;
+			      }
+			      return "redirect:/admin/list/notice?page="+page;
+			   }
+				
+			  
 }
 
