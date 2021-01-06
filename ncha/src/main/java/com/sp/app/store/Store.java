@@ -25,8 +25,11 @@ public class Store {
 	private int optionNum;
 	private String score;
 	private int likeCount;
+	private String introduce;
 	private int storeFollowCount;
-	
+	private String profile_imageFilename;
+	private int productCount;
+	private String hitcount;
 	private String opt_detail;
 	private String opt_stock;
 	private String profile_imagefilename;
@@ -36,6 +39,30 @@ public class Store {
 	private List<Integer> option_number;
 	private List<Store> optionlist;
 	
+	public String getHitcount() {
+		return hitcount;
+	}
+	public void setHitcount(String hitcount) {
+		this.hitcount = hitcount;
+	}
+	public int getProductCount() {
+		return productCount;
+	}
+	public void setProductCount(int productCount) {
+		this.productCount = productCount;
+	}
+	public String getProfile_imageFilename() {
+		return profile_imageFilename;
+	}
+	public void setProfile_imageFilename(String profile_imageFilename) {
+		this.profile_imageFilename = profile_imageFilename;
+	}
+	public String getIntroduce() {
+		return introduce;
+	}
+	public void setIntroduce(String introduce) {
+		this.introduce = introduce;
+	}
 	public int getStoreFollowCount() {
 		return storeFollowCount;
 	}

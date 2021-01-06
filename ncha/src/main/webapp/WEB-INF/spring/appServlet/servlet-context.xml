@@ -56,10 +56,10 @@
 		<interceptor>
 			<mapping path="/**"/>
 		
-			<exclude-mapping path="/**"/>
-			<!-- 로그인 안되도 css는 허용해야 화면이 보임 -->
-<!-- 			<exclude-mapping path="/resources/**"/>
+<!-- 			<exclude-mapping path="/"/>
+			<exclude-mapping path="/resources/**"/>
 			<exclude-mapping path="/daily/list"/>
+			<exclude-mapping path="/store/list"/>
 			<exclude-mapping path="/member/login"/>
 			<exclude-mapping path="/member/logout"/>
 			<exclude-mapping path="/member/member"/>

@@ -69,7 +69,7 @@
 	 </sql>
 	 
 	 <select id="listProduct" parameterType="map" resultType="com.sp.app.store.Store">
-		SELECT b.productNum,productName,b.created_date,hitCount,price, detail, stock, discount_rate,b.sellerId,categoryNum, imageFilename, profile_imagefilename,m.sellername
+		SELECT b.productNum,productName,b.created_date,hitCount,price, detail, stock, discount_rate,b.sellerId,categoryNum, imageFilename, m.profile_imageFilename,m.sellername
 		FROM product_bbs b
 		JOIN seller m ON b.sellerId=m.sellerId
 		LEFT OUTER JOIN (
@@ -300,7 +300,7 @@
 		DELETE FROM store_follow WHERE userId =#{userId} AND sellerId = #{sellerId}
 	</delete>
 	
-	<select id="dataStoreFollowCount" parameterType="map" resultType="Integer">
+	<select id="dataStoreFollowCount" parameterType="String" resultType="Integer">
 		SELECT NVL(COUNT(*),0) FROM store_follow WHERE sellerId = #{sellerId}
 	</select>
 	
@@ -314,5 +314,39 @@
 		LEFT OUTER JOIN seller s ON s.sellerId = f.sellerId 
 		WHERE f.userId =#{userId}
 		OFFSET #{offset} ROWS FETCH FIRST #{rows} ROWS ONLY
+	</select>
+	
+	<select id="listTop3Follower" resultType="com.sp.app.store.Store">
+		SELECT count(*) storeFollowCount,f.sellerId, s.sellerName,s.introduce, s.profile_imageFilename
+		from store_follow f  
+		JOIN seller s ON f.sellerId = s.sellerId
+		group by f.sellerId, s.sellerName,s.introduce, s.profile_imageFilename 
+		order by  count(*) DESC
+		OFFSET 0 ROWS FETCH FIRST 3 ROWS ONLY
+	</select>
+	
+	<select id="listTop3SalesStore" resultType="com.sp.app.store.Store">
+		select d.sellerId, m.sellerName,m.introduce, m.profile_imageFilename
+		FROM store_order_list o 
+		LEFt OUTER JOIN product_order_detail d ON o.orderNum = d.orderNum
+		LEFT OUTER JOIN seller m ON m.sellerId = d.sellerId
+		GROUP BY d.sellerId, m.sellerName,m.introduce, m.profile_imageFilename
+		ORDER BY sum(total_sales) DESC
+		OFFSET 0 ROWS FETCH FIRST 3 ROWS ONLY
+	</select>
+	
+	<select id="readBestproduct" parameterType="Integer" resultType="com.sp.app.store.Store">
+		select  b.productName, b.hitcount, b.price,b.discount_rate,b.stock, i.imageFilename,p.productNum
+		FROM product_like p 
+		LEFT OUTER JOIN product_bbs b ON p.productNum = b.productNum
+		LEFT OUTER JOIN(
+			SELECT * FROM (
+		         SELECT productNum, rank() over(partition by productNum order by main_imageFileNum) rank, imageFilename FROM product_image
+							) WHERE rank = 1
+		) i ON i.productNum = b.productNum
+		WHERE b.categoryNum =#{categoryNum}
+		GROUP BY p.productnum,b.productName, b.hitcount, b.price,b.discount_rate,b.stock,i.imageFilename
+		ORDER BY count(*) DESC
+		OFFSET 0 ROWS FETCH FIRST 1 ROWS ONLY
 	</select>
 </mapper>

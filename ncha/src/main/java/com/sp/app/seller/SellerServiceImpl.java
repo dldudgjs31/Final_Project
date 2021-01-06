@@ -79,8 +79,8 @@ public class SellerServiceImpl implements SellerService {
 			if(serverFilename != null) {
 				if(dto.getProfile_imageFilename().length()!=0) {
 					fileManager.doFileDelete(dto.getProfile_imageFilename(), pathname);
-					dto.setProfile_imageFilename(serverFilename);
 				}
+				dto.setProfile_imageFilename(serverFilename);
 			}
 			
 			 

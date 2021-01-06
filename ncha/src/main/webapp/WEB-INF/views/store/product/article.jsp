@@ -55,7 +55,7 @@ font-family: 'Jua', sans-serif;
 	border:1px solid silver; 
 	background-repeat: no-repeat;
 	background-position: center;
-	background-size: contain;
+	background-size: cover;
 }
 p{
 	margin-bottom: 0.5rem;
@@ -362,7 +362,7 @@ function buyOk() {
       <h3 class="my-3">${dto.productName}</h3>
 			<p>
 			<div id="profile">
-	            <div id="profile_image" style="background-image: url('${pageContext.request.contextPath}/uploads/member/${dto.profile_imagefilename}');"></div>
+	            <div id="profile_image" style="background-image: url('${pageContext.request.contextPath}/uploads/member/${dto.profile_imageFilename}');"></div>
 	            <div> ${dto.sellerName}&nbsp;
 		            <button type="button" class="btn btn-xs" onclick="StoreLike('${dto.sellerId}')"><i id="likeStoreIcon" class="far fa-heart"></i></button> 
 	            	&nbsp;<span style="color:#FF6464;">follower:</i> &nbsp;${dto.storeFollowCount}</span>

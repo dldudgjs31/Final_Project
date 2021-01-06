@@ -5,7 +5,24 @@
 
 <link href="${pageContext.request.contextPath}/resources/css/carousel.css" rel="stylesheet">
 <link href="${pageContext.request.contextPath}/resources/css/carousel.rtl.css" rel="stylesheet">
-
+<style>
+.rounded-circle{
+	border: 1px solid silver;
+	background-size: cover;
+	background-repeat: no-repeat;
+	background-position: center;
+}
+.btn{
+	font-family: 'Jua', sans-serif;
+}
+p{
+	margin-bottom: 0.5rem;
+}
+.bd-placeholder-img{
+	border: 1px solid silver;
+	border-radius: 30px;
+}
+</style>
 
 
 
@@ -43,28 +60,44 @@
   <div class="container marketing">
 
     <!-- Three columns of text below the carousel -->
+    <h2><i class="fas fa-crown" style="color:gold;"></i>&nbsp;&nbsp;N차 스토어 인기 Best 3</h2>
     <div class="row">
+     
+     <c:forEach var="best3" items="${bestFollowList}">
       <div class="col-lg-4">
-        <svg class="bd-placeholder-img rounded-circle" width="140" height="140" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 140x140" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#777"/><text x="50%" y="50%" fill="#777" dy=".3em">140x140</text></svg>
+        <svg class="bd-placeholder-img rounded-circle" width="140" height="140" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 140x140" preserveAspectRatio="xMidYMid slice" focusable="false" style="background-image: url('${pageContext.request.contextPath}/uploads/member/${best3.profile_imageFilename}');"></svg>
 
-        <h2>Heading</h2>
-        <p>Donec sed odio dui. Etiam porta sem malesuada magna mollis euismod. Nullam id dolor id nibh ultricies vehicula ut id elit. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Praesent commodo cursus magna.</p>
-        <p><a class="btn btn-secondary" href="#" role="button">View details &raquo;</a></p>
-      </div><!-- /.col-lg-4 -->
+        <h2>${best3.sellerName}</h2>
+        <p><a class="btn btn-secondary" href="${pageContext.request.contextPath}/store/myFollowStore?page=1&sellerId=${best3.sellerId}" role="button">스토어로 이동 &raquo;</a></p>
+        <p>팔로워 수 : ${best3.storeFollowCount}<p>
+        <p>상품 수 : ${best3.productCount}<p>
+        <p>스토어 소개</p>
+        <p>${best3.introduce}</p>
+      </div>
+     </c:forEach>
+      
+      
+
+    </div><!-- /.row -->
+    <!-- Three columns of text below the carousel -->
+    <h2><i class="fas fa-crown" style="color:gold;"></i>&nbsp;&nbsp;N차 스토어 매출 Best 3</h2>
+    <div class="row">
+     
+     <c:forEach var="salebest3" items="${bestSalesList}">
       <div class="col-lg-4">
-        <svg class="bd-placeholder-img rounded-circle" width="140" height="140" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 140x140" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#777"/><text x="50%" y="50%" fill="#777" dy=".3em">140x140</text></svg>
+        <svg class="bd-placeholder-img rounded-circle" width="140" height="140" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 140x140" preserveAspectRatio="xMidYMid slice" focusable="false" style="background-image: url('${pageContext.request.contextPath}/uploads/member/${salebest3.profile_imageFilename}');"></svg>
 
-        <h2>Heading</h2>
-        <p>Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Cras mattis consectetur purus sit amet fermentum. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh.</p>
-        <p><a class="btn btn-secondary" href="#" role="button">View details &raquo;</a></p>
-      </div><!-- /.col-lg-4 -->
-      <div class="col-lg-4">
-        <svg class="bd-placeholder-img rounded-circle" width="140" height="140" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 140x140" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#777"/><text x="50%" y="50%" fill="#777" dy=".3em">140x140</text></svg>
+        <h2>${salebest3.sellerName}</h2>
+        <p><a class="btn btn-secondary" href="${pageContext.request.contextPath}/store/myFollowStore?page=1&sellerId=${salebest3.sellerId}" role="button">스토어로 이동 &raquo;</a></p>
+        <p>팔로워 수 : ${salebest3.likeCount}<p>
+        <p>상품 수 : ${salebest3.productCount}<p>
+        <p>스토어 소개</p>
+        <p>${salebest3.introduce}</p>
+      </div>
+     </c:forEach>
+      
+      
 
-        <h2>Heading</h2>
-        <p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
-        <p><a class="btn btn-secondary" href="#" role="button">View details &raquo;</a></p>
-      </div><!-- /.col-lg-4 -->
     </div><!-- /.row -->
 
 
@@ -74,11 +107,23 @@
 
     <div class="row featurette">
       <div class="col-md-7">
-        <h2 class="featurette-heading">First featurette heading. <span class="text-muted">It’ll blow your mind.</span></h2>
-        <p class="lead">Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis euismod semper. Praesent commodo cursus magna, vel scelerisque nisl consectetur. Fusce dapibus, tellus ac cursus commodo.</p>
+        <h3 class="featurette-heading"><i class="fab fa-hotjar" style="color:red;"></i>&nbsp;HOT 아이템 <span class="text-muted">[의류]</span></h3>
+        <h4 class="lead">상품명 : ${dto1.productName}</h4>
+        <p class="lead">조회수 : ${dto1.hitcount}</p>
+        <p class="lead" style="color:silver;">정가 : <del><fmt:formatNumber type="currency" value="${dto1.price}" />원</del></p>
+        <p class="lead">가격 : <fmt:formatNumber type="currency" value="${dto1.price - dto1.discount_rate}" />원</p>
+        <p class="lead">재고 :
+        	<c:if test="${dto1.stock==0}">
+        		<span style="color:red;">품절</span>
+        	</c:if>
+        	<c:if test="${dto1.stock>0}">
+        		${dto1.stock}
+        	</c:if>
+         </p>
+        <p><a class="btn btn-secondary" href="${pageContext.request.contextPath}/store/article?page=1&num=${dto1.productNum}" role="button">상품으로 이동 &raquo;</a></p>
       </div>
       <div class="col-md-5">
-        <svg class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto" width="500" height="500" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 500x500" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#eee"/><text x="50%" y="50%" fill="#aaa" dy=".3em">500x500</text></svg>
+        <svg class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto" width="500" height="500" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 500x500" preserveAspectRatio="xMidYMid slice" focusable="false" style="background-image: url('${pageContext.request.contextPath}/uploads/member/${dto1.imageFilename}');"></svg>
 
       </div>
     </div>
@@ -87,11 +132,23 @@
 
     <div class="row featurette">
       <div class="col-md-7 order-md-2">
-        <h2 class="featurette-heading">Oh yeah, it’s that good. <span class="text-muted">See for yourself.</span></h2>
-        <p class="lead">Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis euismod semper. Praesent commodo cursus magna, vel scelerisque nisl consectetur. Fusce dapibus, tellus ac cursus commodo.</p>
+        <h2 class="featurette-heading"><i class="fab fa-hotjar" style="color:red;"></i>&nbsp;HOT 아이템 <span class="text-muted">[전자제품]</span></h2>
+         <h4 class="lead">상품명 : ${dto2.productName}</h4>
+        <p class="lead">조회수 : ${dto2.hitcount}</p>
+        <p class="lead" style="color:silver;">정가 : <del><fmt:formatNumber type="currency" value="${dto2.price}" />원</del></p>
+        <p class="lead">가격 : <fmt:formatNumber type="currency" value="${dto2.price - dto2.discount_rate}" />원</p>
+        <p class="lead">재고 :
+        	<c:if test="${dto2.stock==0}">
+        		<span style="color:red;">품절</span>
+        	</c:if>
+        	<c:if test="${dto2.stock>0}">
+        		${dto2.stock}
+        	</c:if>
+         </p>
+        <p><a class="btn btn-secondary" href="${pageContext.request.contextPath}/store/article?page=1&num=${dto2.productNum}" role="button">상품으로 이동 &raquo;</a></p>
       </div>
       <div class="col-md-5 order-md-1">
-        <svg class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto" width="500" height="500" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 500x500" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#eee"/><text x="50%" y="50%" fill="#aaa" dy=".3em">500x500</text></svg>
+        <svg class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto" width="500" height="500" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 500x500" preserveAspectRatio="xMidYMid slice" focusable="false"style="background-image: url('${pageContext.request.contextPath}/uploads/member/${dto2.imageFilename}');"></svg>
 
       </div>
     </div>
@@ -100,11 +157,23 @@
 
     <div class="row featurette">
       <div class="col-md-7">
-        <h2 class="featurette-heading">And lastly, this one. <span class="text-muted">Checkmate.</span></h2>
-        <p class="lead">Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis euismod semper. Praesent commodo cursus magna, vel scelerisque nisl consectetur. Fusce dapibus, tellus ac cursus commodo.</p>
+        <h2 class="featurette-heading"><i class="fab fa-hotjar" style="color:red;"></i>&nbsp;HOT 아이템 <span class="text-muted">[인테리어가구]</span></h2>
+        <h4 class="lead">상품명 : ${dto3.productName}</h4>
+        <p class="lead">조회수 : ${dto3.hitcount}</p>
+        <p class="lead" style="color:silver;">정가 : <del><fmt:formatNumber type="currency" value="${dto3.price}" />원</del></p>
+        <p class="lead">가격 : <fmt:formatNumber type="currency" value="${dto3.price - dto3.discount_rate}" />원</p>
+        <p class="lead">재고 :
+        	<c:if test="${dto3.stock==0}">
+        		<span style="color:red;">품절</span>
+        	</c:if>
+        	<c:if test="${dto3.stock>0}">
+        		${dto3.stock}
+        	</c:if>
+         </p>
+        <p><a class="btn btn-secondary" href="${pageContext.request.contextPath}/store/article?page=1&num=${dto3.productNum}" role="button">상품으로 이동 &raquo;</a></p>
       </div>
       <div class="col-md-5">
-        <svg class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto" width="500" height="500" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 500x500" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#eee"/><text x="50%" y="50%" fill="#aaa" dy=".3em">500x500</text></svg>
+        <svg class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto" width="500" height="500" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 500x500" preserveAspectRatio="xMidYMid slice" focusable="false" style="background-image: url('${pageContext.request.contextPath}/uploads/member/${dto3.imageFilename}');"></svg>
 
       </div>
     </div>

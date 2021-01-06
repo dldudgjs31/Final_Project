@@ -66,4 +66,9 @@ public interface StoreService {
 	public int dataStoreFollowCount(String sellerId)throws Exception;
 	public int dataMyStoreFollow(String userId)throws Exception;
 	List<Customer> listFollow(Map<String, Object> map)throws Exception;
+	
+	//스토어 메인
+	public List<Store> listTop3Follower()throws Exception;
+	public List<Store> listTop3SalesStore() throws Exception;
+	public Store readBestproduct(int categoryNum) throws Exception;
 }
