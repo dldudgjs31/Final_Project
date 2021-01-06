@@ -6,7 +6,6 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
 import com.sp.app.common.FileManager;
 import com.sp.app.common.dao.CommonDAO;
@@ -184,18 +183,7 @@ public class ListServiceImpl implements ListService {
 		return list;
 	}
 
-	@Override
-	public Notice readNotice(int num) {
-		Notice dto=null;
-
-		try {
-			dto=dao.selectOne("notice.readNotice", num);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
-		return dto;
-	}
+	
 	@Override
 	public void updateNotice(Map<String, Object> map) throws Exception {
 		
@@ -206,15 +194,6 @@ public class ListServiceImpl implements ListService {
 		}
 	}
 	
-	@Override
-	public void insertFile(Notice dto) throws Exception {
-		try {
-			dao.insertData("notice.insertFile", dto);
-		} catch (Exception e) {
-			e.printStackTrace();
-			throw e;
-		}
-	}
 	@Override
 	public List<Notice> listFile(int num) {
 		List<Notice> listFile=null;
@@ -227,18 +206,6 @@ public class ListServiceImpl implements ListService {
 		
 		return listFile;
 	}
-
-
-	@Override
-	public void deleteFile(Map<String, Object> map) throws Exception {
-		try {
-			dao.deleteData("notice.deleteFile", map);
-		} catch (Exception e) {
-			e.printStackTrace();
-			throw e;
-		}
-	}
-
 
 	@Override
 	public void deleteNotice(int num, String pathname) throws Exception {
@@ -325,5 +292,15 @@ public class ListServiceImpl implements ListService {
 		} catch (Exception e) {
 			throw e;
 		}		
+	}
+
+	@Override
+	public void deleteFile(Map<String, Object> map) throws Exception {
+		try {
+			dao.deleteData("notice.deleteFile", map);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
 	}
 }

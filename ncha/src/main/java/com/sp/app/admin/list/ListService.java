@@ -33,11 +33,8 @@ public interface ListService {
 	public int dataCountNotice(Map<String, Object> map);
 	public List<Notice> listNotice(Map<String, Object> map);
 	public List<Notice> listNotice();
-	public Notice readNotice(int num);
 	public void updateNotice(Map<String, Object> map)   throws Exception;
 	public void deleteNotice(int num, String pathname) throws Exception;
-	
-	public void insertFile(Notice dto) throws Exception;
 	public List<Notice> listFile(int num);
 	public void deleteFile(Map<String, Object> map) throws Exception;
 
