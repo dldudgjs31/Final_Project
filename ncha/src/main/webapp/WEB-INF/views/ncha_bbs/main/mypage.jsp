@@ -250,11 +250,9 @@ function deleteF(userId){
 	      <div class="post-image">
 	      	<img alt="" src="${pageContext.request.contextPath}/uploads/daily/${dto1.imageFilename}" width="180" height="180" border="0" >
 	      </div>
-	      <span class="post-overlay">
-	        <p>
+	      <span class="post-overlay">	        
 	          <i class="far fa-heart" style="text-align: left;"></i><span>${dto1.dailyLikeCount }</span><span>&nbsp;</span>
 	         <i class="far fa-comment-dots" style="text-align: right;"></i><span>${dto1.replyCount }</span>
-	        </p>
 	      </span>
 	    </a>
 	</c:if>  

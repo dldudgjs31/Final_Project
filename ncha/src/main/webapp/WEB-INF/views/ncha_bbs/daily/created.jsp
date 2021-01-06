@@ -186,9 +186,9 @@ function sendOk() {
 
 </script>
 
-<div class="body-container" style="width: 700px;">
-    <div class="body-title">
-        <h3><i class="far fa-clipboard"></i>일&nbsp;상&nbsp;글&nbsp;쓰&nbsp;기 </h3>
+<div class="body-container" style="width: 1000px;">
+    <div class="body-title" >
+        <h3 style="font-family: 'Jua', sans-serif;"><i class="far fa-clipboard"></i>일&nbsp;상&nbsp;글&nbsp;쓰&nbsp;기 </h3>
     </div>
     
     <div>
@@ -202,17 +202,17 @@ function sendOk() {
 				 </div>	 
 			 </div>
 			 </div>
-			<table  class="created table table-hover" style="width: 100%; margin: 20px auto 0px; border-spacing: 0px; border-collapse: collapse;"> 
+			<table  class="created table text-center" style="width: 100%; margin: 20px auto 0px; border-spacing: 0px; border-collapse: collapse;"> 
 			  <tbody id="tb">
 			  <tr align="left" height="40" style="border-top: 1px solid #cccccc; border-bottom: 1px solid #cccccc;"> 
-			      <td width="100" bgcolor="#F6F6F6" style="text-align: center;">제&nbsp;&nbsp;&nbsp;&nbsp;목</td>
+			      <td width="100" style="text-align: center;">제&nbsp;&nbsp;&nbsp;&nbsp;목</td>
 			      <td style="padding-left:10px;"> 
 			        <input type="text" name="subject" maxlength="100" class="boxTF form-control" style="width: 95%;" value="${dto.subject}">
 			      </td>
 			  </tr>
 			  
 			  <tr align="left" height="40" style="border-bottom: 1px solid #cccccc;"> 
-			      <td width="100" bgcolor="#F6F6F6" style="text-align: center;">
+			      <td width="100" style="text-align: center;">
 			      		작성자
 			      </td>
 			      <td style="padding-left:10px;"> 
@@ -221,39 +221,55 @@ function sendOk() {
 			  </tr>
 			
 			  <tr align="left" style="border-bottom: 1px solid #cccccc;"> 
-			      <td width="100" bgcolor="#F6F6F6" style="text-align: center; padding-top:5px;" valign="top">내&nbsp;&nbsp;&nbsp;&nbsp;용</td>
+			      <td width="100" style="text-align: center; padding-top:5px;" valign="top">내&nbsp;&nbsp;&nbsp;&nbsp;용</td>
 			      <td valign="top" style="padding:5px 0px 5px 10px;"> 
 			        <textarea name="content" rows="12" class="boxTA form-control" style="width: 95%;">${dto.content}</textarea>
 			      </td>
 			  </tr> 
 			   
 			  <tr align="center" style="border-bottom: 1px solid #cccccc;">
-			  	  <td width="100" bgcolor="#F6F6F6" style="text-align: center; padding-top:5px;" valign="top" class="usedUrl"> 내  중고 글  목록(클릭)
+			  	  <td width="100" style="text-align: center; padding-top:5px;" valign="top" class="usedUrl"> 내  중고 글  목록(클릭)
 			  	  </td>
-			  	  <td class="usedList" style="display: none;">
+			  	  <td class="usedList" style="display: none; bgcolor: none;">
+			  	  <div class="col-lg-12">
+			  	  <div class="row">
 		      		 <c:forEach var="vo" items="${list}">		      	
-		      		 	<c:if test="${vo.usedNum == dto.usedUrl}">	 	
-				  		 <img alt="" src="${pageContext.request.contextPath}/uploads/used/${vo.imageFilename}" width="150" height="150" border="0">
-				  		 <input type="checkbox"  name="usedUrl"  value="${vo.usedNum}" checked="checked">
- 	     				글번호:${vo.usedNum}
- 	     				</c:if>		
- 	     				<c:if test="${vo.usedNum != dto.usedUrl}">	 	
-				  		 <img alt="" src="${pageContext.request.contextPath}/uploads/used/${vo.imageFilename}" width="150" height="150" border="0">
-				  		 <input type="checkbox"  name="usedUrl"  value="${vo.usedNum}" >
- 	     				글번호:${vo.usedNum}
- 	     				</c:if>	     		 
-		     		  </c:forEach>
+		      		 <c:if test="${vo.usedNum == dto.usedUrl}">
+		      		 <div class="col-lg-3 col-sm-4 portfolio-item" style="margin-bottom: 10px;">  	
+		      		 <div class="card h-100">  	
+				  		<img class="card-img-top" alt="" src="${pageContext.request.contextPath}/uploads/used/${vo.imageFilename}" width="150" height="150" border="0">
+				  		<div class="card-body" align="center">
+							<input type="checkbox"  name="usedUrl"  value="${vo.usedNum}" checked="checked">	     					
+ 	     					<h4 class="card-title">글번호:${vo.usedNum}</h4>
+						</div>
+ 	     			 </div>
+ 	     			 </div>
+ 	     			 </c:if>		
+ 	     			 <c:if test="${vo.usedNum != dto.usedUrl}">
+		      		 <div class="col-lg-3 col-sm-4 portfolio-item" style="margin-bottom: 10px;">  	
+		      		 <div class="card h-100">  	
+				  		<img class="card-img-top" alt="" src="${pageContext.request.contextPath}/uploads/used/${vo.imageFilename}" width="150" height="150" border="0">
+				  		<div class="card-body" align="center">
+							<input type="checkbox"  name="usedUrl"  value="${vo.usedNum}">	     					
+ 	     					<h4 class="card-title">글번호:${vo.usedNum}</h4>
+						</div>
+ 	     			 </div>
+ 	     			 </div>
+ 	     			 </c:if>			     		 
+		     		 </c:forEach>
+		     	  </div>
+		     	  </div>	     		  
 			      </td>
 			  </tr>
 	  
 			  <tr align="left" height="40" style="border-top: 1px solid #cccccc; border-bottom: 1px solid #cccccc;"> 
-					<td width="100" bgcolor="#F6F6F6" style="text-align: center;">카테고리</td>
+					<td width="100" style="font-family: 'Jua', sans-serif; text-align: center;">카테고리</td>
 					<td style="padding-left:10px;">
-						<select class="selectField form-control" id="categoryNum" name="categoryNum">
+						<select style="font-family: 'Jua', sans-serif;" class="selectField form-control" id="categoryNum" name="categoryNum">
 							<option value="${dto.categoryNum}"  >::카테고리 선택::</option>
 							<option value="1" ${dto.categoryNum=="1"?"selected='selected'":""}>의류</option>
-							<option value="2" ${dto.categoryNum=="2"?"selected='selected'":""}>가구</option>
-							<option value="3" ${dto.categoryNum=="3"?"selected='selected'":""}>전자제품</option>
+							<option value="2" ${dto.categoryNum=="2"?"selected='selected'":""}>음식</option>
+							<option value="3" ${dto.categoryNum=="3"?"selected='selected'":""}>풍경</option>
 							<option value="4" ${dto.categoryNum=="4"?"selected='selected'":""}>도서</option>
 							<option value="5" ${dto.categoryNum=="5"?"selected='selected'":""}>기타</option>
 						</select>
@@ -261,7 +277,7 @@ function sendOk() {
 			  </tr>
 				
 			  <tr align="left" height="40" style="border-bottom: 1px solid #cccccc;" class="mainImage">
-			      <td width="100" bgcolor="#F6F6F6" style="text-align: center;">메&nbsp;&nbsp;&nbsp;&nbsp;인</td>
+			      <td width="100" style="text-align: center;">메&nbsp;&nbsp;&nbsp;&nbsp;인</td>
 			      <td style="padding-left:10px;" class="mainImage2"> 
 			          <input type="file" id="image" name="upload" class="boxTF form-control" onchange="preWatchphoto(event);" multiple size="53" style="width: 95%; height: 50px; multiple">
 			      </td>
@@ -271,10 +287,10 @@ function sendOk() {
 				<c:if test="${mode=='update'}">
 				   <c:forEach var="vo" items="${listFile}">
 						  <tr id="${vo.daily_imageFilenum}" height="40" style="border-bottom: 1px solid #cccccc;" class="saveImage"> 
-						      <td width="100" bgcolor="#F6F6F6" style="text-align: center;">첨부된파일</td>
+						      <td width="100"  style="text-align: center; font-family: 'Jua', sans-serif;">첨부된파일</td>
 						      <td style="padding-left:10px;" class="saveImage2"> 
 								<a href="javascript:deleteFile('${vo.daily_imageFilenum}');"><i class="far fa-trash-alt"></i></a> 
-								<div class="imgs">
+								<div class="imgs" style="font-family: 'Jua', sans-serif;">
 						     		<img alt="" src="${pageContext.request.contextPath}/uploads/daily/${vo.imageFilename}" height="150px" width="150px">
 						     	</div>
 						      </td>
@@ -286,9 +302,9 @@ function sendOk() {
 			<table style="width: 100%; margin: 0px auto; border-spacing: 0px;" >
 			     <tr height="45"> 
 			      <td align="center" >
-			        <button type="button" class="btn" onclick="sendOk();">${mode=='update'?'수정완료':'등록하기'}</button>
-			        <button type="reset" class="btn" style="background-color: E8FFFF; ">다시입력</button>
-			        <button type="button" class="btn" onclick="javascript:location.href='${pageContext.request.contextPath}/daily/list';">${mode=='update'?'수정취소':'등록취소'}</button>
+			        <button type="button" class="btn btn-primary" style="font-family: 'Jua', sans-serif;" onclick="sendOk();">${mode=='update'?'수정완료':'등록하기'}</button>
+			        <button type="reset" class="btn btn-info" style="font-family: 'Jua', sans-serif;" style="background-color: E8FFFF; ">다시입력</button>
+			        <button type="button" class="btn btn-danger" style="font-family: 'Jua', sans-serif;" onclick="javascript:location.href='${pageContext.request.contextPath}/daily/list';">${mode=='update'?'수정취소':'등록취소'}</button>
 			         <c:if test="${mode=='update'}">
 			         	 <input type="hidden" name="dailyNum" value="${dto.dailyNum}">
 			        	 <input type="hidden" name="page" value="${page}">

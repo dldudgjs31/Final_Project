@@ -43,44 +43,46 @@ function preWatchphoto(input){
     <div class="body-title">
         <h3><i class="fas fa-user"></i> ${mode=="member"?"회원 가입":"회원 정보 수정"} </h3>
     </div>
-    
-        <div>
-			<form name="memberForm" method="post" enctype="multipart/form-data">
-			 <!-- 프로필 사진 업로드 및 미리 보여주기 -->
-			 <div style="margin-bottom: 20px; margin-top: 30px; margin-left: 300px;">
-				 <label style="font-weight: 900; font-size: 50;">프로필 사진${dto.userId}</label>
-				 <div class="profile_photo" >
+    <div>
+      <form name="memberForm" method="post" enctype="multipart/form-data">
+			<div>
+			<label class="col-sm-2 control-label" for="userPwd">프로필 사진</label>
+			<div class="profile_photo">
+				<c:choose>
+				 	<c:when test="${empty dto.profile_imageFilename}">
+				  	<img id ="img" src="${pageContext.request.contextPath}/resources/img/nophoto.png" style="margin:10px 0;width: 200px; height: 200px; border: 2px solid silver;"/>
+				 	</c:when>
+				 	<c:when test="${not empty dto.profile_imageFilename}">
 				  	<img id ="img" src="${pageContext.request.contextPath}/uploads/member/${dto.profile_imageFilename}" style="margin:10px 0;width: 200px; height: 200px; border: 2px solid silver;"/>
-				 </div>
-				 <input type="file" name="uploadphoto" accept="image/*" onchange="preWatchphoto(this)">	 
-			 </div>
-			  
-			  <table style="width: 100%; margin: 20px auto 0px; border-spacing: 0px;">
-			  <tr align="left" style="border-bottom: 1px solid #cccccc;"> 
-			      <td width="100" bgcolor="#eeeeee" style="text-align: center; padding-top:5px;" valign="top">설&nbsp;&nbsp;&nbsp;&nbsp;명</td>
-			      <td valign="top" style="padding:5px 0px 5px 10px;"> 
-			        <textarea name="introduce" rows="12" class="boxTA" style="width: 95%;">${dto.introduce}</textarea>
-			      </td>
-			  </tr>
+				 	</c:when>
+				 </c:choose>
+			</div>
+	    </div> 
+			  <input type="file" name="uploadphoto" accept="image/*" onchange="preWatchphoto(this)"><br> 	<br> 
+	   <table class="table">
+		    <tr>
+		    	<td>자기소개</td>
+		    	<td>
+					<textarea class="form-control content" name="introduce">${dto.introduce}</textarea>
+		    	</td>
+		    </tr>
+	  </table>
+		
+	  <table style="width: 100%; margin: 0px auto; border-spacing: 0px;">
+		     <tr height="45"> 
+		      <td align="center" >
+		       	<input type="hidden" name="profile_imageFilename" value="${dto.profile_imageFilename}">
+		       
+		        <button type="button" name="sendButton" class="btn btn-primary" style="font-family: 'Jua', sans-serif;" onclick="memberOk('${dto.userId}');">정보수정</button>
+		        <button type="reset" class="btn btn-info" style="font-family: 'Jua', sans-serif;">다시입력</button>
+		        <button type="button" class="btn btn-danger" style="font-family: 'Jua', sans-serif;" onclick="javascript:location.href='${pageContext.request.contextPath}/mypage/profile';">수정취소</button>
+		      </td>
+		    </tr>
+		    <tr height="30">
+		        <td align="center" style="color: blue;">${message}</td>
+		    </tr>
+	 </table>
 
-			  </table>
-			
-			  <table style="width: 100%; margin: 0px auto; border-spacing: 0px;">
-			     <tr height="45"> 
-			      <td align="center" >
-			       	<input type="hidden" name="profile_imageFilename" value="${dto.profile_imageFilename}">
-			       
-			        <button type="button" name="sendButton" class="btn" onclick="memberOk('${dto.userId}');">정보수정</button>
-			        <button type="reset" class="btn">다시입력</button>
-			        <button type="button" class="btn" onclick="javascript:location.href='${pageContext.request.contextPath}/mypage/profile';">수정취소</button>
-			      </td>
-			    </tr>
-			    <tr height="30">
-			        <td align="center" style="color: blue;">${message}</td>
-			    </tr>
-			  </table>
-			</form>
-        </div>
-
-
+</form>
+</div>
 </div>

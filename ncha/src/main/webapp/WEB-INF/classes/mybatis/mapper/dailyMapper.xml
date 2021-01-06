@@ -309,7 +309,12 @@
 		<select id="readDailyHit2" resultType="com.sp.app.daily.Daily">
 		SELECT d.dailyNum, imageFilename, hitCount, content, subject, d.dailyNum
 		FROM daily_bbs d
-		JOIN daily_image i ON d.dailyNum = i.dailyNum
+		JOIN (
+			SELECT * FROM(
+				SELECT dailyNum, rank() over(partition by dailyNum order by daily_imageFileNum) rank, imageFilename
+				FROM daily_image
+			) WHERE rank = 1
+		) i ON d.dailyNum = i.dailyNum
 		ORDER BY hitCount DESC
 		FETCH FIRST 2 ROW ONLY
 	</select>

@@ -38,7 +38,13 @@
 	font-size: 18px;
 }
 
+.deleteReply:hover{
+	cursor:pointer;
+}
 
+.deleteReplyAnswer{
+	cursor:pointer;
+}
 </style>
 
 <script type="text/javascript">
@@ -350,7 +356,7 @@ $(function(){
 
 </script>
 
-<div class="body-container" style="width: 700px;">
+<div class="body-container" style="width: 1000px; font-size: 18px;">
 	<div class="profile-img">
    		<div class="imgs" style="background-image:url('${pageContext.request.contextPath}/uploads/member/${dto.profile_imageFilename}'); border-bottom: 1px solid #cccccc;">
    		</div><a href="javascript:searchProfile('${dto.userId}')" style="color: black !important;">${dto.userId}</a>
@@ -362,7 +368,7 @@ $(function(){
 			      ${dto.subject}
 			    </td>
 			    <td width="50%" align="right" style="padding-right: 5px;">
-			       ${dto.created_date} | 조회 ${dto.hitCount} | 카테고리 : ${dto.categoryName}
+			       ${dto.created_date} | 조회 ${dto.hitCount} <br> 카테고리 : ${dto.categoryName}
 			    </td>
 			</tr>
 	</table>
@@ -370,7 +376,7 @@ $(function(){
      <div class="slick-items" style="height: 450px;">
 		<c:forEach var="vo" items="${list1}">
 			<c:if test="${vo.dailyNum == dto.dailyNum}">
-			      <div  class="slider-image">
+			      <div  class="slider-image" style=" display: flex; justify-content: center;">
 			      	<img alt="" src="${pageContext.request.contextPath}/uploads/daily/${vo.imageFilename}" height="450px" width="693px">
 			      </div>
 			</c:if>  
@@ -422,22 +428,22 @@ $(function(){
 			<tr height="45">
 			    <td width="300" align="left">
 			       <c:if test="${sessionScope.member.userId==dto.userId}">				    
-			          <button type="button" class="btn" onclick="updateDaily('${dto.dailyNum}');">수정</button>
+			          <button type="button" class="btn btn-info" onclick="updateDaily('${dto.dailyNum}');">수정</button>
 			       </c:if>
 			       <c:if test="${sessionScope.member.userId==dto.userId || sessionScope.member.userId=='admin'}">				    
-			          <button type="button" class="btn" onclick="deleteDaily('${dto.dailyNum}');">삭제</button>
+			          <button type="button" class="btn btn-danger" onclick="deleteDaily('${dto.dailyNum}');">삭제</button>
 			       </c:if>
 			    </td>
 			
 			
 			<c:if test="${mode=='mypage'}">
 			    <td align="right">
-			       <a href="javascript:searchProfile('${dto.userId}')">마이페이지</a>
+			       <a href="javascript:searchProfile('${dto.userId}')" class="btn btn-primary" style="font-family: 'Jua', sans-serif;">마이페이지</a>
 			    </td>
 			</c:if>
 			<c:if test="${mode!='mypage'}">
 			    <td align="right">
-			        <button type="button" class="btn" onclick="javascript:location.href='${pageContext.request.contextPath}/daily/list?${query}';">리스트</button>
+			        <button type="button" class="btn btn-primary" style="font-family: 'Jua', sans-serif;" onclick="javascript:location.href='${pageContext.request.contextPath}/daily/list?${query}';">리스트</button>
 			    </td>
 			</c:if>
 			</tr>
@@ -459,7 +465,7 @@ $(function(){
 			</tr>
 			<tr>
 			   <td align='right'>
-			        <button type='button' class='btn btnSendReply' style='padding:10px 20px;'>댓글 등록</button>
+			        <button type='button' style="font-family: 'Jua', sans-serif;" class='btn btn-primary btnSendReply' style='padding:10px 20px;'>댓글 등록</button>
 			    </td>
 			 </tr>
 		 </table>

@@ -12,7 +12,7 @@
                 <div style='float: right;'>
                     <span>${vo.created_date}</span> |
                     <c:if test="${sessionScope.member.userId==vo.userId || sessionScope.member.userId=='admin'}">
-                    	<span class='deleteReplyAnswer' style='cursor: pointer;' data-daily_replyNum='${vo.daily_replyNum}' data-answer='${vo.answer}'>삭제</span>
+                    	<span class='deleteReplyAnswer btn-danger' style='cursor: pointer;' data-daily_replyNum='${vo.daily_replyNum}' data-answer='${vo.answer}'>삭제</span>
                     </c:if>
                     <c:if test="${sessionScope.member.userId!=vo.userId && sessionScope.member.userId!='admin'}">
                     	<span class="notifyReply">신고</span>

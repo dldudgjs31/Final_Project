@@ -11,9 +11,9 @@
 	<![CDATA[
 		SELECT '의류' section, NVL(count(*),0) total  FROM categoryCount WHERE categoryName = '의류'
 		UNION ALL
-		SELECT '가구' section, NVL(count(*),0) total FROM categoryCount WHERE categoryName = '가구'
+		SELECT '음식' section, NVL(count(*),0) total FROM categoryCount WHERE categoryName = '음식'
 		UNION ALL
-		SELECT '전자제품' section, NVL(count(*),0) total FROM categoryCount WHERE categoryName = '전자제품'
+		SELECT '풍경' section, NVL(count(*),0) total FROM categoryCount WHERE categoryName = '풍경'
 		UNION ALL
 		SELECT '도서' section, NVL(count(*),0) total FROM categoryCount WHERE categoryName = '도서'
         UNION ALL

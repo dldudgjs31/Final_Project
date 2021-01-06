@@ -24,10 +24,7 @@
 	       <td width='50%' style='padding:5px 5px; border:1px solid #cccccc; border-left:none;' align='right'>
 	           <span>${vo.created_date}</span> |
 	           <c:if test="${vo.userId == sessionScope.member.userId ||  sessionScope.member.userId == 'admin' }">
-	                <span class="deleteReply" style="cursor: pointer;" data-daily_replyNum='${vo.daily_replyNum}' data-pageNo='${pageNo}'>삭제</span>
-	           	</c:if>
-	           <c:if test="${vo.userId != sessionScope.member.userId &&  sessionScope.member.userId != 'admin' }">
-	           		<span class="notifyReply">신고</span>
+	                <span  style="font-family: 'Jua', sans-serif;" class="deleteReply btn-danger" style="cursor: pointer;" data-daily_replyNum='${vo.daily_replyNum}' data-pageNo='${pageNo}'>삭제</span>
 	           	</c:if>
 	        </td>
 	    </tr>
@@ -39,7 +36,7 @@
 	    
 	    <tr>
 	        <td style='padding:7px 5px;'>
-	            <button type='button' class='btn btnReplyAnswerLayout' data-daily_replyNum='${vo.daily_replyNum}'>답글 <span id="answerCount${vo.daily_replyNum}">${vo.answerCount}</span></button>
+	            <button type='button' class='btn btnReplyAnswerLayout btn-secondary' style="font-family: 'Jua', sans-serif;" data-daily_replyNum='${vo.daily_replyNum}'>답글 <span id="answerCount${vo.daily_replyNum}">${vo.answerCount}</span></button>
 	        </td>
 	     	<td align="center" class="btnSendDailyLike">
                  <button type='button' class='btn btnSendReplyLike' data-daily_replyNum='${vo.daily_replyNum}' data-replyLike='1' title="좋아요"><i class="far fa-grin fa-2x"></i><span>${vo.likeCount}</span></button>
@@ -57,7 +54,7 @@
 	                 </div>
 	            </div>
 	             <div style='padding: 0px 13px 10px 10px; text-align: right;'>
-	                <button type='button' class='btn btnSendReplyAnswer' data-daily_replyNum='${vo.daily_replyNum}'>답글 등록</button>
+	                <button type='button' class='btn btnSendReplyAnswer btn-primary'  style="font-family: 'Jua', sans-serif;" data-daily_replyNum='${vo.daily_replyNum}'>답글 등록</button>
 	            </div>
 	        
 	        </td>

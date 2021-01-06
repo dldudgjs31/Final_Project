@@ -238,35 +238,35 @@ function goArticle(dailyNum){
 <table style="width: 100%; margin: 10px auto; border-spacing: 0px;">
 				<tr height="40">
 					<td align="right" width="100">
-						<button type="button" class="btn" onclick="javascript:location.href='${pageContext.request.contextPath}/daily/created';">글올리기</button>
+						<button style="font-family: 'Jua', sans-serif;" type="button" class="btn btn-primary" onclick="javascript:location.href='${pageContext.request.contextPath}/daily/created';">글올리기</button>
 					</td>
 				
 					<td align="center" width="150">
 						<form name="searchFormKeyword" action="${pageContext.request.contextPath}/daily/list" method="post">
 							<input type="text" name="keyword" value="${keyword}" class="boxTF ">
-							<button type="button" class="btn" onclick="searchList2();">검색 </button>
+							<button style="font-family: 'Jua', sans-serif;" type="button" class="btn btn-secondary" onclick="searchList2();">검색 </button>
 						</form>
 					</td>
 					<td align="center" width="150">
 						<form name="searchFormList" action="${pageContext.request.contextPath}/daily/list" method="post">
-							<select class="selectField form-control" id="categoryNum" name="categoryNum" onchange="searchList1();">
+							<select style="font-family: 'Jua', sans-serif;" class="selectField form-control" id="categoryNum" name="categoryNum" onchange="searchList1();">
 								<option value="">::카테고리 모아보기::</option>
 								<option value="1" ${dto.categoryNum=="1"?"selected='selected'":""}>의류</option>
-								<option value="2" ${dto.categoryNum=="2"?"selected='selected'":""}>가구</option>
-								<option value="3" ${dto.categoryNum=="3"?"selected='selected'":""}>전자제품</option>
+								<option value="2" ${dto.categoryNum=="2"?"selected='selected'":""}>음식</option>
+								<option value="3" ${dto.categoryNum=="3"?"selected='selected'":""}>풍경</option>
 								<option value="4" ${dto.categoryNum=="4"?"selected='selected'":""}>도서</option>
 								<option value="5" ${dto.categoryNum=="5"?"selected='selected'":""}>기타</option>
 							</select>
 						</form>	
 					</td>
 					<td align="left" width="100">
-						<button type="button" class="btn" onclick="javascript:location.href='${pageContext.request.contextPath}/daily/list';">새로고침</button>
+						<button type="button" class="btn btn-secondary" style="font-family: 'Jua', sans-serif;" onclick="javascript:location.href='${pageContext.request.contextPath}/daily/list';">새로고침</button>
 					</td>
 					
 					<td  align="left" width="150">
 						<form name="SearchFormFollow" method="post">
 							<input type="hidden" name="sessionId" value="${sessionScope.member.userId}"> 
-							<button type="button" class="btn" onclick="searchList3();">주변 일상글</button>
+							<button style="font-family: 'Jua', sans-serif;" type="button" class="btn btn-secondary" onclick="searchList3();">주변 일상글</button>
 						</form>
 					</td>
 				</tr>
