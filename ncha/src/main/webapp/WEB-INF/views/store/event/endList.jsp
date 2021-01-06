@@ -21,6 +21,12 @@ $(document).ready(function() {
 .list-group-item{
 	color : black !important;
 }
+
+
+.btn{
+font-family: 'Jua', sans-serif;
+}
+
 </style>
     <!-- Page Heading/Breadcrumbs -->
 <Br><Br>

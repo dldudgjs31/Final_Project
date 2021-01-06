@@ -3,10 +3,19 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <script type="text/javascript" src="${pageContext.request.contextPath}/resources/se/js/HuskyEZCreator.js" charset="utf-8"></script>
+<style>
+.btn{
+font-family: 'Jua', sans-serif;
+}
 
+.boxTF{
+font-family: 'Jua', sans-serif;
+}
+
+</style>
 <div class="body-container" style="width: 700px;">
     <div class="body-title">
-        <h3><i class="far fa-image"></i> 이벤트신청하기 </h3>
+        <h3 style="font-family: 'Jua', sans-serif;"><i class="far fa-image"></i> 이벤트신청하기 </h3>
     </div>
     
     <div>
@@ -47,12 +56,12 @@
 			      </td>
 			  </tr>
 			  
-			  <tr align="left" height="40" style="border-bottom: 1px solid #cccccc;">
+			  <tr align="left" height="40" style="border-bottom: 1px solid #cccccc; ">
 			      <td width="100" bgcolor="#eeeeee" style="text-align: center;">메인 이미지</td>
 			      <td style="padding-left:10px;"> 
-			          <input type="file" name="upload" class="boxTF" size="53"
+			          <input type="file" name="upload" class="boxTF boxTF-xs" size="53"
 			                     accept="image/*" 
-			                     style="height: 25px;">
+			                     style="height: 35px;">
 			       </td>
 			  </tr>
 			  
@@ -62,9 +71,9 @@
 			  <table style="width: 100%; margin: 0px auto; border-spacing: 0px;">
 			     <tr height="45"> 
 			      <td align="center" >
-			        <button type="submit" class="btn" onclick="sendOk();">${mode=='update'?'수정완료':'등록하기'}</button>
-			        <button type="reset" class="btn">다시입력</button>
-			        <button type="button" class="btn" onclick="javascript:location.href='${pageContext.request.contextPath}/event/proceedlist';">${mode=='update'?'수정취소':'등록취소'}</button>
+			        <button type="submit" class="btn btn-primary" onclick="sendOk();">${mode=='update'?'수정완료':'등록하기'}</button>
+			        <button type="reset" class="btn btn-primary">다시입력</button>
+			        <button type="button" class="btn btn-Danger" onclick="javascript:location.href='${pageContext.request.contextPath}/event/proceedlist';">${mode=='update'?'수정취소':'등록취소'}</button>
 			         <c:if test="${mode=='update'}">
 			         	 <input type="hidden" name="eventNum" value="${dto.eventNum}">
 			         	 <input type="hidden" name="imageFilename" value="${dto.imageFilename}">

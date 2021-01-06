@@ -3,6 +3,17 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <script type="text/javascript" src="${pageContext.request.contextPath}/resources/jquery/js/jquery.form.js"></script>
+<style>
+.btn{
+font-family: 'Jua', sans-serif;
+}
+
+.boxTF{
+font-family: 'Jua', sans-serif;
+}
+
+</style>
+<div class="body-container" style="width: 800px;">
 
 <div class="alert-info">
   <i class="fas fa-info-circle"></i>
@@ -90,3 +101,4 @@
       </td>
    </tr>
 </table>
+</div>

@@ -38,6 +38,17 @@ function updateEvent() {
 	</c:if>
 	}
 </script>
+<style>
+.btn{
+font-family: 'Jua', sans-serif;
+}
+
+.boxTF{
+font-family: 'Jua', sans-serif;
+}
+
+</style>
+<div class="body-container" style="width: 800px;">
 <div class="alert-info">
   <i class="fas fa-info-circle"></i>
     중요한 일정 및 알림, 이벤트 등은 공지사항 통해 고객님께 알려 드립니다.
@@ -107,3 +118,4 @@ function updateEvent() {
     </td>
 </tr>
 </table>
+</div>

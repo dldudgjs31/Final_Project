@@ -10,7 +10,7 @@
     margin: 0; padding: 0;
 }
 body {
-    font-size: 13px; font-family: "맑은 고딕", 나눔고딕, 돋움, sans-serif;
+    font-size: 13px; font-family: 'Jua', sans-serif;
 }
 a{
     color: #000000;
@@ -20,41 +20,6 @@ a{
 a:active, a:hover {
     text-decoration: underline;
     color: tomato;
-}
-.btn {
-    color:#333;
-    font-weight:500;
-    font-family:"Malgun Gothic", "맑은 고딕", NanumGothic, 나눔고딕, 돋움, sans-serif;
-    border:1px solid #cccccc;
-    background-color:#ffffff;
-    text-align:center;
-    cursor:pointer;
-    padding:3px 10px 5px;
-    border-radius:4px;
-}
-.btn:active, .btn:focus, .btn:hover {
-    background-color:#e6e6e6;
-    border-color: #adadad;
-    color: #333333;
-}
-.boxTF {
-    border:1px solid #999999;
-    padding:3px 5px 5px;
-    border-radius:4px;
-    background-color:#ffffff;
-    font-family: "맑은 고딕", 나눔고딕, 돋움, sans-serif;
-}
-.selectField {
-    border:1px solid #999999;
-    padding:3px 5px 3px;
-    border-radius:4px;
-    font-family: "맑은 고딕", 나눔고딕, 돋움, sans-serif;
-}
-.title {
-    font-weight: bold;
-    font-size:15px;
-    margin-bottom:10px;
-    font-family: "맑은 고딕", 나눔고딕, 돋움, sans-serif;
 }
 
 </style>
@@ -86,7 +51,7 @@ function authEvent(eventNum, allow) {
 <table style="width: 100%; margin: 0px auto;">
 <tr height="50">
 	<td align="center" colspan="2">
-	    <span style="font-size: 15pt; font-family: 맑은 고딕, 돋움; font-weight: bold;">이벤트 신청리스트</span>
+	    <span style="font-size: 15pt; font-family: 'Jua', sans-serif; font-weight: bold;">이벤트 신청리스트</span>
 	</td>
 </tr>
 

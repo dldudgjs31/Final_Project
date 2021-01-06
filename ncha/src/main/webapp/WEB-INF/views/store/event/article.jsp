@@ -34,6 +34,11 @@ function deleteEvent() {
 .list-group-item{
 	color : black !important;
 }
+
+.btn{
+font-family: 'Jua', sans-serif;
+}
+
 </style>
   <!-- Page Content -->
     <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
@@ -77,7 +82,7 @@ function deleteEvent() {
       </div>
       <!-- Content Column -->
 	
-    <div>
+    <div class="col-md-5">
 			<table class="table" style="width: 100%; max-width:800px;  margin: 10px auto; border-spacing: 0px;">
 			<tr class="card-body" height="35" style="border-top: 1px solid #cccccc; border-bottom: 1px solid #cccccc;">
 			    <td colspan="2" align="center">

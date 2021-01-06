@@ -27,6 +27,11 @@
 .list-group-item {
 	color: black !important;
 }
+
+.btn{
+font-family: 'Jua', sans-serif;
+}
+
 </style>
 
 
