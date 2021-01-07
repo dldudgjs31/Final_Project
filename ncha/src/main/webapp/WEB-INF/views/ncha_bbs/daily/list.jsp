@@ -295,9 +295,9 @@ function goArticle(dailyNum){
     
       <c:forEach var="dto" items="${list}">
       <div class="col-lg-4 col-sm-6 portfolio-item" style="margin-bottom: 10px;">   
-        <div class="card h-100" style="border: none;">         
+        <div class="card h-100" style="border-radius: 15px; border: none;">         
           <a href="${articleUrl}&dailyNum=${dto.dailyNum}">       	
-	          <div class="card-img-top" style="height: 250px; background-image:url('${pageContext.request.contextPath}/uploads/daily/${dto.imageFilename}')"></div>  
+	          <div class="card-img-top" style="border-radius: 15px;height: 250px; background-image:url('${pageContext.request.contextPath}/uploads/daily/${dto.imageFilename}')"></div>  
 	          		          		
           </a>              
           <div class="card-body" align="center">       
