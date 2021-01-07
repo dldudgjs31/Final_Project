@@ -16,7 +16,7 @@
 	background-repeat: no-repeat;
 	background-position: center;
 	background-size: cover;
-	height: 450px;
+	height: 900px;
 }
 .slick-prev{
 	color: gray;
