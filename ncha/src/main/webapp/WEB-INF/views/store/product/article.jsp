@@ -380,7 +380,7 @@ function buyOk() {
 			
 			</p>
 			<p style="color:silver;">정가 :<del><fmt:formatNumber type="currency" value="${dto.price}" />원</del></p>
-			<p>세일가 : <fmt:formatNumber  type="currency"  value="${dto.price - dto.discount_rate}"/>원</p>
+			<p>세일가 : <fmt:formatNumber  type="currency"  value="${dto.price - dto.discount_rate}"/>원&nbsp;&nbsp;<span style="background-color: red; border-radius: 5px; color:white; "><fmt:formatNumber type="number"  pattern="0" value="${(dto.discount_rate/dto.price)*100}" />%OFF</span></p>
             <select class="custom-select" id="single_select">
             	<c:forEach var="option" items="${optionList}">
             		<c:choose>

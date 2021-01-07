@@ -36,36 +36,34 @@ $(document).ready(function() {
 p{
 margin-bottom: 0.5rem;
 }
+.card-img-top{
+	background-position: center;
+	background-size: contain;
+	background-repeat: no-repeat;
+}
 </style>
   <!-- Page Content -->
     <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
       <ol class="carousel-indicators">
         <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
         <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-        <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
       </ol>
       <div class="carousel-inner" role="listbox">
         <!-- Slide One - Set the background image for this slide in the line below -->
-        <div class="carousel-item active" style="background-image: url('${pageContext.request.contextPath}/resources/img/banner1.png')">
+        <div class="carousel-item active" style="background-image: url('${pageContext.request.contextPath}/resources/img/dyson.jpg')">
           <div class="carousel-caption d-none d-md-block">
-            <h3>신혼집 첫 인테리어에 필요한 가구는?</h3>
-            <p>N차 신상에서 해결하자~!</p>
+            <h3>신혼집 첫 인테리어에 필요한 가전은?</h3>
+            <p><button style="font-family: 'Jua', sans-serif;" class="btn btn-primary btn-md" onclick="location.href='${pageContext.request.contextPath}/store/myFollowStore?page=1&sellerId=sell2'">다이슨 스토어로 이동</button></p>
           </div>
         </div>
         <!-- Slide Two - Set the background image for this slide in the line below -->
-        <div class="carousel-item" style="background-image: url('${pageContext.request.contextPath}/resources/img/banner2.png')">
+        <div class="carousel-item" style="background-image: url('${pageContext.request.contextPath}/resources/img/event3.png')">
           <div class="carousel-caption d-none d-md-block">
-            <h3>Second Slide</h3>
-            <p>This is a description for the second slide.</p>
+            <p><button style="font-family: 'Jua', sans-serif;" class="btn btn-primary btn-md" onclick="location.href='${pageContext.request.contextPath}/event/proceedList'">이벤트 확인하기</button></p>
           </div>
         </div>
         <!-- Slide Three - Set the background image for this slide in the line below -->
-        <div class="carousel-item" style="background-image: url('http://placehold.it/1900x1080')">
-          <div class="carousel-caption d-none d-md-block">
-            <h3>Third Slide</h3>
-            <p>This is a description for the third slide.</p>
-          </div>
-        </div>
+
       </div>
       <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
         <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -134,12 +132,12 @@ margin-bottom: 0.5rem;
       <c:forEach var="dto" items="${list}">
       <div class="col-lg-4 col-sm-6 portfolio-item" style="margin-bottom: 10px; ">
         <div class="card h-100" style="border: none;">
-          <a href="${articleUrl}&num=${dto.productNum}"><img class="card-img-top" src="${pageContext.request.contextPath}/uploads/product/${dto.imageFilename}" alt="" style="height: 200px; border: 1px solid silver; border-radius: 20px;"></a>
+          <a href="${articleUrl}&num=${dto.productNum}"><div class="card-img-top" style="height: 200px; border: 1px solid silver; border-radius: 20px;background-image:url('${pageContext.request.contextPath}/uploads/product/${dto.imageFilename}')"></div></a>
           <div class="card-body" style="padding-top: 0;">
             <p class="card-text" id="profile">
             <div id="profile">
 	            <div id="profile_image" style="background-image: url('${pageContext.request.contextPath}/uploads/member/${dto.profile_imageFilename}');"></div>
-	            <div> ${dto.sellerName} &nbsp;<span style="color:#FF6464;"><i class="fas fa-heart"></i> &nbsp;${dto.storeFollowCount}</span></div>
+	            <div> <a style="color:black !important;" href="${pageContext.request.contextPath}/store/myFollowStore?page=1&sellerId=${dto.sellerId}">${dto.sellerName}</a> &nbsp;<span style="color:#FF6464;"><i class="fas fa-heart"></i> &nbsp;${dto.storeFollowCount}</span></div>
             </div>
             </p>
             <h5 class="card-title">
@@ -152,7 +150,9 @@ margin-bottom: 0.5rem;
             </h5>
             
            <p class="card-text" style="color:silver;">정가 :  <del><fmt:formatNumber type="currency" value="${dto.price}" />원</p></del>
-            <p class="card-text">세일가 : <fmt:formatNumber  type="currency"  value="${dto.price - dto.discount_rate}"/>원</p>
+            <p class="card-text" style="display: flex;justify-content: space-between;">세일가 : <fmt:formatNumber  type="currency"  value="${dto.price - dto.discount_rate}"/>원&nbsp;
+             <span style="background-color: red; border-radius: 5px; color:white; "><fmt:formatNumber type="number"  pattern="0" value="${(dto.discount_rate/dto.price)*100}" />%OFF</span>
+            </p>
             <p style="display: flex; justify-content: space-between;">
 		            <span style="color:	#FF6464;"><i class="fas fa-heart"></i> &nbsp;${dto.likeCount}</span>&nbsp;&nbsp;
 		            <span style="color:#FFCD28;">${dto.score}</span>

@@ -21,6 +21,10 @@ p{
 .bd-placeholder-img{
 	border: 1px solid silver;
 	border-radius: 30px;
+	background-size: contain;
+	background-position: center;
+	background-repeat: no-repeat;
+	
 }
 </style>
 
@@ -123,7 +127,8 @@ p{
         <p><a class="btn btn-secondary" href="${pageContext.request.contextPath}/store/article?page=1&num=${dto1.productNum}" role="button">상품으로 이동 &raquo;</a></p>
       </div>
       <div class="col-md-5">
-        <svg class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto" width="500" height="500" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 500x500" preserveAspectRatio="xMidYMid slice" focusable="false" style="background-image: url('${pageContext.request.contextPath}/uploads/member/${dto1.imageFilename}');"></svg>
+      
+        <svg class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto" width="500" height="500" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 500x500" preserveAspectRatio="xMidYMid slice" focusable="false" style="background-image: url('${pageContext.request.contextPath}/uploads/product/${dto1.imageFilename}');"></svg>
 
       </div>
     </div>
@@ -148,7 +153,7 @@ p{
         <p><a class="btn btn-secondary" href="${pageContext.request.contextPath}/store/article?page=1&num=${dto2.productNum}" role="button">상품으로 이동 &raquo;</a></p>
       </div>
       <div class="col-md-5 order-md-1">
-        <svg class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto" width="500" height="500" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 500x500" preserveAspectRatio="xMidYMid slice" focusable="false"style="background-image: url('${pageContext.request.contextPath}/uploads/member/${dto2.imageFilename}');"></svg>
+        <svg class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto" width="500" height="500" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 500x500" preserveAspectRatio="xMidYMid slice" focusable="false"style="background-image: url('${pageContext.request.contextPath}/uploads/product/${dto2.imageFilename}');"></svg>
 
       </div>
     </div>
@@ -173,7 +178,7 @@ p{
         <p><a class="btn btn-secondary" href="${pageContext.request.contextPath}/store/article?page=1&num=${dto3.productNum}" role="button">상품으로 이동 &raquo;</a></p>
       </div>
       <div class="col-md-5">
-        <svg class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto" width="500" height="500" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 500x500" preserveAspectRatio="xMidYMid slice" focusable="false" style="background-image: url('${pageContext.request.contextPath}/uploads/member/${dto3.imageFilename}');"></svg>
+        <svg class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto" width="500" height="500" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 500x500" preserveAspectRatio="xMidYMid slice" focusable="false" style="background-image: url('${pageContext.request.contextPath}/uploads/product/${dto3.imageFilename}');"></svg>
 
       </div>
     </div>

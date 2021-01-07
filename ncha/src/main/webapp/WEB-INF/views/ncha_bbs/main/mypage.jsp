@@ -14,7 +14,7 @@
   display: grid;
   width:99%;
   grid-template-columns: repeat(3, minmax(100px, 293px));
-  grid-template-rowls: repeat(auto, minmax(100px, 293px));
+  grid-template-rowls: repeat(auto, minmax(100px, 237px));
   justify-content: center;
   gap: 28px;
 }
@@ -41,7 +41,7 @@
 .post-image img {
   object-fit: cover;
   width:100%;
-  height: 293px;
+  height: 237px;
 }
 .post-overlay {
   background-color: rgb(0, 0, 0, 0.4);
