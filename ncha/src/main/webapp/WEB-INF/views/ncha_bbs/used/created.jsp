@@ -18,8 +18,14 @@
 	display: flex;
 }
 .imgs_wrap img{
-	height:100px;
-	width: 80px;
+	height: 200px;
+	width: 200px;
+.body-container{
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	width: 70%;
 }
 </style>
 
@@ -112,50 +118,41 @@ function goArticle(usedNum,page){
 }
 </script>
 
-
-<div class = "body-containter" style="width:700px;">
+<br><br>
 	<div class="body-title">
-		<h3><i class="fas fa-chalkboard"></i>중고거래 글쓰기</h3>
+		<h3  style="font-family: 'Jua', sans-serif;"><i class="fas fa-chalkboard"></i>&nbsp;&nbsp;&nbsp;중&nbsp;고&nbsp;거&nbsp;래&nbsp;&nbsp;글&nbsp;쓰&nbsp;기</h3>
 	</div>
 
 	<div>
-		<form name="usedForm" method="post" enctype="multipart/form-data" style="margin:0 auto; width: 100%;" class="form-horizontal">
+		<form style="font-family: 'Jua', sans-serif;" name="usedForm" method="post" enctype="multipart/form-data" style="margin:0 auto; width: 100%;" class="form-horizontal">
 		
-			<table class="table table-hover" style="width: 100%; margin: 20px auto 0px; border-spacing: 0px; border-collapse: collapse;">
-			<tr align="left" height="40" style="border-bottom: 1px solid #cccccc;"> 
-				<td width="100" bgcolor="#F6F6F6" style="text-align: center;">작성자</td>
-				<td style="padding-left:10px;">
-					${sessionScope.member.userName}
-				</td>
-			</tr>
+		<div class = "imgs_wrap">
+		</div>
+		
+		<table class="table">
 			<c:if test="${mode=='update'}">
-				<tr align="left" height="40" style="border-top: 1px solid #cccccc; border-bottom: 1px solid #cccccc;"> 
-					<td width="100" bgcolor="#eeeeee" style="text-align: center;">거래 상태</td>
-					<td style="padding-left:10px;">
+				<tr> 
+					<td>거래 상태</td>
+					<td>
 				        <input type="radio" name="sold_check" value="0" ${dto.sold_check=="0" || not empty dto ?"checked='checked'":"" }> 거래 가능
+					    &nbsp;&nbsp;
 					    <input type="radio" name="sold_check" value="1" ${dto.sold_check=="1"?"checked='checked'":"" }> 판매 완료
 					</td>
 				</tr>
 			</c:if>
-			</table>
 			
-			<div>
-				<div class = "imgs_wrap">
-				</div>
-			</div>
-			
-			<table>
-			<tr align="left" height="40" style="border-bottom: 1px solid #cccccc;">
-      			<td width="100" bgcolor="#F6F6F6" style="text-align: center;">사&nbsp;&nbsp;&nbsp;&nbsp;진</td>
-     			 <td style="padding-left:10px;"> 
-          			<input type="file" name="upload" id="upload_img" onclick="fileUploadAction();" multiple="multiple" class="boxTF form-control" size="53" style="width: 95%; height: 50px;">
+			<tr>
+      			<td>사&nbsp;&nbsp;&nbsp;&nbsp;진</td>
+     			 <td>
+     			 	<p>여러장의 사진을 한번에 첨부해주세요.</p> 
+          			<input type="file" style="font-family: 'Jua', sans-serif;" name="upload" id="upload_img" onclick="fileUploadAction();" multiple="multiple" class="boxTF form-control" size="53" style="width: 95%; height: 50px;">
        			</td>
   			</tr>
 			<c:if test="${mode=='update'}">
 				   <c:forEach var="vo" items="${imageList}">
-						  <tr id="file${vo.used_imageFileNum}" height="40" style="border-bottom: 1px solid #cccccc;"> 
-						      <td width="100" bgcolor="#F6F6F6" style="text-align: center;">첨부된파일</td>
-						      <td style="padding-left:10px;"> 
+						  <tr id="file${vo.used_imageFileNum}"> 
+						      <td>첨부된파일</td>
+						      <td> 
 								<a href="javascript:deleteFile('${vo.used_imageFileNum}');"><i class="far fa-trash-alt"></i></a> 
 								${vo.imageFilename}
 						      </td>
@@ -164,18 +161,18 @@ function goArticle(usedNum,page){
 			</c:if>			
 			
 			
-			<tr align="left" height="40" style="border-top: 1px solid #cccccc; border-bottom: 1px solid #cccccc;"> 
-				<td width="100" bgcolor="#F6F6F6" style="text-align: center;">제&nbsp;&nbsp;&nbsp;&nbsp;목</td>
-				<td style="padding-left:10px;">
-					<input type="text" name="subject" maxlength="100" class="boxTF form-control" style="width: 95%;" value="${dto.subject}">
+			<tr> 
+				<td>제&nbsp;&nbsp;&nbsp;&nbsp;목</td>
+				<td>
+					<input type="text" name="subject" style="font-family: 'Jua', sans-serif;" maxlength="100" class="boxTF form-control" style="width: 95%;" value="${dto.subject}">
 				</td>
 			</tr>
 
 
-			<tr align="left" height="40" style="border-top: 1px solid #cccccc; border-bottom: 1px solid #cccccc;"> 
-				<td width="100" bgcolor="#F6F6F6" style="text-align: center;">카테고리</td>
-				<td style="padding-left:10px;">
-					<select class="selectField form-control" id="categoryNum" name="categoryNum">
+			<tr> 
+				<td>카테고리</td>
+				<td>
+					<select class="selectField form-control" id="categoryNum" style="font-family: 'Jua', sans-serif;" name="categoryNum">
 						<option value="">::카테고리 선택::</option>
 						<option value="1" ${dto.categoryNum=="1"?"selected='selected'":""}>의류</option>
 						<option value="2" ${dto.categoryNum=="2"?"selected='selected'":""}>가구</option>
@@ -186,36 +183,39 @@ function goArticle(usedNum,page){
 				</td>
 			</tr>
 
-			<tr align="left" height="40" style="border-top: 1px solid #cccccc; border-bottom: 1px solid #cccccc;"> 
-				<td width="100" bgcolor="#F6F6F6" style="text-align: center;">가&nbsp;&nbsp;&nbsp;&nbsp;격</td>
-				<td style="padding-left:10px;">
-					<input type="text" name="price" maxlength="100" class="boxTF form-control" style="width: 95%;" value="${dto.price}">
+			<tr> 
+				<td>가&nbsp;&nbsp;&nbsp;&nbsp;격</td>
+				<td>
+					<input type="number" name="price" style="font-family: 'Jua', sans-serif;" placeholder="가격은 숫자만 적어주세요" maxlength="100" class="boxTF form-control" style="width: 95%;" value="${dto.price}">
 				</td>
 			</tr>
 			
-			<tr align="left" height="40" style="border-top: 1px solid #cccccc; border-bottom: 1px solid #cccccc;"> 
-				<td width="100" bgcolor="#F6F6F6" style="text-align: center;">상품&nbsp;&nbsp;상태</td>
-				<td style="padding-left:10px;">
+			<tr> 
+				<td>상품&nbsp;&nbsp;상태</td>
+				<td>
 				    <input type="radio" name="productCondition" value="미개봉" ${dto.productCondition=='미개봉' || not empty dto ?"checked='checked'":"" }> 미개봉
+				    &nbsp;&nbsp;&nbsp;
 				    <input type="radio" name="productCondition" value="거의 새것" ${dto.productCondition=='거의 새것'?"checked='checked'":"" }> 거의 새것
+				    &nbsp;&nbsp;&nbsp;
 				    <input type="radio" name="productCondition" value="사용감 있음" ${dto.productCondition=='사용감 있음'?"checked='checked'":"" }> 사용감 있음
 				</td>
 			</tr>
 
-			<tr align="left" height="40" style="border-top: 1px solid #cccccc; border-bottom: 1px solid #cccccc;"> 
-				<td width="100" bgcolor="#F6F6F6" style="text-align: center;">결제&nbsp;&nbsp;방법</td>
+			<tr> 
+				<td>결제&nbsp;&nbsp;방법</td>
 				
-				<td style="padding-left:10px;">
+				<td>
 				    <input type="radio" name="dealingMode" value="현금" ${dto.productCondition=='현금' || not empty dto ?"checked='checked'":"" }> 현금
+				    &nbsp;&nbsp;&nbsp;
 				    <input type="radio" name="dealingMode" value="계좌이체" ${dto.productCondition=='계좌이체'?"checked='checked'":"" }> 계좌이체
 				</td>
 			
 			</tr>
 			
-			<tr align="left" height="40" style="border-top: 1px solid #cccccc; border-bottom: 1px solid #cccccc;"> 
-				<td width="100" bgcolor="#F6F6F6" style="text-align: center;">거래&nbsp;&nbsp;지역</td>
-				<td style="padding-left:10px;">
-					<select class="selectField form-control" id="location" name="location">
+			<tr> 
+				<td>거래&nbsp;&nbsp;지역</td>
+				<td>
+					<select class="selectField form-control" style="font-family: 'Jua', sans-serif;" id="location" name="location">
 						<option value="">::거래지역 선택::</option>
 						<option value="서울" ${dto.location=="서울"?"selected='selected'":""}>서울</option>
 						<option value="인천" ${dto.location=="인천"?"selected='selected'":""}>인천</option>
@@ -224,9 +224,9 @@ function goArticle(usedNum,page){
 				</td>
 			</tr>	
 			
-			<tr align="left" style="border-bottom: 1px solid #cccccc;">
-				<td width="100" bgcolor="#F6F6F6" style="text-align: center; padding-top:5px;" valign="top">내&nbsp;&nbsp;&nbsp;&nbsp;용</td>
-				<td valign="top" style="padding:5px 0px 5px 10px;"> 
+			<tr>
+				<td>내&nbsp;&nbsp;&nbsp;&nbsp;용</td>
+				<td> 
 					<textarea name="content" rows="12" class="boxTA form-control" style="width: 95%;">${dto.content}</textarea>
 				</td>
 			</tr>
@@ -235,13 +235,13 @@ function goArticle(usedNum,page){
 		<table style="width: 100%; border-spacing: 0px;">
 			<tr height="45">
 				<td align="center" >
-					<button type="button" class="btn" onclick="sendOk();">${mode=='update'?'수정완료':'등록하기'}</button>
-					<button type="reset" class="btn">다시입력</button>
+					<button type="button" style="font-family: 'Jua', sans-serif;" class="btn btn-primary btn-xs" onclick="sendOk();">${mode=='update'?'수정완료':'등록하기'}</button>
+					<button type="reset" style="font-family: 'Jua', sans-serif;" class="btn btn-primary btn-xs">다시입력</button>
 					<c:if test="${mode=='created'}">
-						<button type="button" class="btn" onclick="goList('${page}')">등록취소</button>
+						<button type="button" style="font-family: 'Jua', sans-serif;" class="btn btn-danger btn-xs" onclick="goList('${page}')">등록취소</button>
 					</c:if>
 					<c:if test="${mode=='update'}">
-						<button type="button" class="btn" onclick="goArticle('${usedNum}','${page}')">수정취소</button>
+						<button type="button" style="font-family: 'Jua', sans-serif;" class="btn btn-danger btn-xs" onclick="goArticle('${usedNum}','${page}')">수정취소</button>
 			         	 <input type="hidden" name="usedNum" value="${dto.usedNum}">
 			        	 <input type="hidden" name="page" value="${page}">
 			        </c:if>
@@ -251,5 +251,4 @@ function goArticle(usedNum,page){
 		
 		</form>
 	</div>
-
-</div>
+<br><br>

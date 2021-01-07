@@ -3,23 +3,17 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
-<div class="body-container" style="width: 700px;">
+
+<br><br>
 	 <ol class="breadcrumb">
 		    <li class="breadcrumb-item">매출 분석</li>
 		    <li class="breadcrumb-item active">매출 리스트</li>
 	 </ol>
-   
-    
-      	<table style="width: 100%; margin: 0px auto;">
-			<tr height="35">
-				<td width="50%">
-					${dataCount}개(${page}/${total_page} 페이지)
-				</td>
-			</tr>
-		</table>
+   	<p align="right">${dataCount}개(${page}/${total_page} 페이지) </p>
+	<br>
 		<form name="salesListForm" method="post">
 			<table style="width: 100%; margin: 0px auto; border-spacing: 1px; background: #cccccc;">
-				<tr height="30" bgcolor="#eeeeee" align="center">
+				<tr height="60" bgcolor="#eeeeee" align="center">
 					<th width="50">번호</th>
 					<th width="70">주문번호</th>
 					<th width="100">판매자</th>
@@ -28,6 +22,7 @@
 					<th width="120">구매 총액</th>
 					<th width="100">주문 날짜</th>
 				</tr>
+				<tr></tr>
 			
 				<c:forEach var="dto" items="${list}">
 					<tr height="35" bgcolor="#ffffff" align="center">
@@ -48,5 +43,4 @@
 				<td>${dataCount==0?"등록된 게시물이 없습니다.":paging}</td>
 			</tr>
 		</table>
-</div>
-
+<br><br>
