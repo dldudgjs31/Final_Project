@@ -107,22 +107,18 @@ $(function(){
 });
 </script>
 
-
-<div class="body-container" style="width: 700px;">
-    <ol class="breadcrumb">
-	    <li class="breadcrumb-item">매출 분석</li>
-	    <li class="breadcrumb-item active">카테고리별</li>
-	</ol>
-    
-    <div class="col-lg-9 mb-4">
-    	<figure class="highcharts-figure">
-			<div id="categorySales-chart" style="font: 'Jua'"></div>
-		</figure>
-		<br><br>
-		<figure class="highcharts-figure">
-  			<div id="categoryYear-chart"></div>
-		</figure>
-	</div>
-</div>
-
+<br><br>
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">매출 분석</li>
+  <li class="breadcrumb-item active">카테고리별</li>
+</ol>
+<br><br>
+<figure class="highcharts-figure">
+	<div id="categorySales-chart" style="font: 'Jua'"></div>
+</figure>
+<br><br>
+<figure class="highcharts-figure">
+	<div id="categoryYear-chart"></div>
+<br><br><br><br>
+</figure>
 

@@ -29,7 +29,7 @@
 		           	</c:if>
 		           <c:if test="${vo.userId != sessionScope.member.userId &&  sessionScope.member.userId != 'admin' }">
 		           		<span class="notifyReply">신고</span>
-		           	</c:if>
+		           </c:if>
 		        </td>
 		    </tr>
 		    <tr>
@@ -40,10 +40,10 @@
 		    
 		    <tr>
 		        <td style='padding:7px 5px;'>
-		            <button type='button' class='btn btnReplyAnswerLayout' data-used_reviewNum='${vo.used_reviewNum}'>답글 <span id="answerCount${vo.used_reviewNum}">${vo.answerCount}</span></button>
+		            <button type='button' style="font-family: 'Jua', sans-serif;" class='btn btn-info btnReplyAnswerLayout' data-used_reviewNum='${vo.used_reviewNum}'>답글 <span id="answerCount${vo.used_reviewNum}">${vo.answerCount}</span></button>
 		        </td>
 		        <td style='padding:7px 5px;' align='right'>
-	                <button type='button' class='btn btnSendReplyLike' data-used_reviewNum='${vo.used_reviewNum}' data-replyLike='1' title="좋아요"><i class="far fa-hand-point-up"></i> <span id="usedReplyLikeCount">${vo.likeCount}</span></button>
+	                <button type='button' style="font-family: 'Jua', sans-serif;" class='btn btnSendReplyLike' data-used_reviewNum='${vo.used_reviewNum}' data-replyLike='1' title="좋아요"><i class="far fa-hand-point-up"></i> <span id="usedReplyLikeCount">${vo.likeCount}</span></button>
 		        </td>
 		    </tr>
 		
@@ -57,7 +57,7 @@
 		                 </div>
 		            </div>
 		             <div style='padding: 0px 13px 10px 10px; text-align: right;'>
-		                <button type='button' class='btn btnSendReplyAnswer' data-used_reviewNum='${vo.used_reviewNum}'>답글 등록</button>
+		                <button type='button' style="font-family: 'Jua', sans-serif;" class='btn btn-primary btnSendReplyAnswer' data-used_reviewNum='${vo.used_reviewNum}'>답글 등록</button>
 		            </div>
 		        
 		        </td>

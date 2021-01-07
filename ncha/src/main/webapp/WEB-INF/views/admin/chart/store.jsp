@@ -51,18 +51,17 @@ $(function(){
 });
 </script>
 
-
-<div class="body-container" style="width: 700px;">
-    <ol class="breadcrumb">
-	    <li class="breadcrumb-item">매출 분석</li>
-	    <li class="breadcrumb-item active">스토어별</li>
-	</ol>
+<br><br>
+<ol class="breadcrumb">
+   <li class="breadcrumb-item">매출 분석</li>
+   <li class="breadcrumb-item active">스토어별</li>
+</ol>
     
-   <div class="col-lg-9 mb-4">
-	    <figure class="highcharts-figure">
-			<div id="storeSales-chart" style="font: 'Jua'"></div>
-		</figure>
-	</div>
+<div>
+  <figure class="highcharts-figure">
+	<div id="storeSales-chart" style="font: 'Jua'"></div>
+  </figure>
+  <br><br><br><br>
 </div>
 
 
