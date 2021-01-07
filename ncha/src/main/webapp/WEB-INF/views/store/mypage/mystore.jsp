@@ -36,6 +36,11 @@ margin-bottom: 0.5rem;
 	border: 1px solid silver;
 	border-radius: 50%;
 }
+.card-img-top{
+	background-position: center;
+	background-size: contain;
+	background-repeat: no-repeat;
+}
 </style>
 <script type="text/javascript">
 $(function(){
@@ -132,7 +137,7 @@ function StoreLike1(sellerId){
       <c:forEach var="dto" items="${list}">
       <div class="col-lg-3 col-sm-6 portfolio-item" style="margin-bottom: 10px; ">
         <div class="card h-100" style="border: none;">
-          <a href="${pageContext.request.contextPath}/store/article?page=1&num=${dto.productNum}"><img class="card-img-top" src="${pageContext.request.contextPath}/uploads/product/${dto.imageFilename}" alt="" style="height: 200px; border: 1px solid silver; border-radius: 20px;"></a>
+          <a href="${pageContext.request.contextPath}/store/article?page=1&num=${dto.productNum}"><div class="card-img-top" style="height: 200px; border: 1px solid silver; border-radius: 20px;background-image:url('${pageContext.request.contextPath}/uploads/product/${dto.imageFilename}')"></div></a>
           <div class="card-body" style="padding-top: 0;">
             <p class="card-text" id="profile">
             <div id="profile">

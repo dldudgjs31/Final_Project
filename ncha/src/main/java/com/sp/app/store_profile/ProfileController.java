@@ -128,6 +128,7 @@ public class ProfileController {
 			String articleUrl = cp + "/qna/article?page=" + current_page;
 			String paging = myUtil.paging(current_page, total_page, listUrl);
 			model.addAttribute("page",current_page);
+			model.addAttribute("sellerId",info.getSellerId());
 			model.addAttribute("total_page", total_page);
 			model.addAttribute("dataCount", dataCount);
 			model.addAttribute("paging", paging);
@@ -186,6 +187,7 @@ public class ProfileController {
 			String cp = req.getContextPath();
 			String listUrl = cp + "/store/mypage/saleslist";
 			String paging = myUtil.paging(current_page, total_page, listUrl);
+			model.addAttribute("sellerId", info.getSellerId());
 			model.addAttribute("sumSales", sumSales);
 			model.addAttribute("total_Sales", total_Sales);
 			model.addAttribute("startdate", startdate);
@@ -241,6 +243,7 @@ public class ProfileController {
 			String cp = req.getContextPath();
 			String listUrl = cp + "/store/mypage/stockupdate";
 			String paging = myUtil.paging(current_page, total_page, listUrl);
+			model.addAttribute("sellerId", info.getSellerId());
 			model.addAttribute("categoryNum", categoryNum);
 			model.addAttribute("page", current_page);
 			model.addAttribute("total_page", total_page);
