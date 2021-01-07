@@ -54,17 +54,20 @@
 	<!-- http 요청 전에 필터와 같은 역할 -->
  	<interceptors>
 		<interceptor>
-			<mapping path="/**"/>
+			<mapping path="/*"/>
 		
-			<exclude-mapping path="/**"/>
-			<!-- 로그인 안되도 css는 허용해야 화면이 보임 -->
-<!-- 			<exclude-mapping path="/resources/**"/>
+			<exclude-mapping path="/"/>
+			<exclude-mapping path="/used/list"/>
 			<exclude-mapping path="/daily/list"/>
+			<exclude-mapping path="/store/main"/>
+			<exclude-mapping path="/store/list"/>
+			<exclude-mapping path="/resources/**"/>
 			<exclude-mapping path="/member/login"/>
+			<exclude-mapping path="/ncha/member"/>
 			<exclude-mapping path="/member/logout"/>
 			<exclude-mapping path="/member/member"/>
 			<exclude-mapping path="/member/userIdCheck"/>
-			<exclude-mapping path="/member/complete"/> -->
+			<exclude-mapping path="/member/complete"/> 
 			 
 			<beans:bean class="com.sp.app.member.LoginCheckInterceptor"/>
 		</interceptor>

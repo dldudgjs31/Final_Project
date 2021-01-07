@@ -31,7 +31,7 @@ $(document).ready(function() {
 	border:1px solid silver; 
 	background-repeat: no-repeat;
 	background-position: center;
-	background-size: contain;
+	background-size: cover;
 }
 p{
 margin-bottom: 0.5rem;
@@ -46,14 +46,14 @@ margin-bottom: 0.5rem;
       </ol>
       <div class="carousel-inner" role="listbox">
         <!-- Slide One - Set the background image for this slide in the line below -->
-        <div class="carousel-item active" style="background-image: url('${pageContext.request.contextPath}/resources/img/interior.jpg')">
+        <div class="carousel-item active" style="background-image: url('${pageContext.request.contextPath}/resources/img/banner1.png')">
           <div class="carousel-caption d-none d-md-block">
             <h3>신혼집 첫 인테리어에 필요한 가구는?</h3>
             <p>N차 신상에서 해결하자~!</p>
           </div>
         </div>
         <!-- Slide Two - Set the background image for this slide in the line below -->
-        <div class="carousel-item" style="background-image: url('${pageContext.request.contextPath}/resources/img/fashion.jpg')">
+        <div class="carousel-item" style="background-image: url('${pageContext.request.contextPath}/resources/img/banner2.png')">
           <div class="carousel-caption d-none d-md-block">
             <h3>Second Slide</h3>
             <p>This is a description for the second slide.</p>
@@ -138,7 +138,7 @@ margin-bottom: 0.5rem;
           <div class="card-body" style="padding-top: 0;">
             <p class="card-text" id="profile">
             <div id="profile">
-	            <div id="profile_image" style="background-image: url('${pageContext.request.contextPath}/uploads/member/${dto.profile_imagefilename}');"></div>
+	            <div id="profile_image" style="background-image: url('${pageContext.request.contextPath}/uploads/member/${dto.profile_imageFilename}');"></div>
 	            <div> ${dto.sellerName} &nbsp;<span style="color:#FF6464;"><i class="fas fa-heart"></i> &nbsp;${dto.storeFollowCount}</span></div>
             </div>
             </p>
@@ -153,7 +153,10 @@ margin-bottom: 0.5rem;
             
            <p class="card-text" style="color:silver;">정가 :  <del><fmt:formatNumber type="currency" value="${dto.price}" />원</p></del>
             <p class="card-text">세일가 : <fmt:formatNumber  type="currency"  value="${dto.price - dto.discount_rate}"/>원</p>
-            <p> <span style="color:	#FF6464;"><i class="fas fa-heart"></i> &nbsp;${dto.likeCount}</span>&nbsp;&nbsp;<span style="color:#FFCD28;">${dto.score}</span></p>
+            <p style="display: flex; justify-content: space-between;">
+		            <span style="color:	#FF6464;"><i class="fas fa-heart"></i> &nbsp;${dto.likeCount}</span>&nbsp;&nbsp;
+		            <span style="color:#FFCD28;">${dto.score}</span>
+            </p>
           </div>
         </div>
       </div>
@@ -166,10 +169,4 @@ margin-bottom: 0.5rem;
     </div>
 
 
-<div class="body-container" >
-	<div class="body-title">
-	</div>
-
-
-</div>
 

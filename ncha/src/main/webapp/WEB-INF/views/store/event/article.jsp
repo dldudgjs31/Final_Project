@@ -82,7 +82,7 @@ font-family: 'Jua', sans-serif;
       </div>
       <!-- Content Column -->
 	
-    <div class="col-md-5">
+    <div class="col-lg-9 md-5">
 			<table class="table" style="width: 100%; max-width:800px;  margin: 10px auto; border-spacing: 0px;">
 			<tr class="card-body" height="35" style="border-top: 1px solid #cccccc; border-bottom: 1px solid #cccccc;">
 			    <td colspan="2" align="center">
@@ -147,11 +147,4 @@ font-family: 'Jua', sans-serif;
 			</tr>
 			</table>
     </div>
-    
-<div class="body-container" >
-	<div class="body-title">
-	</div>
-
-
 </div>
-

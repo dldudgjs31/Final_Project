@@ -4,7 +4,7 @@
 <mapper namespace="member">
 
 	<select id="loginMember" parameterType="String" resultType="com.sp.app.member.Member">
-      SELECT memberIdx, userId, userName, userPwd, tel, zip, addr1, addr2, birth, email, introduce, profile_imageFilename
+      SELECT memberIdx, userId, userName, userPwd, tel, zip, addr1, addr2, birth, email, introduce, profile_imageFilename,allow
       FROM member
       WHERE userId = #{userId}
    </select>

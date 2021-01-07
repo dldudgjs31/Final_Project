@@ -196,6 +196,9 @@ public class profileController {
 		try {
 			String root = session.getServletContext().getRealPath("/");
 			String pathname = root+File.separator+"uploads"+File.separator+"member";
+			System.out.println(dto.getProfile_imageFilename()+"-----------------------------------------------------------------");
+			System.out.println(dto.getProfile_imageFilename()+"-----------------------------------------------------------------");
+			System.out.println(dto.getProfile_imageFilename()+"-----------------------------------------------------------------");
 			
 			service.updateProfile(dto, pathname);
 		} catch (Exception e) {

@@ -106,6 +106,10 @@ public class SellerController {
          model.addAttribute("message", "아이디 또는 패스워드가 일치하지 않습니다.");
          return ".member.login_select";
       }
+      if(dto.getAllow()==0) {
+          model.addAttribute("message", "판매회원 승인 대기중인 계정입니다.");
+          return ".member.login_select";
+      }
       
       SessionInfo info=new SessionInfo();
       info.setSellerId(dto.getSellerId());

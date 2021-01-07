@@ -483,6 +483,40 @@ public class StoreServiceImpl implements StoreService {
 			throw e;
 		}
 		return list;
+	}
+
+	@Override
+	public List<Store> listTop3Follower() throws Exception {
+		List<Store> list =null;
+		try {
+			list=dao.selectList("store.listTop3Follower");
+		} catch (Exception e) {
+			throw e;
+		}
+		return list;
+	}
+
+	@Override
+	public List<Store> listTop3SalesStore() throws Exception {
+		List<Store> list =null;
+		try {
+			list=dao.selectList("store.listTop3SalesStore");
+		} catch (Exception e) {
+			throw e;
+		}
+		return list;
+	}
+
+	@Override
+	public Store readBestproduct(int categoryNum) throws Exception {
+		Store dto = null;
+		try {
+			dto = dao.selectOne("store.readBestproduct", categoryNum);
+		} catch (Exception e) {
+			throw e;
+		}
+				
+		return dto;
 	} 
 
 

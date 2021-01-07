@@ -118,7 +118,7 @@ function deleteFile(fileNum) {
 
 <br>
 <div class="row body-title">
-   <h3 style="font-family: 'Jua', sans-serif;"><i class="fas fa-store"></i>배너 관리</h3>
+   <h3 style="font-family: 'Jua', sans-serif;"><i class="fas fa-store"></i>&nbsp;&nbsp;배&nbsp;너&nbsp;&nbsp;관&nbsp;리</h3>
 </div>
    
     				

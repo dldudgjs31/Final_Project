@@ -1,11 +1,14 @@
 package com.sp.app.home;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.collections4.map.HashedMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -131,11 +134,44 @@ public class NchaController{
 	public String storeHome(
 			HttpSession session,
 			Model model) throws Exception{
-		
+		//배너 이미지 리스트 
 		List<StoreBanner>list = service5.listFile();
-	
-		model.addAttribute("list",list);
 		
+		//follower 수 best 3위 노출
+		List<Store> bestFollowList = service1.listTop3Follower();
+		int n =0;
+		Map<String, Object> map = new HashMap<>();
+		for(Store dto : bestFollowList)	{
+			map.put("sellerId",bestFollowList.get(n).getSellerId());
+			dto.setProductCount(service1.dataCountMyproduct(map));
+			n++;
+		}
+		//매출 best 3위 노출
+		n=0;
+		List<Store> bestSalesList = service1.listTop3SalesStore();
+		for(Store dto : bestSalesList)	{
+			map.put("sellerId",bestSalesList.get(n).getSellerId());
+			dto.setProductCount(service1.dataCountMyproduct(map));
+			dto.setLikeCount(service1.dataStoreFollowCount(bestSalesList.get(n).getSellerId()));
+			n++;
+		}
+		//매출 b
+		//찜개수 제일 많은 상품 노출
+		//의류
+		Store dto1 = service1.readBestproduct(1);
+		//전자
+		Store dto2 = service1.readBestproduct(2);
+		//가구
+		Store dto3 = service1.readBestproduct(3);
+		
+		
+		
+		model.addAttribute("bestFollowList",bestFollowList);
+		model.addAttribute("bestSalesList",bestSalesList);
+		model.addAttribute("dto1",dto1);
+		model.addAttribute("dto2",dto2);
+		model.addAttribute("dto3",dto3);
+		model.addAttribute("list",list);
 		return ".store.main.main";
 	}
 	

@@ -366,25 +366,28 @@ $(function(){
 
 
 </script>
-
-<div class="body-container" style="width: 700px;">
-	<div class="profile-img">
+<br><br><br>
+	<div class="profile-img text-center">
    		<div class="imgs" style="background-image:url('${pageContext.request.contextPath}/uploads/member/${dto.profile_imageFilename}'); border-bottom: 1px solid #cccccc;">
-   		</div><a href="javascript:searchProfile('${dto.userId}')" style="color: black !important;">${dto.userId}</a>
+   		</div>
+   		<a href="javascript:searchProfile('${dto.userId}')" style="color: black !important;">${dto.userId}</a>
    	</div>
+	<br><br>
+	<hr>
+	
+	
+	<c:if test="${dto.sold_check == 0}">
+		<h3 align="center">${dto.subject}</h3>
+	</c:if>
+	
+	<p>
+	<c:if test="${dto.sold_check == 1}">
+		<h3 align="center">&nbsp;${dto.subject}&nbsp;&nbsp;<button style="font-family: 'Jua', sans-serif;" class="btn btn-danger btn-xs">판매완료</button></h3>
+	</c:if>
+	</p>
 	
 	<div>
-		<table style="width: 100%; margin: 20px auto 0px; border-spacing: 0px; border-collapse: collapse;">
-			<tr height="35" style="border-bottom: 1px solid #cccccc;">
-			    <td width="50%" align="center" style="padding-left: 50px;">
-			      ${dto.subject}
-			    </td>
-			    <td width="50%" align="right" style="padding-right: 5px;">
-			        ${dto.created_date} | 조회 ${dto.hitCount}
-			    </td>
-			</tr>
-		</table>
-		
+		<p align="right">${dto.created_date} | 조회 ${dto.hitCount}</p>
 		<div id="slick-items" style="padding:10px 10px;">
 			<c:forEach var="vo" items="${imageList}">
 				<c:if test="${vo.usedNum == dto.usedNum}">
@@ -392,122 +395,120 @@ $(function(){
 				</c:if>  
 			</c:forEach>
 	    </div>
+	    <br><br>
 	    
-		<table class="table-condensed" style="width: 100%; margin: 20px auto 0px; border-spacing: 0px; border-collapse: collapse;">	
-			<tr style="border-bottom: 1px solid #cccccc;">
-				<td align="center" class="btnSendUsedLike">
-					<img alt="좋아요버튼" src="${pageContext.request.contextPath}/resources/images/heart.png" style="height: 25px; width: 25px">
-					<span id="usedLikeCount">${usedLikeCount}</span>
-				</td>
-				<td align = "center" class="btnSendUsedKeep">
-					<img alt="찜버튼" src="${pageContext.request.contextPath}/resources/images/icon-plus.png" style="height: 25px; width: 25px">
-				</td>
-			</tr>
-
-			<tr style="border-bottom: 1px solid #cccccc;">
-			  <td colspan="2" align="left" style="padding-left: 5px;">
-			     카테고리 :${dto.categoryName}  
+	    <p align="right">
+	    	<img alt="좋아요버튼" class="btnSendUsedLike" src="${pageContext.request.contextPath}/resources/images/heart.png" style="height: 25px; width: 25px">
+			<span id="usedLikeCount">${usedLikeCount}</span> &nbsp;&nbsp;&nbsp;&nbsp;
+	   		<button type="button" style="font-family: 'Jua', sans-serif;" class="btnSendUsedKeep btn btn-info btn-xs"><i class="fas fa-hashtag"></i>&nbsp;찜하기</button>
+	    </p>
+	    
+		<table class="table text-left">	
+			<tr>
+			  <td>
+			     카테고리 :&nbsp;&nbsp;${dto.categoryName}  
 			  </td>
 			</tr>
-			<tr style="border-bottom: 1px solid #cccccc;">
-			  <td colspan="2" align="left" style="padding-left: 5px;">
-			     가격 : ￦ ${dto.price}  
+			<tr>
+			  <td>
+			     가격 :&nbsp;&nbsp;￦ ${dto.price}  
 			  </td>
 			</tr>
-			<tr style="border-bottom: 1px solid #cccccc;">
-			  <td colspan="2" align="left" style="padding-left: 5px;">
-			     상품상태 : ${dto.productCondition}  
+			<tr>
+			  <td>
+			     상품상태 :&nbsp;&nbsp;${dto.productCondition}  
 			  </td>
 			</tr>
-			<tr style="border-bottom: 1px solid #cccccc;">
-			 <td colspan="2" align="left" style="padding-left: 5px;">
-			     결제방법 : ${dto.dealingMode}  
+			<tr>
+			 <td>
+			     결제방법 :&nbsp;&nbsp;${dto.dealingMode}  
 			  </td>
 			</tr>
-			<tr style="border-bottom: 1px solid #cccccc;">
-			  <td colspan="2" align="left" style="padding-left: 5px;">
-			     거래지역 : ${dto.location}  
+			<tr>
+			  <td>
+			     거래지역 :&nbsp;&nbsp;${dto.location}  
 			  </td>
 			</tr>
+		</table>
+		
+			<div class = "jumbotron">
+				${dto.content}
+			</div>
+	
 			
-			<tr height="100" style="border-bottom: 1px solid #cccccc;">
-			  <td colspan="2" align="left" style="padding: 10px 5px;" valign="top" >
-			      ${dto.content}
-			   </td>
-			</tr>
-			
-			
-			<tr height="30" style="border-bottom: 1px solid #cccccc;">
-			    <td colspan="2" align="left" style="padding-left: 5px;">
+		<table class="table text-left">	
+			<tr>
+			    <td>
 			       이전글 :
 			        <c:if test="${not empty preReadDto}">
 			            <a href="${pageContext.request.contextPath}/used/article?${query}&usedNum=${preReadDto.usedNum}" style="color: #8C8C8C !important;">${preReadDto.subject}</a>
 			        </c:if>
 			    </td>
 			</tr>
-			
-			<tr height="30" style="border-bottom: 1px solid #cccccc;">
-			    <td colspan="2" align="left" style="padding-left: 5px;">
+			<tr>
+			    <td>
 			       다음글 :
 			        <c:if test="${not empty nextReadDto}">
 			            <a href="${pageContext.request.contextPath}/used/article?${query}&usedNum=${nextReadDto.usedNum}" style="color: #8C8C8C !important;">${nextReadDto.subject}</a>
 			        </c:if>
 			     </td>
 			</tr>
-		</table>
+	</table>
 	
 	
 		<table style="width: 100%; margin: 0px auto 20px; border-spacing: 0px;">
 			<tr height="45">
 		    <td width="300" align="left">
 		        <c:if test="${sessionScope.member.userId==dto.userId}">
-		            <button type="button" class="btn" onclick="updateForm('${dto.usedNum}','${page}');">수정</button>
+		            <button type="button" style="font-family: 'Jua', sans-serif;" class="btn btn-primary" onclick="updateForm('${dto.usedNum}','${page}');">수정</button>
 		        </c:if>
 		        <c:if test="${sessionScope.member.userId==dto.userId || sessionScope.member.userId=='admin'}">
-		            <button type="button" class="btn" onclick="deleteBoard('${dto.usedNum}','${page}');">삭제</button>
+		            <button type="button" style="font-family: 'Jua', sans-serif;" class="btn btn-danger" onclick="deleteBoard('${dto.usedNum}','${page}');">삭제</button>
 		        </c:if>
 		    </td>
 			<c:if test="${mode=='mypage'}">
 			    <td align="right">
-			       <a href="javascript:searchProfile('${dto.userId}')">마이페이지</a>
+			    	<button type="button" style="font-family: 'Jua', sans-serif;" class="btn btn-secondary" onclick="javascript:searchProfile('${dto.userId}')"><i class="fas fa-user"></i>&nbsp;마이페이지</button>
+			       <!-- <a href="javascript:searchProfile('${dto.userId}')" style="font-family: 'Jua', sans-serif;"><i class="fas fa-user"></i>&nbsp;마이페이지</a> -->
 			    </td>
 			</c:if>
 			<c:if test="${mode!='mypage'}">
 			    <td align="right">
-			        <button type="button" class="btn" onclick="goList('${page}');">리스트</button>
+			        <button type="button" style="font-family: 'Jua', sans-serif;" class="btn btn-secondary" onclick="goList('${page}');"><i class="fas fa-list-ul"></i>&nbsp;리스트</button>
 			    </td>
 			</c:if>
 		
-		
-		  <%--   <td align="right">
-		        <button type="button" class="btn" onclick="goList('${page}');">리스트</button>
-		    </td> --%>
 			</tr>
 		</table>
 	</div>
 	
 	<div>
-		<table style='width: 100%; margin: 15px auto 0px; border-spacing: 0px;'>
-			<tr height='30'> 
-				 <td align='left' >
+	<br><br><br>
+	
+	
+		<table class="table text-center">
+			<tr> 
+				 <td>
 				 	<span style='font-weight: bold;' >댓글쓰기</span><span> - 타인을 비방하거나 개인정보를 유출하는 글의 게시를 삼가 주세요.</span>
 				 </td>
 			</tr>
+			
 			<tr>
-			   	<td style='padding:5px 5px 0px;'>
+			   	<td>
 					<textarea class='boxTA' style='width:99%; height: 70px;'></textarea>
 			    </td>
 			</tr>
 			<tr>
 			   <td align='right'>
-			        <button type='button' class='btn btnSendReply' style='padding:10px 20px;'>댓글 등록</button>
+			        <button type='button' style="font-family: 'Jua', sans-serif;" class="btn btn-primary btnSendReply" style='padding:10px 20px;'>댓글 등록</button>
 			    </td>
 			 </tr>
 		 </table>
+		 
+		 
  		<div id="listReply"></div>
  	</div>
  	
-</div>
 
 <script type="text/javascript">
 
@@ -519,12 +520,12 @@ $('#slick-items').slick({
 	speed : 100,	 // 다음 버튼 누르고 다음 화면 뜨는데까지 걸리는 시간(ms)
 	arrows : true, 		// 옆으로 이동하는 화살표 표시 여부
 	dots : true, 		// 스크롤바 아래 점으로 페이지네이션 여부
-	autoplay : false,			// 자동 스크롤 사용 여부
-	autoplaySpeed : 100, 		// 자동 스크롤 시 다음으로 넘어가는데 걸리는 시간 (ms)
+	autoplay : true,			// 자동 스크롤 사용 여부
+	autoplaySpeed : 3000, 		// 자동 스크롤 시 다음으로 넘어가는데 걸리는 시간 (ms)
 	pauseOnHover : true,		// 슬라이드 이동	시 마우스 호버하면 슬라이더 멈추게 설정
 	vertical : false,		// 세로 방향 슬라이드 옵션
-	prevArrow : "<button type='button' class='slick-prev' style='background-color:black;'></button>",// 이전 화살표 모양 설정
-	nextArrow : "<button type='button' class='slick-next' style='background-color:black;'></button>",// 다음 화살표 모양 설정
+	prevArrow : "<button type='button' class='slick-prev'></button>",// 이전 화살표 모양 설정
+	nextArrow : "<button type='button' class='slick-next'></button>",// 다음 화살표 모양 설정
 	dotsClass : "slick-dots", 	//아래 나오는 페이지네이션(점) css class 지정
 	draggable : true, 	//드래그 가능 여부 
 	

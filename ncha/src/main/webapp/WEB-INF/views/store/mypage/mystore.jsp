@@ -22,7 +22,7 @@
 	border:1px solid silver; 
 	background-repeat: no-repeat;
 	background-position: center;
-	background-size: contain;
+	background-size: cover;
 }
 p{
 margin-bottom: 0.5rem;
@@ -30,7 +30,7 @@ margin-bottom: 0.5rem;
 .store_image{
 	width: 200px;
 	height: 200px;
-	background-size: contain;
+	background-size: cover;
 	background-repeat: no-repeat;
 	background-position: center;
 	border: 1px solid silver;
@@ -132,11 +132,11 @@ function StoreLike1(sellerId){
       <c:forEach var="dto" items="${list}">
       <div class="col-lg-3 col-sm-6 portfolio-item" style="margin-bottom: 10px; ">
         <div class="card h-100" style="border: none;">
-          <a href="${articleUrl}&num=${dto.productNum}"><img class="card-img-top" src="${pageContext.request.contextPath}/uploads/product/${dto.imageFilename}" alt="" style="height: 200px; border: 1px solid silver; border-radius: 20px;"></a>
+          <a href="${pageContext.request.contextPath}/store/article?page=1&num=${dto.productNum}"><img class="card-img-top" src="${pageContext.request.contextPath}/uploads/product/${dto.imageFilename}" alt="" style="height: 200px; border: 1px solid silver; border-radius: 20px;"></a>
           <div class="card-body" style="padding-top: 0;">
             <p class="card-text" id="profile">
             <div id="profile">
-	            <div id="profile_image" style="background-image: url('${pageContext.request.contextPath}/uploads/member/${dto.profile_imagefilename}');"></div>
+	            <div id="profile_image" style="background-image: url('${pageContext.request.contextPath}/uploads/member/${sellerDto.profile_imageFilename}');"></div>
 	            <div> ${dto.sellerName} &nbsp;<span style="color:#FF6464;"><i class="fas fa-heart"></i> &nbsp;${dto.storeFollowCount}</span></div>
             </div>
             </p>

@@ -234,13 +234,21 @@ function searchProfile(userId) {
       <li class="breadcrumb-item">${userId}의 찜목록</li>
 </ol>
 
- <div class="col-lg-9 mb-4">
-      <span>
-      <p class="text-left">찜한 상품 수  : ${keepCount}</p>
-      <button type="button" class="btn" onclick="javascript:location.href='${pageContext.request.contextPath}/used/list';">이전으로</button>
-      </span>
-      <div class="row">
+  <table class="table">
+      <tr>
+      	<td align= "left" width="50%">
+      	 찜한 상품 수  : ${keepCount} 
+      	</td>
+      	<td align="right" width="50%">
+    	<button type="button" class="btn btn-secondary"  style="font-family: 'Jua', sans-serif; align: right" onclick="javascript:location.href='${pageContext.request.contextPath}/used/list';"><i class="fas fa-share"></i>&nbsp;이전으로</button>
+     	</td>
+     </table>
       
+ <div class="col-lg-9 mb-4">
+     
+     
+      
+      <div class="row">
       <c:forEach var="dto" items="${list}">
       <div class="col-lg-4 col-sm-6 portfolio-item" style="margin-bottom: 10px;">
         
@@ -266,18 +274,30 @@ function searchProfile(userId) {
            	<c:if test="${dto.sold_check == 0}">
             <h4 class="card-title">
               <a href="${pageContext.request.contextPath}/used/article?usedNum=${dto.usedNum}&page=1">${dto.subject}</a>
-              <br><button type="button" class="btn" onclick="deleteKeep('${dto.usedNum}');">삭제</button>
             </h4>
             </c:if>
             
             <c:if test="${dto.sold_check == 1}">
             <h4 class="card-title">
-              <del><a href="${pageContext.request.contextPath}/used/article?usedNum=${dto.usedNum}&page=1">${dto.subject}</a></del>
-              <br><button type="button" class="btn" onclick="deleteKeep('${dto.usedNum}');">삭제</button>
+              <del><a href="${pageContext.request.contextPath}/used/article?usedNum=${dto.usedNum}&page=1">&nbsp;${dto.subject}&nbsp;</a></del>
             </h4>
             </c:if>
             
-            <p class="card-text">판매가 <br><fmt:formatNumber type="currency" value="${dto.price}" />원</p>
+            <c:if test="${dto.sold_check == 0}">
+            <p class="card text-white bg-info mb-4">
+            	판매가 
+            	<br>
+            	<fmt:formatNumber type="currency" value="${dto.price}"/>원
+            </p>
+            </c:if>
+            <c:if test="${dto.sold_check == 1}">
+            <p class="card text-white bg-dark mb-4">
+            	<del>&nbsp;판매가&nbsp;</del>
+            	<del>&nbsp;<fmt:formatNumber type="currency" value="${dto.price}"/>원&nbsp;</del>
+            </p>
+            </c:if>
+            
+             <button type="button" class="btn btn-danger btn-xs"  style="font-family: 'Jua', sans-serif;" onclick="deleteKeep('${dto.usedNum}');">삭제</button>
           </div>
           
         </div>

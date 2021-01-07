@@ -211,7 +211,7 @@ function preWatchphoto(input){
     </div>
     
 <hr>
-	<form  name="memberForm" method="post" onsubmit="return check();" enctype="multipart/form-data">
+	<form  name="memberForm" method="post" enctype="multipart/form-data">
  			 <div >
  			 <label class="col-sm-2 control-label" for="userPwd">프로필 사진</label>
 				 <div class="profile_photo" >
@@ -337,7 +337,7 @@ function preWatchphoto(input){
 			       			<input type="hidden" name="profile_imageFilename" value="${dto.profile_imageFilename}">
 		</c:if>
 		<div class="row" style="display: flex; justify-content: center;">
-	            <button type="submit"  name="sendButton" class="btn btn-primary" onclick="memberOk();">${mode=="member"?"회원가입":"정보수정"} <span class="glyphicon glyphicon-ok"></span></button>
+	            <button type="button"  name="sendButton" class="btn btn-primary" onclick="memberOk();">${mode=="member"?"회원가입":"정보수정"} <span class="glyphicon glyphicon-ok"></span></button>
 	            &nbsp;&nbsp;<button type="reset" class="btn btn-primary">다시입력</button>
 	            &nbsp;&nbsp;<button type="button" class="btn btn-danger" onclick="javascript:location.href='${pageContext.request.contextPath}/';">${mode=="member"?"가입취소":"수정취소"} <span class="glyphicon glyphicon-remove"></span></button>
 		</div>

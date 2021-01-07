@@ -232,42 +232,6 @@ function searchProfile(userId) {
 </script>
 <Br><Br>
 
-<table style="width: 100%; margin: 10px auto; border-spacing: 0px;">
-				<tr height="40">
-					<td align="center">
-						<form name="keywordForm" action="${pageContext.request.contextPath}/used/list" method="post">
-							<select name="condition" class="selectField">
-		                  		<option value="all" ${condition=="all"?"selected='selected'":""}>모두</option>
-		                  		<option value="subject" ${condition=="subject"?"selected='selected'":""}>제목</option>
-		                  		<option value="content" ${condition=="content"?"selected='selected'":""}>내용</option>
-		            		</select>
-							<input type="text" name="keyword" value="${keyword}" class="boxTF">
-							<button type="button" class="btn" onclick="searchKeyword();">검색</button>
-						</form>
-					</td>
-					<td align="center">
-						<form name="categoryForm" action="${pageContext.request.contextPath}/used/list" method="post">
-							<select class="selectField" id="categoryNum" name="categoryNum" onchange="categoryList();">
-								<option value="">::카테고리 모아보기::</option>
-								<option value="1" ${dto.categoryNum=="1"?"selected='selected'":""}>의류</option>
-								<option value="2" ${dto.categoryNum=="2"?"selected='selected'":""}>가구</option>
-								<option value="3" ${dto.categoryNum=="3"?"selected='selected'":""}>전자제품</option>
-								<option value="4" ${dto.categoryNum=="4"?"selected='selected'":""}>도서</option>
-								<option value="5" ${dto.categoryNum=="5"?"selected='selected'":""}>기타</option>
-							</select>
-						</form>	
-					</td>
-					<td align="left" width="100">
-						<button type="button" class="btn" onclick="javascript:location.href='${pageContext.request.contextPath}/used/list';">새로고침</button>
-					</td>
-					<td  align="left" width="150">
-					    <c:if test="${not empty sessionScope.member}">
-							<button type="button" class="btn" onclick="javascript:location.href='${pageContext.request.contextPath}/used/keepList';">찜목록 보기</button>
-						</c:if>
-					</td>
-				</tr>
-</table>
-
 <ol class="breadcrumb">
       <li class="breadcrumb-item">카테고리</li>
       <li class="breadcrumb-item active">
@@ -279,17 +243,64 @@ function searchProfile(userId) {
       	<c:if test="${categoryNum=='5'}">기타</c:if>
       </li>
 </ol>
+<br>
 
+<table style="width: 100%; margin: 10px auto; border-spacing: 0px;">
+				<tr height="40">
+					<td align = "left">
+					<button type="button" style="font-family: 'Jua', sans-serif;" class="btn btn-primary btn-xs" onclick="javascript:location.href='${pageContext.request.contextPath}/used/created';">글올리기</button>
+					</td>
+					<td>&nbsp;&nbsp;</td>
+					<td>
+						<form name="keywordForm"  action="${pageContext.request.contextPath}/used/list" method="post">
+							<select name="condition" style="font-family: 'Jua', sans-serif;" class="selectField">
+		                  		<option value="all" ${condition=="all"?"selected='selected'":""}>모두</option>
+		                  		<option value="subject" ${condition=="subject"?"selected='selected'":""}>제목</option>
+		                  		<option value="content" ${condition=="content"?"selected='selected'":""}>내용</option>
+		            		</select>
+							<input style="font-family: 'Jua', sans-serif;" type="text" name="keyword" value="${keyword}" class="boxTF">
+							<button style="font-family: 'Jua', sans-serif;" type="button" class="btn btn-secondary btn-xs" onclick="searchKeyword();"><i class="fas fa-search"></i></button>
+						</form>
+					</td>
+					<td align="center" width="150">
+						<form name="categoryForm"  action="${pageContext.request.contextPath}/used/list" method="post">
+							<select class="selectField" style="font-family: 'Jua', sans-serif;" id="categoryNum" name="categoryNum" onchange="categoryList();">
+								<option value="">::카테고리 모아보기::</option>
+								<option value="1" ${dto.categoryNum=="1"?"selected='selected'":""}>의류</option>
+								<option value="2" ${dto.categoryNum=="2"?"selected='selected'":""}>가구</option>
+								<option value="3" ${dto.categoryNum=="3"?"selected='selected'":""}>전자제품</option>
+								<option value="4" ${dto.categoryNum=="4"?"selected='selected'":""}>도서</option>
+								<option value="5" ${dto.categoryNum=="5"?"selected='selected'":""}>기타</option>
+							</select>
+						</form>
+					</td>
+					<td>&nbsp;&nbsp;</td>
+					<td>
+					<button type="button" style="font-family: 'Jua', sans-serif;" class="btn btn-secondary btn-xs" onclick="javascript:location.href='${pageContext.request.contextPath}/used/list';">새로고침</button>
+					</td>
+					
+					
+					<td  align="right">
+					    <c:if test="${not empty sessionScope.member}">
+							<button type="button" style="font-family: 'Jua', sans-serif;" class="btn btn-info btn-xs" onclick="javascript:location.href='${pageContext.request.contextPath}/used/keepList';"><i class="fas fa-hashtag"></i>&nbsp;찜목록</button>
+						</c:if>
+					</td>
+					
+				</tr>
+</table>
+
+<br><br>
  <div class="col-lg-12">
         <p class="text-right">  총 상품 수  : ${dataCount} &nbsp;&nbsp;&nbsp; (${page}/${total_page} 페이지)</p>
+ 
+     
       <div class="row">
-      
       <c:forEach var="dto" items="${list}">
       <div class="col-lg-4 col-sm-6 portfolio-item" style="margin-bottom: 10px;">
         
         <div class="card h-100">
         
-        <!-- 판매완료되면 이미지 흑백, 제목에 줄그음 -->
+          <!-- 판매완료되면 이미지 흑백, 제목에 줄그음 -->
         <c:if test="${dto.sold_check == 0}">
           <a href="${articleUrl}&usedNum=${dto.usedNum}" >
           <img class="card-img-top" src="${pageContext.request.contextPath}/uploads/used/${dto.imageFilename}" alt="" style="height: 200px;">
@@ -303,26 +314,40 @@ function searchProfile(userId) {
          </c:if>
           
           <div class="card-body" align="center">
+          
+          	<!-- 작성자 -->
             <p class="card-text" onclick="javascript:searchProfile('${dto.userId}')" style="color: black !important;">@${dto.userId}</p>
            	
+           	<!-- 제목 -->
+           	<h4 class="card-title">
+           	  <c:if test="${dto.sold_check == 0}">
+              	<a href="${articleUrl}&usedNum=${dto.usedNum}" style="color: #8C8C8C !important;">${dto.subject}</a><br>
+              </c:if>
+              <c:if test="${dto.sold_check == 1}">
+              	<del><a href="${articleUrl}&usedNum=${dto.usedNum}" style="color: #8C8C8C !important;">&nbsp;${dto.subject}&nbsp;</a></del><br> 
+              </c:if>
+            </h4> 
+            
+      		<!-- 조회수, 좋아요 카드 -->
+           	<p class="card-title">
+           	   <i class="far fa-heart" style="text-align: left;"></i><span>${dto.usedLikeCount}</span><span>&nbsp;</span>
+			   <i class="far fa-eye" style="text-align: right;"></i><span>${dto.hitCount}</span>
+           	</p>
+           	
+           	<!-- 판매가 카드 -->
            	<c:if test="${dto.sold_check == 0}">
-            <h4 class="card-title">
-              <a href="${articleUrl}&usedNum=${dto.usedNum}" style="color: #8C8C8C !important;">${dto.subject}</a><br>
-               <i class="far fa-heart" style="text-align: left;"></i><span>${dto.usedLikeCount}</span><span>&nbsp;</span>
-			   <i class="far fa-eye" style="text-align: right;"></i><span>${dto.hitCount}</span>
-            </h4>
+            <p class="card text-white bg-info mb-4">
+            	판매가 
+            	<br>
+            	<fmt:formatNumber type="currency" value="${dto.price}"/>원
+            </p>
             </c:if>
-            
-            
             <c:if test="${dto.sold_check == 1}">
-            <h4 class="card-title">
-              <del><a href="${articleUrl}&usedNum=${dto.usedNum}" style="color: #8C8C8C !important;">${dto.subject}</a></del><br>
-               <i class="far fa-heart" style="text-align: left;"></i><span>${dto.usedLikeCount}</span><span>&nbsp;</span>
-			   <i class="far fa-eye" style="text-align: right;"></i><span>${dto.hitCount}</span>
-            </h4>
+            <p class="card text-white bg-dark mb-4">
+            	<del>&nbsp;판매가&nbsp;</del>
+            	<del>&nbsp;<fmt:formatNumber type="currency" value="${dto.price}"/>원&nbsp;</del>
+            </p>
             </c:if>
-           
-            <p class="card-text">판매가 <br><fmt:formatNumber type="currency" value="${dto.price}" />원</p>
           </div>
           
         </div>
@@ -337,11 +362,6 @@ function searchProfile(userId) {
 				${dataCount==0 ? "등록된 게시물이 없습니다.":paging}
 			</td>
 		</tr>
-		<tr height="35">
-			<td align="right" width="100">
-				<button type="button" class="btn" onclick="javascript:location.href='${pageContext.request.contextPath}/used/created';">글올리기</button>
-			</td>
-		</tr>
 	</table>
 </div>
-
+<br><br>
