@@ -112,8 +112,8 @@
 	align-items: center;
 }
 .imgs{
-	width: 30px; 
-	height: 30px; 
+	width: 45px; 
+	height: 45px; 
 	background-repeat: no-repeat;
 	background-position: center;
 	background-size: cover;
@@ -297,16 +297,18 @@ function goArticle(dailyNum){
       <div class="col-lg-4 col-sm-6 portfolio-item" style="margin-bottom: 10px;">   
         <div class="card h-100" style="border: none;">         
           <a href="${articleUrl}&dailyNum=${dto.dailyNum}">       	
-	          <div class="card-img-top" style="height: 250px; background-image:url('${pageContext.request.contextPath}/uploads/daily/${dto.imageFilename}')"></div>  		          		
+	          <div class="card-img-top" style="height: 250px; background-image:url('${pageContext.request.contextPath}/uploads/daily/${dto.imageFilename}')"></div>  
+	          		          		
           </a>              
           <div class="card-body" align="center">       
-            <div class="profile-img card-text">
+            <div class="profile-img card-text" style="display: flex; justify-content: flex-start;'">
    			<div class="imgs" style="background-image:url('${pageContext.request.contextPath}/uploads/member/${dto.profile_imageFilename}'); border-bottom: 1px solid #cccccc;" >
-   			</div><a href="javascript:searchProfile('${dto.userId}')" style="color: black !important;">${dto.userId}</a>
+   			</div>&nbsp;<a href="javascript:searchProfile('${dto.userId}')" style="color: black !important;">${dto.userId}</a>
    			</div>
+	         
             <h5 class="card-title">
               <a href="${articleUrl}&dailyNum=${dto.dailyNum}" style="color: #8C8C8C !important;">${dto.subject}</a><br>
-               <div style="display: flex;justify-content: space-around;">
+               <div style="display: flex;justify-content: space-around; margin-top: 10px;">
               <span><i class="far fa-heart" style="text-align: left;"></i>${dto.dailyLikeCount}</span> 
 			    <span><i class="far fa-comment-dots" style="text-align: right;"></i>${dto.replyCount}</span> 
                </div>

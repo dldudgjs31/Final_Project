@@ -369,7 +369,7 @@ function buyOk() {
 	            </div>
             </div>
 			</p>
-			<p>조회수 : ${dto.hitCount} | 평점 : <span style="color:#FFCD28;">${dto.score}</span></p>
+			<p>조회수 : ${dto.hitcount} | 평점 : <span style="color:#FFCD28;">${dto.score}</span></p>
 			<p>재고 : 
 			<c:if test="${dto.stock=='0'}">
 				<span style="color:red;">품절</span>
