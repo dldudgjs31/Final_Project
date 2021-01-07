@@ -77,7 +77,11 @@
 	FROM store_order_list s
 	LEFT OUTER JOIN product_order_detail d ON s.orderNum = d.orderNum
 	LEFT OUTER JOIN seller m ON m.sellerId = d.sellerId
-	LEFT OUTER JOIN product_image i ON i.productNum = d.productNum
+	LEFT OUTER JOIN (
+			SELECT * FROM (
+				SELECT productNum, rank() over(partition by productNum order by main_imageFileNum) rank, imageFilename FROM product_image 
+			) WHERE rank = 1
+		) i ON i.productNum = d.productNum
 	LEFT OUTER JOIN product_category c ON c.categoryName = d.categoryName
 	WHERE 
 	<if test="memberIdx!=null">
