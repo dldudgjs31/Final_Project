@@ -212,4 +212,15 @@ public class SellerServiceImpl implements SellerService {
 			throw new Exception("이메일 전송중 오류가 발생했습니다.");
 		}
 	}
+
+	@Override
+	public int sellerCount() throws Exception {
+		int result=0;
+		try {
+			result=dao.selectOne("seller.countSeller");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
 }

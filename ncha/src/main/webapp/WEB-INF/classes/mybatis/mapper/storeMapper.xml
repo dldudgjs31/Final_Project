@@ -349,4 +349,16 @@
 		ORDER BY count(*) DESC
 		OFFSET 0 ROWS FETCH FIRST 1 ROWS ONLY
 	</select>
+	
+	<select id="totalSales" resultType="Integer">
+		SELECT  NVL(SUM(total_sales),0)  
+		FROM store_order_List 
+		WHERE INSTR(TO_CHAR(order_date,'YYYY-MM-DD'),'2021',1) = 1 
+	</select>
+	
+	<select id="totalSales2" resultType="Integer">
+		SELECT  NVL(SUM(total_sales),0)  
+		FROM store_order_List 
+		WHERE INSTR(TO_CHAR(order_date,'YYYY-MM-DD'),'2020',1) = 1 
+	</select>
 </mapper>

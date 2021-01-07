@@ -517,6 +517,30 @@ public class StoreServiceImpl implements StoreService {
 		}
 				
 		return dto;
+	}
+
+	@Override
+	public int totalSales() throws Exception {
+		int result=0;
+		
+		try {
+			result=dao.selectOne("store.totalSales");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return result;
+	} 
+	
+	@Override
+	public int totalSales2() throws Exception {
+		int result=0;
+		
+		try {
+			result=dao.selectOne("store.totalSales2");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return result;
 	} 
 
 

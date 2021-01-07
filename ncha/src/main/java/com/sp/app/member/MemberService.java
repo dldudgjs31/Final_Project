@@ -36,6 +36,8 @@ public interface MemberService {
 	public void generatePwd(Member dto) throws Exception;
 
 	public List<Member> rankFollower();
+	
+	public int memberCount() throws Exception;
 	//public void deleteFollower(String userId1) throws Exception;
 	//public void deleteFollowing(String userId2) throws Exception;
 	

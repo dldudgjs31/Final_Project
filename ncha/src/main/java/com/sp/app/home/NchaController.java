@@ -8,7 +8,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.apache.commons.collections4.map.HashedMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,7 +18,6 @@ import com.sp.app.admin.ncha_banner.NchaBanner;
 import com.sp.app.admin.ncha_banner.NchaBannerService;
 import com.sp.app.admin.storebanner.StoreBanner;
 import com.sp.app.admin.storebanner.StoreBannerService;
-import com.sp.app.count.CountManager;
 import com.sp.app.customer.CustomerService;
 import com.sp.app.daily.Daily;
 import com.sp.app.daily.DailyService;
@@ -85,22 +83,8 @@ public class NchaController{
 
 		} catch (Exception e) {
 		}
-		  
-		  
-		  
-		  
-		   int currentCount;
-		   long toDayCount, yesterDayCount, totalCount;
-		 
-		   currentCount = CountManager.getCurrentCount();
-		   toDayCount = CountManager.getTodayCount();
-		   yesterDayCount = CountManager.getYesterDayCount();
-		   totalCount = CountManager.getTotalCount();
+  
 		   
-		  model.addAttribute("currentCount",currentCount);
-		  model.addAttribute("toDayCount",toDayCount);
-		  model.addAttribute("yesterDayCount",yesterDayCount);
-		  model.addAttribute("totalCount",totalCount);
 		  model.addAttribute("listFollower",list);
 		  model.addAttribute("storeRank", storeRank);
 		  model.addAttribute("dailyRank",dailyRank); 

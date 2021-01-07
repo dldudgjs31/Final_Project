@@ -71,4 +71,8 @@ public interface StoreService {
 	public List<Store> listTop3Follower()throws Exception;
 	public List<Store> listTop3SalesStore() throws Exception;
 	public Store readBestproduct(int categoryNum) throws Exception;
+	
+	//관리자에 보내는 올해 총판매액
+	public int totalSales() throws Exception;
+	public int totalSales2() throws Exception;
 }

@@ -148,5 +148,8 @@
 		FETCH FIRST 3 ROW ONLY
 	</select>
     
+    <select id="memberCount" resultType="Integer">
+		SELECT NVL(count(*),0) FROM member
+	</select>
 	
 </mapper>

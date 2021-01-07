@@ -379,4 +379,15 @@ public class MemberServiceImpl implements MemberService {
 			throw new Exception("이메일 전송중 오류가 발생했습니다.");
 		}
 	}
+
+	@Override
+	public int memberCount() throws Exception {
+		int result=0;
+		try {
+			result=dao.selectOne("member.memberCount");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
 }

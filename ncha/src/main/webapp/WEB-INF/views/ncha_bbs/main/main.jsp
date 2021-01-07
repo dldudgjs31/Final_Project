@@ -65,46 +65,7 @@ function searchArticleU(usedNum) {
 }
 
 
-$(function(){
-	var url = "${pageContext.request.contextPath}/mainChart/categoryCount"
-	$.getJSON(url,function(data){
-		console.log(data);
-		Highcharts.chart('categoryCount', {
-		    chart: {
-		        type: 'pie',
-		        options3d: {
-		            enabled: true,
-		            alpha: 45,
-		            beta: 0
-		        }
-		    },
-		    title: {
-		        text: '카테고리별 일상 게시글(%)'
-		    },
-		    accessibility: {
-		        point: {
-		            valueSuffix: '%'
-		        }
-		    },
-		    tooltip: {
-		        pointFormat: '{series.name}: <b>{point.percentage:.2f}%</b>'
-		    },
-		    plotOptions: {
-		    	pie: {
-		            allowPointSelect: true,
-		            cursor: 'pointer',
-		            depth: 35,
-		            dataLabels: {
-		                enabled: true,
-		                format: '{point.name}'
-		            }
-		        }
-		    },
-		    series:data
-		});
-		
-	});
-});
+
 </script>
 
 
@@ -221,18 +182,7 @@ $(function(){
 		<br>
     	<br>
     	<br>
-	    <!-- Intro Content -->
-	    <div class="row" style="display: flex; justify-content: center;">
-	      <div class="col-lg-6">
-	        <div id="categoryCount"></div>
-	      </div>
-	      <div class="col-lg-6">
-	       		<p style="font-size: 22px;">현재 접속자 : ${currentCount}</p>
-	           	<p style="font-size: 20px;">오늘 접속자 : ${toDayCount}</p>
-	           	<p style="font-size: 20px;">어제 접속자 : ${yesterDayCount}</p>
-	           	<p style="font-size: 20px;">전체 접속자 : ${totalCount}</p>
-	      </div>
-	    </div>
+	   
 	
     
     

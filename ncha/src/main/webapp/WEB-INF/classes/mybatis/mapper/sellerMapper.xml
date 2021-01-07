@@ -36,6 +36,9 @@
     	DELETE FROM seller WHERE sellerId=#{sellerId}
     </delete>
     
+    <select id="countSeller" resultType="Integer">
+		SELECT NVL(count(*),0) FROM seller
+	</select>
     
 	
 </mapper>
