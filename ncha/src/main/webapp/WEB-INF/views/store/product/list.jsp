@@ -153,7 +153,10 @@ margin-bottom: 0.5rem;
             
            <p class="card-text" style="color:silver;">정가 :  <del><fmt:formatNumber type="currency" value="${dto.price}" />원</p></del>
             <p class="card-text">세일가 : <fmt:formatNumber  type="currency"  value="${dto.price - dto.discount_rate}"/>원</p>
-            <p> <span style="color:	#FF6464;"><i class="fas fa-heart"></i> &nbsp;${dto.likeCount}</span>&nbsp;&nbsp;<span style="color:#FFCD28;">${dto.score}</span></p>
+            <p style="display: flex; justify-content: space-between;">
+		            <span style="color:	#FF6464;"><i class="fas fa-heart"></i> &nbsp;${dto.likeCount}</span>&nbsp;&nbsp;
+		            <span style="color:#FFCD28;">${dto.score}</span>
+            </p>
           </div>
         </div>
       </div>
@@ -166,10 +169,4 @@ margin-bottom: 0.5rem;
     </div>
 
 
-<div class="body-container" >
-	<div class="body-title">
-	</div>
-
-
-</div>
 

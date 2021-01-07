@@ -112,6 +112,10 @@ public class MemberController {
 			model.addAttribute("message", "아이디 또는 패스워드가 일치하지 않습니다.");
 			return ".member.login_select";
 		}
+		if(dto.getAllow()==1) {
+			model.addAttribute("message", "활동이 정지된 계정입니다.");
+			return ".member.login_select";
+		}
 		
 		// 세션에 로그인 정보 저장
 		SessionInfo info=new SessionInfo();
