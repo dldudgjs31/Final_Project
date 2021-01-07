@@ -16,7 +16,7 @@
 	background-repeat: no-repeat;
 	background-position: center;
 	background-size: cover;
-	height: 900px;
+	height: 500px;
 }
 .slick-prev{
 	color: gray;
@@ -391,7 +391,9 @@ $(function(){
 		<div id="slick-items" style="padding:10px 10px;">
 			<c:forEach var="vo" items="${imageList}">
 				<c:if test="${vo.usedNum == dto.usedNum}">
-	        		<div  class="slider-image" style="background-image: url('${pageContext.request.contextPath}/uploads/used/${vo.imageFilename}');"></div>
+					<div  class="slider-image" style=" display: flex; justify-content: center;">
+			      		<img alt="" src="${pageContext.request.contextPath}/uploads/used/${vo.imageFilename}" height="500px" width="700px">
+			      	</div>
 				</c:if>  
 			</c:forEach>
 	    </div>
