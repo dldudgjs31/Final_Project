@@ -151,7 +151,7 @@ margin-bottom: 0.5rem;
             
            <p class="card-text" style="color:silver;">정가 :  <del><fmt:formatNumber type="currency" value="${dto.price}" />원</p></del>
             <p class="card-text" style="display: flex;justify-content: space-between;">세일가 : <fmt:formatNumber  type="currency"  value="${dto.price - dto.discount_rate}"/>원&nbsp;
-             <span style="background-color: red; border-radius: 5px; color:white; "><fmt:formatNumber type="number"  pattern="0" value="${(dto.discount_rate/dto.price)*100}" />%OFF</span>
+             <span style="background-color: red; border-radius: 5px; color:white; height: 25px; "><fmt:formatNumber type="number"  pattern="0" value="${(dto.discount_rate/dto.price)*100}" />%OFF</span>
             </p>
             <p style="display: flex; justify-content: space-between;">
 		            <span style="color:	#FF6464;"><i class="fas fa-heart"></i> &nbsp;${dto.likeCount}</span>&nbsp;&nbsp;

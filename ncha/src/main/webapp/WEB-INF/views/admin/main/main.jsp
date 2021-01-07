@@ -8,7 +8,11 @@
 <script src="https://code.highcharts.com/modules/exporting.js"></script>
 <script src="https://code.highcharts.com/modules/export-data.js"></script>
 <script src="https://code.highcharts.com/modules/accessibility.js"></script>
-
+<style type="text/css">
+tspan{
+	font-family: 'Jua', sans-serif;
+}
+</style>
 <script type="text/javascript">
 
 $(function(){
@@ -60,55 +64,39 @@ $(function(){
 </ol>
 
                         <div class="row">
-                            <div class="col-xl-3 col-md-6">
+                            <div class="col-xl-6 col-md-6">
                                 <div class="card bg-primary text-white mb-4">
-                                    <div class="card-body">총 회원수</div>
-                                    <div> 판매자 : ${count}명</div>
-                                    <div> 커뮤니티 회원 : ${count1}명</div>
+                                    <div class="card-body text-center">총 회원수</div>
+                                    <p class="text-center"> 판매자 : ${count}명</p>
+                                    <p class="text-center"> 커뮤니티 회원 : ${count1}명</p>
                                     <div class="card-footer d-flex align-items-center justify-content-between">
-                                        <a class="small text-white stretched-link" href="#">회원관리 하기</a>
+                                        <a class="small text-white stretched-link" href="${pageContext.request.contextPath}/admin/list/member">회원관리 하기</a>
                                         <div class="small text-white"><i class="fas fa-angle-right"></i></div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-xl-3 col-md-6">
+                            <div class="col-xl-6 col-md-6">
                                 <div class="card bg-warning text-white mb-4">
-                                    <div class="card-body">총 매출액</div>
-                                    <div> 올해 총 매출액 : ￦${sales}</div>
-                                    <div> 작년 총 매출액 : ￦${sales1}</div>
+                                    <div class="card-body text-center">총 매출액</div>
+                                    <p class="text-center"> 올해 총 매출액 : ￦${sales}</p>
+                                    <p class="text-center"> 작년 총 매출액 : ￦${sales1}</p>
                                     <div class="card-footer d-flex align-items-center justify-content-between">
-                                        <a class="small text-white stretched-link" href="#">매출 관리하기</a>
+                                        <a class="small text-white stretched-link" href="${pageContext.request.contextPath}/admin/chart/salesList">매출  분석하기</a>
                                         <div class="small text-white"><i class="fas fa-angle-right"></i></div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-xl-3 col-md-6">
-                                <div class="card bg-success text-white mb-4">
-                                    <div class="card-body">Success Card</div>
-                                    <div class="card-footer d-flex align-items-center justify-content-between">
-                                        <a class="small text-white stretched-link" href="#">View Details</a>
-                                        <div class="small text-white"><i class="fas fa-angle-right"></i></div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-xl-3 col-md-6">
-                                <div class="card bg-danger text-white mb-4">
-                                    <div class="card-body">Danger Card</div>
-                                    <div class="card-footer d-flex align-items-center justify-content-between">
-                                        <a class="small text-white stretched-link" href="#">View Details</a>
-                                        <div class="small text-white"><i class="fas fa-angle-right"></i></div>
-                                    </div>
-                                </div>
-                            </div>
+
                         </div>
                         <br>
+                        <hr>
+                        <h1 class="mt-4">데이터 분석</h1>
                         <br>
-                        <br>
-                        <div class="row" style="display: flex; justify-content: center;">
+                        <div class="row" style="display: flex; justify-content:space-around; align-items: center; ;">
 						      <div class="col-lg-6">
 						        	<div id="categoryCount"></div>
 						      </div>
-						      <div class="col-lg-6">
+						      <div class="col-lg-6" style="padding-left: 100px;">
 						       		<p style="font-size: 22px;">현재 접속자 : ${currentCount}</p>
 						           	<p style="font-size: 20px;">오늘 접속자 : ${toDayCount}</p>
 						           	<p style="font-size: 20px;">어제 접속자 : ${yesterDayCount}</p>

@@ -192,6 +192,11 @@
   box-shadow: 0 5px #666;
   transform: translateY(4px);
 }
+.card-img-top{
+	background-position: center;
+	background-size: cover;
+	background-repeat: no-repeat;
+}
 @media screen and (max-width: 768px) {
 	.body-container{
 		width:100%;
@@ -290,20 +295,22 @@ function goArticle(dailyNum){
     
       <c:forEach var="dto" items="${list}">
       <div class="col-lg-4 col-sm-6 portfolio-item" style="margin-bottom: 10px;">   
-        <div class="card h-100">         
+        <div class="card h-100" style="border: none;">         
           <a href="${articleUrl}&dailyNum=${dto.dailyNum}">       	
-	          <img class="card-img-top" src="${pageContext.request.contextPath}/uploads/daily/${dto.imageFilename}" alt=""  style="height: 200px;">   		          		
+	          <div class="card-img-top" style="height: 250px; background-image:url('${pageContext.request.contextPath}/uploads/daily/${dto.imageFilename}')"></div>  		          		
           </a>              
           <div class="card-body" align="center">       
             <div class="profile-img card-text">
    			<div class="imgs" style="background-image:url('${pageContext.request.contextPath}/uploads/member/${dto.profile_imageFilename}'); border-bottom: 1px solid #cccccc;" >
    			</div><a href="javascript:searchProfile('${dto.userId}')" style="color: black !important;">${dto.userId}</a>
    			</div>
-            <h4 class="card-title">
+            <h5 class="card-title">
               <a href="${articleUrl}&dailyNum=${dto.dailyNum}" style="color: #8C8C8C !important;">${dto.subject}</a><br>
-               <i class="far fa-heart" style="text-align: left;"></i><span>${dto.dailyLikeCount}</span><span>&nbsp;</span>
-			   <i class="far fa-comment-dots" style="text-align: right;"></i><span>${dto.replyCount}</span>
-            </h4>
+               <div style="display: flex;justify-content: space-around;">
+              <span><i class="far fa-heart" style="text-align: left;"></i>${dto.dailyLikeCount}</span> 
+			    <span><i class="far fa-comment-dots" style="text-align: right;"></i>${dto.replyCount}</span> 
+               </div>
+            </h5>
           </div>
         </div>
       </div>
