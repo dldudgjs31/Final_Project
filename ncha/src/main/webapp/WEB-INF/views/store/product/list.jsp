@@ -148,7 +148,7 @@ margin-bottom: 0.5rem;
             </p>
             <h5 class="card-title">
             <c:if test="${dto.stock=='0'}">
-              <del><a class="productNAME"  href="${articleUrl}&num=${dto.productNum}">${dto.productName}</a></del>&nbsp;<span style="color:red;">품절</span>
+              <del><a class="productNAME" style="color:silver !important;" href="${articleUrl}&num=${dto.productNum}">${dto.productName}</a></del>&nbsp;<span style="color:red;">품절</span>
 			</c:if>
 			<c:if test="${dto.stock>0}">
               <a class="productNAME" href="${articleUrl}&num=${dto.productNum}"><span >${dto.productName}</span></a>
