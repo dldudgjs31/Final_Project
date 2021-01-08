@@ -363,7 +363,7 @@ function buyOk() {
 			<p>
 			<div id="profile">
 	            <div id="profile_image" style="background-image: url('${pageContext.request.contextPath}/uploads/member/${dto.profile_imageFilename}');"></div>
-	            <div> ${dto.sellerName}&nbsp;
+	            <div> <a style="color:black !important;" href="${pageContext.request.contextPath}/store/myFollowStore?page=1&sellerId=${dto.sellerId}">${dto.sellerName}</a>&nbsp;
 		            <button type="button" class="btn btn-xs" onclick="StoreLike('${dto.sellerId}')"><i id="likeStoreIcon" class="far fa-heart"></i></button> 
 	            	&nbsp;<span style="color:#FF6464;">follower:</i> &nbsp;${dto.storeFollowCount}</span>
 	            </div>
