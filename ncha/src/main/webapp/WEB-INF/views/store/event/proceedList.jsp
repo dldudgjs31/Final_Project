@@ -25,6 +25,11 @@ $(document).ready(function() {
 .btn{
 font-family: 'Jua', sans-serif;
 }
+.card-img-top{
+	background-position: center;
+	background-size: cover;
+	background-repeat: no-repeat;
+}
 </style>
 
   <!-- Page Content -->
@@ -94,7 +99,8 @@ font-family: 'Jua', sans-serif;
       <c:forEach var="dto" items="${list}">
       <div class="col-lg-4 col-sm-6 portfolio-item" style="margin-bottom: 10px;">
         <div class="card h-100">
-          <a href="${articleUrl}&eventNum=${dto.eventNum}"><img class="card-img-top" src="${pageContext.request.contextPath}/uploads/event/${dto.imageFilename}" alt="" style="height: 200px;"></a>
+          <a href="${articleUrl}&eventNum=${dto.eventNum}">
+          <div class="card-img-top" style="height: 200px; border: 1px solid silver; border-radius: 20px;background-image:url('${pageContext.request.contextPath}/uploads/event/${dto.imageFilename}')"></div></a>
           <div class="card-body">
             <p class="card-text">${dto.sellerName}</p>
             <h4 class="card-title">
