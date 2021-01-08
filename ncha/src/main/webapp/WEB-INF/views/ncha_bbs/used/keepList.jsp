@@ -273,13 +273,13 @@ function searchProfile(userId) {
          	
            	<c:if test="${dto.sold_check == 0}">
             <h4 class="card-title">
-              <a href="${pageContext.request.contextPath}/used/article?usedNum=${dto.usedNum}&page=1">${dto.subject}</a>
+              <a href="${pageContext.request.contextPath}/used/article?usedNum=${dto.usedNum}&page=1"  style="color: #8C8C8C !important;">${dto.subject}</a>
             </h4>
             </c:if>
             
             <c:if test="${dto.sold_check == 1}">
             <h4 class="card-title">
-              <del><a href="${pageContext.request.contextPath}/used/article?usedNum=${dto.usedNum}&page=1">&nbsp;${dto.subject}&nbsp;</a></del>
+              <del><a href="${pageContext.request.contextPath}/used/article?usedNum=${dto.usedNum}&page=1"  style="color: #8C8C8C !important;">&nbsp;${dto.subject}&nbsp;</a></del>
             </h4>
             </c:if>
             

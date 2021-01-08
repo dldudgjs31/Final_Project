@@ -65,13 +65,13 @@ font-family: 'Jua', sans-serif;
 			style="width: 100%; margin: 10px auto; border-spacing: 0px;">
 			<tr height="40">
 				<td align="left">
-					<button type="button" class="btn"
+					<button type="button" class="btn btn-secondary btn-xs"
 						onclick="javascript:location.href='${pageContext.request.contextPath}/event/list';">새로고침</button>
 				</td>
 				<c:if
 					test="${sessionScope.member.userId=='admin'||sessionScope.seller.allow=='1'}">
 					<td align="right">
-						<button type="button" class="btn"
+						<button type="button" class="btn btn-primary btn-xs"
 							onclick="javascript:location.href='${pageContext.request.contextPath}/event/created';">글올리기</button>
 					</td>
 				</c:if>
