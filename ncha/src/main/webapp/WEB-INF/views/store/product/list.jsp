@@ -41,6 +41,9 @@ margin-bottom: 0.5rem;
 	background-size: contain;
 	background-repeat: no-repeat;
 }
+.carousel-item{
+	height: 432px;
+}
 </style>
   <!-- Page Content -->
     <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
@@ -142,10 +145,10 @@ margin-bottom: 0.5rem;
             </p>
             <h5 class="card-title">
             <c:if test="${dto.stock=='0'}">
-              <del><a href="${articleUrl}&num=${dto.productNum}">${dto.productName}</a></del>&nbsp;<span style="color:red;">품절</span>
+              <del><a class="productNAME" href="${articleUrl}&num=${dto.productNum}">${dto.productName}</a></del>&nbsp;<span style="color:red;">품절</span>
 			</c:if>
 			<c:if test="${dto.stock>0}">
-              <a href="${articleUrl}&num=${dto.productNum}">${dto.productName}</a>
+              <a class="productNAME" href="${articleUrl}&num=${dto.productNum}">${dto.productName}</a>
 			</c:if>
             </h5>
             
