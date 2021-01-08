@@ -115,7 +115,7 @@ p{
         <h4 class="lead">상품명 : ${dto1.productName}</h4>
         <p class="lead">조회수 : ${dto1.hitcount}</p>
         <p class="lead" style="color:silver;">정가 : <del><fmt:formatNumber type="currency" value="${dto1.price}" />원</del></p>
-        <p class="lead">가격 : <fmt:formatNumber type="currency" value="${dto1.price - dto1.discount_rate}" />원</p>
+        <p class="lead">가격 : <fmt:formatNumber type="currency" value="${dto1.price - dto1.discount_rate}" />원&nbsp; <span style="background-color: red; border-radius: 5px; color:white; height: 25px; "><fmt:formatNumber type="number"  pattern="0" value="${(dto1.discount_rate/dto1.price)*100}" />%OFF</span></p>
         <p class="lead">재고 :
         	<c:if test="${dto1.stock==0}">
         		<span style="color:red;">품절</span>
@@ -141,7 +141,7 @@ p{
          <h4 class="lead">상품명 : ${dto2.productName}</h4>
         <p class="lead">조회수 : ${dto2.hitcount}</p>
         <p class="lead" style="color:silver;">정가 : <del><fmt:formatNumber type="currency" value="${dto2.price}" />원</del></p>
-        <p class="lead">가격 : <fmt:formatNumber type="currency" value="${dto2.price - dto2.discount_rate}" />원</p>
+        <p class="lead">가격 : <fmt:formatNumber type="currency" value="${dto2.price - dto2.discount_rate}" />원&nbsp; <span style="background-color: red; border-radius: 5px; color:white; height: 25px; "><fmt:formatNumber type="number"  pattern="0" value="${(dto2.discount_rate/dto2.price)*100}" />%OFF</span></p>
         <p class="lead">재고 :
         	<c:if test="${dto2.stock==0}">
         		<span style="color:red;">품절</span>
@@ -166,7 +166,7 @@ p{
         <h4 class="lead">상품명 : ${dto3.productName}</h4>
         <p class="lead">조회수 : ${dto3.hitcount}</p>
         <p class="lead" style="color:silver;">정가 : <del><fmt:formatNumber type="currency" value="${dto3.price}" />원</del></p>
-        <p class="lead">가격 : <fmt:formatNumber type="currency" value="${dto3.price - dto3.discount_rate}" />원</p>
+        <p class="lead">가격 : <fmt:formatNumber type="currency" value="${dto3.price - dto3.discount_rate}" />원&nbsp; <span style="background-color: red; border-radius: 5px; color:white; height: 25px; "><fmt:formatNumber type="number"  pattern="0" value="${(dto3.discount_rate/dto3.price)*100}" />%OFF</span></p>
         <p class="lead">재고 :
         	<c:if test="${dto3.stock==0}">
         		<span style="color:red;">품절</span>
